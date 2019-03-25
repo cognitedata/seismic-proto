@@ -1,0 +1,19 @@
+syntax = "proto3";
+package com.cognite.seismic;
+
+message IngestJob {
+    // To make it easier to use a new message format later
+    int32 message_version = 1;
+
+    string filename = 2;
+
+    // A unique ID we generate for the file
+    string file_id = 3;              
+
+    // A unique ID we generate for the ingestion job
+    string job_id = 4;
+
+    // If the file has an identifier in a source system, store that in external_id
+    string external_id = 5;
+}
+
