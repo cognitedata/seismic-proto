@@ -5,7 +5,7 @@ podTemplate(
     containers: [
         containerTemplate(
             name: 'protobuf',
-            image: 'uber/prototool:1.4.0 ',
+            image: 'uber/prototool:1.4.0',
             resourceLimitCpu: '200m',
             resourceLimitMemory: '500Mi',
             envVars: [],
