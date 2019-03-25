@@ -15,5 +15,7 @@ message IngestJob {
 
     // If the file has an identifier in a source system, store that in external_id
     string external_id = 5;
+
+    optional nothing testing validation
 }
 
