@@ -27,6 +27,7 @@ podTemplate(
             timeout(time: 5, unit: 'MINUTES') {
                 stage('Validate .proto files') {
                     sh('prototool compile')
+                    sh('prototool lint')
                 }
             }
         }
