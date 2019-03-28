@@ -1,14 +1,16 @@
 syntax = "proto3";
 package com.cognite.seismic;
 
+import "types.proto";
+
 service Query {
-    rpc GetSurvey (SurveyId) returns (GetSurveyResponse) {}
+    rpc GetSurvey (GetSurveyRequest) returns (GetSurveyResponse) {}
 }
 
-message SurveyId {
-    sint32 id = 1;
+message GetSurveyRequest {
+    string id = 1;
 }
 
 message GetSurveyResponse {
-    string survey_name = 1;
+    Survey survey = 1;
 }
