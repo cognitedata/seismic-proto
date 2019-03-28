@@ -1,0 +1,46 @@
+syntax = "proto3";
+package com.cognite.seismic;
+
+import "types.proto";
+
+service Ingest {
+    rpc RegisterSurvey (RegisterSurveyRequest) returns (RegisterSurveyResponse) {}
+    rpc RegisterFile (RegisterFileRequest) returns (RegisterFileResponse) {}
+    rpc IngestFile (IngestFileRequest) returns (IngestFileResponse) {}
+}
+
+// -----
+
+message RegisterSurveyRequest {
+    Survey survey = 1;
+}
+message RegisterSurveyResponse {
+    RegisteredSurvey survey = 1;
+}
+
+// -----
+
+message RegisterFileRequest {
+    oneof survey {
+        string survey_name = 1;
+        string survey_id = 2;
+    }
+    File file = 3;
+}
+message RegisterFileResponse {
+    RegisteredFile file = 1;
+}
+
+// -----
+
+message IngestFileRequest {
+    oneof file {
+        string file_name = 1;
+        string file_id = 2;
+    }
+}
+
+message IngestFileResponse {
+    string job_id = 1;
+    string file_id = 2;
+}
