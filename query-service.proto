@@ -1,0 +1,14 @@
+syntax = "proto3";
+package com.cognite.seismic;
+
+service Query {
+    rpc GetSurvey (SurveyId) returns (GetSurveyResponse) {}
+}
+
+message SurveyId {
+    sint32 id = 1;
+}
+
+message GetSurveyResponse {
+    string survey_name = 1;
+}
