@@ -1,0 +1,15 @@
+syntax = 'proto3';
+
+package com.cognite.seismic;
+
+// Versions:
+// 1: compressed traced is compressed using fpzip
+
+message PersistedTrace {
+   int32 version = 1;
+   int32 x = 2; // TODO: Get this from the key instead of double storing it
+   int32 y = 3; // TODO: Get this from the key instead of double storing it
+   int32 inline_offset = 4;
+   int32 crossline_offset = 5;
+   bytes compressed_trace = 6;
+}
