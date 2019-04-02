@@ -5,6 +5,7 @@ import "types.proto";
 
 service Query {
     rpc GetSurvey (GetSurveyRequest) returns (GetSurveyResponse) {}
+    rpc GetFile (GetFileRequest) returns (GetFileResponse) {}
 }
 
 message GetSurveyRequest {
@@ -13,4 +14,12 @@ message GetSurveyRequest {
 
 message GetSurveyResponse {
     RegisteredSurvey survey = 1;
+}
+
+message GetFileRequest {
+    string id = 1;
+}
+
+message GetFileResponse {
+    RegisteredFile file = 1;
 }
