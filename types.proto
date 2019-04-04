@@ -16,8 +16,7 @@ message RegisteredSurvey {
 
 message File {
     string name = 1;
-    string survey_id = 2;
-    map<string, string> metadata = 3;
+    map<string, string> metadata = 2;
 }
 message RegisteredFile {
     string id = 1;
