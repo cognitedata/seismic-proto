@@ -6,8 +6,8 @@ import "types.proto";
 service Query {
     rpc GetSurvey (GetSurveyRequest) returns (GetSurveyResponse) {}
     rpc GetFile (GetFileRequest) returns (GetFileResponse) {}
-    rpc GetBinaryHeaders (FileQueryRequest) returns (GetBinaryHeadersResponse) {}
-    rpc GetTextHeaders (FileQueryRequest) returns (GetTextHeadersResponse) {}
+    rpc GetBinaryHeader (FileQueryRequest) returns (GetBinaryHeaderResponse) {}
+    rpc GetTextHeader (FileQueryRequest) returns (GetTextHeaderResponse) {}
 }
 
 message GetSurveyRequest {
@@ -33,10 +33,10 @@ message FileQueryRequest {
     }
 }
 
-message GetBinaryHeadersResponse {
+message GetBinaryHeaderResponse {
     BinaryHeader header = 1;
 }
 
-message GetTextHeadersResponse {
+message GetTextHeaderResponse {
     TextHeader header = 1;
 }
