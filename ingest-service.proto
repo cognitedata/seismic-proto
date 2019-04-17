@@ -7,6 +7,7 @@ service Ingest {
     rpc RegisterSurvey (RegisterSurveyRequest) returns (RegisterSurveyResponse) {}
     rpc RegisterFile (RegisterFileRequest) returns (RegisterFileResponse) {}
     rpc IngestFile (IngestFileRequest) returns (IngestFileResponse) {}
+    rpc Status (StatusRequest) returns (StatusResponse) {}
 }
 
 // -----
@@ -39,8 +40,16 @@ message IngestFileRequest {
         string file_id = 2;
     }
 }
-
 message IngestFileResponse {
     string job_id = 1;
     string file_id = 2;
+}
+
+// -----
+
+message StatusRequest {
+    string job_id = 1;
+}
+message StatusResponse {
+    string status = 1;
 }
