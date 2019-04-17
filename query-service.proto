@@ -6,6 +6,8 @@ import "types.proto";
 service Query {
     rpc GetSurvey (GetSurveyRequest) returns (GetSurveyResponse) {}
     rpc GetFile (GetFileRequest) returns (GetFileResponse) {}
+    rpc GetBinaryHeader (FileQueryRequest) returns (GetBinaryHeaderResponse) {}
+    rpc GetTextHeader (FileQueryRequest) returns (GetTextHeaderResponse) {}
 }
 
 message GetSurveyRequest {
@@ -22,4 +24,19 @@ message GetFileRequest {
 
 message GetFileResponse {
     RegisteredFile file = 1;
+}
+
+message FileQueryRequest {
+    oneof file {
+        string file_name = 1;
+        string file_id = 2;
+    }
+}
+
+message GetBinaryHeaderResponse {
+    BinaryHeader header = 1;
+}
+
+message GetTextHeaderResponse {
+    TextHeader header = 1;
 }

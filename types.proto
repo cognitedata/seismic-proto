@@ -22,3 +22,38 @@ message RegisteredFile {
     string id = 1;
     File file = 2;
 }
+
+message TextHeader {
+    string file_id = 1;
+    string header = 2;
+    string raw_header = 3;
+}
+
+message BinaryHeader {
+    string file_id = 1;
+    int32 traces = 2;
+    int32 trace_data_type = 3;
+    int32 fixed_length_traces = 4;
+    int32 segy_revision = 5;
+    int32 auxtraces = 6;
+    int32 interval = 7;
+    int32 interval_original = 8;
+    int32 samples = 9;
+    int32 samples_original = 10;
+    int32 ensemble_fold = 11;
+    int32 vertical_sum = 12;
+    int32 trace_type_sorting_code = 13;
+    int32 sweep_type_code = 14;
+    int32 sweep_frequency_start = 15;
+    int32 sweep_frequency_end = 16;
+    int32 sweep_length = 17;
+    int32 sweep_channel = 18;
+    int32 sweep_taper_start = 19;
+    int32 sweep_taper_end = 20;
+    int32 sweep_taper_type = 21;
+    int32 correlated_traces = 22;
+    int32 amplitude_recovery = 23;
+    int32 original_measurement_system = 24;
+    int32 impulse_signal_polarity = 25;
+    int32 vibratory_polarity_code = 26;
+}
