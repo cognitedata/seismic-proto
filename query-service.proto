@@ -4,26 +4,10 @@ package com.cognite.seismic;
 import "types.proto";
 
 service Query {
-    rpc GetSurvey (GetSurveyRequest) returns (GetSurveyResponse) {}
-    rpc GetFile (GetFileRequest) returns (GetFileResponse) {}
+    rpc GetSurvey (FileQueryRequest) returns (GetSurveyResponse) {}
+    rpc GetFile (FileQueryRequest) returns (GetFileResponse) {}
     rpc GetBinaryHeader (FileQueryRequest) returns (GetBinaryHeaderResponse) {}
     rpc GetTextHeader (FileQueryRequest) returns (GetTextHeaderResponse) {}
-}
-
-message GetSurveyRequest {
-    string id = 1;
-}
-
-message GetSurveyResponse {
-    RegisteredSurvey survey = 1;
-}
-
-message GetFileRequest {
-    string id = 1;
-}
-
-message GetFileResponse {
-    RegisteredFile file = 1;
 }
 
 message FileQueryRequest {
@@ -33,10 +17,18 @@ message FileQueryRequest {
     }
 }
 
+message GetSurveyResponse {
+    RegisteredSurvey survey = 1;
+}
+
+message GetFileResponse {
+    RegisteredFile file = 1;
+}
+
 message GetBinaryHeaderResponse {
-    BinaryHeader header = 1;
+    BinaryHeader meta = 1;
 }
 
 message GetTextHeaderResponse {
-    TextHeader header = 1;
+    TextHeader meta = 1;
 }
