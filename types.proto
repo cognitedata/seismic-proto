@@ -13,6 +13,11 @@ message RegisteredSurvey {
 }
 
 // -----
+/* File id and name */
+message FileIdName {
+    string id = 1;
+    string name = 2;
+}
 
 message File {
     string name = 1;
