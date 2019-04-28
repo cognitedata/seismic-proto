@@ -7,9 +7,11 @@ message Survey {
     string name = 1;
     map<string, string> metadata = 2;
 }
+
 message RegisteredSurvey {
     string id = 1;
     Survey survey = 2;
+    map<string, string> metadata = 3;
 }
 
 // -----
@@ -23,9 +25,11 @@ message File {
     string name = 1;
     map<string, string> metadata = 2;
 }
+
 message RegisteredFile {
     string id = 1;
     File file = 2;
+    map<string, string> metadata = 3;
 }
 
 message TextHeader {
@@ -61,6 +65,17 @@ message BinaryHeader {
     int32 original_measurement_system = 24;
     int32 impulse_signal_polarity = 25;
     int32 vibratory_polarity_code = 26;
+    bytes raw_header = 27;
+}
+
+// Version:
+// 0 - no compression
+// 1 - fpzip
+// 2 - compressed waveform
+message PersistedTrace {
+    int32 version = 1;
+    bytes trace = 2;
+    bytes header = 3;
 }
 
 /*

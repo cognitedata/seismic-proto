@@ -8,8 +8,16 @@ service Query {
     rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
     rpc GetSurveyFiles(SurveyQueryRequest) returns (GetSurveyFilesResponse) {}
     rpc GetFile (FileQueryRequest) returns (GetFileResponse) {}
-    rpc GetBinaryHeader (FileQueryRequest) returns (GetBinaryHeaderResponse) {}
-    rpc GetTextHeader (FileQueryRequest) returns (GetTextHeaderResponse) {}
+    rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
+    rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
+    rpc GetDataCoverage (FileQueryRequest) returns (GetDataCoverageResponse) {}
+    rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
+    rpc GetTrace (TraceQueryRequest) returns (Trace1D) {}
+    rpc GetSlice (SliceQueryRequest) returns (Trace2D) {}
+    rpc GetCube (CubeQueryRequest) returns (Trace3D) {}
+    rpc GetLine (LineQueryRequest) returns (Trace1D) {}
+    rpc GetTimeSlice (TimeSliceQueryRequest) returns (Trace2D) {}
+    rpc SearchSurveys (SearchRequest) returns (SurveyListResponse) {}
 }
 
 // Requests messages
@@ -20,6 +28,7 @@ message SurveyQueryRequest {
         string id = 1;
         string name = 2;
     }
+    bool include_metadata = 3;
 }
 
 /* Request file by id or name. */
@@ -30,10 +39,127 @@ message FileQueryRequest {
     }
 }
 
+message HeaderFileQueryRequest {
+    oneof file {
+        string id = 1;
+        string name = 2;
+    }
+    bool include_raw_header = 3;
+}
+
+message SearchRequest {
+    oneof query {
+        PolygonQuery polygon = 1;
+        MetadataFilter metadata_filter = 2;
+    }
+}
+
+message MetadataFilter {
+    repeated KeyValueFilter filter = 1;
+}
+
+message KeyValueFilter {
+    string key = 1;
+    string value = 2;
+}
+
+message SurveyListResponse {
+    repeated string name = 1;
+}
+
+message CRS {
+    string crs = 1;
+}
+
+message TraceQueryRequest {
+    FileQueryRequest file = 1;
+    oneof query {
+        PolygonQuery polygon = 2;
+        TraceRequest trace = 3;
+    }
+    bool include_trace_header = 4;
+}
+
+message PolygonQuery {
+    string polygon = 1;
+    CRS crs = 2;
+}
+
+message TraceResponse {
+    repeated float trace = 1;
+    bytes header = 2;
+}
+
+message SliceQueryRequest {
+    FileQueryRequest file = 1;
+    CRS crs = 2;
+    string slice = 3;
+}
+
+message CubeQueryRequest {
+    FileQueryRequest file = 1;
+    CRS crs = 2;
+    string cube = 3;
+}
+
+message LineQueryRequest {
+    FileQueryRequest file = 1;
+    CRS crs = 2;
+    string line = 3;
+}
+
+message TimeSliceQueryRequest {
+    FileQueryRequest file = 1;
+    CRS crs = 2;
+    string polygon = 3;
+    uint32 depth = 4;
+}
+
+message SegYQueryRequest {
+    FileQueryRequest file = 1;
+    oneof query {
+        PolygonQuery polygon = 2;
+        TraceRequest trace = 3;
+    }
+    bool copy_binary_header = 4; // copies from the original input file
+    bool copy_text_header = 5; // copies from the original input file
+}
+
+message TraceRequest {
+    enum Direction {
+        INLINE = 0;
+        CROSSLINE = 1;
+    }
+    int32 trace_id = 2;
+}
+
+
 // Response messages
 
+message GetDataCoverageResponse {
+    string polygon = 1;
+}
+
+// The underlying array of floats. Should be replaced by a higher order type that also allows
+// for us to send the header
+message Trace1D {
+    repeated float trace = 1;
+}
+
+message Trace2D {
+    repeated Trace1D trace = 1;
+}
+
+message Trace3D {
+    repeated Trace2D trace = 1;
+}
+
+message SegYQueryResponse {
+    bytes content = 1;
+}
+
 message GetSurveyResponse {
-    RegisteredSurvey survey = 1;
+    repeated RegisteredSurvey survey = 1;
 }
 
 message GetSurveyFilesResponse {
