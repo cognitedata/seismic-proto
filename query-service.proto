@@ -28,7 +28,8 @@ message SurveyQueryRequest {
         string id = 1;
         string name = 2;
     }
-    bool include_metadata = 3;
+    bool list_files = 3;
+    bool include_metadata = 4;
 }
 
 /* Request file by id or name. */
@@ -37,6 +38,23 @@ message FileQueryRequest {
         string id = 1;
         string name = 2;
     }
+}
+
+message LineBasedRectangleQuery {
+    LinePosition top_left = 1;
+    LinePosition bottom_left = 2;
+    LinePosition bottom_right = 3;
+    LinePosition top_right = 4;
+}
+
+message LineBasedLineQuery {
+    LinePosition start = 1;
+    LinePosition end = 2;
+}
+
+message LinePosition {
+    uint32 inline = 1;
+    uint32 xline = 2;
 }
 
 message HeaderFileQueryRequest {
@@ -67,10 +85,6 @@ message SurveyListResponse {
     repeated string name = 1;
 }
 
-message CRS {
-    string crs = 1;
-}
-
 message TraceQueryRequest {
     FileQueryRequest file = 1;
     oneof query {
@@ -81,7 +95,7 @@ message TraceQueryRequest {
 }
 
 message PolygonQuery {
-    string polygon = 1;
+    Wkt polygon = 1;
     CRS crs = 2;
 }
 
@@ -93,25 +107,35 @@ message TraceResponse {
 message SliceQueryRequest {
     FileQueryRequest file = 1;
     CRS crs = 2;
-    string slice = 3;
+    Wkt slice = 3;
+    uint32 line_number = 4;
+    Direction direction = 5;
+    bool include_trace_header = 6;
 }
 
 message CubeQueryRequest {
     FileQueryRequest file = 1;
-    CRS crs = 2;
-    string cube = 3;
+    oneof query {
+        PolygonQuery polygon = 2;
+        LineBasedRectangleQuery lines = 3;
+    }
+    bool include_trace_header = 4;
 }
 
 message LineQueryRequest {
     FileQueryRequest file = 1;
     CRS crs = 2;
-    string line = 3;
+    oneof query {
+        Wkt line = 3;
+        LineBasedLineQuery line_req = 4;
+    }
+    bool include_trace_header = 5;
 }
 
 message TimeSliceQueryRequest {
     FileQueryRequest file = 1;
     CRS crs = 2;
-    string polygon = 3;
+    Wkt polygon = 3;
     uint32 depth = 4;
 }
 
@@ -120,30 +144,27 @@ message SegYQueryRequest {
     oneof query {
         PolygonQuery polygon = 2;
         TraceRequest trace = 3;
+        LineBasedRectangleQuery lines = 4;
     }
-    bool copy_binary_header = 4; // copies from the original input file
-    bool copy_text_header = 5; // copies from the original input file
+    bool copy_binary_header = 5; // copies from the original input file
+    bool copy_text_header = 6; // copies from the original input file
 }
 
 message TraceRequest {
-    enum Direction {
-        INLINE = 0;
-        CROSSLINE = 1;
-    }
-    int32 trace_id = 2;
+    Direction direction = 1;
+    uint32 trace_id = 2;
 }
-
 
 // Response messages
 
 message GetDataCoverageResponse {
-    string polygon = 1;
+    Wkt polygon = 1;
 }
 
-// The underlying array of floats. Should be replaced by a higher order type that also allows
-// for us to send the header
+// The underlying array of floats.
 message Trace1D {
-    repeated float trace = 1;
+    bytes trace_header = 1;
+    repeated float trace = 2;
 }
 
 message Trace2D {
@@ -159,15 +180,19 @@ message SegYQueryResponse {
 }
 
 message GetSurveyResponse {
-    repeated RegisteredSurvey survey = 1;
+    RegisteredSurvey survey = 1;
+    repeated RegisteredFile files = 2;
 }
 
 message GetSurveyFilesResponse {
     repeated FileIdName files = 1;
+
 }
 
 message GetFileResponse {
     RegisteredFile file = 1;
+    bytes binary_header = 2;
+    string text_header = 3;
 }
 
 message GetBinaryHeaderResponse {

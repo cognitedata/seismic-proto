@@ -27,7 +27,7 @@ message RegisterFileRequest {
         string survey_id = 2;
     }
     File file = 3;
-    string crs = 4;
+    CRS crs = 4;
 }
 message RegisterFileResponse {
     RegisteredFile file = 1;

@@ -30,6 +30,13 @@ message RegisteredFile {
     string id = 1;
     File file = 2;
     map<string, string> metadata = 3;
+    enum FileStatus {
+        QUEUED = 0;
+        IN_PROGRESS = 1;
+        SUCCESS = 2;
+        FAILED = 3;
+    }
+    FileStatus status = 4;
 }
 
 message TextHeader {
@@ -68,16 +75,6 @@ message BinaryHeader {
     bytes raw_header = 27;
 }
 
-// Version:
-// 0 - no compression
-// 1 - fpzip
-// 2 - compressed waveform
-message PersistedTrace {
-    int32 version = 1;
-    bytes trace = 2;
-    bytes header = 3;
-}
-
 /*
    Version:
    0 - no compression of traces
@@ -90,4 +87,20 @@ message PersistedTrace {
     int32 version = 1;
     bytes trace = 2;
     bytes header = 3;
+}
+
+message CRS {
+    string crs = 1;
+}
+
+message Wkt {
+    string geometry = 1;
+}
+
+message Direction {
+    enum Direction {
+        INLINE = 0;
+        CROSSLINE = 1;
+    }
+    Direction direction = 1;
 }
