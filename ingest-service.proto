@@ -32,11 +32,13 @@ message RegisterFileRequest {
         string survey_name = 1;
         string survey_id = 2;
     }
-    File file = 3;
-    CRS crs = 4;
+    string name = 3;
+    map<string, string> metadata = 4;
+    CRS crs = 5;
 }
+
 message RegisterFileResponse {
-    RegisteredFile file = 1;
+    File file = 1;
 }
 
 // -----

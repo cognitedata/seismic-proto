@@ -17,13 +17,8 @@ message FileIdName {
 }
 
 message File {
-    string name = 1;
-    map<string, string> metadata = 2;
-}
-
-message RegisteredFile {
     string id = 1;
-    File file = 2;
+    string name = 2;
     map<string, string> metadata = 3;
     enum FileStatus {
         QUEUED = 0;

@@ -181,7 +181,7 @@ message SegYQueryResponse {
 
 message GetSurveyResponse {
     Survey survey = 1;
-    repeated RegisteredFile files = 2;
+    repeated File files = 2;
 }
 
 message GetSurveyFilesResponse {
@@ -190,7 +190,7 @@ message GetSurveyFilesResponse {
 }
 
 message GetFileResponse {
-    RegisteredFile file = 1;
+    File file = 1;
     bytes binary_header = 2;
     string text_header = 3;
 }
