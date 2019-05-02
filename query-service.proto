@@ -180,7 +180,7 @@ message SegYQueryResponse {
 }
 
 message GetSurveyResponse {
-    RegisteredSurvey survey = 1;
+    Survey survey = 1;
     repeated RegisteredFile files = 2;
 }
 

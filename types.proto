@@ -4,13 +4,8 @@ package com.cognite.seismic;
 // -----
 
 message Survey {
-    string name = 1;
-    map<string, string> metadata = 2;
-}
-
-message RegisteredSurvey {
     string id = 1;
-    Survey survey = 2;
+    string name = 2;
     map<string, string> metadata = 3;
 }
 
