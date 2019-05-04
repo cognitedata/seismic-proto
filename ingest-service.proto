@@ -12,11 +12,17 @@ service Ingest {
 
 // -----
 
-message RegisterSurveyRequest {
-    Survey survey = 1;
+message NewSurveyRequest {
+    string name = 1;
+    map<string, string> metadata = 2;
 }
+
+message RegisterSurveyRequest {
+    NewSurveyRequest survey = 1;
+}
+
 message RegisterSurveyResponse {
-    RegisteredSurvey survey = 1;
+    Survey survey = 1;
 }
 
 // -----
@@ -26,10 +32,13 @@ message RegisterFileRequest {
         string survey_name = 1;
         string survey_id = 2;
     }
-    File file = 3;
+    string name = 3;
+    map<string, string> metadata = 4;
+    CRS crs = 5;
 }
+
 message RegisterFileResponse {
-    RegisteredFile file = 1;
+    File file = 1;
 }
 
 // -----
