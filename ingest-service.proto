@@ -35,7 +35,7 @@ message RegisterFileRequest {
     string name = 3;
     map<string, string> metadata = 4;
     CRS crs = 5;
-    string bucket = 6;
+    string path = 6;
 }
 
 message RegisterFileResponse {
