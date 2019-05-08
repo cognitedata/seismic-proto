@@ -11,13 +11,13 @@ service Query {
     rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
     rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
     rpc GetDataCoverage (FileQueryRequest) returns (GetDataCoverageResponse) {}
-    rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
     rpc GetTrace (TraceQueryRequest) returns (Trace1D) {}
     rpc GetSlice (SliceQueryRequest) returns (Trace2D) {}
     rpc GetCube (CubeQueryRequest) returns (Trace3D) {}
     rpc GetLine (LineQueryRequest) returns (Trace1D) {}
     rpc GetTimeSlice (TimeSliceQueryRequest) returns (Trace2D) {}
-    rpc SearchSurveys (SearchRequest) returns (SurveyListResponse) {}
+    rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
+    rpc SearchSurveys (SearchRequest) returns (SearchSurveyListResponse) {}
 }
 
 // Requests messages
@@ -40,23 +40,6 @@ message FileQueryRequest {
     }
 }
 
-message LineBasedRectangleQuery {
-    LinePosition top_left = 1;
-    LinePosition bottom_left = 2;
-    LinePosition bottom_right = 3;
-    LinePosition top_right = 4;
-}
-
-message LineBasedLineQuery {
-    LinePosition start = 1;
-    LinePosition end = 2;
-}
-
-message LinePosition {
-    uint32 inline = 1;
-    uint32 xline = 2;
-}
-
 message HeaderFileQueryRequest {
     oneof file {
         string id = 1;
@@ -65,24 +48,15 @@ message HeaderFileQueryRequest {
     bool include_raw_header = 3;
 }
 
-message SearchRequest {
+message SegYQueryRequest {
+    FileQueryRequest file = 1;
     oneof query {
-        PolygonQuery polygon = 1;
-        MetadataFilter metadata_filter = 2;
+        PolygonQuery polygon = 2;
+        TraceRequest trace = 3;
+        LineBasedRectangleQuery lines = 4;
     }
-}
-
-message MetadataFilter {
-    repeated KeyValueFilter filter = 1;
-}
-
-message KeyValueFilter {
-    string key = 1;
-    string value = 2;
-}
-
-message SurveyListResponse {
-    repeated string name = 1;
+    bool copy_binary_header = 5; // copies from the original input file
+    bool copy_text_header = 6; // copies from the original input file
 }
 
 message TraceQueryRequest {
@@ -92,16 +66,6 @@ message TraceQueryRequest {
         TraceRequest trace = 3;
     }
     bool include_trace_header = 4;
-}
-
-message PolygonQuery {
-    Wkt polygon = 1;
-    CRS crs = 2;
-}
-
-message TraceResponse {
-    repeated float trace = 1;
-    bytes header = 2;
 }
 
 message SliceQueryRequest {
@@ -139,16 +103,53 @@ message TimeSliceQueryRequest {
     uint32 depth = 4;
 }
 
-message SegYQueryRequest {
-    FileQueryRequest file = 1;
+message SearchRequest {
     oneof query {
-        PolygonQuery polygon = 2;
-        TraceRequest trace = 3;
-        LineBasedRectangleQuery lines = 4;
+        PolygonQuery polygon = 1;
+        MetadataFilter metadata_filter = 2;
     }
-    bool copy_binary_header = 5; // copies from the original input file
-    bool copy_text_header = 6; // copies from the original input file
 }
+
+/* Supporting query message types. */
+
+message LineBasedRectangleQuery {
+    LinePosition top_left = 1;
+    LinePosition bottom_left = 2;
+    LinePosition bottom_right = 3;
+    LinePosition top_right = 4;
+}
+
+message LineBasedLineQuery {
+    LinePosition start = 1;
+    LinePosition end = 2;
+}
+
+message MetadataFilter {
+    repeated KeyValueFilter filter = 1;
+}
+
+message LinePosition {
+    uint32 inline = 1;
+    uint32 xline = 2;
+}
+
+message KeyValueFilter {
+    string key = 1;
+    string value = 2;
+}
+
+
+message PolygonQuery {
+    Wkt polygon = 1;
+    CRS crs = 2;
+}
+
+message TraceResponse {
+    repeated float trace = 1;
+    bytes header = 2;
+}
+
+
 
 message TraceRequest {
     Direction direction = 1;
@@ -157,26 +158,12 @@ message TraceRequest {
 
 // Response messages
 
+message SearchSurveyListResponse {
+    repeated string name = 1;
+}
+
 message GetDataCoverageResponse {
     Wkt polygon = 1;
-}
-
-// The underlying array of floats.
-message Trace1D {
-    bytes trace_header = 1;
-    repeated float trace = 2;
-}
-
-message Trace2D {
-    repeated Trace1D trace = 1;
-}
-
-message Trace3D {
-    repeated Trace2D trace = 1;
-}
-
-message SegYQueryResponse {
-    bytes content = 1;
 }
 
 message GetSurveyResponse {
