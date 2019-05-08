@@ -94,3 +94,21 @@ message Direction {
     }
     Direction direction = 1;
 }
+
+// The underlying array of floats for all traces
+message Trace1D {
+    bytes trace_header = 1;
+    repeated float trace = 2;
+}
+
+message Trace2D {
+    repeated Trace1D trace = 1;
+}
+
+message Trace3D {
+    repeated Trace2D trace = 1;
+}
+
+message SegYQueryResponse {
+    bytes content = 1;
+}
