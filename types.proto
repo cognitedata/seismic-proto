@@ -10,22 +10,18 @@ message Survey {
 }
 
 // -----
-/* File id and name */
-message FileIdName {
-    string id = 1;
-    string name = 2;
+enum FileStatus {
+    REGISTERED = 0;
+    QUEUED = 1;
+    IN_PROGRESS = 2;
+    SUCCESS = 3;
+    FAILED = 4;
 }
 
 message File {
     string id = 1;
     string name = 2;
     map<string, string> metadata = 3;
-    enum FileStatus {
-        QUEUED = 0;
-        IN_PROGRESS = 1;
-        SUCCESS = 2;
-        FAILED = 3;
-    }
     FileStatus status = 4;
 }
 

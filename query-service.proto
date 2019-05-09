@@ -6,7 +6,6 @@ import "types.proto";
 /* Service for quering seismic data. */
 service Query {
     rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
-    rpc GetSurveyFiles(SurveyQueryRequest) returns (GetSurveyFilesResponse) {}
     rpc GetFile (FileQueryRequest) returns (GetFileResponse) {}
     rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
     rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
@@ -169,11 +168,6 @@ message GetDataCoverageResponse {
 message GetSurveyResponse {
     Survey survey = 1;
     repeated File files = 2;
-}
-
-message GetSurveyFilesResponse {
-    repeated FileIdName files = 1;
-
 }
 
 message GetFileResponse {
