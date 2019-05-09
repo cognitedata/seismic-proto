@@ -61,5 +61,5 @@ message StatusRequest {
     string job_id = 1;
 }
 message StatusResponse {
-    string status = 1;
+    FileStatus status = 1;
 }
