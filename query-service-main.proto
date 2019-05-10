@@ -24,33 +24,49 @@ service Query {
     **/
     rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
     /**
-    Returns a binary header given its file name or id.
+    Returns a text header given its file name or id.
     **/
     rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
-    /** 
+    /**
     Not implemented yet
     **/
-    rpc GetDataCoverage (FileQueryRequest) returns (GetDataCoverageResponse) {}         
-    /** 
+    rpc GetFileDataCoverage (FileQueryRequest) returns (GetDataCoverageResponse) {}
+    /**
     Not implemented yet
+    **/
+    rpc GetSurveyDataCoverage (SurveyDataCoverageRequest) returns (GetDataCoverageResponse) {}
+    /**
+    Take a inline/crossline or an X/Y
     **/
     rpc GetTrace (TraceQueryRequest) returns (Trace1D) {}
     /** 
-    Returns a vertical slice given either its inline or crossline number OR geometry.
+    FIXME: Returns a vertical slice given either its inline or crossline number OR geometry.
     **/
-    rpc GetSlice (SliceQueryRequest) returns (Trace2D) {}
+    rpc GetSliceByLine (LineSliceQueryRequest) returns (Trace2D) {}
+    /**
+    Not implemented yet
+    **/
+    rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (Trace2D) {}
     /** 
     Not implemented yet
     **/
-    rpc GetCube (CubeQueryRequest) returns (Trace3D) {}
+    rpc GetCubeByLine (LineCubeRequest) returns (Trace3D) {}
+    /**
+    Not implemented yet
+    **/
+    rpc GetCubeByGeometry (GeometryCubeRequest) returns (Trace3D) {}
     /** 
     Not implemented yet
     **/
-    rpc GetLine (LineQueryRequest) returns (Trace1D) {}
+    rpc GetPath (PathQueryRequest) returns (Trace1D) {}
     /** 
     Not implemented yet
     **/
-    rpc GetTimeSlice (TimeSliceQueryRequest) returns (Trace2D) {}
+    rpc GetTimeSliceByLine (LineTimeSliceQueryRequest) returns (Trace2D) {}
+    /**
+    Not implemented yet
+    **/
+    rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (Trace2D) {}
     /** 
     Not implemented yet
     **/
@@ -59,4 +75,12 @@ service Query {
     Not implemented yet
     **/
     rpc SearchSurveys (SearchRequest) returns (SearchSurveyListResponse) {}
+    /**
+    Not implemented yet
+    **/
+    rpc GetXLines (LinesRequest) returns (AvailableLines) {}
+    /**
+    Not implemented yet
+    **/
+    rpc GetILines (LinesRequest) returns (AvailableLines) {}
 }

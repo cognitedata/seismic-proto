@@ -8,13 +8,22 @@ import "types.proto";
 
 // Requests messages
 
-message SurveyQueryRequest {    
-    oneof survey {             // at least one of id or name
+message SurveyQueryRequest {
+    SurveyIdentificator survey = 1;
+    bool list_files = 2;       // should the files from this survey be listed
+    bool include_metadata = 3; // metadata is not implemented yet
+}
+
+message SurveyIdentificator {
+    oneof survey {
+        // at least one of id or name
         string id = 1;
         string name = 2;
-    }    
-    bool list_files = 3;       // should the files from this survey be listed    
-    bool include_metadata = 4; // metadata is not implemented yet
+    }
+}
+
+message SurveyDataCoverageRequest {
+    SurveyIdentificator survey = 1;
 }
 
 message FileQueryRequest {
@@ -40,18 +49,15 @@ message SegYQueryRequest {
     FileQueryRequest file = 1;
     oneof query {
         PolygonQuery polygon = 2;
-        TraceRequest trace = 3;
-        LineBasedRectangleQuery lines = 4;
+        LineBasedRectangle lines = 3;
     }
-    bool copy_binary_header = 5; // copies from the original input file
-    bool copy_text_header = 6;   // copies from the original input file
 }
 
 message TraceQueryRequest {
     FileQueryRequest file = 1;
     oneof query {
-        PolygonQuery polygon = 2;
-        TraceRequest trace = 3;
+        TraceCoordinateQuery coordinates = 2;
+        TraceLineQuery line = 3;
     }
     bool include_trace_header = 4;
 }
@@ -65,30 +71,64 @@ message SliceQueryRequest {
     bool include_trace_header = 6;
 }
 
-message CubeQueryRequest {
-    FileQueryRequest file = 1;
-    oneof query {
-        PolygonQuery polygon = 2;
-        LineBasedRectangleQuery lines = 3;
-    }
-    bool include_trace_header = 4;
-}
-
-message LineQueryRequest {
+message PathQueryRequest {
     FileQueryRequest file = 1;
     CRS crs = 2;
-    oneof query {
-        Wkt line = 3;
-        LineBasedLineQuery line_req = 4;
+    oneof points {
+        Wkt wkt = 3;
+        GeoJson json = 4;
     }
     bool include_trace_header = 5;
 }
 
-message TimeSliceQueryRequest {
+message LineSliceQueryRequest {
+    FileQueryRequest file = 1;
+    oneof line {
+        int32 iline = 2;
+        int32 xline = 3;
+    }
+    bool include_trace_header = 4;
+}
+
+message GeometrySliceQueryRequest {
     FileQueryRequest file = 1;
     CRS crs = 2;
-    Wkt polygon = 3;
-    uint32 depth = 4;
+    oneof geometry {
+        Wkt wkt = 3;
+        GeoJson json = 4;
+    }
+    bool include_trace_header = 5;
+}
+
+message LineCubeRequest {
+    FileQueryRequest file = 1;
+    LineBasedRectangle rectangle = 2;
+    bool include_trace_header = 3;
+}
+
+message GeometryCubeRequest {
+    FileQueryRequest file = 1;
+    oneof geometry {
+        Wkt wkt = 2;
+        GeoJson json = 3;
+    }
+    bool include_trace_header = 4;
+}
+
+message LineTimeSliceQueryRequest {
+    FileQueryRequest file = 1;
+    LineBasedRectangle rectangle = 2;
+    int32 z = 3;
+}
+
+message GeometryTimeSliceQueryRequest {
+    FileQueryRequest file = 1;
+    CRS crs = 2;
+    oneof geometry {
+        Wkt wkt = 3;
+        GeoJson json = 4;
+    }
+    int32 z = 5;
 }
 
 message SearchRequest {
@@ -100,20 +140,15 @@ message SearchRequest {
 
 /* Supporting query message types. */
 
-message LineBasedRectangleQuery {
+message LineBasedRectangle {
     LinePosition top_left = 1;
     LinePosition bottom_left = 2;
     LinePosition bottom_right = 3;
     LinePosition top_right = 4;
 }
 
-message LineBasedLineQuery {
-    LinePosition start = 1;
-    LinePosition end = 2;
-}
-
 message MetadataFilter {
-    repeated KeyValueFilter filter = 1;
+    map<string, string> filter = 1;
 }
 
 message LinePosition {
@@ -126,7 +161,6 @@ message KeyValueFilter {
     string value = 2;
 }
 
-
 message PolygonQuery {
     Wkt polygon = 1;
     CRS crs = 2;
@@ -137,14 +171,25 @@ message TraceResponse {
     bytes header = 2;
 }
 
+message TraceCoordinateQuery {
+    int32 x = 1;
+    int32 y = 2;
+}
 
+message TraceLineQuery {
+    int32 iline = 1;
+    int32 xline = 2;
+}
 
-message TraceRequest {
-    Direction direction = 1;
-    uint32 trace_id = 2;
+message LinesRequest {
+    FileQueryRequest file = 1;
 }
 
 // Response messages
+
+message AvailableLines {
+    repeated int32 lines = 1;
+}
 
 message SearchSurveyListResponse {
     repeated string name = 1;

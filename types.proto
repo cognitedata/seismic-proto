@@ -83,6 +83,11 @@ message Wkt {
     string geometry = 1;
 }
 
+message GeoJson {
+    // FIXME: Change to use struct! (needs include)
+    string json = 1;
+}
+
 message Direction {
     enum Direction {
         INLINE = 0;
