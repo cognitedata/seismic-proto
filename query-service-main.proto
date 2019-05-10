@@ -1,0 +1,62 @@
+/**
+grpc service for querying seismic data from Cognite Data Fusion
+*/
+syntax = "proto3";
+package com.cognite.seismic;
+
+import "types.proto";
+import "query-service-messages.proto";
+
+/**
+Requests available through the interface com.cognite.seismic.Query
+**/
+service Query {
+    /**
+    Returns a survey given its name or id and, optionally, lists its associated files.
+    **/
+    rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
+    /**
+    Returns a file given its name or id.
+    **/
+    rpc GetFile (FileQueryRequest) returns (GetFileResponse) {}
+    /**
+    Returns a binary header given its file name or id.
+    **/
+    rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
+    /**
+    Returns a binary header given its file name or id.
+    **/
+    rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
+    /** 
+    Not implemented yet
+    **/
+    rpc GetDataCoverage (FileQueryRequest) returns (GetDataCoverageResponse) {}         
+    /** 
+    Not implemented yet
+    **/
+    rpc GetTrace (TraceQueryRequest) returns (Trace1D) {}
+    /** 
+    Returns a vertical slice given either its inline or crossline number OR geometry.
+    **/
+    rpc GetSlice (SliceQueryRequest) returns (Trace2D) {}
+    /** 
+    Not implemented yet
+    **/
+    rpc GetCube (CubeQueryRequest) returns (Trace3D) {}
+    /** 
+    Not implemented yet
+    **/
+    rpc GetLine (LineQueryRequest) returns (Trace1D) {}
+    /** 
+    Not implemented yet
+    **/
+    rpc GetTimeSlice (TimeSliceQueryRequest) returns (Trace2D) {}
+    /** 
+    Not implemented yet
+    **/
+    rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
+    /** 
+    Not implemented yet
+    **/
+    rpc SearchSurveys (SearchRequest) returns (SearchSurveyListResponse) {}
+}

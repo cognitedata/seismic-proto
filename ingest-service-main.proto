@@ -1,0 +1,29 @@
+/**
+grpc service for ingestion of SEG-Y files into Cognite Data Fusion
+*/
+syntax = "proto3";
+package com.cognite.seismic;
+
+import "ingest-service-messages.proto";
+
+/**
+Methods available in com.cognite.seismic.Ingest
+**/
+service Ingest {
+    /**
+    Registers a new survey.
+    **/
+    rpc RegisterSurvey (RegisterSurveyRequest) returns (RegisterSurveyResponse) {}
+    /**
+    Registers a new file in a (previously regsitered) survey.
+    **/
+    rpc RegisterFile (RegisterFileRequest) returns (RegisterFileResponse) {}
+    /**
+    Sends a request for the ingestion of a registered file into the queue. Will return a job id which can be queried for status.
+    **/
+    rpc IngestFile (IngestFileRequest) returns (IngestFileResponse) {}
+    /**
+    Retrieves the status of a job. 
+    **/
+    rpc Status (StatusRequest) returns (StatusResponse) {}
+}

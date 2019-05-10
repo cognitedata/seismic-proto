@@ -1,37 +1,22 @@
+/**
+grpc service for querying seismic data from Cognite Data Fusion
+*/
 syntax = "proto3";
 package com.cognite.seismic;
 
 import "types.proto";
 
-/* Service for quering seismic data. */
-service Query {
-    rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
-    rpc GetFile (FileQueryRequest) returns (GetFileResponse) {}
-    rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
-    rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
-    rpc GetDataCoverage (FileQueryRequest) returns (GetDataCoverageResponse) {}
-    rpc GetTrace (TraceQueryRequest) returns (Trace1D) {}
-    rpc GetSlice (SliceQueryRequest) returns (Trace2D) {}
-    rpc GetCube (CubeQueryRequest) returns (Trace3D) {}
-    rpc GetLine (LineQueryRequest) returns (Trace1D) {}
-    rpc GetTimeSlice (TimeSliceQueryRequest) returns (Trace2D) {}
-    rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
-    rpc SearchSurveys (SearchRequest) returns (SearchSurveyListResponse) {}
-}
-
 // Requests messages
 
-/* Request survey by id or name. */
-message SurveyQueryRequest {
-    oneof survey {
+message SurveyQueryRequest {    
+    oneof survey {             // at least one of id or name
         string id = 1;
         string name = 2;
-    }
-    bool list_files = 3;
-    bool include_metadata = 4;
+    }    
+    bool list_files = 3;       // should the files from this survey be listed    
+    bool include_metadata = 4; // metadata is not implemented yet
 }
 
-/* Request file by id or name. */
 message FileQueryRequest {
     oneof file {
         string id = 1;
@@ -39,14 +24,18 @@ message FileQueryRequest {
     }
 }
 
-message HeaderFileQueryRequest {
-    oneof file {
+message HeaderFileQueryRequest {    
+    oneof file { // at least one of id or name
         string id = 1;
         string name = 2;
     }
-    bool include_raw_header = 3;
+    bool include_raw_header = 3; // should the raw text header be included
 }
 
+/** 
+Request the full SEGY file
+Status: NOT Implemented
+*/
 message SegYQueryRequest {
     FileQueryRequest file = 1;
     oneof query {
@@ -55,7 +44,7 @@ message SegYQueryRequest {
         LineBasedRectangleQuery lines = 4;
     }
     bool copy_binary_header = 5; // copies from the original input file
-    bool copy_text_header = 6; // copies from the original input file
+    bool copy_text_header = 6;   // copies from the original input file
 }
 
 message TraceQueryRequest {

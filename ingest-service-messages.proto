@@ -1,21 +1,17 @@
+/**
+Messages used by methods in Ingest
+**/
 syntax = "proto3";
 package com.cognite.seismic;
 
 import "types.proto";
 
-service Ingest {
-    rpc RegisterSurvey (RegisterSurveyRequest) returns (RegisterSurveyResponse) {}
-    rpc RegisterFile (RegisterFileRequest) returns (RegisterFileResponse) {}
-    rpc IngestFile (IngestFileRequest) returns (IngestFileResponse) {}
-    rpc Status (StatusRequest) returns (StatusResponse) {}
-}
-
-// -----
 
 message NewSurveyRequest {
     string name = 1;
     map<string, string> metadata = 2;
 }
+
 
 message RegisterSurveyRequest {
     NewSurveyRequest survey = 1;
