@@ -14,7 +14,8 @@ The projects in github.com/cognitedata/seismic and github.com/cognitedata/seismi
 sudo docker run --rm \
   -v $(pwd)/doc:/out \
   -v $(pwd):/protos \
-  pseudomuto/protoc-gen-doc --doc_opt=:ingest_job.proto
+  pseudomuto/protoc-gen-doc \
+  --doc_opt=:ingest_job.proto,persisted_trace.proto
 ```
 
-(We're using --doc_opt=: to remove files we do not want to include in the external docs, such as the message exchange between ingestion service and ingestion worker)
+(We're using --doc_opt=: to remove files with internal messages that we do not want to include in the external docs)

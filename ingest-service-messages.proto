@@ -12,7 +12,6 @@ message NewSurveyRequest {
     map<string, string> metadata = 2;
 }
 
-
 message RegisterSurveyRequest {
     NewSurveyRequest survey = 1;
 }
@@ -46,6 +45,7 @@ message IngestFileRequest {
         string file_id = 2;
     }
 }
+
 message IngestFileResponse {
     string job_id = 1;
     string file_id = 2;
@@ -56,6 +56,7 @@ message IngestFileResponse {
 message StatusRequest {
     string job_id = 1;
 }
+
 message StatusResponse {
     FileStatus status = 1;
 }

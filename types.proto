@@ -61,26 +61,37 @@ message BinaryHeader {
     bytes raw_header = 27;
 }
 
-/*
-   Version:
-   0 - no compression of traces
-   1 - fpzip compression of traces
-   2 - waveform compression
-
-   The trace header is gzip compressed in all versions
-*/
-message PersistedTrace {
-    int32 version = 1;
-    bytes trace = 2;
-    bytes header = 3;
-}
-
 message CRS {
     string crs = 1;
 }
 
 message Wkt {
     string geometry = 1;
+}
+
+// Specify either id or name to find a file or survey.
+message Identifier {
+    oneof find {
+        string id = 1;
+        string name = 2;
+    }
+}
+
+// Geometry can be specified using either wkt or geoJSON. CRS is always required.
+message Geometry {
+    CRS crs = 1;           // required
+    oneof format {
+        Wkt wkt = 2;
+        GeoJson json = 3;
+    }
+}
+
+// Specify either inline OR crossline
+message LineSelect {
+    oneof line {
+        int32 iline = 1;
+        int32 xline = 2;
+    }
 }
 
 message GeoJson {

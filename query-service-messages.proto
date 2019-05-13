@@ -9,131 +9,88 @@ import "types.proto";
 // Requests messages
 
 message SurveyQueryRequest {
-    SurveyIdentificator survey = 1;
+    Identifier survey = 1;
     bool list_files = 2;       // should the files from this survey be listed
-    bool include_metadata = 3; // metadata is not implemented yet
-}
-
-message SurveyIdentificator {
-    oneof survey {
-        // at least one of id or name
-        string id = 1;
-        string name = 2;
-    }
+    bool include_metadata = 3; // should metadata be included in the result
 }
 
 message SurveyDataCoverageRequest {
-    SurveyIdentificator survey = 1;
+    Identifier survey = 1;
 }
 
-message FileQueryRequest {
-    oneof file {
-        string id = 1;
-        string name = 2;
-    }
+message HeaderFileQueryRequest {
+    Identifier file = 1;
+    bool include_raw_header = 2; // should the raw text header be included
 }
 
-message HeaderFileQueryRequest {    
-    oneof file { // at least one of id or name
-        string id = 1;
-        string name = 2;
-    }
-    bool include_raw_header = 3; // should the raw text header be included
-}
-
-/** 
-Request the full SEGY file
-Status: NOT Implemented
-*/
+/**
+Filter the area included in the SEGY file by a polygon defined either by spatial coordinates
+or by a set of inline and crossline indices
+**/
 message SegYQueryRequest {
-    FileQueryRequest file = 1;
+    Identifier file = 1;
     oneof query {
-        PolygonQuery polygon = 2;
+        Geometry polygon = 2;
         LineBasedRectangle lines = 3;
     }
 }
 
+// Query by coordinates (x AND y) OR by index (inline AND crossline)
 message TraceQueryRequest {
-    FileQueryRequest file = 1;
+    Identifier file = 1;
     oneof query {
         TraceCoordinateQuery coordinates = 2;
-        TraceLineQuery line = 3;
+        TraceLineQuery position = 3;
     }
     bool include_trace_header = 4;
-}
-
-message SliceQueryRequest {
-    FileQueryRequest file = 1;
-    CRS crs = 2;
-    Wkt slice = 3;
-    uint32 line_number = 4;
-    Direction direction = 5;
-    bool include_trace_header = 6;
 }
 
 message PathQueryRequest {
-    FileQueryRequest file = 1;
-    CRS crs = 2;
-    oneof points {
-        Wkt wkt = 3;
-        GeoJson json = 4;
-    }
-    bool include_trace_header = 5;
+    Identifier file = 1;
+    Geometry geometry = 2;
+    bool include_trace_header = 3;
 }
 
 message LineSliceQueryRequest {
-    FileQueryRequest file = 1;
-    oneof line {
-        int32 iline = 2;
-        int32 xline = 3;
-    }
-    bool include_trace_header = 4;
+    Identifier file = 1;
+    LineSelect line = 2;
+    bool include_trace_header = 3;
 }
 
 message GeometrySliceQueryRequest {
-    FileQueryRequest file = 1;
-    CRS crs = 2;
-    oneof geometry {
-        Wkt wkt = 3;
-        GeoJson json = 4;
-    }
-    bool include_trace_header = 5;
+    Identifier file = 1;
+    Geometry geometry = 2;
+    bool include_trace_header = 3;
 }
 
 message LineCubeRequest {
-    FileQueryRequest file = 1;
+    Identifier file = 1;
     LineBasedRectangle rectangle = 2;
     bool include_trace_header = 3;
 }
 
 message GeometryCubeRequest {
-    FileQueryRequest file = 1;
-    oneof geometry {
-        Wkt wkt = 2;
-        GeoJson json = 3;
-    }
-    bool include_trace_header = 4;
+    Identifier file = 1;
+    Geometry geometry = 2;
+    bool include_trace_header = 3;
 }
 
 message LineTimeSliceQueryRequest {
-    FileQueryRequest file = 1;
+    Identifier file = 1;
     LineBasedRectangle rectangle = 2;
-    int32 z = 3;
+    int32 z = 3;             // either time or depth according to the file
 }
 
 message GeometryTimeSliceQueryRequest {
-    FileQueryRequest file = 1;
-    CRS crs = 2;
-    oneof geometry {
-        Wkt wkt = 3;
-        GeoJson json = 4;
-    }
-    int32 z = 5;
+    Identifier file = 1;
+    Geometry geometry = 2;
+    int32 z = 3;             // either time or depth according to the file
 }
 
+// Query on polygon OR metadata
 message SearchRequest {
     oneof query {
-        PolygonQuery polygon = 1;
+        Geometry polygon = 1;
         MetadataFilter metadata_filter = 2;
     }
 }
@@ -141,19 +98,14 @@ message SearchRequest {
 /* Supporting query message types. */
 
 message LineBasedRectangle {
-    LinePosition top_left = 1;
-    LinePosition bottom_left = 2;
-    LinePosition bottom_right = 3;
-    LinePosition top_right = 4;
+    TraceLineQuery top_left = 1;
+    TraceLineQuery bottom_left = 2;
+    TraceLineQuery bottom_right = 3;
+    TraceLineQuery top_right = 4;
 }
 
 message MetadataFilter {
     map<string, string> filter = 1;
-}
-
-message LinePosition {
-    uint32 inline = 1;
-    uint32 xline = 2;
 }
 
 message KeyValueFilter {
@@ -179,10 +131,6 @@ message TraceCoordinateQuery {
 message TraceLineQuery {
     int32 iline = 1;
     int32 xline = 2;
-}
-
-message LinesRequest {
-    FileQueryRequest file = 1;
 }
 
 // Response messages
