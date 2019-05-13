@@ -69,9 +69,15 @@ message Wkt {
     string geometry = 1;
 }
 
+message GeoJson {
+    // FIXME: Change to use struct! (needs include)
+    string json = 1;
+}
+
+
 // Specify either id or name to find a file or survey.
 message Identifier {
-    oneof find {
+    oneof findby {
         string id = 1;
         string name = 2;
     }
@@ -94,21 +100,18 @@ message LineSelect {
     }
 }
 
-message GeoJson {
-    // FIXME: Change to use struct! (needs include)
-    string json = 1;
-}
-
 // The underlying array of floats for all traces
 message Trace1D {
     bytes trace_header = 1;
     repeated float trace = 2;
 }
 
+// Slice (1D array of traces) that represents one inline or one crossline or a series of traces in a specified direction
 message Trace2D {
     repeated Trace1D trace = 1;
 }
 
+// Volume (2D array of traces)
 message Trace3D {
     repeated Trace2D trace = 1;
 }

@@ -6,7 +6,9 @@ package com.cognite.seismic;
 
 import "types.proto";
 
-// Requests messages
+// ---
+
+// Requests for metadata and coverage
 
 message SurveyQueryRequest {
     Identifier survey = 1;
@@ -14,14 +16,99 @@ message SurveyQueryRequest {
     bool include_metadata = 3; // should metadata be included in the result
 }
 
-message SurveyDataCoverageRequest {
-    Identifier survey = 1;
+message FileQueryRequest {
+    Identifier file = 1;
 }
 
 message HeaderFileQueryRequest {
     Identifier file = 1;
     bool include_raw_header = 2; // should the raw text header be included
 }
+
+message SurveyDataCoverageRequest {
+    Identifier survey = 1;
+}
+
+// ---
+
+// Requests for data filtered by position
+
+/**
+Request a single trace from a file by index (inline AND crossline)
+**/
+message LineTraceQueryRequest {
+    Identifier file = 1;
+    PositionQuery position = 3;
+    bool include_trace_header = 4;
+}
+
+/**
+Request a single trace from a file by coordinates (x AND y)
+**/
+message CoordinateTraceQueryRequest {
+    Identifier file = 1;
+    CoordinateQuery coordinates = 2;
+    bool include_trace_header = 4;
+}
+
+/**
+Request a slice of traces from a file by index (inline OR crossline)
+**/
+message LineSliceQueryRequest {
+    Identifier file = 1;
+    LineSelect line = 2;
+    bool include_trace_header = 3;
+}
+
+/**
+Request a slice of traces from a file by coordinates of start and end of an arbitrary line
+**/
+message GeometrySliceQueryRequest {
+    Identifier file = 1;
+    Geometry arbitrary_line = 2;
+    bool include_trace_header = 3;
+}
+
+/**
+Request a volume of traces from a file by range of inlines and crosslines
+**/
+message LineCubeRequest {
+    Identifier file = 1;
+    LineBasedRectangle rectangle = 2;
+    bool include_trace_header = 3;
+}
+
+/**
+Request a volume of traces from a file with coordinates inside an arbitrary polygon
+**/
+message GeometryCubeRequest {
+    Identifier file = 1;
+    Geometry geometry = 2;
+    bool include_trace_header = 3;
+}
+
+/**
+Request a time slice from a file and filter by range of inlines and crosslines
+**/
+message LineTimeSliceQueryRequest {
+    Identifier file = 1;
+    LineBasedRectangle rectangle = 2;
+    int32 z = 3;             // either time or depth according to the file
+}
+
+/**
+Request a time slice from a file and filter by coordinates inside an arbitrary polygon
+**/
+message GeometryTimeSliceQueryRequest {
+    Identifier file = 1;
+    Geometry geometry = 2;
+    int32 z = 3;             // either time or depth according to the file
+}
+
+
+// ---
+
+// Other requests
 
 /**
 Filter the area included in the SEGY file by a polygon defined either by spatial coordinates
@@ -35,63 +122,18 @@ message SegYQueryRequest {
     }
 }
 
-// Find a single trace by coordinates (x AND y)
-message CoordinateTraceQueryRequest {
-    Identifier file = 1;
-    TraceCoordinateQuery coordinates = 2;
-    bool include_trace_header = 4;
-}
-
-// Find a single trace by index (inline AND crossline)
-message LineTraceQueryRequest {
-    Identifier file = 1;
-    TracePositionQuery position = 3;
-    bool include_trace_header = 4;
-}
-
+/**
+Request a pseudo-trace (sequence of values) representing the values for the described path in a file
+**/
 message PathQueryRequest {
     Identifier file = 1;
     Geometry geometry = 2;
     bool include_trace_header = 3;
 }
 
-message LineSliceQueryRequest {
-    Identifier file = 1;
-    LineSelect line = 2;
-    bool include_trace_header = 3;
-}
-
-message GeometrySliceQueryRequest {
-    Identifier file = 1;
-    Geometry geometry = 2;
-    bool include_trace_header = 3;
-}
-
-message LineCubeRequest {
-    Identifier file = 1;
-    LineBasedRectangle rectangle = 2;
-    bool include_trace_header = 3;
-}
-
-message GeometryCubeRequest {
-    Identifier file = 1;
-    Geometry geometry = 2;
-    bool include_trace_header = 3;
-}
-
-message LineTimeSliceQueryRequest {
-    Identifier file = 1;
-    LineBasedRectangle rectangle = 2;
-    int32 z = 3;             // either time or depth according to the file
-}
-
-message GeometryTimeSliceQueryRequest {
-    Identifier file = 1;
-    Geometry geometry = 2;
-    int32 z = 3;             // either time or depth according to the file
-}
-
-// Query on polygon OR metadata
+/**
+Request to search files or surveys inside a polygon or by metadata
+**/
 message SearchRequest {
     oneof query {
         Geometry polygon = 1;
@@ -99,13 +141,18 @@ message SearchRequest {
     }
 }
 
-/* Supporting query message types. */
+// ---
 
+// Supporting query message types.
+
+/**
+Range of inline and crossline indices defining a 2D region
+**/
 message LineBasedRectangle {
-    TracePositionQuery top_left = 1;
-    TracePositionQuery bottom_left = 2;
-    TracePositionQuery bottom_right = 3;
-    TracePositionQuery top_right = 4;
+    PositionQuery top_left = 1;
+    PositionQuery bottom_left = 2;
+    PositionQuery bottom_right = 3;
+    PositionQuery top_right = 4;
 }
 
 message MetadataFilter {
@@ -117,25 +164,23 @@ message KeyValueFilter {
     string value = 2;
 }
 
-message PolygonQuery {
-    Wkt polygon = 1;
-    CRS crs = 2;
-}
-
-message TraceResponse {
-    repeated float trace = 1;
-    bytes header = 2;
-}
-
-message TraceCoordinateQuery {
+/**
+Point defined by its x and y coordinates
+**/
+message CoordinateQuery {
     int32 x = 1;
     int32 y = 2;
 }
 
-message TracePositionQuery {
+/**
+Point defined by its inline and crossline indices
+**/
+message PositionQuery {
     int32 iline = 1;
     int32 xline = 2;
 }
+
+// ---
 
 // Response messages
 

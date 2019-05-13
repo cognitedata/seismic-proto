@@ -6,14 +6,11 @@ package com.cognite.seismic;
 
 import "types.proto";
 
-
-message NewSurveyRequest {
-    string name = 1;
-    map<string, string> metadata = 2;
-}
+// -----
 
 message RegisterSurveyRequest {
-    NewSurveyRequest survey = 1;
+    string name = 1;                  // [required]
+    map<string, string> metadata = 2; // [optional]
 }
 
 message RegisterSurveyResponse {
@@ -23,14 +20,11 @@ message RegisterSurveyResponse {
 // -----
 
 message RegisterFileRequest {
-    oneof survey {
-        string survey_name = 1;
-        string survey_id = 2;
-    }
-    string name = 3;
-    map<string, string> metadata = 4;
-    CRS crs = 5;
-    string path = 6;
+    Identifier survey = 1;             // [required] Either name or id of a survey previously registered with /RegisterSurvey
+    string path = 2;                   // [required] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                   // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
+    map<string, string> metadata = 4;  // [optional]
+    CRS crs = 5;                       // [required] Official name of the CRS used. Example: "EPSG:23031"
 }
 
 message RegisterFileResponse {
@@ -40,14 +34,11 @@ message RegisterFileResponse {
 // -----
 
 message IngestFileRequest {
-    oneof file {
-        string file_name = 1;
-        string file_id = 2;
-    }
+    Identifier file = 1;  // [required] Either name or id of a file previously registered with /RegisterFile
 }
 
 message IngestFileResponse {
-    string job_id = 1;
+    string job_id = 1;  //job id that can be queried for status of the ingestion
     string file_id = 2;
 }
 
