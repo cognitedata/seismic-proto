@@ -29,58 +29,70 @@ service Query {
     rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
     /**
     Not implemented yet
+    Returns the coverage polygon for a given file identified by its id or name
     **/
     rpc GetFileDataCoverage (FileQueryRequest) returns (GetDataCoverageResponse) {}
     /**
     Not implemented yet
+    Returns the maximum polygon that includes coverage of all files linked to a survey
     **/
     rpc GetSurveyDataCoverage (SurveyDataCoverageRequest) returns (GetDataCoverageResponse) {}
     /**
-    Take a inline/crossline or an X/Y
+    Returns a single trace given its inline/crossline indices or coordinates (x,y)
     **/
     rpc GetTrace (TraceQueryRequest) returns (Trace1D) {}
     /** 
-    FIXME: Returns a vertical slice given either its inline or crossline number OR geometry.
+    Returns all traces in a inline or crossline given its index
     **/
     rpc GetSliceByLine (LineSliceQueryRequest) returns (Trace2D) {}
     /**
     Not implemented yet
+    Returns all traces for which coordinates are inside a line or polygon
     **/
     rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (Trace2D) {}
     /** 
     Not implemented yet
+    Returns a set of traces forming a volume inside a range of inlines and a range of crosslines
     **/
     rpc GetCubeByLine (LineCubeRequest) returns (Trace3D) {}
     /**
     Not implemented yet
+    Returns a set of traces forming a volume below a 2D polygon
     **/
     rpc GetCubeByGeometry (GeometryCubeRequest) returns (Trace3D) {}
     /** 
     Not implemented yet
+    Finds values corresponding to a 3D path. Suitable for correlating with wells.
     **/
     rpc GetPath (PathQueryRequest) returns (Trace1D) {}
     /** 
     Not implemented yet
+    Returns a horizontal slice for a given depth or time
     **/
     rpc GetTimeSliceByLine (LineTimeSliceQueryRequest) returns (Trace2D) {}
     /**
     Not implemented yet
+    Returns a horizontal slice for a given depth or time and constrained by a 2D polygon
     **/
     rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (Trace2D) {}
     /** 
     Not implemented yet
+    Returns a full SEGY file
     **/
     rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
     /** 
     Not implemented yet
+    Finds all surveys for which the coverage area includes a given set of coordinates
     **/
     rpc SearchSurveys (SearchRequest) returns (SearchSurveyListResponse) {}
     /**
     Not implemented yet
+    Returns the set of valid crossline indices in a given file
     **/
     rpc GetXLines (LinesRequest) returns (AvailableLines) {}
     /**
     Not implemented yet
+    Returns the set of valid inline indices in a given file
     **/
     rpc GetILines (LinesRequest) returns (AvailableLines) {}
 }

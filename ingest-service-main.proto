@@ -23,7 +23,7 @@ service Ingest {
     **/
     rpc IngestFile (IngestFileRequest) returns (IngestFileResponse) {}
     /**
-    Retrieves the status of a job. 
+    Retrieves the status of an ingestion job. 
     **/
     rpc Status (StatusRequest) returns (StatusResponse) {}
 }
