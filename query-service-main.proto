@@ -38,16 +38,20 @@ service Query {
     **/
     rpc GetSurveyDataCoverage (SurveyDataCoverageRequest) returns (GetDataCoverageResponse) {}
     /**
-    Returns a single trace given its inline/crossline indices or coordinates (x,y)
+    Returns a single trace given its inline/crossline indices
     **/
-    rpc GetTrace (TraceQueryRequest) returns (Trace1D) {}
+    rpc GetTraceByLine (LineTraceQueryRequest) returns (Trace1D) {}
+    /**
+    Returns a single trace given its coordinates (x,y)
+    **/
+    rpc GetTraceByCoordinates (CoordinateTraceQueryRequest) returns (Trace1D) {}
     /** 
     Returns all traces in a inline or crossline given its index
     **/
     rpc GetSliceByLine (LineSliceQueryRequest) returns (Trace2D) {}
     /**
     [Not implemented yet]
-    Returns all traces for which coordinates are inside a line or polygon
+    Returns all traces with x, y coordinates matching a given line
     **/
     rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (Trace2D) {}
     /** 

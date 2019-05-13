@@ -99,14 +99,6 @@ message GeoJson {
     string json = 1;
 }
 
-message Direction {
-    enum Direction {
-        INLINE = 0;
-        CROSSLINE = 1;
-    }
-    Direction direction = 1;
-}
-
 // The underlying array of floats for all traces
 message Trace1D {
     bytes trace_header = 1;

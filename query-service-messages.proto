@@ -35,13 +35,17 @@ message SegYQueryRequest {
     }
 }
 
-// Query by coordinates (x AND y) OR by index (inline AND crossline)
-message TraceQueryRequest {
+// Find a single trace by coordinates (x AND y)
+message CoordinateTraceQueryRequest {
     Identifier file = 1;
-    oneof query {
-        TraceCoordinateQuery coordinates = 2;
-        TraceLineQuery position = 3;
-    }
+    TraceCoordinateQuery coordinates = 2;
+    bool include_trace_header = 4;
+}
+
+// Find a single trace by index (inline AND crossline)
+message LineTraceQueryRequest {
+    Identifier file = 1;
+    TracePositionQuery position = 3;
     bool include_trace_header = 4;
 }
 
@@ -98,10 +102,10 @@ message SearchRequest {
 /* Supporting query message types. */
 
 message LineBasedRectangle {
-    TraceLineQuery top_left = 1;
-    TraceLineQuery bottom_left = 2;
-    TraceLineQuery bottom_right = 3;
-    TraceLineQuery top_right = 4;
+    TracePositionQuery top_left = 1;
+    TracePositionQuery bottom_left = 2;
+    TracePositionQuery bottom_right = 3;
+    TracePositionQuery top_right = 4;
 }
 
 message MetadataFilter {
@@ -128,7 +132,7 @@ message TraceCoordinateQuery {
     int32 y = 2;
 }
 
-message TraceLineQuery {
+message TracePositionQuery {
     int32 iline = 1;
     int32 xline = 2;
 }
