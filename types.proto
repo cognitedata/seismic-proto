@@ -94,7 +94,7 @@ message Geometry {
 
 // Specify either inline OR crossline
 message LineSelect {
-    oneof line {
+    oneof direction {
         int32 iline = 1;
         int32 xline = 2;
     }
