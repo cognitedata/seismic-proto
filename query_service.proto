@@ -5,7 +5,7 @@ syntax = "proto3";
 package com.cognite.seismic;
 
 import "types.proto";
-import "query-service-messages.proto";
+import "query_service_messages.proto";
 
 /**
 Requests available through the interface com.cognite.seismic.Query

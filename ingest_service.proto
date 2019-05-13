@@ -4,7 +4,7 @@ grpc service for ingestion of SEG-Y files into Cognite Data Fusion
 syntax = "proto3";
 package com.cognite.seismic;
 
-import "ingest-service-messages.proto";
+import "ingest_service_messages.proto";
 
 /**
 Methods available in com.cognite.seismic.Ingest
