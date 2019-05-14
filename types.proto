@@ -1,6 +1,7 @@
 syntax = "proto3";
 package com.cognite.seismic;
 
+import "google/protobuf/struct.proto";
 // -----
 
 message Survey {
@@ -65,13 +66,20 @@ message CRS {
     string crs = 1;
 }
 
+// Well-known text representation of geometry (<a href="http://www.opengeospatial.org/standards/sfa">WKT</a>)
 message Wkt {
     string geometry = 1;
 }
 
+// The GeoJSON format (<a href="https://tools.ietf.org/html/rfc7946">RFC 7946</a>)
+// Supported geometry: Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, and GeometryCollection.
+// Example:
+// <pre>{
+//    "type": "Point",
+//    "coordinates": [100.0, 0.0]
+// }</pre>
 message GeoJson {
-    // FIXME: Change to use struct! (needs include)
-    string json = 1;
+    google.protobuf.Struct json = 1;
 }
 
 
