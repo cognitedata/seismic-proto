@@ -1,0 +1,103 @@
+/**
+grpc service for querying seismic data from Cognite Data Fusion
+*/
+syntax = "proto3";
+package com.cognite.seismic;
+
+import "types.proto";
+import "query_service_messages.proto";
+
+/**
+Requests available through the interface com.cognite.seismic.Query
+**/
+service Query {
+    /**
+    Returns a survey given its name or id and, optionally, lists its associated files.
+    **/
+    rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
+    /**
+    Returns a file given its name or id.
+    **/
+    rpc GetFile (FileQueryRequest) returns (GetFileResponse) {}
+    /**
+    Returns a binary header given its file name or id.
+    **/
+    rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
+    /**
+    Returns a text header given its file name or id.
+    **/
+    rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
+    /**
+    [Not implemented yet]
+    Returns the coverage polygon for a given file identified by its id or name
+    **/
+    rpc GetFileDataCoverage (FileQueryRequest) returns (GetDataCoverageResponse) {}
+    /**
+    [Not implemented yet]
+    Returns the maximum polygon that includes coverage of all files linked to a survey
+    **/
+    rpc GetSurveyDataCoverage (SurveyDataCoverageRequest) returns (GetDataCoverageResponse) {}
+    /**
+    Returns a single trace given its inline/crossline indices
+    **/
+    rpc GetTraceByLine (LineTraceQueryRequest) returns (Trace1D) {}
+    /**
+    [Not implemented yet]
+    Returns a single trace given its coordinates (x,y)
+    **/
+    rpc GetTraceByCoordinates (CoordinateTraceQueryRequest) returns (Trace1D) {}
+    /** 
+    Returns all traces in a slice (inline or crossline) given its index
+    **/
+    rpc GetSliceByLine (LineSliceQueryRequest) returns (Trace2D) {}
+    /**
+    [Not implemented yet]
+    Returns a slice with all traces with x, y coordinates matching a given arbitrary line
+    **/
+    rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (Trace2D) {}
+    /** 
+    [Not implemented yet]
+    Returns a volume with all traces inside a given range of inlines and a given range of crosslines
+    **/
+    rpc GetCubeByLines (LineCubeRequest) returns (Trace3D) {}
+    /**
+    [Not implemented yet]
+    Returns a volume with all traces with x, y coordinates inside an arbitrary 2D polygon
+    **/
+    rpc GetCubeByGeometry (GeometryCubeRequest) returns (Trace3D) {}
+    /**
+    [Not implemented yet]
+    Returns a horizontal slice for a given depth or time and constrained by a range of inlines and crosslines
+    **/
+    rpc GetTimeSliceByLine (LineTimeSliceQueryRequest) returns (Trace2D) {}
+    /**
+    [Not implemented yet]
+    Returns a horizontal slice for a given depth or time and constrained by an arbitrary 2D polygon
+    **/
+    rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (Trace2D) {}
+    /** 
+    [Not implemented yet]
+    Returns a full SEGY file
+    **/
+    rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
+    /** 
+    [Not implemented yet]
+    Finds all surveys for which the coverage area includes a given set of coordinates
+    **/
+    rpc SearchSurveys (SearchRequest) returns (SearchSurveyListResponse) {}
+    /**
+    [Not implemented yet]
+    Returns the set of valid crossline indices in a given specified file
+    **/
+    rpc GetFileXLines (FileQueryRequest) returns (AvailableLines) {}
+    /**
+    [Not implemented yet]
+    Returns the set of valid inline indices in a given specified file
+    **/
+    rpc GetFileILines (FileQueryRequest) returns (AvailableLines) {}
+    /**
+    [Not implemented yet]
+    Returns a pseudo-trace with the values corresponding to an arbitrary 3D path. Suitable for correlating with wells.
+    **/
+    rpc GetPath (PathQueryRequest) returns (Trace1D) {}
+}

@@ -1,0 +1,53 @@
+/**
+Messages used by methods in Ingest
+**/
+syntax = "proto3";
+package com.cognite.seismic;
+
+import "types.proto";
+
+// -----
+
+message RegisterSurveyRequest {
+    string name = 1;                  // [required]
+    map<string, string> metadata = 2; // [optional]
+}
+
+message RegisterSurveyResponse {
+    Survey survey = 1;
+}
+
+// -----
+
+message RegisterFileRequest {
+    Identifier survey = 1;             // [required] Either name or id of a survey previously registered with /RegisterSurvey
+    string path = 2;                   // [required] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                   // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
+    map<string, string> metadata = 4;  // [optional]
+    CRS crs = 5;                       // [required] Official name of the CRS used. Example: "EPSG:23031"
+}
+
+message RegisterFileResponse {
+    File file = 1;
+}
+
+// -----
+
+message IngestFileRequest {
+    Identifier file = 1;  // [required] Either name or id of a file previously registered with /RegisterFile
+}
+
+message IngestFileResponse {
+    string job_id = 1;  //job id that can be queried for status of the ingestion
+    string file_id = 2;
+}
+
+// -----
+
+message StatusRequest {
+    string job_id = 1;
+}
+
+message StatusResponse {
+    FileStatus status = 1;
+}

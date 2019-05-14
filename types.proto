@@ -61,20 +61,6 @@ message BinaryHeader {
     bytes raw_header = 27;
 }
 
-/*
-   Version:
-   0 - no compression of traces
-   1 - fpzip compression of traces
-   2 - waveform compression
-
-   The trace header is gzip compressed in all versions
-*/
-message PersistedTrace {
-    int32 version = 1;
-    bytes trace = 2;
-    bytes header = 3;
-}
-
 message CRS {
     string crs = 1;
 }
@@ -83,12 +69,35 @@ message Wkt {
     string geometry = 1;
 }
 
-message Direction {
-    enum Direction {
-        INLINE = 0;
-        CROSSLINE = 1;
+message GeoJson {
+    // FIXME: Change to use struct! (needs include)
+    string json = 1;
+}
+
+
+// Specify either id or name to find a file or survey.
+message Identifier {
+    oneof findby {
+        string id = 1;
+        string name = 2;
     }
-    Direction direction = 1;
+}
+
+// Geometry can be specified using either wkt or geoJSON. CRS is always required.
+message Geometry {
+    CRS crs = 1;           // required
+    oneof format {
+        Wkt wkt = 2;
+        GeoJson json = 3;
+    }
+}
+
+// Specify either inline OR crossline
+message LineSelect {
+    oneof direction {
+        int32 iline = 1;
+        int32 xline = 2;
+    }
 }
 
 // The underlying array of floats for all traces
@@ -97,10 +106,12 @@ message Trace1D {
     repeated float trace = 2;
 }
 
+// Slice (1D array of traces) that represents one inline or one crossline or a series of traces in a specified direction
 message Trace2D {
     repeated Trace1D trace = 1;
 }
 
+// Volume (2D array of traces)
 message Trace3D {
     repeated Trace2D trace = 1;
 }
