@@ -82,9 +82,14 @@ service Query {
     rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
     /** 
     [Not implemented yet]
-    Finds all surveys for which the coverage area includes a given set of coordinates
+    Finds surveys for which the coverage area includes a given set of coordinates
     **/
-    rpc SearchSurveys (SearchRequest) returns (SearchSurveyListResponse) {}
+    rpc SearchSurveysByGeometry (GeometrySearchRequest) returns (SearchSurveyListResponse) {}
+    /** 
+    [Not implemented yet]
+    Finds surveys by the metadata exact key-value match
+    **/
+    rpc SearchSurveysByMetadata (MetaSearchRequest) returns (SearchSurveyListResponse) {}
     /**
     [Not implemented yet]
     Returns the set of valid crossline indices in a given specified file
