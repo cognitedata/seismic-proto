@@ -96,7 +96,7 @@ message Geometry {
     CRS crs = 1;           // required
     oneof format {
         Wkt wkt = 2;
-        GeoJson json = 3;
+        GeoJson geo = 3;
     }
 }
 

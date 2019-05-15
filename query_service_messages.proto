@@ -132,13 +132,20 @@ message PathQueryRequest {
 }
 
 /**
-Request to search files or surveys inside a polygon or by metadata
+Request to search surveys inside a polygon
 **/
-message SearchRequest {
-    oneof query {
-        Geometry polygon = 1;
-        MetadataFilter metadata_filter = 2;
-    }
+message GeometrySearchRequest {
+    Geometry polygon = 1;
+    bool include_metadata = 2;
+}
+
+/**
+Request to search surveys by metadata
+**/
+message MetaSearchRequest {
+    MetadataFilter metadata_filter = 1;
+    bool over_files = 2;
+    bool include_metadata = 3;
 }
 
 // ---
@@ -188,8 +195,19 @@ message AvailableLines {
     repeated int32 lines = 1;
 }
 
+// message SearchSurveyListResponse {
+//     repeated string name = 1;
+// }
+
 message SearchSurveyListResponse {
-    repeated string name = 1;
+    repeated SurveyWithFiles surveys = 1;
+}
+
+message SurveyWithFiles {
+    string id = 1;
+    string name = 2;
+    map<string, string> metadata = 3;
+    repeated File files = 4;
 }
 
 message GetDataCoverageResponse {
