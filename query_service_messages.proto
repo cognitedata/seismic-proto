@@ -27,7 +27,7 @@ message HeaderFileQueryRequest {
 
 message FileCoverageRequest {
     Identifier file = 1;
-    bool inWkt = 2;              // true to return WKT, false (default) to return geoJson
+    bool in_wkt = 2;              // true to return WKT, false (default) to return geoJson
 }
 
 message NavigationPolygonRequest {
