@@ -25,7 +25,12 @@ message HeaderFileQueryRequest {
     bool include_raw_header = 2; // should the raw text header be included
 }
 
-message SurveyDataCoverageRequest {
+message FileCoverageRequest {
+    Identifier file = 1;
+    bool in_wkt = 2;              // true to return WKT, false (default) to return geoJson
+}
+
+message NavigationPolygonRequest {
     Identifier survey = 1;
 }
 
@@ -210,8 +215,8 @@ message SurveyWithFiles {
     repeated File files = 4;
 }
 
-message GetDataCoverageResponse {
-    GeoJson polygon = 1;
+message DataCoverageResponse {
+    Geometry polygon = 1;
 }
 
 message GetSurveyResponse {
