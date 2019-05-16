@@ -30,7 +30,7 @@ service Query {
     /**
     Returns the coverage polygon for a given file identified by its id or name
     **/
-    rpc GetFileDataCoverage (FileQueryRequest) returns (DataCoverageResponse) {}
+    rpc GetFileDataCoverage (FileCoverageRequest) returns (DataCoverageResponse) {}
     /**
     [Not implemented yet]
     Returns the navigation polygon for the survey obtained from DISKOS
