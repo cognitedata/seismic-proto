@@ -8,6 +8,10 @@ import "types.proto";
 
 // -----
 
+/**
+    [Example]
+    {"name": "surveyname", "metadata": {"location": "underwater"} }
+**/
 message RegisterSurveyRequest {
     string name = 1;                  // [required]
     map<string, string> metadata = 2; // [optional]
@@ -18,7 +22,15 @@ message RegisterSurveyResponse {
 }
 
 // -----
-
+/**
+    [Example]
+    {
+        "survey": {"name": "surveyname"},
+        "name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..J.segy",
+        "path": "gs://cognite-seismic-eu/samples/from-diskos-disks",
+        "crs": { "crs": "EPSG:23031"}
+    }
+**/
 message RegisterFileRequest {
     Identifier survey = 1;             // [required] Either name or id of a survey previously registered with /RegisterSurvey
     string path = 2;                   // [required] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
@@ -33,6 +45,10 @@ message RegisterFileResponse {
 
 // -----
 
+/**
+    [Example]
+    {"file": {"name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..JS-021837.segy"} }
+**/
 message IngestFileRequest {
     Identifier file = 1;  // [required] Either name or id of a file previously registered with /RegisterFile
 }
@@ -44,6 +60,10 @@ message IngestFileResponse {
 
 // -----
 
+/**
+    [Example]
+    {"job_id": "1e9a4f9b-7c15-44dd-bbbb-e9e9fb83e401"}
+**/
 message StatusRequest {
     string job_id = 1;
 }
