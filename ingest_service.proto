@@ -13,19 +13,24 @@ service Ingest {
     /**
     Registers a new survey.
     [Example]
-    {"survey": {"name": "surveyname"}}
+    {"name": "surveyname", "metadata": {"location": "underwater"} }
     **/
     rpc RegisterSurvey (RegisterSurveyRequest) returns (RegisterSurveyResponse) {}
     /**
     Registers a new file in a (previously registered) survey.
     [Example]
-    {"survey_name": "my_survey", "name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..J.segy", "path": "cognite-seismic-eu/samples/from-diskos-disks", "crs": { "crs": "EPSG:23031"} }
+    {
+      "survey": {"name": "surveyname"},
+      "name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..J.segy",
+      "path": "gs://cognite-seismic-eu/samples/from-diskos-disks",
+      "crs": { "crs": "EPSG:23031"}
+    }
     **/
     rpc RegisterFile (RegisterFileRequest) returns (RegisterFileResponse) {}
     /**
     Sends a request for the ingestion of a registered file into the queue. Will return a job id which can be queried for status.
     [Example]
-    {"file_name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..JS-021837.segy"}
+    {"file": {"name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..JS-021837.segy"} }
     **/
     rpc IngestFile (IngestFileRequest) returns (IngestFileResponse) {}
     /**
