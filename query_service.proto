@@ -28,16 +28,16 @@ service Query {
     **/
     rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
     /**
-    [Not implemented yet]
     Returns the coverage polygon for a given file identified by its id or name
     **/
-    rpc GetFileDataCoverage (FileQueryRequest) returns (GetDataCoverageResponse) {}
+    rpc GetFileDataCoverage (FileQueryRequest) returns (DataCoverageResponse) {}
     /**
     [Not implemented yet]
-    Returns the maximum polygon that includes coverage of all files linked to a survey
+    Returns the navigation polygon for the survey obtained from DISKOS
     **/
-    rpc GetSurveyDataCoverage (SurveyDataCoverageRequest) returns (GetDataCoverageResponse) {}
+    rpc GetNavigationPolygon (NavigationPolygonRequest) returns (DataCoverageResponse) {}
     /**
+    [Not implemented yet]
     Returns a single trace given its inline/crossline indices
     **/
     rpc GetTraceByLine (LineTraceQueryRequest) returns (Trace1D) {}
@@ -51,7 +51,6 @@ service Query {
     **/
     rpc GetSliceByLine (LineSliceQueryRequest) returns (Trace2D) {}
     /**
-    [Not implemented yet]
     Returns a slice with all traces with x, y coordinates matching a given arbitrary line
     **/
     rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (Trace2D) {}
