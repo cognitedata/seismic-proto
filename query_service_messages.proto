@@ -211,7 +211,7 @@ message SurveyWithFiles {
 }
 
 message GetDataCoverageResponse {
-    Wkt polygon = 1;
+    GeoJson polygon = 1;
 }
 
 message GetSurveyResponse {
