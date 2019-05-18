@@ -80,12 +80,10 @@ service Query {
     **/
     rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
     /** 
-    [Not implemented yet]
-    Finds surveys for which the coverage area includes a given set of coordinates
+    Finds surveys for which the coverage area intersects with the given set of coordinates
     **/
     rpc SearchSurveysByGeometry (GeometrySearchRequest) returns (SearchSurveyListResponse) {}
     /** 
-    [Not implemented yet]
     Finds surveys by the metadata exact key-value match
     **/
     rpc SearchSurveysByMetadata (MetaSearchRequest) returns (SearchSurveyListResponse) {}
