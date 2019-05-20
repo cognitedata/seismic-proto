@@ -226,8 +226,9 @@ message GetSurveyResponse {
 
 message GetFileResponse {
     File file = 1;
-    bytes binary_header = 2;
-    string text_header = 3;
+    FileStatus status = 2;
+    bytes binary_header = 3;
+    string text_header = 4;
 }
 
 message GetBinaryHeaderResponse {
