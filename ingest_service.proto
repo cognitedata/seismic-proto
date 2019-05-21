@@ -29,5 +29,5 @@ service Ingest {
     /**
     Deletes a file
     **/
-    rpc DeleteFile (DeleteFileRequest) returns (DeleteFileRequest) {}
+    rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse) {}
 }

@@ -71,3 +71,17 @@ message StatusRequest {
 message StatusResponse {
     FileStatus status = 1;
 }
+
+// -----
+
+/**
+    [Example]
+    {"job_id": "1e9a4f9b-7c15-44dd-bbbb-e9e9fb83e401"}
+**/
+message DeleteFileRequest {
+    Identifier file = 1;
+}
+
+message DeleteFileResponse {
+    FileStatus status = 1;
+}
