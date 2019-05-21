@@ -84,4 +84,5 @@ message DeleteFileRequest {
 
 message DeleteFileResponse {
     bool status = 1;
+    Identifier file = 2;
 }
