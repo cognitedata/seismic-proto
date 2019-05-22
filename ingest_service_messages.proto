@@ -71,3 +71,15 @@ message StatusRequest {
 message StatusResponse {
     FileStatus status = 1;
 }
+
+// -----
+
+/**
+    [Example]
+    {"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
+**/
+message DeleteFileRequest {
+    Identifier file = 1; // [required] Either name or id of a file previously registered with /RegisterFile
+}
+
+message DeleteFileResponse {}

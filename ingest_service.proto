@@ -26,4 +26,8 @@ service Ingest {
     Retrieves the status of an ingestion job.
     **/
     rpc Status (StatusRequest) returns (StatusResponse) {}
+    /**
+    Deletes a file
+    **/
+    rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse) {}
 }
