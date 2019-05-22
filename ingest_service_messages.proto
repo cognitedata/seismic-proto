@@ -79,9 +79,7 @@ message StatusResponse {
     {"job_id": "1e9a4f9b-7c15-44dd-bbbb-e9e9fb83e401"}
 **/
 message DeleteFileRequest {
-    string fileId = 1;
+    Identifier file = 1;
 }
 
-message DeleteFileResponse {
-    string status = 1;
-}
+message DeleteFileResponse {}
