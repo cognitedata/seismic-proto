@@ -83,3 +83,34 @@ message DeleteFileRequest {
 }
 
 message DeleteFileResponse {}
+
+// -----
+
+/**
+    [Example]
+    {"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
+**/
+message EditFileRequest {
+    Identifier file = 1; // [required] Either name or id of a file previously registered with /RegisterFile
+    string path = 2;                   // [required] New path. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                   // [required] New (unique) filename. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
+    map<string, string> metadata = 4;  // [optional] New metadata
+}
+
+message EditFileResponse {}
+
+// -----
+
+/**
+    [Example]
+    {"survey": {"name": "97305892-d622-4425-8530-3029b740842e"} }
+**/
+message EditSurveyRequest {
+    Identifier survey = 1;            // [required] Either name or id of a survey previously registered with /RegisterSurvey
+    string name = 2;                  // [optional] New name
+    map<string, string> metadata = 3; // [optional] New metadata
+}
+
+message EditSurveyResponse {
+    Survey survey = 1;
+}

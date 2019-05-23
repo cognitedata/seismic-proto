@@ -30,4 +30,12 @@ service Ingest {
     Deletes a file
     **/
     rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse) {}
+    /**
+    Edit a file
+    **/
+    rpc EditFile (EditFileRequest) returns (EditFileResponse) {}
+    /**
+    Edit a file
+    **/
+    rpc EditSurvey (EditSurveyRequest) returns (EditSurveyResponse) {}
 }
