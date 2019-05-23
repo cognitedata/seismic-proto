@@ -97,7 +97,10 @@ message EditFileRequest {
     map<string, string> metadata = 4;  // [optional] New metadata
 }
 
-message EditFileResponse {}
+message EditFileResponse {
+    File file = 1;
+    string path = 2;
+}
 
 // -----
 
