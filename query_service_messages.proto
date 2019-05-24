@@ -27,7 +27,8 @@ message HeaderFileQueryRequest {
 
 message FileCoverageRequest {
     Identifier file = 1;
-    bool in_wkt = 2;              // true to return WKT, false (default) to return geoJson
+    CRS crs = 2;                  // [optional] If CRS provided converts coverage to given CRS. If to return original.
+    bool in_wkt = 3;              // true to return WKT, false (default) to return geoJson
 }
 
 message NavigationPolygonRequest {
