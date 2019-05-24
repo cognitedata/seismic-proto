@@ -101,6 +101,7 @@ message EditFileRequest {
 message EditFileResponse {
     File file = 1;
     string path = 2;
+    CRS crs = 3;
 }
 
 // -----
