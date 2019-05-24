@@ -82,8 +82,6 @@ message DeleteFileRequest {
     Identifier file = 1; // [required] Either name or id of a file previously registered with /RegisterFile
 }
 
-message DeleteFileResponse {}
-
 // -----
 
 /**
