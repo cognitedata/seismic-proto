@@ -138,19 +138,12 @@ message PathQueryRequest {
 }
 
 /**
-Request to search surveys inside a polygon
+Request to search surveys inside a polygon or by metadata
 **/
 message GeometrySearchRequest {
     Geometry polygon = 1;
-    bool include_metadata = 2;
-}
-
-/**
-Request to search surveys by metadata
-**/
-message MetaSearchRequest {
-    MetadataFilter metadata_filter = 1;
-    bool over_files = 2;
+    MetadataFilter metadata = 2;
+    bool over_files = 3;
     bool include_metadata = 3;
 }
 
