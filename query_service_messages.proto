@@ -144,7 +144,7 @@ message GeometrySearchRequest {
     Geometry polygon = 1;
     MetadataFilter metadata = 2;
     bool over_files = 3;
-    bool include_metadata = 3;
+    bool include_metadata = 4;
 }
 
 // ---
