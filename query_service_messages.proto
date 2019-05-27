@@ -142,8 +142,8 @@ Request to search surveys inside a polygon or by metadata
 **/
 message SearchSurveyRequest {
     Geometry polygon = 1;
-    MetadataFilter surveyMetadata = 2;
-    MetadataFilter fileMetadata = 3;
+    MetadataFilter survey_metadata = 2;
+    MetadataFilter file_metadata = 3;
     bool include_metadata = 4;
 }
 
