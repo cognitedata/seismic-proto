@@ -82,7 +82,7 @@ service Query {
     /** 
     Finds surveys for which the coverage area intersects with the given set of coordinates or exact metadata key-value match
     **/
-    rpc SearchSurveys (GeometrySearchRequest) returns (SearchSurveyListResponse) {}
+    rpc SearchSurveys (SurveySearchRequest) returns (SearchSurveyListResponse) {}
     /**
     [Not implemented yet]
     Returns the set of valid crossline indices in a given specified file
