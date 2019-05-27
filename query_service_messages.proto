@@ -140,7 +140,7 @@ message PathQueryRequest {
 /**
 Request to search surveys inside a polygon or by metadata
 **/
-message SurveySearchRequest {
+message SearchSurveyRequest {
     Geometry polygon = 1;
     MetadataFilter metadata = 2;
     bool over_files = 3;
