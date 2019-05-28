@@ -126,3 +126,13 @@ message Trace3D {
 message SegYQueryResponse {
     bytes content = 1;
 }
+
+/**
+Allows ingestion stages to be skipped if not needed.
+Each of them default to false if not present, i.e., the stage will run by default
+**/
+message StageOptions {
+    bool skip_metadata = 1;
+    bool skip_data = 2;
+    bool skip_coverage = 3;
+}
