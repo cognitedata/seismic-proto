@@ -80,6 +80,12 @@ message StatusResponse {
 **/
 message DeleteFileRequest {
     Identifier file = 1; // [required] Either name or id of a file previously registered with /RegisterFile
+    /*
+     If set to true, will delete the registered file.
+     If set to false, will only delete metadata (undo the ingestion), but keep the registered file as is.
+     If no option is set, default is true
+     */
+    bool unregister_file = 2;
 }
 
 // -----
