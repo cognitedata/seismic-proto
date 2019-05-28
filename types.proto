@@ -17,6 +17,7 @@ enum FileStatus {
     IN_PROGRESS = 2;
     SUCCESS = 3;
     FAILED = 4;
+    INGESTED_NO_COVERAGE = 5;
 }
 
 message File {
@@ -132,7 +133,6 @@ Allows ingestion stages to be skipped if not needed.
 Each of them default to false if not present, i.e., the stage will run by default
 **/
 message StageOptions {
-    bool skip_metadata = 1;
-    bool skip_data = 2;
-    bool skip_coverage = 3;
+    bool skip_ingest = 1;
+    bool skip_coverage = 2;
 }
