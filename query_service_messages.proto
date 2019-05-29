@@ -191,7 +191,7 @@ message PositionQuery {
 // Response messages
 
 message AvailableLines {
-    repeated int32 lines = 1 [packed=true];
+    repeated int32 lines = 1;
 }
 
 // message SearchSurveyListResponse {
