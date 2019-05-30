@@ -52,8 +52,10 @@ message RegisterFileResponse {
 message IngestFileRequest {
     // [required] Either name or id of a file previously registered with /RegisterFile
     Identifier file = 1;
-    // [optional] Allows ingestion stages to be skipped if not needed. If not present, all stages will run.
-    StageOptions stages = 2;
+    // [optional] Allows coverage calculation to be skipped. If not present, will default to false.
+    bool skip_coverage = 2;
+    // [optional] Allows ingestion stage to be skipped. If not present, will default to false.
+    bool skip_ingestion = 3;
 }
 
 message IngestFileResponse {

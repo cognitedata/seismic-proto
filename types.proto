@@ -17,7 +17,8 @@ enum FileStatus {
     IN_PROGRESS = 2;
     SUCCESS = 3;
     FAILED = 4;
-    INGESTED_NO_COVERAGE = 5;
+    INGESTED_WITHOUT_COVERAGE = 5;
+    ALREADY_PROCESSED = 6;
 }
 
 message File {
@@ -128,11 +129,3 @@ message SegYQueryResponse {
     bytes content = 1;
 }
 
-/**
-Allows ingestion stages to be skipped if not needed.
-Each of them default to false if not present, i.e., the stage will run by default
-**/
-message StageOptions {
-    bool skip_ingest = 1;
-    bool skip_coverage = 2;
-}

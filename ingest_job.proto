@@ -12,7 +12,10 @@ message IngestJob {
     // A unique ID we generate for the ingestion job
     string job_id = 3;
 
-    // Allows some stages to be skipped in ingestion
-    StageOptions options = 4;
+    // [optional] Allows coverage calculation to be skipped. If not present, will default to false.
+    bool skip_coverage = 4;
+
+    // [optional] Allows ingestion stage to be skipped. If not present, will default to false.
+    bool skip_ingestion = 5;
 }
 
