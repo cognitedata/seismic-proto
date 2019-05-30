@@ -1,5 +1,6 @@
 syntax = "proto3";
 package com.cognite.seismic;
+import "types.proto";
 
 message IngestJob {
     // To make it easier to use a new message format later
@@ -10,5 +11,11 @@ message IngestJob {
 
     // A unique ID we generate for the ingestion job
     string job_id = 3;
+
+    // [optional] Allows coverage calculation to be skipped. If not present, will default to false.
+    bool skip_coverage = 4;
+
+    // [optional] Allows ingestion stage to be skipped. If not present, will default to false.
+    bool skip_ingestion = 5;
 }
 

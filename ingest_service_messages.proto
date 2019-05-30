@@ -50,7 +50,12 @@ message RegisterFileResponse {
     {"file": {"name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..JS-021837.segy"} }
 **/
 message IngestFileRequest {
-    Identifier file = 1;  // [required] Either name or id of a file previously registered with /RegisterFile
+    // [required] Either name or id of a file previously registered with /RegisterFile
+    Identifier file = 1;
+    // [optional] Allows coverage calculation to be skipped. If not present, will default to false.
+    bool skip_coverage = 2;
+    // [optional] Allows ingestion stage to be skipped. If not present, will default to false.
+    bool skip_ingestion = 3;
 }
 
 message IngestFileResponse {
