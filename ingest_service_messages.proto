@@ -76,6 +76,8 @@ message StatusRequest {
 message StatusResponse {
     FileStatus status = 1;
     string message = 2;
+    string start_time = 2;
+    string end_time = 4;
 }
 
 // -----
