@@ -49,11 +49,13 @@ message LineTraceQueryRequest {
 }
 
 /**
-Request a single trace from a file by coordinates (x AND y)
+Request a single trace from a file by coordinates (x AND y). If x and y don't fall in the coordinates of a trace,
+will return the closest trace to it.
 **/
 message CoordinateTraceQueryRequest {
     Identifier file = 1;
     CoordinateQuery coordinates = 2;
+    float max_radius = 3; // only return traces if closer than this to the actual point in the file
     bool include_trace_header = 4;
 }
 
