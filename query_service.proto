@@ -37,13 +37,12 @@ service Query {
     **/
     rpc GetNavigationPolygon (NavigationPolygonRequest) returns (DataCoverageResponse) {}
     /**
-    [Not implemented yet]
     Returns a single trace given its inline/crossline indices
     **/
     rpc GetTraceByLine (LineTraceQueryRequest) returns (Trace1D) {}
     /**
     [Not implemented yet]
-    Returns a single trace given its coordinates (x,y)
+    Returns the closest trace to a point given its coordinates (x,y)
     **/
     rpc GetTraceByCoordinates (CoordinateTraceQueryRequest) returns (Trace1D) {}
     /** 
@@ -51,7 +50,8 @@ service Query {
     **/
     rpc GetSliceByLine (LineSliceQueryRequest) returns (Trace2D) {}
     /**
-    Returns a slice with all traces with x, y coordinates matching a given arbitrary line
+    [Not implemented yet]
+    Returns a slice with traces closest to a given arbitrary line
     **/
     rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (Trace2D) {}
     /** 
@@ -84,12 +84,10 @@ service Query {
     **/
     rpc SearchSurveys (SearchSurveyRequest) returns (SearchSurveyListResponse) {}
     /**
-    [Not implemented yet]
     Returns the set of valid crossline indices in a given specified file
     **/
     rpc GetFileXLines (FileQueryRequest) returns (AvailableLines) {}
     /**
-    [Not implemented yet]
     Returns the set of valid inline indices in a given specified file
     **/
     rpc GetFileILines (FileQueryRequest) returns (AvailableLines) {}
