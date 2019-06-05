@@ -56,6 +56,9 @@ message IngestFileRequest {
     bool skip_coverage = 2;
     // [optional] Allows ingestion stage to be skipped. If not present, will default to false.
     bool skip_ingestion = 3;
+    //[optional] Force a reingestion or recalculation of coverage, deleting data if it already exists.
+    // Default value is false, which means jobs ingesting data that already exists will fail and not update it.
+    bool force_update = 4;
 }
 
 message IngestFileResponse {
