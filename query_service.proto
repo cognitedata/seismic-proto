@@ -41,7 +41,6 @@ service Query {
     **/
     rpc GetTraceByLine (LineTraceQueryRequest) returns (Trace1D) {}
     /**
-    [Not implemented yet]
     Returns the closest trace to a point given its coordinates (x,y)
     **/
     rpc GetTraceByCoordinates (CoordinateTraceQueryRequest) returns (Trace1D) {}
@@ -50,7 +49,6 @@ service Query {
     **/
     rpc GetSliceByLine (LineSliceQueryRequest) returns (Trace2D) {}
     /**
-    [Not implemented yet]
     Returns a slice with traces closest to a given arbitrary line
     **/
     rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (Trace2D) {}

@@ -32,11 +32,11 @@ service Ingest {
     **/
     rpc DeleteFile (DeleteFileRequest) returns (google.protobuf.Empty) {}
     /**
-    Edit a file
+    Updates file metadata
     **/
     rpc EditFile (EditFileRequest) returns (EditFileResponse) {}
     /**
-    Edit a file
+    Updates survey metadata
     **/
     rpc EditSurvey (EditSurveyRequest) returns (EditSurveyResponse) {}
 }
