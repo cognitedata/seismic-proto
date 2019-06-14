@@ -95,10 +95,9 @@ enum JobStatus {
 }
 
 enum FileStatus {
-    NONE = 0;
-    REGISTERED = 1;
-    PARTIALLY_INGESTED = 2;
-    DATA_INGESTED = 3;
-    FULLY_INGESTED = 4;
-    DELETED = 5;
+    REGISTERED = 0;
+    PARTIALLY_INGESTED = 1;
+    DATA_INGESTED = 2;
+    FULLY_INGESTED = 3;
+    DELETED = 4;
 }
