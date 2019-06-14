@@ -22,11 +22,11 @@ service Query {
     /**
     Returns a binary header given its file name or id.
     **/
-    rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
+    rpc GetBinaryHeader (HeaderFileQueryRequest) returns (BinaryHeader) {}
     /**
     Returns a text header given its file name or id.
     **/
-    rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
+    rpc GetTextHeader (HeaderFileQueryRequest) returns (TextHeader) {}
     /**
     Returns the coverage polygon for a given file identified by its id or name
     **/

@@ -1,7 +1,11 @@
+/**
+Messages for types used in ingestion and query services in Seismic Datastore in Cognite Data Fusion
+**/
 syntax = "proto3";
 package com.cognite.seismic;
 
 import "google/protobuf/struct.proto";
+
 // -----
 
 message Survey {
@@ -10,67 +14,19 @@ message Survey {
     map<string, string> metadata = 3;
 }
 
-// -----
-enum JobStatus {
-    NONE = 0;
-    QUEUED = 1;
-    IN_PROGRESS = 2;
-    SUCCESS = 3;
-    FAILED = 4;
-    INGESTED_WITHOUT_COVERAGE = 5;
-    ALREADY_PROCESSED = 6;
-}
-
-enum FileStatus {
-    NONE = 0;
-    REGISTERED = 1;
-    PARTIALLY_INGESTED = 2;
-    DATA_INGESTED = 3;
-    FULLY_INGESTED = 4;
-    DELETED = 5;
-}
-
-
 message File {
     string id = 1;
     string name = 2;
-    map<string, string> metadata = 3;
+    string survey_name = 3;
+    map<string, string> metadata = 4;
 }
 
-message TextHeader {
-    string file_id = 1;
-    string header = 2;
-    string raw_header = 3;
-}
-
-message BinaryHeader {
-    string file_id = 1;
-    int32 traces = 2;
-    int32 trace_data_type = 3;
-    int32 fixed_length_traces = 4;
-    int32 segy_revision = 5;
-    int32 auxtraces = 6;
-    int32 interval = 7;
-    int32 interval_original = 8;
-    int32 samples = 9;
-    int32 samples_original = 10;
-    int32 ensemble_fold = 11;
-    int32 vertical_sum = 12;
-    int32 trace_type_sorting_code = 13;
-    int32 sweep_type_code = 14;
-    int32 sweep_frequency_start = 15;
-    int32 sweep_frequency_end = 16;
-    int32 sweep_length = 17;
-    int32 sweep_channel = 18;
-    int32 sweep_taper_start = 19;
-    int32 sweep_taper_end = 20;
-    int32 sweep_taper_type = 21;
-    int32 correlated_traces = 22;
-    int32 amplitude_recovery = 23;
-    int32 original_measurement_system = 24;
-    int32 impulse_signal_polarity = 25;
-    int32 vibratory_polarity_code = 26;
-    bytes raw_header = 27;
+// Specify either id or name to find a file or survey.
+message Identifier {
+    oneof findby {
+        string id = 1;
+        string name = 2;
+    }
 }
 
 message CRS {
@@ -91,15 +47,6 @@ message Wkt {
 // }</pre>
 message GeoJson {
     google.protobuf.Struct json = 1;
-}
-
-
-// Specify either id or name to find a file or survey.
-message Identifier {
-    oneof findby {
-        string id = 1;
-        string name = 2;
-    }
 }
 
 // Geometry can be specified using either wkt or geoJSON. CRS is always required.
@@ -135,7 +82,23 @@ message Trace3D {
     repeated Trace2D trace = 1;
 }
 
-message SegYQueryResponse {
-    bytes content = 1;
+// -----
+
+enum JobStatus {
+    NONE = 0;
+    QUEUED = 1;
+    IN_PROGRESS = 2;
+    SUCCESS = 3;
+    FAILED = 4;
+    INGESTED_WITHOUT_COVERAGE = 5;
+    ALREADY_PROCESSED = 6;
 }
 
+enum FileStatus {
+    NONE = 0;
+    REGISTERED = 1;
+    PARTIALLY_INGESTED = 2;
+    DATA_INGESTED = 3;
+    FULLY_INGESTED = 4;
+    DELETED = 5;
+}

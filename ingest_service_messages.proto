@@ -1,5 +1,5 @@
 /**
-Messages used by methods in Ingest
+Messages from the ingestion service of Seismic Datastore in Cognite Data Fusion
 **/
 syntax = "proto3";
 package com.cognite.seismic;
