@@ -11,8 +11,8 @@ message Survey {
 }
 
 // -----
-enum FileStatus {
-    REGISTERED = 0;
+enum JobStatus {
+    NONE = 0;
     QUEUED = 1;
     IN_PROGRESS = 2;
     SUCCESS = 3;
@@ -20,6 +20,16 @@ enum FileStatus {
     INGESTED_WITHOUT_COVERAGE = 5;
     ALREADY_PROCESSED = 6;
 }
+
+enum FileStatus {
+    NONE = 0;
+    REGISTERED = 1;
+    PARTIALLY_INGESTED = 2;
+    DATA_INGESTED = 3;
+    FULLY_INGESTED = 4;
+    DELETED = 5;
+}
+
 
 message File {
     string id = 1;

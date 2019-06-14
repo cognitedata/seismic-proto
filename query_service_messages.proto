@@ -222,9 +222,8 @@ message GetSurveyResponse {
 
 message GetFileResponse {
     File file = 1;
-    FileStatus status = 2;
-    bytes binary_header = 3;
-    string text_header = 4;
+    Survey survey = 2;
+    FileStatus status = 3;
 }
 
 message GetBinaryHeaderResponse {
