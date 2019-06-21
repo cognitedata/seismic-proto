@@ -52,13 +52,23 @@ message RegisterFileResponse {
 message IngestFileRequest {
     // [required] Either name or id of a file previously registered with /RegisterFile
     Identifier file = 1;
-    // [optional] Allows coverage calculation to be skipped. If not present, will default to false.
-    bool skip_coverage = 2;
-    // [optional] Allows ingestion stage to be skipped. If not present, will default to false.
-    bool skip_ingestion = 3;
-    //[optional] Force a reingestion or recalculation of coverage, deleting data if it already exists.
-    // Default value is false, which means jobs ingesting data that already exists will fail and not update it.
-    bool force_update = 4;
+
+    // [optional] Selected steps to perform. Leave blank for default behaviour (complete ingestion).
+    // If start_step is blank, ingestion will by default start from last step successfully taken
+    // If end_step is left blank, ingestion will by default proceed until completion
+    // Accepted values:
+    // 1 -- insert binary and text headers
+    // 2 -- insert trace headers
+    // 3 -- insert trace data
+    // 4 -- compute coverage polygon and additional metadata (trace count, valid lines, etc)
+    // Usage examples:
+    // If the last successful step was REGISTER and no step is selected, it will perform a full ingestion
+    // If the the last successful step was REGISTER and end_step is INSERT_TRACE_HEADERS, only the headers will be inserted
+    // If the last successful step was INSERT_TRACE_HEADERS, and no step is selected, coverage will be computed,
+    // and previously ingested headers and traces will be preserved
+    // If the last successful step was INSERT_TRACE_HEADERS and start_step is INSERT_FILE_HEADERS, all headers
+    // and data will be deleted and the whole file will be reingested
+    StepRange steps = 2;
 }
 
 message IngestFileResponse {

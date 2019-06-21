@@ -89,14 +89,18 @@ enum JobStatus {
     IN_PROGRESS = 2;
     SUCCESS = 3;
     FAILED = 4;
-    INGESTED_WITHOUT_COVERAGE = 5;
-    ALREADY_PROCESSED = 6;
 }
 
-enum FileStatus {
-    REGISTERED = 0;
-    PARTIALLY_INGESTED = 1;
-    DATA_INGESTED = 2;
-    FULLY_INGESTED = 3;
-    DELETED = 4;
+enum FileStep {
+    REGISTER = 0;
+    INSERT_FILE_HEADERS = 1;
+    INSERT_TRACE_HEADERS = 2;
+    INSERT_DATA = 3;
+    COMPUTE_COVERAGE = 4;
+    DELETE = 255;
+}
+
+message StepRange {
+    int32 start_step = 1;
+    int32 end_step = 2;
 }

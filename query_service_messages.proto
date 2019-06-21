@@ -219,7 +219,7 @@ message GetSurveyResponse {
 message GetFileResponse {
     File file = 1;
     string survey_name = 2;
-    FileStatus status = 3;
+    FileStep last_step = 3;
 }
 
 message GetBinaryHeaderResponse {
