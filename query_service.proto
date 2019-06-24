@@ -16,6 +16,10 @@ service Query {
     **/
     rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
     /**
+    Returns a list of all surveys
+    **/
+    rpc ListSurveys (ListSurveysQueryRequest) returns (ListSurveysResponse) {}
+    /**
     Returns a file given its name or id.
     **/
     rpc GetFile (FileQueryRequest) returns (GetFileResponse) {}

@@ -16,6 +16,11 @@ message SurveyQueryRequest {
     bool include_metadata = 3; // should metadata be included in the result
 }
 
+message ListSurveysQueryRequest {
+    bool list_files = 1;       // see above
+    bool include_metadata = 2;
+}
+
 message FileQueryRequest {
     Identifier file = 1;
 }
@@ -218,6 +223,10 @@ message DataCoverageResponse {
 message GetSurveyResponse {
     Survey survey = 1;
     repeated File files = 2;
+}
+
+message ListSurveysResponse {
+    repeated GetSurveyResponse surveys = 1;
 }
 
 message GetFileResponse {
