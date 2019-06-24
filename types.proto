@@ -99,8 +99,3 @@ enum FileStep {
     COMPUTE_COVERAGE = 4;
     DELETE = 255;
 }
-
-message StepRange {
-    int32 start_step = 1;
-    int32 end_step = 2;
-}

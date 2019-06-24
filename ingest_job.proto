@@ -13,7 +13,8 @@ message IngestJob {
     // A unique ID we generate for the ingestion job
     string job_id = 3;
 
-    // [optional] Selected steps. Leave blank for complete ingestion. More details on IngestFileRequest message description
-    StepRange steps = 4;
+    // [optional] Selected step to start ingestion. Leave blank to start from last completed step.
+    // More details on IngestFileRequest message description
+    FileStep start_step = 4;
 }
 
