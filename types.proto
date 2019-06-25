@@ -127,10 +127,10 @@ message Trace3D {
 
 message SegYQueryResponse {
     enum Type {
-        TEXT_HEADER = 1;
-        BINARY_HEADER = 2;
-        TRACE_HEADER = 3;
-        TRACE = 4;
+        TEXT_HEADER = 0;
+        BINARY_HEADER = 1;
+        TRACE_HEADER = 2;
+        TRACE = 3;
     }
     Type type = 1;
     bytes content = 2;
