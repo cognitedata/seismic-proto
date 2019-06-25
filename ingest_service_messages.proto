@@ -74,7 +74,7 @@ message IngestFileRequest {
            If the file is ingested (last step is COMPUTE_COVERAGE), by using start_step = 4 (COMPUTE_COVERAGE),
            for example, only coverage will be computed while headers and traces will be preserved
     **/
-    FileStep start_step = 4;
+    FileStep start_step = 2;
  }
 
 message IngestFileResponse {
