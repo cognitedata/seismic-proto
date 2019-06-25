@@ -205,7 +205,7 @@ message AvailableLines {
 //     repeated string name = 1;
 // }
 
-message SearchSurveyListResponse {
+message SurveyWithFilesResponse {
     repeated SurveyWithFiles surveys = 1;
 }
 
@@ -223,10 +223,6 @@ message DataCoverageResponse {
 message GetSurveyResponse {
     Survey survey = 1;
     repeated File files = 2;
-}
-
-message ListSurveysResponse {
-    repeated GetSurveyResponse surveys = 1;
 }
 
 message GetFileResponse {
