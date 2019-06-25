@@ -226,7 +226,7 @@ message GetSurveyResponse {
 }
 
 message ListSurveysResponse {
-    repeated GetSurveyResponse surveys = 1;
+    repeated SurveyWithFiles surveys = 1;
 }
 
 message GetFileResponse {
