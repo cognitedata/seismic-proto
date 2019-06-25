@@ -18,7 +18,7 @@ service Query {
     /**
     Returns a list of all surveys
     **/
-    rpc ListSurveys (ListSurveysQueryRequest) returns (ListSurveysResponse) {}
+    rpc ListSurveys (ListSurveysQueryRequest) returns (SurveyWithFilesResponse) {}
     /**
     Returns a file given its name or id.
     **/
@@ -84,7 +84,7 @@ service Query {
     /** 
     Finds surveys for which the coverage area intersects with the given set of coordinates or exact metadata key-value match
     **/
-    rpc SearchSurveys (SearchSurveyRequest) returns (SearchSurveyListResponse) {}
+    rpc SearchSurveys (SearchSurveyRequest) returns (SurveyWithFilesResponse) {}
     /**
     Returns the set of valid crossline indices in a given specified file
     **/
