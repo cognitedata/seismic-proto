@@ -25,6 +25,11 @@ message FileQueryRequest {
     Identifier file = 1;
 }
 
+message FileLineQueryRequest {
+    Identifier file = 1;
+    int32 line = 2;
+}
+
 message HeaderFileQueryRequest {
     Identifier file = 1;
     bool include_raw_header = 2; // should the raw text header be included
@@ -199,6 +204,11 @@ message PositionQuery {
 
 message AvailableLines {
     repeated int32 lines = 1;
+}
+
+message LineRangeResponse {
+    LineDescriptor inline = 1;
+    LineDescriptor xline = 2;
 }
 
 // message SearchSurveyListResponse {
