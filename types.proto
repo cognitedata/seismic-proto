@@ -27,6 +27,12 @@ message File {
     map<string, string> metadata = 3;
 }
 
+message LineDescriptor {
+    int32 min = 1;
+    int32 max = 2;
+    //int32 range = 3;
+}
+
 message TextHeader {
     string file_id = 1;
     string header = 2;
@@ -126,13 +132,5 @@ message Trace3D {
 }
 
 message SegYQueryResponse {
-    enum HeaderType {
-        TEXT_HEADER = 0;
-        BINARY_HEADER = 1;
-        TRACE_HEADER = 2;
-        TRACE = 3;
-    }
-    HeaderType header_type = 1;
-    bytes content = 2;
+    bytes content = 1;
 }
-
