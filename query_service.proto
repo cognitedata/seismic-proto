@@ -86,15 +86,15 @@ service Query {
     **/
     rpc SearchSurveys (SearchSurveyRequest) returns (SurveyWithFilesResponse) {}
     /**
-    Returns the set of valid crossline indices in a given specified file
+    Returns the range of the inlines and crosslines in the file
     **/
     rpc GetFileLineRange (FileQueryRequest) returns (LineRangeResponse) {}
     /**
-    Returns the set of valid crossline indices in a given specified file
+    Returns the set of valid crossline indices for a specific inline, in a given file
     **/
     rpc GetFileXLines (FileLineQueryRequest) returns (AvailableLines) {}
     /**
-    Returns the set of valid inline indices in a given specified file
+    Returns the set of valid inline indices for a specific crossline, in a given file
     **/
     rpc GetFileILines (FileLineQueryRequest) returns (AvailableLines) {}
     /**
