@@ -92,11 +92,11 @@ service Query {
     /**
     Returns the set of valid crossline indices for a specific inline, in a given file
     **/
-    rpc GetFileXLines (FileLineQueryRequest) returns (AvailableLines) {}
+    rpc GetCrosslinesByInline (FileLineQueryRequest) returns (AvailableLines) {}
     /**
     Returns the set of valid inline indices for a specific crossline, in a given file
     **/
-    rpc GetFileILines (FileLineQueryRequest) returns (AvailableLines) {}
+    rpc GetInlinesByCrossline (FileLineQueryRequest) returns (AvailableLines) {}
     /**
     [Not implemented yet]
     Returns a pseudo-trace with the values corresponding to an arbitrary 3D path. Suitable for correlating with wells.
