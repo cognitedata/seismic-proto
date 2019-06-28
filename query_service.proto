@@ -16,6 +16,10 @@ service Query {
     **/
     rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
     /**
+    Returns a list of all surveys
+    **/
+    rpc ListSurveys (ListSurveysQueryRequest) returns (SurveyWithFilesResponse) {}
+    /**
     Returns a file given its name or id.
     **/
     rpc GetFile (FileQueryRequest) returns (GetFileResponse) {}
@@ -80,15 +84,19 @@ service Query {
     /** 
     Finds surveys for which the coverage area intersects with the given set of coordinates or exact metadata key-value match
     **/
-    rpc SearchSurveys (SearchSurveyRequest) returns (SearchSurveyListResponse) {}
+    rpc SearchSurveys (SearchSurveyRequest) returns (SurveyWithFilesResponse) {}
     /**
-    Returns the set of valid crossline indices in a given specified file
+    Returns the range of the inlines and crosslines in the file
     **/
-    rpc GetFileXLines (FileQueryRequest) returns (AvailableLines) {}
+    rpc GetFileLineRange (FileQueryRequest) returns (LineRangeResponse) {}
     /**
-    Returns the set of valid inline indices in a given specified file
+    Returns the set of valid crossline indices for a specific inline, in a given file
     **/
-    rpc GetFileILines (FileQueryRequest) returns (AvailableLines) {}
+    rpc GetCrosslinesByInline (FileLineQueryRequest) returns (AvailableLines) {}
+    /**
+    Returns the set of valid inline indices for a specific crossline, in a given file
+    **/
+    rpc GetInlinesByCrossline (FileLineQueryRequest) returns (AvailableLines) {}
     /**
     [Not implemented yet]
     Returns a pseudo-trace with the values corresponding to an arbitrary 3D path. Suitable for correlating with wells.

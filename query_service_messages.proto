@@ -16,8 +16,18 @@ message SurveyQueryRequest {
     bool include_metadata = 3; // should metadata be included in the result
 }
 
+message ListSurveysQueryRequest {
+    bool list_files = 1;       // see above
+    bool include_metadata = 2;
+}
+
 message FileQueryRequest {
     Identifier file = 1;
+}
+
+message FileLineQueryRequest {
+    Identifier file = 1;
+    int32 line = 2;
 }
 
 message HeaderFileQueryRequest {
@@ -196,7 +206,12 @@ message AvailableLines {
     repeated int32 lines = 1;
 }
 
-message SearchSurveyListResponse {
+message LineRangeResponse {
+    LineDescriptor inline = 1;
+    LineDescriptor xline = 2;
+}
+
+message SurveyWithFilesResponse {
     repeated SurveyWithFiles surveys = 1;
 }
 

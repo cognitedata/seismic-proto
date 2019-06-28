@@ -17,7 +17,7 @@ message Survey {
 message File {
     string id = 1;
     string name = 2;
-    map<string, string> metadata = 4;
+    map<string, string> metadata = 3;
 }
 
 // Specify either id or name to find a file or survey.
@@ -26,6 +26,12 @@ message Identifier {
         string id = 1;
         string name = 2;
     }
+}
+
+message LineDescriptor {
+    int32 min = 1;
+    int32 max = 2;
+    //int32 range = 3;
 }
 
 message CRS {
@@ -98,4 +104,8 @@ enum FileStep {
     INSERT_DATA = 3;
     COMPUTE_COVERAGE = 4;
     DELETE = 255;
+}
+
+message SegYQueryResponse {
+    bytes content = 1;
 }
