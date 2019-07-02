@@ -95,6 +95,7 @@ enum JobStatus {
     IN_PROGRESS = 2;
     SUCCESS = 3;
     FAILED = 4;
+    TIMEOUT = 5;
 }
 
 enum FileStep {
