@@ -1,5 +1,5 @@
 /**
-Messages used by methods in Ingest
+Messages from the ingestion service of Seismic Datastore in Cognite Data Fusion
 **/
 syntax = "proto3";
 package com.cognite.seismic;
@@ -22,6 +22,7 @@ message RegisterSurveyResponse {
 }
 
 // -----
+
 /**
     [Example]
     {
@@ -52,17 +53,32 @@ message RegisterFileResponse {
 message IngestFileRequest {
     // [required] Either name or id of a file previously registered with /RegisterFile
     Identifier file = 1;
-    // [optional] Allows coverage calculation to be skipped. If not present, will default to false.
-    bool skip_coverage = 2;
-    // [optional] Allows ingestion stage to be skipped. If not present, will default to false.
-    bool skip_ingestion = 3;
-    //[optional] Force a reingestion or recalculation of coverage, deleting data if it already exists.
-    // Default value is false, which means jobs ingesting data that already exists will fail and not update it.
-    bool force_update = 4;
-}
+
+    /**
+        [optional] Selected step to start ingestion. Leave blank to start from last completed step.
+        [Accepted values]
+           1 -- insert binary and text headers
+           2 -- insert trace headers
+           3 -- insert trace data
+           4 -- compute coverage polygon and additional metadata (trace count, valid lines, etc)
+        [Use cases]
+        * Usual ingestion:
+           If the last successful step was 0 (REGISTER), the file will be fully ingested regardless of start_step
+        * Completing a failed ingestion:
+           If the last successful step was 3 (INSERT_DATA), and no start step is selected, only coverage will be
+           computed. Previously ingested headers and traces will be preserved in this case.
+        * Forcing reingestion:
+           If start_step is 1 (INSERT_FILE_HEADERS), regardless of previous ingestion status, all headers
+           and data will be deleted and the whole file will be forcefully reingested
+        * Forcing a single step to be rerun:
+           If the file is ingested (last step is COMPUTE_COVERAGE), by using start_step = 4 (COMPUTE_COVERAGE),
+           for example, only coverage will be computed while headers and traces will be preserved
+    **/
+    FileStep start_step = 2;
+ }
 
 message IngestFileResponse {
-    string job_id = 1;  //job id that can be queried for status of the ingestion
+    string job_id = 1;  //job id that can be used to query for status
     string file_id = 2;
 }
 
@@ -77,7 +93,7 @@ message StatusRequest {
 }
 
 message StatusResponse {
-    FileStatus status = 1;
+    JobStatus status = 1;
     string message = 2;
     string started_at = 3;
     string updated_at = 4;
