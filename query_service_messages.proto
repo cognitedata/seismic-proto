@@ -233,8 +233,10 @@ message GetSurveyResponse {
 
 message GetFileResponse {
     File file = 1;
-    string survey_name = 2;
-    string last_step = 3;
+    string crs = 2;
+    string path = 3;
+    string survey_name = 4;
+    string last_step = 5;
 }
 
 message GetBinaryHeaderResponse {
