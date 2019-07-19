@@ -168,9 +168,7 @@ Range of inline and crossline indices defining a 2D region
 **/
 message LineBasedRectangle {
     PositionQuery top_left = 1;
-    PositionQuery bottom_left = 2;
-    PositionQuery bottom_right = 3;
-    PositionQuery top_right = 4;
+    PositionQuery bottom_right = 2;
 }
 
 message MetadataFilter {
