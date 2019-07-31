@@ -82,6 +82,10 @@ message Trace2D {
     repeated Trace1D trace = 1;
 }
 
+message StreamTrace2D {
+    Trace1D trace = 1;
+}
+
 // Volume (2D array of traces)
 message Trace3D {
     repeated Trace2D trace = 1;
