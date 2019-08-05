@@ -65,7 +65,7 @@ service Query {
     [Not implemented yet]
     Returns a volume with all traces with x, y coordinates inside an arbitrary 2D polygon
     **/
-    rpc GetCubeByGeometry (GeometryCubeRequest) returns (Trace3D) {}
+    rpc GetCubeByGeometry (GeometryCubeRequest) returns (stream StreamTrace1D) {}
     /**
     [Not implemented yet]
     Returns a horizontal slice for a given depth or time and constrained by a range of inlines and crosslines
