@@ -51,7 +51,7 @@ service Query {
     /** 
     Returns all traces in a slice (inline or crossline) given its index
     **/
-    rpc GetSliceByLine (LineSliceQueryRequest) returns (stream StreamTrace2D) {}
+    rpc GetSliceByLine (LineSliceQueryRequest) returns (stream StreamTrace1D) {}
     /**
     Returns a slice with traces closest to a given arbitrary line
     **/
@@ -60,7 +60,7 @@ service Query {
     [Not implemented yet]
     Returns a volume with all traces inside a given range of inlines and a given range of crosslines
     **/
-    rpc GetCubeByLines (LineCubeRequest) returns (Trace3D) {}
+    rpc GetCubeByLines (LineCubeRequest) returns (stream StreamTrace1D) {}
     /**
     [Not implemented yet]
     Returns a volume with all traces with x, y coordinates inside an arbitrary 2D polygon

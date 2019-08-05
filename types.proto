@@ -82,7 +82,7 @@ message Trace2D {
     repeated Trace1D trace = 1;
 }
 
-message StreamTrace2D {
+message StreamTrace1D {
     Trace1D trace = 1;
 }
 
