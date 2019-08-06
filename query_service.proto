@@ -51,7 +51,7 @@ service Query {
     /** 
     Returns all traces in a slice (inline or crossline) given its index
     **/
-    rpc GetSliceByLine (LineSliceQueryRequest) returns (stream StreamTrace2D) {}
+    rpc GetSliceByLine (LineSliceQueryRequest) returns (stream Trace1D) {}
     /**
     Returns a slice with traces closest to a given arbitrary line
     **/
