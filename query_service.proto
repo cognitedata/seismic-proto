@@ -55,7 +55,7 @@ service Query {
     /**
     Returns a slice with traces closest to a given arbitrary line
     **/
-    rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (Trace2D) {}
+    rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (stream StreamTrace1D) {}
     /** 
     [Not implemented yet]
     Returns a volume with all traces inside a given range of inlines and a given range of crosslines
