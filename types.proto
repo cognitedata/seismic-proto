@@ -94,5 +94,6 @@ enum FileStep {
     INSERT_TRACE_HEADERS = 2;
     INSERT_DATA = 3;
     COMPUTE_COVERAGE = 4;
+    DELETING = 254;
     DELETE = 255;
 }
