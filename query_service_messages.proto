@@ -85,7 +85,6 @@ message GeometrySliceQueryRequest {
     Identifier file = 1;
     Geometry arbitrary_line = 2;
     bool include_trace_header = 3;
-    InterpolationMethod = 4;
 }
 
 /**
