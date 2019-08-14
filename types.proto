@@ -97,3 +97,8 @@ enum FileStep {
     DELETING = 254;
     DELETE = 255;
 }
+
+enum InterpolationMethod {
+    LINEAR = 0;
+    STEP = 1;
+}
