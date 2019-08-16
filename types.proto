@@ -99,6 +99,6 @@ enum FileStep {
 }
 
 enum InterpolationMethod {
-    LINEAR = 0;
-    STEP = 1;
+    INVERSE_DISTANCE_WEIGHTING = 0;
+    NEAREST_TRACE = 1;
 }
