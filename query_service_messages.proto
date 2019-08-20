@@ -70,12 +70,13 @@ message CoordinateTraceQueryRequest {
 }
 
 /**
-Request a slice of traces from a file by index (inline OR crossline)
+Request a slice of traces from a file by index (inline OR crossline), and optionally specify min and max range
 **/
 message LineSliceQueryRequest {
     Identifier file = 1;
     LineSelect line = 2;
     bool include_trace_header = 3;
+    LineDescriptor range = 4;
 }
 
 /**
