@@ -49,7 +49,7 @@ service Query {
     **/
     rpc GetTraceByCoordinates (CoordinateTraceQueryRequest) returns (Trace) {}
     /** 
-    Returns all traces in a slice (inline or crossline) given its index
+    Returns all or a subset of traces in a slice (inline or crossline) given its index (and optionally from/to)
     **/
     rpc GetSliceByLine (LineSliceQueryRequest) returns (stream Trace) {}
     /**

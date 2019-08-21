@@ -71,6 +71,11 @@ message LineSelect {
     }
 }
 
+message LineRange {
+    int32 from = 1;
+    int32 to = 2;
+}
+
 // The underlying array of floats for all traces
 message Trace {
     bytes trace_header = 1;
