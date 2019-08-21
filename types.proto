@@ -102,3 +102,8 @@ enum FileStep {
     DELETING = 254;
     DELETE = 255;
 }
+
+enum InterpolationMethod {
+    NEAREST_TRACE = 0;
+    INVERSE_DISTANCE_WEIGHTING = 1;
+}
