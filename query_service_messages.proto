@@ -76,7 +76,8 @@ message LineSliceQueryRequest {
     Identifier file = 1;
     LineSelect line = 2;
     bool include_trace_header = 3;
-    LineDescriptor range = 4;
+    int32 from = 4;
+    int32 to = 5;
 }
 
 /**
