@@ -56,23 +56,19 @@ service Query {
     Returns a slice with traces closest to a given arbitrary line
     **/
     rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (stream Trace) {}
-    /** 
-    [Not implemented yet]
+    /**
     Returns a volume with all traces inside a given range of inlines and a given range of crosslines
     **/
     rpc GetCubeByLines (LineCubeRequest) returns (stream Trace) {}
     /**
-    [Not implemented yet]
     Returns a volume with all traces with x, y coordinates inside an arbitrary 2D polygon
     **/
     rpc GetCubeByGeometry (GeometryCubeRequest) returns (stream Trace) {}
     /**
-    [Not implemented yet]
     Returns a horizontal slice for a given depth or time and constrained by a range of inlines and crosslines
     **/
     rpc GetTimeSliceByLine (LineTimeSliceQueryRequest) returns (stream Trace) {}
     /**
-    [Not implemented yet]
     Returns a horizontal slice for a given depth or time and constrained by an arbitrary 2D polygon
     **/
     rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (stream Trace) {}
