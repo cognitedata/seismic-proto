@@ -5,6 +5,7 @@ syntax = "proto3";
 package com.cognite.seismic;
 
 import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
 
 // -----
 
@@ -69,6 +70,12 @@ message LineSelect {
         int32 iline = 1;
         int32 xline = 2;
     }
+}
+
+// Object to store the line range. From and to are optional
+message LineRange {
+    google.protobuf.Int32Value from = 1;
+    google.protobuf.Int32Value to = 2;
 }
 
 // The underlying array of floats for all traces
