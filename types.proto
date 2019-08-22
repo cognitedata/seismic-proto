@@ -77,6 +77,13 @@ message Trace {
     repeated float trace = 2;
 }
 
+// A single value at a specific index of a trace at iline and xline
+message SurfacePoint {
+    int32 iline = 1;
+    int32 xline = 2;
+    float value = 3;
+}
+
 // -----
 
 enum JobStatus {
