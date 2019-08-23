@@ -71,7 +71,7 @@ service Query {
     /**
     Returns a horizontal slice for a given depth or time and constrained by an arbitrary 2D polygon
     **/
-    rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (stream Trace) {}
+    rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (stream SurfacePoint) {}
     /** 
     [Not implemented yet]
     Returns a full SEGY file
