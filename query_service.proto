@@ -67,7 +67,7 @@ service Query {
     /**
     Returns a horizontal slice for a given depth or time and constrained by a range of inlines and crosslines
     **/
-    rpc GetTimeSliceByLine (LineTimeSliceQueryRequest) returns (stream Trace) {}
+    rpc GetTimeSliceByLines (LineTimeSliceQueryRequest) returns (stream SurfacePoint) {}
     /**
     Returns a horizontal slice for a given depth or time and constrained by an arbitrary 2D polygon
     **/
