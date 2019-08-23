@@ -81,7 +81,9 @@ message LineRange {
 // The underlying array of floats for all traces
 message Trace {
     bytes trace_header = 1;
-    repeated float trace = 2;
+    int32 iline = 2;
+    int32 xline = 3;
+    repeated float trace = 4;
 }
 
 // A single value at a specific index of a trace at iline and xline
