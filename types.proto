@@ -81,8 +81,8 @@ message LineRange {
 // The underlying array of floats for all traces
 message Trace {
     bytes trace_header = 1;
-    int32 iline = 2;
-    int32 xline = 3;
+    google.protobuf.Int32Value iline = 2;
+    google.protobuf.Int32Value xline = 3;
     repeated float trace = 4;
 }
 
