@@ -5,6 +5,7 @@ syntax = "proto3";
 package com.cognite.seismic;
 
 import "types.proto";
+import "google/protobuf/wrappers.proto";
 
 // ---
 
@@ -85,8 +86,7 @@ Request a slice of traces from a file by coordinates of start and end of an arbi
 message GeometrySliceQueryRequest {
     Identifier file = 1;
     Geometry arbitrary_line = 2;
-    bool include_trace_header = 3;
-    InterpolationMethod interpolation_method = 4;
+    InterpolationMethod interpolation_method = 3;
 }
 
 /**
@@ -113,7 +113,7 @@ Request a time slice from a file and filter by range of inlines and crosslines
 message LineTimeSliceQueryRequest {
     Identifier file = 1;
     LineBasedRectangle rectangle = 2;
-    int32 z = 3;             // either time or depth according to the file
+    google.protobuf.Int32Value z = 3;             // either time or depth according to the file
 }
 
 /**
@@ -122,7 +122,7 @@ Request a time slice from a file and filter by coordinates inside an arbitrary p
 message GeometryTimeSliceQueryRequest {
     Identifier file = 1;
     Geometry geometry = 2;
-    int32 z = 3;             // either time or depth according to the file
+    google.protobuf.Int32Value z = 3;             // either time or depth according to the file
 }
 
 
