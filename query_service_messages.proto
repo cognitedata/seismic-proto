@@ -85,8 +85,7 @@ Request a slice of traces from a file by coordinates of start and end of an arbi
 message GeometrySliceQueryRequest {
     Identifier file = 1;
     Geometry arbitrary_line = 2;
-    bool include_trace_header = 3;
-    InterpolationMethod interpolation_method = 4;
+    InterpolationMethod interpolation_method = 3;
 }
 
 /**
