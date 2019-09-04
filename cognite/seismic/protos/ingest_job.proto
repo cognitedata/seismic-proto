@@ -1,7 +1,7 @@
 syntax = "proto3";
 package com.cognite.seismic;
 
-import "types.proto";
+import "cognite/seismic/protos/types.proto";
 
 message IngestJob {
     // To make it easier to use a new message format later
@@ -15,6 +15,6 @@ message IngestJob {
 
     // [optional] Selected step to start ingestion. Leave blank to start from last completed step.
     // More details on IngestFileRequest message description
-    FileStep start_step = 4;
+    cognite.seismic.FileStep start_step = 4;
 }
 

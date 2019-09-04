@@ -1,0 +1,43 @@
+/**
+grpc service for ingestion of SEG-Y files into Cognite Data Fusion
+*/
+syntax = "proto3";
+package com.cognite.seismic;
+
+import "google/protobuf/empty.proto";
+import "cognite/seismic/protos/types.proto";
+import "cognite/seismic/protos/ingest_service_messages.proto";
+
+/**
+Methods available in com.cognite.seismic.Ingest
+**/
+service Ingest {
+    /**
+    Registers a new survey.
+    **/
+    rpc RegisterSurvey (cognite.seismic.RegisterSurveyRequest) returns (cognite.seismic.RegisterSurveyResponse) {}
+    /**
+    Registers a new file in a (previously registered) survey.
+    **/
+    rpc RegisterFile (cognite.seismic.RegisterFileRequest) returns (cognite.seismic.RegisterFileResponse) {}
+    /**
+    Sends a request for the ingestion of a registered file into the queue. Will return a job id which can be queried for status.
+    **/
+    rpc IngestFile (cognite.seismic.IngestFileRequest) returns (cognite.seismic.IngestFileResponse) {}
+    /**
+    Retrieves the status of an ingestion job.
+    **/
+    rpc Status (cognite.seismic.StatusRequest) returns (cognite.seismic.StatusResponse) {}
+    /**
+    Deletes a file
+    **/
+    rpc DeleteFile (cognite.seismic.DeleteFileRequest) returns (google.protobuf.Empty) {}
+    /**
+    Updates file metadata
+    **/
+    rpc EditFile (cognite.seismic.EditFileRequest) returns (cognite.seismic.EditFileResponse) {}
+    /**
+    Updates survey metadata
+    **/
+    rpc EditSurvey (cognite.seismic.EditSurveyRequest) returns (cognite.seismic.EditSurveyResponse) {}
+}

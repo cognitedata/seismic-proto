@@ -1,0 +1,101 @@
+/**
+grpc service for querying seismic data from Cognite Data Fusion
+*/
+syntax = "proto3";
+package com.cognite.seismic;
+
+import "cognite/seismic/protos/types.proto";
+import "cognite/seismic/protos/query_service_messages.proto";
+
+/**
+Requests available through the interface com.cognite.seismic.Query
+**/
+service Query {
+    /**
+    Returns a survey given its name or id and, optionally, lists its associated files.
+    **/
+    rpc GetSurvey (cognite.seismic.SurveyQueryRequest) returns (cognite.seismic.GetSurveyResponse) {}
+    /**
+    Returns a list of all surveys
+    **/
+    rpc ListSurveys (cognite.seismic.ListSurveysQueryRequest) returns (cognite.seismic.SurveyWithFilesResponse) {}
+    /**
+    Returns a file given its name or id.
+    **/
+    rpc GetFile (cognite.seismic.FileQueryRequest) returns (cognite.seismic.GetFileResponse) {}
+    /**
+    Returns a binary header given its file name or id.
+    **/
+    rpc GetBinaryHeader (cognite.seismic.HeaderFileQueryRequest) returns (cognite.seismic.GetBinaryHeaderResponse) {}
+    /**
+    Returns a text header given its file name or id.
+    **/
+    rpc GetTextHeader (cognite.seismic.HeaderFileQueryRequest) returns (cognite.seismic.GetTextHeaderResponse) {}
+    /**
+    Returns the coverage polygon for a given file identified by its id or name
+    **/
+    rpc GetFileDataCoverage (cognite.seismic.FileCoverageRequest) returns (cognite.seismic.DataCoverageResponse) {}
+    /**
+    [Not implemented yet]
+    Returns the navigation polygon for the survey obtained from DISKOS
+    **/
+    rpc GetNavigationPolygon (cognite.seismic.NavigationPolygonRequest) returns (cognite.seismic.DataCoverageResponse) {}
+    /**
+    Returns a single trace given its inline/crossline indices
+    **/
+    rpc GetTraceByLine (cognite.seismic.LineTraceQueryRequest) returns (cognite.seismic.Trace) {}
+    /**
+    Returns the closest trace to a point given its coordinates (x,y)
+    **/
+    rpc GetTraceByCoordinates (cognite.seismic.CoordinateTraceQueryRequest) returns (cognite.seismic.Trace) {}
+    /**
+    Returns all or a subset of traces in a slice (inline or crossline) given its index (and optionally from/to)
+    **/
+    rpc GetSliceByLine (cognite.seismic.LineSliceQueryRequest) returns (stream cognite.seismic.Trace) {}
+    /**
+    Returns a slice with traces closest to a given arbitrary line
+    **/
+    rpc GetSliceByGeometry (cognite.seismic.GeometrySliceQueryRequest) returns (stream cognite.seismic.Trace) {}
+    /**
+    Returns a volume with all traces inside a given range of inlines and a given range of crosslines
+    **/
+    rpc GetCubeByLines (cognite.seismic.LineCubeRequest) returns (stream cognite.seismic.Trace) {}
+    /**
+    Returns a volume with all traces with x, y coordinates inside an arbitrary 2D polygon
+    **/
+    rpc GetCubeByGeometry (cognite.seismic.GeometryCubeRequest) returns (stream cognite.seismic.Trace) {}
+    /**
+    Returns a horizontal slice for a given depth or time and constrained by a range of inlines and crosslines
+    **/
+    rpc GetTimeSliceByLines (cognite.seismic.LineTimeSliceQueryRequest) returns (stream cognite.seismic.SurfacePoint) {}
+    /**
+    Returns a horizontal slice for a given depth or time and constrained by an arbitrary 2D polygon
+    **/
+    rpc GetTimeSliceByGeometry (cognite.seismic.GeometryTimeSliceQueryRequest) returns (stream cognite.seismic.SurfacePoint) {}
+    /**
+    [Not implemented yet]
+    Returns a full SEGY file
+    **/
+    rpc GetSegYFile (cognite.seismic.SegYQueryRequest) returns (stream cognite.seismic.SegYQueryResponse) {}
+    /**
+    Finds surveys for which the coverage area intersects with the given set of coordinates or exact metadata key-value match
+    **/
+    rpc SearchSurveys (cognite.seismic.SearchSurveyRequest) returns (cognite.seismic.SurveyWithFilesResponse) {}
+    /**
+    Returns the range of the inlines and crosslines in the file
+    **/
+    rpc GetFileLineRange (cognite.seismic.FileQueryRequest) returns (cognite.seismic.LineRangeResponse) {}
+    /**
+    Returns the set of valid crossline indices for a specific inline, in a given file
+    **/
+    rpc GetCrosslinesByInline (cognite.seismic.FileLineQueryRequest) returns (cognite.seismic.AvailableLines) {}
+    /**
+    Returns the set of valid inline indices for a specific crossline, in a given file
+    **/
+    rpc GetInlinesByCrossline (cognite.seismic.FileLineQueryRequest) returns (cognite.seismic.AvailableLines) {}
+    /**
+    [Not implemented yet]
+    Returns a pseudo-trace with the values corresponding to an arbitrary 3D path. Suitable for correlating with wells.
+    **/
+    rpc GetPath (cognite.seismic.PathQueryRequest) returns (cognite.seismic.Trace) {}
+}
