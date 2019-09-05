@@ -5,7 +5,6 @@ syntax = "proto3";
 package com.cognite.seismic;
 
 import "google/protobuf/empty.proto";
-import "cognite/seismic/protos/types.proto";
 import "cognite/seismic/protos/ingest_service_messages.proto";
 
 /**
