@@ -15,6 +15,6 @@ message IngestJob {
 
     // [optional] Selected step to start ingestion. Leave blank to start from last completed step.
     // More details on IngestFileRequest message description
-    cognite.seismic.FileStep start_step = 4;
+    FileStep start_step = 4;
 }
 
