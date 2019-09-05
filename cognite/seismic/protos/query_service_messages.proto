@@ -12,7 +12,7 @@ import "google/protobuf/wrappers.proto";
 // Requests for metadata and coverage
 
 message SurveyQueryRequest {
-    cognite.seismic.Identifier survey = 1;
+    Identifier survey = 1;
     bool list_files = 2;       // should the files from this survey be listed
     bool include_metadata = 3; // should metadata be included in the result
 }
@@ -23,27 +23,27 @@ message ListSurveysQueryRequest {
 }
 
 message FileQueryRequest {
-    cognite.seismic.Identifier file = 1;
+    Identifier file = 1;
 }
 
 message FileLineQueryRequest {
-    cognite.seismic.Identifier file = 1;
+    Identifier file = 1;
     int32 line = 2;
 }
 
 message HeaderFileQueryRequest {
-    cognite.seismic.Identifier file = 1;
+    Identifier file = 1;
     bool include_raw_header = 2; // should the raw text header be included
 }
 
 message FileCoverageRequest {
-    cognite.seismic.Identifier file = 1;
-    cognite.seismic.CRS crs = 2;                  // [optional] If CRS provided converts coverage to given CRS. If to return original.
+    Identifier file = 1;
+    CRS crs = 2;                  // [optional] If CRS provided converts coverage to given CRS. If to return original.
     bool in_wkt = 3;              // true to return WKT, false (default) to return geoJson
 }
 
 message NavigationPolygonRequest {
-    cognite.seismic.Identifier survey = 1;
+    Identifier survey = 1;
 }
 
 // ---
@@ -54,8 +54,8 @@ message NavigationPolygonRequest {
 Request a single trace from a file by index (inline AND crossline)
 **/
 message LineTraceQueryRequest {
-    cognite.seismic.Identifier file = 1;
-    cognite.seismic.PositionQuery position = 3;
+    Identifier file = 1;
+    PositionQuery position = 3;
     bool include_trace_header = 4;
 }
 
@@ -64,8 +64,8 @@ Request a single trace from a file by coordinates (x AND y). If x and y don't fa
 will return the closest trace to it.
 **/
 message CoordinateTraceQueryRequest {
-    cognite.seismic.Identifier file = 1;
-    cognite.seismic.CoordinateQuery coordinates = 2;
+    Identifier file = 1;
+    CoordinateQuery coordinates = 2;
     float max_radius = 3; // only return traces if closer than this to the actual point in the file
     bool include_trace_header = 4;
 }
@@ -74,27 +74,27 @@ message CoordinateTraceQueryRequest {
 Request a slice of traces from a file by index (inline OR crossline), and optionally specify min and max range
 **/
 message LineSliceQueryRequest {
-    cognite.seismic.Identifier file = 1;
-    cognite.seismic.LineSelect line = 2;
+    Identifier file = 1;
+    LineSelect line = 2;
     bool include_trace_header = 3;
-    cognite.seismic.LineRange range = 4;
+    LineRange range = 4;
 }
 
 /**
 Request a slice of traces from a file by coordinates of start and end of an arbitrary line
 **/
 message GeometrySliceQueryRequest {
-    cognite.seismic.Identifier file = 1;
-    cognite.seismic.Geometry arbitrary_line = 2;
-    cognite.seismic.InterpolationMethod interpolation_method = 3;
+    Identifier file = 1;
+    Geometry arbitrary_line = 2;
+    InterpolationMethod interpolation_method = 3;
 }
 
 /**
 Request a volume of traces from a file by range of inlines and crosslines
 **/
 message LineCubeRequest {
-    cognite.seismic.Identifier file = 1;
-    cognite.seismic.LineBasedRectangle rectangle = 2;
+    Identifier file = 1;
+    LineBasedRectangle rectangle = 2;
     bool include_trace_header = 3;
 }
 
@@ -102,8 +102,8 @@ message LineCubeRequest {
 Request a volume of traces from a file with coordinates inside an arbitrary polygon
 **/
 message GeometryCubeRequest {
-    cognite.seismic.Identifier file = 1;
-    cognite.seismic.Geometry geometry = 2;
+    Identifier file = 1;
+    Geometry geometry = 2;
     bool include_trace_header = 3;
 }
 
@@ -111,8 +111,8 @@ message GeometryCubeRequest {
 Request a time slice from a file and filter by range of inlines and crosslines
 **/
 message LineTimeSliceQueryRequest {
-    cognite.seismic.Identifier file = 1;
-    cognite.seismic.LineBasedRectangle rectangle = 2;
+    Identifier file = 1;
+    LineBasedRectangle rectangle = 2;
     google.protobuf.Int32Value z = 3;             // either time or depth according to the file
 }
 
@@ -120,8 +120,8 @@ message LineTimeSliceQueryRequest {
 Request a time slice from a file and filter by coordinates inside an arbitrary polygon
 **/
 message GeometryTimeSliceQueryRequest {
-    cognite.seismic.Identifier file = 1;
-    cognite.seismic.Geometry geometry = 2;
+    Identifier file = 1;
+    Geometry geometry = 2;
     google.protobuf.Int32Value z = 3;             // either time or depth according to the file
 }
 
@@ -135,10 +135,10 @@ Filter the area included in the SEGY file by a polygon defined either by spatial
 or by a set of inline and crossline indices
 **/
 message SegYQueryRequest {
-    cognite.seismic.Identifier file = 1;
+    Identifier file = 1;
     oneof query {
-        cognite.seismic.Geometry polygon = 2;
-        cognite.seismic.LineBasedRectangle lines = 3;
+        Geometry polygon = 2;
+        LineBasedRectangle lines = 3;
     }
 }
 
@@ -146,8 +146,8 @@ message SegYQueryRequest {
 Request a pseudo-trace (sequence of values) representing the values for the described path in a file
 **/
 message PathQueryRequest {
-    cognite.seismic.Identifier file = 1;
-    cognite.seismic.Geometry geometry = 2;
+    Identifier file = 1;
+    Geometry geometry = 2;
     bool include_trace_header = 3;
 }
 
@@ -155,9 +155,9 @@ message PathQueryRequest {
 Request to search surveys inside a polygon or by metadata
 **/
 message SearchSurveyRequest {
-    cognite.seismic.Geometry polygon = 1;
-    cognite.seismic.MetadataFilter survey_metadata = 2;
-    cognite.seismic.MetadataFilter file_metadata = 3;
+    Geometry polygon = 1;
+    MetadataFilter survey_metadata = 2;
+    MetadataFilter file_metadata = 3;
     bool include_metadata = 4;
 }
 
@@ -169,8 +169,8 @@ message SearchSurveyRequest {
 Range of inline and crossline indices defining a 2D region
 **/
 message LineBasedRectangle {
-    cognite.seismic.PositionQuery top_left = 1;
-    cognite.seismic.PositionQuery bottom_right = 2;
+    PositionQuery top_left = 1;
+    PositionQuery bottom_right = 2;
 }
 
 message MetadataFilter {
@@ -207,8 +207,8 @@ message AvailableLines {
 }
 
 message LineRangeResponse {
-    cognite.seismic.LineDescriptor inline = 1;
-    cognite.seismic.LineDescriptor xline = 2;
+    LineDescriptor inline = 1;
+    LineDescriptor xline = 2;
 }
 
 message SurveyWithFilesResponse {
@@ -223,11 +223,11 @@ message SurveyWithFiles {
 }
 
 message DataCoverageResponse {
-    cognite.seismic.Geometry polygon = 1;
+    Geometry polygon = 1;
 }
 
 message GetSurveyResponse {
-    cognite.seismic.Survey survey = 1;
+    Survey survey = 1;
     repeated File files = 2;
 }
 
@@ -240,11 +240,11 @@ message GetFileResponse {
 }
 
 message GetBinaryHeaderResponse {
-    cognite.seismic.BinaryHeader meta = 1;
+    BinaryHeader meta = 1;
 }
 
 message GetTextHeaderResponse {
-    cognite.seismic.TextHeader meta = 1;
+    TextHeader meta = 1;
 }
 
 message TextHeader {
