@@ -73,7 +73,6 @@ service Query {
     **/
     rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (stream SurfacePoint) {}
     /**
-    [Not implemented yet]
     Returns a full SEGY file
     **/
     rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
