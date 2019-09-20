@@ -84,6 +84,8 @@ message Trace {
     google.protobuf.Int32Value iline = 2;
     google.protobuf.Int32Value xline = 3;
     repeated float trace = 4;
+    float x = 5;
+    float y = 6;
 }
 
 // A single value at a specific index of a trace at iline and xline
