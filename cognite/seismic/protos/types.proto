@@ -1,0 +1,121 @@
+/**
+Messages for types used in ingestion and query services in Seismic Datastore in Cognite Data Fusion
+**/
+syntax = "proto3";
+package com.cognite.seismic;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
+
+// -----
+
+message Survey {
+    string id = 1;
+    string name = 2;
+    map<string, string> metadata = 3;
+}
+
+message File {
+    string id = 1;
+    string name = 2;
+    map<string, string> metadata = 3;
+}
+
+// Specify either id or name to find a file or survey.
+message Identifier {
+    oneof findby {
+        string id = 1;
+        string name = 2;
+    }
+}
+
+message LineDescriptor {
+    int32 min = 1;
+    int32 max = 2;
+    //int32 range = 3;
+}
+
+message CRS {
+    string crs = 1;
+}
+
+// Well-known text representation of geometry (<a href="http://www.opengeospatial.org/standards/sfa">WKT</a>)
+message Wkt {
+    string geometry = 1;
+}
+
+// The GeoJSON format (<a href="https://tools.ietf.org/html/rfc7946">RFC 7946</a>)
+// Supported geometry: Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, and GeometryCollection.
+// Example:
+// <pre>{
+//    "type": "Point",
+//    "coordinates": [100.0, 0.0]
+// }</pre>
+message GeoJson {
+    google.protobuf.Struct json = 1;
+}
+
+// Geometry can be specified using either wkt or geoJSON. CRS is always required.
+message Geometry {
+    CRS crs = 1;           // required
+    oneof format {
+        Wkt wkt = 2;
+        GeoJson geo = 3;
+    }
+}
+
+// Specify either inline OR crossline
+message LineSelect {
+    oneof direction {
+        int32 iline = 1;
+        int32 xline = 2;
+    }
+}
+
+// Object to store the line range. From and to are optional
+message LineRange {
+    google.protobuf.Int32Value from_line = 1;
+    google.protobuf.Int32Value to_line = 2;
+}
+
+// The underlying array of floats for all traces
+message Trace {
+    bytes trace_header = 1;
+    google.protobuf.Int32Value iline = 2;
+    google.protobuf.Int32Value xline = 3;
+    repeated float trace = 4;
+}
+
+// A single value at a specific index of a trace at iline and xline
+message SurfacePoint {
+    int32 iline = 1;
+    int32 xline = 2;
+    float value = 3;
+}
+
+// -----
+
+enum JobStatus {
+    NONE = 0;
+    QUEUED = 1;
+    IN_PROGRESS = 2;
+    SUCCESS = 3;
+    FAILED = 4;
+    TIMEOUT = 5;
+}
+
+enum FileStep {
+    REGISTER = 0;
+    INSERT_FILE_HEADERS = 1;
+    INSERT_TRACE_HEADERS = 2;
+    INSERT_DATA = 3;
+    COMPUTE_COVERAGE = 4;
+    COMPUTE_GRID = 5;
+    DELETING = 254;
+    DELETE = 255;
+}
+
+enum InterpolationMethod {
+    NEAREST_TRACE = 0;
+    INVERSE_DISTANCE_WEIGHTING = 1;
+}

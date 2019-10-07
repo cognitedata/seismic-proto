@@ -1,0 +1,152 @@
+/**
+Messages from the ingestion service of Seismic Datastore in Cognite Data Fusion
+**/
+syntax = "proto3";
+package com.cognite.seismic;
+
+import "cognite/seismic/protos/types.proto";
+
+// -----
+
+/**
+    [Example]
+    {"name": "surveyname", "metadata": {"location": "underwater"} }
+**/
+message RegisterSurveyRequest {
+    string name = 1;                  // [required]
+    map<string, string> metadata = 2; // [optional]
+}
+
+message RegisterSurveyResponse {
+    Survey survey = 1;
+}
+
+// -----
+
+/**
+    [Example]
+    {
+        "survey": {"name": "surveyname"},
+        "name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..J.segy",
+        "path": "gs://cognite-seismic-eu/samples/from-diskos-disks",
+        "crs": { "crs": "EPSG:23031"}
+    }
+**/
+message RegisterFileRequest {
+    Identifier survey = 1;             // [required] Either name or id of a survey previously registered with /RegisterSurvey
+    string path = 2;                   // [required] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                   // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
+    map<string, string> metadata = 4;  // [optional]
+    CRS crs = 5;                       // [required] Official name of the CRS used. Example: "EPSG:23031"
+}
+
+message RegisterFileResponse {
+    File file = 1;
+}
+
+// -----
+
+/**
+    [Example]
+    {"file": {"name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..JS-021837.segy"} }
+**/
+message IngestFileRequest {
+    // [required] Either name or id of a file previously registered with /RegisterFile
+    Identifier file = 1;
+
+    /**
+        [optional] Selected step to start ingestion. Leave blank to start from last completed step.
+        [Accepted values]
+           1 -- insert binary and text headers
+           2 -- insert trace headers
+           3 -- insert trace data
+           4 -- compute coverage polygon and additional metadata (trace count, valid lines, etc)
+        [Use cases]
+        * Usual ingestion:
+           If the last successful step was 0 (REGISTER), the file will be fully ingested regardless of start_step
+        * Completing a failed ingestion:
+           If the last successful step was 3 (INSERT_DATA), and no start step is selected, only coverage will be
+           computed. Previously ingested headers and traces will be preserved in this case.
+        * Forcing reingestion:
+           If start_step is 1 (INSERT_FILE_HEADERS), regardless of previous ingestion status, all headers
+           and data will be deleted and the whole file will be forcefully reingested
+        * Forcing a single step to be rerun:
+           If the file is ingested (last step is COMPUTE_COVERAGE), by using start_step = 4 (COMPUTE_COVERAGE),
+           for example, only coverage will be computed while headers and traces will be preserved
+    **/
+    FileStep start_step = 2;
+}
+
+message IngestFileResponse {
+    string job_id = 1;  //job id that can be used to query for status
+    string file_id = 2;
+}
+
+// -----
+
+/**
+    [Example]
+    {"job_id": "1e9a4f9b-7c15-44dd-bbbb-e9e9fb83e401"}
+**/
+message StatusRequest {
+    string job_id = 1;
+}
+
+message StatusResponse {
+    JobStatus status = 1;
+    string message = 2;
+    string started_at = 3;
+    string updated_at = 4;
+}
+
+// -----
+
+/**
+    [Example]
+    {"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
+**/
+message DeleteFileRequest {
+    cognite.seismic.Identifier file = 1; // [required] Either name or id of a file previously registered with /RegisterFile
+    /*
+     If set to true, will only delete metadata (undo the ingestion), but keep the registered file as is.
+     If set to false, will delete the registered file.
+     If no option is set, default is false
+     */
+    bool keep_registered = 2;
+}
+
+// -----
+
+/**
+    [Example]
+    {"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
+**/
+message EditFileRequest {
+    Identifier file = 1; // [required] Either name or id of a file previously registered with /RegisterFile
+    string path = 2;                   // [optional] New path. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                   // [optional] New (unique) filename. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
+    map<string, string> metadata = 4;  // [optional] New metadata
+    CRS crs = 5;                       // [optional] Official name of the CRS used. Example: "EPSG:23031"
+}
+
+message EditFileResponse {
+    cognite.seismic.File file = 1;
+    string path = 2;
+    CRS crs = 3;
+}
+
+// -----
+
+/**
+    [Example]
+    {"survey": {"id": "97305892-d622-4425-8530-3029b740842e"}, "name": "new name"}
+**/
+message EditSurveyRequest {
+    Identifier survey = 1;            // [required] Either name or id of a survey previously registered with /RegisterSurvey
+    string name = 2;                  // [optional] New name
+    map<string, string> metadata = 3; // [optional] New metadata
+}
+
+message EditSurveyResponse {
+    Survey survey = 1;
+}
