@@ -1,6 +1,6 @@
 Cognite seismic APIs, query and ingestion are grpc based services building on protobuf files which can be found in this repo.
 
-#### Structure
+#### Structure and notes
 
 We have two services - ingest and query. 
 * All the rpc methods in these services can be found in 
@@ -16,6 +16,10 @@ and
 * Some of the query methods, notably the ones querying for lines or whole cubes, use grpc streaming to transfer the data. 
 They will send each message as a trace and keep the connection open until all traces have been sent. 
 Make sure your client is able to receive those.
+
+* We use the word `File` to refer to a single seismic file/dataset/cube
+* Surveys can have many files attached to them, with different attributes or processing stages, and every file must 
+belong to a survey 
 
 #### Generate clients
 
