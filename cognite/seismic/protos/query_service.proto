@@ -11,6 +11,9 @@ import "cognite/seismic/protos/query_service_messages.proto";
 Requests available through the interface com.cognite.seismic.Query
 **/
 service Query {
+
+    // Metadata queries
+
     /**
     Returns a survey given its name or id and, optionally, lists its associated files.
     **/
@@ -19,6 +22,10 @@ service Query {
     Returns a list of all surveys
     **/
     rpc ListSurveys (ListSurveysQueryRequest) returns (SurveyWithFilesResponse) {}
+    /**
+    Finds surveys for which the coverage area intersects with the given set of coordinates or exact metadata key-value match
+    **/
+    rpc SearchSurveys (SearchSurveyRequest) returns (SurveyWithFilesResponse) {}
     /**
     Returns a file given its name or id.
     **/
@@ -31,6 +38,10 @@ service Query {
     Returns a text header given its file name or id.
     **/
     rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
+
+
+    // Geometry and grid queries
+
     /**
     Returns the coverage polygon for a given file identified by its id or name
     **/
@@ -40,46 +51,6 @@ service Query {
     Returns the navigation polygon for the survey obtained from DISKOS
     **/
     rpc GetNavigationPolygon (NavigationPolygonRequest) returns (DataCoverageResponse) {}
-    /**
-    Returns a single trace given its inline/crossline indices
-    **/
-    rpc GetTraceByLine (LineTraceQueryRequest) returns (Trace) {}
-    /**
-    Returns the closest trace to a point given its coordinates (x,y)
-    **/
-    rpc GetTraceByCoordinates (CoordinateTraceQueryRequest) returns (Trace) {}
-    /**
-    Returns all or a subset of traces in a slice (inline or crossline) given its index (and optionally from/to)
-    **/
-    rpc GetSliceByLine (LineSliceQueryRequest) returns (stream Trace) {}
-    /**
-    Returns a slice with traces closest to a given arbitrary line
-    **/
-    rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (stream Trace) {}
-    /**
-    Returns a volume with all traces inside a given range of inlines and a given range of crosslines
-    **/
-    rpc GetCubeByLines (LineCubeRequest) returns (stream Trace) {}
-    /**
-    Returns a volume with all traces with x, y coordinates inside an arbitrary 2D polygon
-    **/
-    rpc GetCubeByGeometry (GeometryCubeRequest) returns (stream Trace) {}
-    /**
-    Returns a horizontal slice for a given depth or time and constrained by a range of inlines and crosslines
-    **/
-    rpc GetTimeSliceByLines (LineTimeSliceQueryRequest) returns (stream SurfacePoint) {}
-    /**
-    Returns a horizontal slice for a given depth or time and constrained by an arbitrary 2D polygon
-    **/
-    rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (stream SurfacePoint) {}
-    /**
-    Returns a full SEGY file
-    **/
-    rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
-    /**
-    Finds surveys for which the coverage area intersects with the given set of coordinates or exact metadata key-value match
-    **/
-    rpc SearchSurveys (SearchSurveyRequest) returns (SurveyWithFilesResponse) {}
     /**
     Returns the range of the inlines and crosslines in the file
     **/
@@ -92,6 +63,63 @@ service Query {
     Returns the set of valid inline indices for a specific crossline, in a given file
     **/
     rpc GetInlinesByCrossline (FileLineQueryRequest) returns (AvailableLines) {}
+
+
+    // Trace queries - return one trace per call, each trace composed of a series of samples
+
+    /**
+    Returns a single trace given its inline/crossline indices
+    **/
+    rpc GetTraceByLine (LineTraceQueryRequest) returns (Trace) {}
+    /**
+    Returns the closest trace to a point given its coordinates (x,y)
+    **/
+    rpc GetTraceByCoordinates (CoordinateTraceQueryRequest) returns (Trace) {}
+
+
+    // Slice queries - return a 1D array of traces, thus a 2D vertical slice of samples
+
+    /**
+    Returns all or a subset of traces in a slice (inline or crossline) given its index (and optionally from/to)
+    **/
+    rpc GetSliceByLine (LineSliceQueryRequest) returns (stream Trace) {}
+    /**
+    Returns a slice with traces closest to a given arbitrary line
+    **/
+    rpc GetSliceByGeometry (GeometrySliceQueryRequest) returns (stream Trace) {}
+
+
+
+    // Area queries - return a 2D array of traces, thus a 3D volume of samples
+
+    /**
+    Returns a volume with all traces inside a given range of inlines and a given range of crosslines
+    **/
+    rpc GetCubeByLines (LineCubeRequest) returns (stream Trace) {}
+    /**
+    Returns a volume with all traces with x, y coordinates inside an arbitrary 2D polygon
+    **/
+    rpc GetCubeByGeometry (GeometryCubeRequest) returns (stream Trace) {}
+    /**
+    Returns a full SEGY file
+    **/
+    rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
+
+
+    // Depth-indexed area queries- return a 2D array containing one sample per trace in the area, thus a horizontal slice
+
+    /**
+    Returns a horizontal slice for a given depth or time and constrained by a range of inlines and crosslines
+    **/
+    rpc GetTimeSliceByLines (LineTimeSliceQueryRequest) returns (stream SurfacePoint) {}
+    /**
+    Returns a horizontal slice for a given depth or time and constrained by an arbitrary 2D polygon
+    **/
+    rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (stream SurfacePoint) {}
+
+
+    // Artificial sampling
+
     /**
     [Not implemented yet]
     Returns a pseudo-trace with the values corresponding to an arbitrary 3D path. Suitable for correlating with wells.
