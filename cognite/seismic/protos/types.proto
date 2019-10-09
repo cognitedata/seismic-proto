@@ -9,12 +9,44 @@ import "google/protobuf/wrappers.proto";
 
 // -----
 
+// Common response types
+
+/**
+    Basic type to represent a seismic trace
+    Used in trace, vertical slices and volume queries
+    Contains the samples and information on positioning
+    If a trace is an original trace in the file, it can optionally contain the trace header.
+    This is not valid for traces that are synthetically generated from interpolation.
+ **/
+message Trace {
+    bytes trace_header = 1;
+    google.protobuf.Int32Value iline = 2;
+    google.protobuf.Int32Value xline = 3;
+    repeated float trace = 4;                // The underlying array of floats representing samples
+}
+
+/**
+    Basic type to represent a point in a surface defined by a horizontal grid
+    Used in horizontal slice queries
+ **/
+message SurfacePoint {
+    int32 iline = 1;
+    int32 xline = 2;
+    float value = 3;
+}
+
+// -----
+
+// Common request types
+
+// A survey represents a collection of files in the same area
 message Survey {
     string id = 1;
     string name = 2;
     map<string, string> metadata = 3;
 }
 
+// File or dataset or cube derived from a single SEG-Y file
 message File {
     string id = 1;
     string name = 2;
@@ -34,6 +66,24 @@ message LineDescriptor {
     int32 max = 2;
     //int32 range = 3;
 }
+
+// Specify either inline OR crossline
+message LineSelect {
+    oneof direction {
+        int32 iline = 1;
+        int32 xline = 2;
+    }
+}
+
+// Object to store the line range. From and to are optional
+message LineRange {
+    google.protobuf.Int32Value from_line = 1;
+    google.protobuf.Int32Value to_line = 2;
+}
+
+// -----
+
+// Common geometry types
 
 message CRS {
     string crs = 1;
@@ -64,36 +114,9 @@ message Geometry {
     }
 }
 
-// Specify either inline OR crossline
-message LineSelect {
-    oneof direction {
-        int32 iline = 1;
-        int32 xline = 2;
-    }
-}
-
-// Object to store the line range. From and to are optional
-message LineRange {
-    google.protobuf.Int32Value from_line = 1;
-    google.protobuf.Int32Value to_line = 2;
-}
-
-// The underlying array of floats for all traces
-message Trace {
-    bytes trace_header = 1;
-    google.protobuf.Int32Value iline = 2;
-    google.protobuf.Int32Value xline = 3;
-    repeated float trace = 4;
-}
-
-// A single value at a specific index of a trace at iline and xline
-message SurfacePoint {
-    int32 iline = 1;
-    int32 xline = 2;
-    float value = 3;
-}
-
 // -----
+
+// Enums
 
 enum JobStatus {
     NONE = 0;

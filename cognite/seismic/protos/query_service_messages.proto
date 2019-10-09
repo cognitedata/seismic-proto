@@ -12,38 +12,38 @@ import "google/protobuf/wrappers.proto";
 // Requests for metadata and coverage
 
 message SurveyQueryRequest {
-    Identifier survey = 1;
-    bool list_files = 2;       // should the files from this survey be listed
-    bool include_metadata = 3; // should metadata be included in the result
+    Identifier survey = 1;        // name or id of the survey
+    bool list_files = 2;          // set to true to list the survey files in the response (default: false)
+    bool include_metadata = 3;    // set to true to include metadata in the response (default: false)
 }
 
 message ListSurveysQueryRequest {
-    bool list_files = 1;       // see above
-    bool include_metadata = 2;
+    bool list_files = 1;          // set to true to list the survey files in the response (default: false)
+    bool include_metadata = 2;    // set to true to include metadata in the response (default: false)
 }
 
 message FileQueryRequest {
-    Identifier file = 1;
+    Identifier file = 1;         // name or id of the file
 }
 
 message FileLineQueryRequest {
-    Identifier file = 1;
-    int32 line = 2;
+    Identifier file = 1;         // name or id of the file
+    int32 line = 2;              // number of the selected inline or crossline in the file
 }
 
 message HeaderFileQueryRequest {
-    Identifier file = 1;
-    bool include_raw_header = 2; // should the raw text header be included
+    Identifier file = 1;         // name or id of the file
+    bool include_raw_header = 2; // set to true to include the raw header in the response (default: false)
 }
 
 message FileCoverageRequest {
-    Identifier file = 1;
-    CRS crs = 2;                  // [optional] If CRS provided converts coverage to given CRS. If to return original.
-    bool in_wkt = 3;              // true to return WKT, false (default) to return geoJson
+    Identifier file = 1;         // name or id of the file
+    CRS crs = 2;                 // [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the file's original CRS
+    bool in_wkt = 3;             // set this to true to return in WKT format. Otherwise, response will be in geojson format by default
 }
 
 message NavigationPolygonRequest {
-    Identifier survey = 1;
+    Identifier survey = 1;       // name or id of the survey
 }
 
 // ---
