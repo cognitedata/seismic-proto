@@ -5,7 +5,7 @@ import "google/protobuf/empty.proto";
 import "cognite/seismic/protos/ingest_service_messages.proto";
 
 /**
-Service for ingestion of SEG-Y files into Cognite Data Fusion (CDF) seismic datastore
+Service for ingestion and metadata updates of SEG-Y files into Cognite Data Fusion (CDF) seismic datastore
 
 * We use the word `File` to refer to a single seismic file/dataset/cube
 * Surveys can have many files attached to them, with different attributes or processing stages, and every file must
