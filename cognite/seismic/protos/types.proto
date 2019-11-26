@@ -23,6 +23,8 @@ message Trace {
     google.protobuf.Int32Value iline = 2;
     google.protobuf.Int32Value xline = 3;
     repeated float trace = 4;                // The underlying array of floats representing samples
+    float x = 5;
+    float y = 6;
 }
 
 /**

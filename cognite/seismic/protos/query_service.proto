@@ -113,6 +113,11 @@ service Query {
     Returns the trace in a file that is closest to a point given its coordinates (x,y)
     **/
     rpc GetTraceByCoordinates (CoordinateTraceQueryRequest) returns (Trace) {}
+    /**
+    Returns a trace for each coordinate (inline, xline) from the input stream
+    **/
+    rpc GetTracesByPosition(stream LineTraceQueryRequest) returns (stream Trace) {}
+
 
 
     // Slice queries
