@@ -12,6 +12,15 @@ import "google/protobuf/wrappers.proto";
 // Common response types
 
 /**
+    Basic type representing (x,y) coordinate in the given CRS
+**/
+message Coordinate {
+    string crs = 1;
+    float x = 2;
+    float y = 3;
+}
+
+/**
     Basic type to represent a seismic trace
     Used in trace, vertical slices and volume queries
     Contains the samples and information on positioning
@@ -23,8 +32,7 @@ message Trace {
     google.protobuf.Int32Value iline = 2;
     google.protobuf.Int32Value xline = 3;
     repeated float trace = 4;                // The underlying array of floats representing samples
-    float x = 5;
-    float y = 6;
+    Coordinate coordinate = 5;
 }
 
 /**
