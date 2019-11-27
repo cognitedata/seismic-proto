@@ -57,6 +57,8 @@ message LineTraceQueryRequest {
     Identifier file = 1;
     PositionQuery position = 3;
     bool include_trace_header = 4;
+    bool include_trace_coordinates = 5;
+    bool include_trace_data = 6;
 }
 
 /**
