@@ -189,7 +189,7 @@ Range of inline, crossline and time indices defining a volume
 **/
 message LineBasedVolume {
     PositionInVolume min = 1;
-    PositionInVolume max =2;
+    PositionInVolume max = 2;
 }
 
 message MetadataFilter {
