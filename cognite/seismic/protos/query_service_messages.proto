@@ -132,7 +132,7 @@ Request a volume from a file by range of inlines, crosslines and time
 **/
 message VolumeRequest {
     Identifier file = 1;
-    LineBasedVolume = 2;
+    LineBasedVolume volume = 2;
     bool include_trace_header = 3;
 }
 
