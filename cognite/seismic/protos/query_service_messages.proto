@@ -127,6 +127,14 @@ message GeometryTimeSliceQueryRequest {
     google.protobuf.Int32Value z = 3;             // either time or depth according to the file
 }
 
+/**
+Request a volume from a file by range of inlines, crosslines and time
+message VolumeRequest {
+    Identifier file = 1;
+    LineBasedVolume = 2;
+    bool include_trace_header = 3;
+}
+
 
 // ---
 
@@ -175,6 +183,14 @@ message LineBasedRectangle {
     PositionQuery bottom_right = 2;
 }
 
+/**
+Range of inline, crossline and time indices defining a volume
+**/
+message LineBasedVolume {
+    PositionInVolume min = 1;
+    PositionInVolume max =2;
+}
+
 message MetadataFilter {
     map<string, string> filter = 1;
 }
@@ -198,6 +214,15 @@ Point defined by its inline and crossline indices
 message PositionQuery {
     int32 iline = 1;
     int32 xline = 2;
+}
+
+/**
+Point in volume defined by its inline, crossline and time
+**/
+message PositionInVolume {
+    int32 iline = 1;
+    int32 xline = 2;
+    int32 time = 3;
 }
 
 // ---

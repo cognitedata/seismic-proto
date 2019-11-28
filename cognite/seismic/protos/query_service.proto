@@ -158,6 +158,9 @@ service Query {
     **/
     rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (stream SurfacePoint) {}
 
+    // Volume queries
+    rpc GetVolume(VolumeRequest) returns (stream Trace) {}
+
 
     // Artificial sampling
 

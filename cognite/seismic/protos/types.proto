@@ -31,7 +31,10 @@ message Trace {
     bytes trace_header = 1;
     google.protobuf.Int32Value iline = 2;
     google.protobuf.Int32Value xline = 3;
-    repeated float trace = 4;                // The underlying array of floats representing samples
+    oneof trace {
+        repeated float values = 4;                // The underlying array of floats representing samples
+        float value = 6;                          // Single sample if the trace comes from time slice
+    }
     Coordinate coordinate = 5;
 }
 
