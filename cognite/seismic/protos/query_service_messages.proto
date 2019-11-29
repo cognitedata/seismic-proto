@@ -190,7 +190,7 @@ Range of inline, crossline and time indices defining a volume
 message LineBasedVolume {
     LineDescriptor iline = 1;
     LineDescriptor xline = 2;
-    LineDescriptor depth = 3;
+    LineDescriptor z = 3;
 }
 
 message MetadataFilter {
