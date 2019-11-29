@@ -74,7 +74,6 @@ message Identifier {
 message LineDescriptor {
     int32 min = 1;
     int32 max = 2;
-    //int32 range = 3;
 }
 
 // Specify either inline OR crossline

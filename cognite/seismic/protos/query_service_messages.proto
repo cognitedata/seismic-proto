@@ -188,8 +188,9 @@ message LineBasedRectangle {
 Range of inline, crossline and time indices defining a volume
 **/
 message LineBasedVolume {
-    PositionInVolume min = 1;
-    PositionInVolume max = 2;
+    LineDescriptor iline = 1;
+    LineDescriptor xline = 2;
+    LineDescriptor depth = 3;
 }
 
 message MetadataFilter {
@@ -215,15 +216,6 @@ Point defined by its inline and crossline indices
 message PositionQuery {
     int32 iline = 1;
     int32 xline = 2;
-}
-
-/**
-Point in volume defined by its inline, crossline and time
-**/
-message PositionInVolume {
-    int32 iline = 1;
-    int32 xline = 2;
-    int32 time = 3;
 }
 
 // ---
