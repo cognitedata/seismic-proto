@@ -72,8 +72,8 @@ message Identifier {
 }
 
 message LineDescriptor {
-    int32 min = 1;
-    int32 max = 2;
+    google.protobuf.Int32Value min = 1;
+    google.protobuf.Int32Value max = 2;
 }
 
 // Specify either inline OR crossline
