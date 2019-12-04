@@ -13,7 +13,6 @@ podTemplate(
             command: '/bin/cat -'
         )
     ],
-    nodeSelector: 'cloud.google.com/gke-local-ssd=true',
     volumes: []
 )
 {
