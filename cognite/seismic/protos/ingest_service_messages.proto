@@ -159,7 +159,7 @@ message EditFileAccessRequest {
     Identifier file = 1;    // [required] Either name or id of a file
     Identifier project = 2; // [required] Either name or id of a project
     /**
-    If neither add or remove are set, or if both are set to true, a toggle behaviour will be assumed
+    If neither add or remove are set, or if both are set to true, add will be assumed
     **/
     bool add = 3;           // Add project access to this file
     bool remove = 4;        // Remove project access from this file
