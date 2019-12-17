@@ -1,6 +1,7 @@
 syntax = "proto3";
 package com.cognite.seismic;
 
+import "google/protobuf/empty.proto";
 import "cognite/seismic/protos/types.proto";
 import "cognite/seismic/protos/query_service_messages.proto";
 
@@ -55,7 +56,7 @@ service Query {
     **/
     rpc ListSurveys (ListSurveysQueryRequest) returns (SurveyWithFilesResponse) {}
     /**
-    Lists all files available to this project, both owned by it and shared with it
+    Lists all files available, both owned by the authorized CDF project and shared with it
     **/
     rpc ListFiles (google.protobuf.Empty) returns (ListFilesResponse) {}
     /**
