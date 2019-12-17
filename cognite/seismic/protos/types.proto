@@ -63,6 +63,11 @@ message File {
     map<string, string> metadata = 3;
 }
 
+message Project {
+    string id = 1;
+    string alias = 2;
+}
+
 // Specify either id or name to find a file or survey.
 message Identifier {
     oneof findby {

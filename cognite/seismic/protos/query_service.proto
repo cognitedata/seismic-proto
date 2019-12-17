@@ -51,9 +51,13 @@ service Query {
     **/
     rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
     /**
-    Lists all surveys available in the server. Optionally, includes their lists of files.
+    Lists all surveys owned by this project. Optionally, includes their lists of files.
     **/
     rpc ListSurveys (ListSurveysQueryRequest) returns (SurveyWithFilesResponse) {}
+    /**
+    Lists all files available to this project, both owned by it and shared with it
+    **/
+    rpc ListFiles (google.protobuf.Empty) returns (ListFilesResponse) {}
     /**
     Search surveys based on two criteria:
         Coverage polygon of files in the survey are within an area delimited by a specified polygon

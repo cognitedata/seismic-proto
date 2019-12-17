@@ -150,3 +150,21 @@ message EditSurveyRequest {
 message EditSurveyResponse {
     Survey survey = 1;
 }
+
+message ListFileAccessRequest {
+    Identifier file = 1; // [required] Either name or id of a file
+}
+
+message EditFileAccessRequest {
+    Identifier file = 1;    // [required] Either name or id of a file
+    Identifier project = 2; // [required] Either name or id of a project
+    /**
+    If force_add is set, will set access to true regardless of the current access status
+    If false, will toggle the access - remove it if the project has it or add it otherwise
+    **/
+    bool force_add = 3;
+}
+
+message ProjectListResponse {
+    repeated Project project = 1;
+}
