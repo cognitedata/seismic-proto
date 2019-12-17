@@ -63,10 +63,10 @@ service Ingest {
     List projects that have access to a specific file.
     Only users in the CDF project that owns the file have access to this method
     **/
-    rpc ListFileAccess(ListFileAccessRequest) returns (google.protobuf.Empty) {}
+    rpc ListFileAccess(ListFileAccessRequest) returns (ProjectListResponse) {}
     /**
     Add or remove access to a file for CDF projects
     Only users in the CDF project that owns the file have access to this method
     **/
-    rpc EditFileAccess(EditFileAccessRequest) returns (ProjectListResponse) {}
+    rpc EditFileAccess(EditFileAccessRequest) returns (google.protobuf.Empty) {}
 }
