@@ -259,6 +259,10 @@ message GetFileResponse {
     string last_step = 5;
 }
 
+message ListFilesResponse {
+    repeated File files = 1;
+}
+
 message GetBinaryHeaderResponse {
     BinaryHeader meta = 1;
 }

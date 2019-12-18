@@ -27,6 +27,8 @@ You can verify the status of this process by calling the Status endpoint  with t
 
 As soon as the status of the processing job is set to complete, data from the file will be available with the query service
 
+When a file is registered in a CDF project, this project owns the file. It is then allowed to share access with other
+CDF projects
 **/
 service Ingest {
     /**
@@ -57,4 +59,14 @@ service Ingest {
     Updates survey metadata
     **/
     rpc EditSurvey (EditSurveyRequest) returns (EditSurveyResponse) {}
+    /**
+    List projects that have access to a specific file.
+    Only users in the CDF project that owns the file have access to this method
+    **/
+    rpc ListFileAccess(ListFileAccessRequest) returns (ProjectListResponse) {}
+    /**
+    Add or remove access to a file for CDF projects
+    Only users in the CDF project that owns the file have access to this method
+    **/
+    rpc EditFileAccess(EditFileAccessRequest) returns (google.protobuf.Empty) {}
 }
