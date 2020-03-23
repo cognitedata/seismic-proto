@@ -93,7 +93,7 @@ service Query {
     [Not implemented yet]
     Returns the navigation polygon for the survey obtained from DISKOS
     **/
-    rpc GetNavigationPolygon (NavigationPolygonRequest) returns (DataCoverageResponse) {}
+    // rpc GetNavigationPolygon (NavigationPolygonRequest) returns (DataCoverageResponse) {}
     /**
     Returns the full range of the inlines and crosslines in the file, i.e. the minimum and maximum inline and crossline
     **/
@@ -173,5 +173,5 @@ service Query {
     [Not implemented yet]
     Returns a pseudo-trace with the values corresponding to an arbitrary 3D path. Suitable for correlating with wells.
     **/
-    rpc GetPath (PathQueryRequest) returns (Trace) {}
+    // rpc GetPath (PathQueryRequest) returns (Trace) {}
 }
