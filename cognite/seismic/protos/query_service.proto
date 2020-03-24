@@ -90,11 +90,6 @@ service Query {
     **/
     rpc GetFileDataCoverage (FileCoverageRequest) returns (DataCoverageResponse) {}
     /**
-    [Not implemented yet]
-    Returns the navigation polygon for the survey obtained from DISKOS
-    **/
-    // rpc GetNavigationPolygon (NavigationPolygonRequest) returns (DataCoverageResponse) {}
-    /**
     Returns the full range of the inlines and crosslines in the file, i.e. the minimum and maximum inline and crossline
     **/
     rpc GetFileLineRange (FileQueryRequest) returns (LineRangeResponse) {}
@@ -165,13 +160,4 @@ service Query {
 
     // Volume queries
     rpc GetVolume(VolumeRequest) returns (stream Trace) {}
-
-
-    // Artificial sampling
-
-    /**
-    [Not implemented yet]
-    Returns a pseudo-trace with the values corresponding to an arbitrary 3D path. Suitable for correlating with wells.
-    **/
-    // rpc GetPath (PathQueryRequest) returns (Trace) {}
 }
