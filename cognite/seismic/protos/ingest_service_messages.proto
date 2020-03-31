@@ -37,7 +37,7 @@ message RegisterFileRequest {
     string path = 2;                   // [required] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
     string name = 3;                   // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
     map<string, string> metadata = 4;  // [optional]
-    CRS crs = 5;                       // [required] Official name of the CRS used. Example: "EPSG:23031"
+    CRS crs = 5;                       // [optional] Official name of the CRS used. Example: "EPSG:23031"
 }
 
 message RegisterFileResponse {
