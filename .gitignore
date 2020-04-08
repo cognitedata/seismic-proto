@@ -1,4 +1,2 @@
 .idea/
 doc
-cognite/seismic/protos/*
-!cognite/seismic/protos/__init__.py
