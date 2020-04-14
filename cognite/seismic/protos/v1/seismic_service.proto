@@ -48,7 +48,7 @@ service Seismic {
     /**
     Lists all surveys accessible to the client. Optionally includes volumes associated with the surveys.
     **/
-    rpc ListSurveys (ListSurveysQueryRequest) returns (stream SurveyVolumesResponse) {}
+    rpc ListSurveys (ListSurveysRequest) returns (stream ListSurveysResponse) {}
 
     /**
     Finds one survey given its name or id. Optionally, lists its associated volumes.
@@ -73,7 +73,7 @@ service Seismic {
     /**
     Returns volume metadata given its id.
     **/
-    rpc GetVolumeMetadata (VolumeMetadataRequest) returns (VolumeMetadataResponse) {}
+    rpc ListVolumes (ListVolumeRequest) returns (stream ListVolumeResponse) {}
     /**
     Returns a binary header given its file name or id.
     REMOVED: Include in GetVolumeMetadata
@@ -104,5 +104,4 @@ service Seismic {
     REMOVED: OPTIONALLY INCLUDE IN GetVolumeMetadata
     rpc GetFileLineRange (FileQueryRequest) returns (LineRangeResponse) {}
     **/
-
 }
