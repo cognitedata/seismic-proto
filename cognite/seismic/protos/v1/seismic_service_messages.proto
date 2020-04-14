@@ -120,5 +120,39 @@ message BinaryHeader {
 }
 
 /**
+Request a volume from a file by range of inlines, crosslines and time
+**/
+message TraceDataRequest {
+    string volumeid = 1;
+    oneof traceExtent {
+        LineBasedCube cube = 2; // Inline/crossline, z extent
+        GeometryBasedExtent geometry = 3;  //  Simple WKT geometry? What is "simple"?
+        //GeospatialObjectExtent geospatial = 4;  // Retrieve object from Geospatial API?
+    }
+    bool include_trace_header = 16;
+}
+
+/**
+Range of inline, crossline and z indices defining an extent of trace data to retrieve from a Volume.
+**/
+message LineBasedCube {
+    LineDescriptor iline = 1;
+    LineDescriptor xline = 2;
+    LineDescriptor z = 3;
+}
+
+message TraceExtent {
+    int32 xline = 1;
+    int32 iline = 2;
+    LineDescriptor z = 3;
+}
+
+message LineBasedExtent {
+    repeated TraceExtent = 1;
+}
+
+
+}
+/**
 
 */
