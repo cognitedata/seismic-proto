@@ -6,7 +6,7 @@ We have two services - ingest and query.
 * All the rpc methods in these services can be found in 
 [ingest_service.proto](cognite/seismic/protos/ingest_service.proto) 
 and 
-[query_service.proto](cognite/seismic/protos/query_service.proto). 
+[query_service.proto](cognite/seismic/protos/query_service_experimental.proto). 
 * The messages used in these methods can be found in 
 [ingest_service_messages.proto](cognite/seismic/protos/ingest_service_messages.proto) 
 and 

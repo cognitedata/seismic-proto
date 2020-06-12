@@ -1,5 +1,5 @@
 syntax = "proto3";
-package com.cognite.seismic;
+package com.cognite.seismicexperimental;
 
 /*
    Version:
@@ -10,7 +10,7 @@ package com.cognite.seismic;
    The trace header is gzip compressed in all versions
 */
 message PersistedTrace {
-    int32 version = 1;
-    bytes trace = 2;
-    bytes header = 3;
+  int32 version = 1;
+  bytes trace = 2;
+  bytes header = 3;
 }
