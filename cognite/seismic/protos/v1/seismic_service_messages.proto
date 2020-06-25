@@ -12,10 +12,10 @@ import "google/protobuf/wrappers.proto";
 // (╯°□°)╯︵ ┻━┻
 
 /**
- * A Seismic data volume/cube, often derived from a single SEG-Y file, but could also
+ * A Seismic data cube, often derived from a single SEG-Y file, but could also
  * represent a subvolume/slice of another volume, or another arbitrary 3 dimensional data set.
  */
-message Volume {
+message Cube {
     string id = 1;  // Always present
     string name = 2;  // Present if specified on volume creation
     string survey_id = 3;  // Always present, all volumes are associated with a survey
@@ -31,30 +31,30 @@ message SearchSpec {
     }
 }
 
-message ListSurveysRequest {
+message ReadSurveysRequest {
     repeated SearchSpec surveys = 1; // Optional identifier of the survey. If empty, retrieve all accessible surveys
     bool list_volume_ids = 2;           // set to true to list the survey's volumes in the response (default: false)
     bool include_metadata = 3;       // set to true to include survey metadata in the response (default: false)
 }
 
-message ListSurveyResponse {
+message ReadSurveyResponse {
     string id = 1;
     string name = 2;
     map<string, string> metadata = 3;
-    repeated string volume_ids = 4;  // Optionally present
+    repeated string cube_ids = 4;  // Optionally present
 }
 
-message ListVolumesRequest {
+message ReadCubeRequest {
     oneof findby {
         SearchSpec survey = 1;
-        repeated SearchSpec volumes = 2;
+        repeated SearchSpec cubes = 2;
     }
     bool include_text_header = 3;
     bool include_binary_header = 4;
     bool include_line_range = 5;
 }
 
-message ListVolumesResponse {
+message ReadCubeResponse {
     string id = 1;
     string name = 2;
     string crs = 3;
@@ -65,8 +65,18 @@ message ListVolumesResponse {
     LineRange line_range = 8;
 }
 
+message ReadCubeSourceRequest {
+    oneof findby {
+        SearchSpec survey = 1;
+        repeated SearchSpec cubes = 2;
+    }
+}
 
-
+message ReadCubeSourceResponse {
+    string id = 1;
+    string name = 2;
+    CubeSource source = 3;
+}
 
 
 
@@ -123,9 +133,9 @@ message BinaryHeader {
 Request a volume from a file by range of inlines, crosslines and time
 **/
 message TraceDataRequest {
-    string volumeid = 1;
+    string cube_id = 1;
     oneof traceExtent {
-        LineBasedCube cube = 2; // Inline/crossline, z extent
+        LineBasedVolume volume = 2; // Inline/crossline, z extent
         GeometryBasedExtent geometry = 3;  //  Simple WKT geometry? What is "simple"?
         //GeospatialObjectExtent geospatial = 4;  // Retrieve object from Geospatial API?
     }
@@ -133,9 +143,9 @@ message TraceDataRequest {
 }
 
 /**
-Range of inline, crossline and z indices defining an extent of trace data to retrieve from a Volume.
+Range of inline, crossline and z indices defining an extent of trace data to retrieve from a Cube.
 **/
-message LineBasedCube {
+message LineBasedVolume {
     LineDescriptor iline = 1;
     LineDescriptor xline = 2;
     LineDescriptor z = 3;
@@ -150,9 +160,3 @@ message TraceExtent {
 message LineBasedExtent {
     repeated TraceExtent = 1;
 }
-
-
-}
-/**
-
-*/

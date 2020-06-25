@@ -158,3 +158,9 @@ enum InterpolationMethod {
     NEAREST_TRACE = 0;
     INVERSE_DISTANCE_WEIGHTING = 1;
 }
+
+// List of backing sources for cubes.
+enum CubeSource {
+    INVALID = 0;  // The cube is backed by nothing
+    FILE = 1;     // The cube is backed by a SEGY file
+}

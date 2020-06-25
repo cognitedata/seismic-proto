@@ -3,7 +3,7 @@ import "cognite/seismic/protos/types.proto";
 import "cognite/seismic/protos/seismic_service_messages.proto";
 
 /**
-Service for querying data and metadata from seismic volume in Cognite Data Fusion (CDF) seismic datastore
+Service for querying data and metadata from seismic Cube in Cognite Data Fusion (CDF) seismic datastore
 We use the word `File` to refer to a single seismic file/dataset/cube. Queries on a file require it to have been
 previously ingested into CDF using (ingest_service.proto)
 
@@ -29,7 +29,7 @@ Queries are divided in:
 
     - Area:
 
-     Get 3D volumes of samples (thus 2D arrays of traces) defined by a region in the horizontal plane
+     Get 3D Cubes of samples (thus 2D arrays of traces) defined by a region in the horizontal plane
 
     - Horizontal slice:
 
@@ -40,48 +40,51 @@ Queries are divided in:
     Get the (calculated/interpolated) values of properties in the file/cube given arbitrary positions
 **/
 
-package coognite.seismic.v1;
+package cognite.seismic.v1;
 
 service Seismic {
     // Metadata queries
 
     /**
-    Lists all surveys accessible to the client. Optionally includes volumes associated with the surveys.
-    **/
-    rpc ListSurveys (ListSurveysRequest) returns (stream ListSurveysResponse) {}
-
-    /**
-    Finds one survey given its name or id. Optionally, lists its associated volumes.
-    REMOVED: REPLACED WITH ListSurveys
+    Get Survey by ID.
+    REMOVED: Use ReadSurveys, providing SearchSpec with the survey ID.
     rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
     **/
 
     /**
-    Search surveys based on two criteria:
+    Lists all surveys accessible to the client. Optionally includes Cubes associated with the surveys.
+    
+    Can optionally search surveys based on both/either of two criteria:
         Coverage polygon of files in the survey are within an area delimited by a specified polygon
         Filters on metadata of both the survey and the file
-    Both criteria are optional and can be combined for a more detailed search.
-    REMOVED: REPLACED WITH ListSurveys
+    **/
+    rpc ReadSurveys (ReadSurveysRequest) returns (stream ReadSurveysResponse) {}
+
+    /**
+    REMOVED: Use ReadSurveys with SearchSpec
     rpc SearchSurveys (SearchSurveyRequest) returns (SurveyWithFilesResponse) {}
     **/
 
     /**
-    Lists all lable, both owned by the authorized CDF project and shared with it
-    REMOVED: REPLACED WITH ListSurveys
-    rpc ListVolumes (ListVolumesQueryRequest) returns (ListVolumeResponse) {}
+    Returns cube metadata given its id.
     **/
+    rpc ReadCubes (ReadCubeRequest) returns (stream ReadCubeResponse) {}
+
+
     /**
-    Returns volume metadata given its id.
+    Returns specific information on cube implementation details. Only tenant manager & users should be able to see.
     **/
-    rpc ListVolumes (ListVolumeRequest) returns (stream ListVolumeResponse) {}
+    rpc ReadCubeSourceInfo (ReadCubeSourceRequest) returns (stream ReadCubeSourceResponse) {}
+
     /**
     Returns a binary header given its file name or id.
-    REMOVED: Include in GetVolumeMetadata
+    REMOVED: Use ReadCubes
     rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
     **/
+
     /**
     Returns a text header given its file name or id.
-    REMOVED: Include in GetVolumeMetadata
+    REMOVED: Use ReadCubes
     rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
     **/
 
@@ -93,15 +96,16 @@ service Seismic {
     REMOVED: MOVING TO GEOSPATIAL
     rpc GetFileDataCoverage (FileCoverageRequest) returns (DataCoverageResponse) {}
     **/
+
     /**
-    [Not implemented yet]
     Returns the navigation polygon for the survey obtained from DISKOS
     REMOVED: WAS NOT IMPLEMENTED.
     rpc GetNavigationPolygon (NavigationPolygonRequest) returns (DataCoverageResponse) {}
     **/
+
     /**
     Returns the full range of the inlines and crosslines in the file, i.e. the minimum and maximum inline and crossline
-    REMOVED: OPTIONALLY INCLUDE IN GetVolumeMetadata
+    REMOVED: OPTIONALLY INCLUDE IN GetCubeMetadata
     rpc GetFileLineRange (FileQueryRequest) returns (LineRangeResponse) {}
     **/
 }
