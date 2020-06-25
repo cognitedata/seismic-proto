@@ -108,4 +108,19 @@ service Seismic {
     REMOVED: OPTIONALLY INCLUDE IN GetCubeMetadata
     rpc GetFileLineRange (FileQueryRequest) returns (LineRangeResponse) {}
     **/
+
+    /**
+    Returns the partition(s) specified.
+    **/
+    rpc ReadPartitions (ReadPartitionRequest) returns (stream ReadPartitionResponse) {}
+
+    /**
+    Write to the specified partitions, and return the partitions written.
+    **/
+    rpc WritePartitions (WritePartitionRequest) returns (stream ReadPartitionResponse) {}
+
+    /**
+    Delete the specified partitions, and return all partitions successfully deleted.
+    **/
+    rpc DeletePartitions (DeletePartitionRequest) returns (DeletePartitionResponse) {}
 }

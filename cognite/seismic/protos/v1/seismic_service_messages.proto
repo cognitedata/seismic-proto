@@ -8,7 +8,7 @@ import "google/protobuf/wrappers.proto";
 
 // ---
 
-// Iteration: 1 <- increment this number when you modify this file
+// Iteration: 2 <- increment this number when you modify this file
 // (╯°□°)╯︵ ┻━┻
 
 /**
@@ -78,7 +78,36 @@ message ReadCubeSourceResponse {
     CubeSource source = 3;
 }
 
+/**
 
+    Partitions
+
+**/
+
+message ReadPartitionRequest {
+    oneof findby {
+        string id = 1;
+        string name = 2;
+    }
+}
+
+message ReadPartitionResponse {
+    string id = 1;
+    string name = 2;
+    repeated Cube cubes = 3;
+}
+
+message WritePartitionRequest {
+    repeated ReadPartitionResponse partitions = 1; // The ids cannot be changed, but everything else can.
+}
+
+message DeletePartitionRequest {
+    repeated string id = 1;
+}
+
+message DeletePartitionResponse {
+    repeated string id = 1;
+}
 
 
 
