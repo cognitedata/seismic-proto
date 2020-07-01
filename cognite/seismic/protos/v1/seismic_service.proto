@@ -3,9 +3,9 @@ import "cognite/seismic/protos/types.proto";
 import "cognite/seismic/protos/seismic_service_messages.proto";
 
 /**
-Service for querying data and metadata from seismic Cube in Cognite Data Fusion (CDF) seismic datastore
-We use the word `File` to refer to a single seismic file/dataset/cube. Queries on a file require it to have been
-previously ingested into CDF using (ingest_service.proto)
+Service for querying data and metadata from seismic cube in Cognite Data Fusion (CDF) seismic datastore.
+
+Queries are done on virtual files, which represent the related traces that were originally loaded from one source.
 
 Queries are divided in:
 

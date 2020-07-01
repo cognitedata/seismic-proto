@@ -180,7 +180,7 @@ message BinaryHeader {
 }
 
 /**
-Request a volume from a file by range of inlines, crosslines and time
+Request a volume from a cube by range of inlines, crosslines and time
 **/
 message TraceDataRequest {
     string cube_id = 1;
