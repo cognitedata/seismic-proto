@@ -1,0 +1,37 @@
+/**
+Messages for the trace query service of Seismic Datastore in Cognite Data Fusion
+*/
+syntax = "proto3";
+package com.cognite.seismic.v1;
+
+import "google/protobuf/wrappers.proto";
+import "cognite/seismic_service_metadata_messages.proto";
+
+message Coordinate {
+    float x = 1;
+    float y = 2;
+}
+
+message LineSelect {
+    oneof direction {
+        int32 iline = 1;
+        int32 xline = 2;
+    }
+}
+
+message LineBasedVolume {
+    LineDescriptor iline = 1;
+    LineDescriptor xline = 2;
+    LineDescriptor z = 3;
+}
+
+message LineRange {
+    google.protobuf.Int32Value from_line = 1;
+    google.protobuf.Int32Value to_line = 2;
+}
+
+message VolumeRequest {
+    SearchSpec cube = 1;
+    LineBasedVolume volume = 2;
+    bool include_trace_header = 3;
+}

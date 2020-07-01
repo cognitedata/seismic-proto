@@ -1,10 +1,11 @@
 /**
-Messages from the query service of Seismic Datastore in Cognite Data Fusion
+Messages from the metadata query service of Seismic Datastore in Cognite Data Fusion
 */
 syntax = "proto3";
 package com.cognite.seismic.v1;
 
 import "google/protobuf/wrappers.proto";
+import "cognite/seismic/types.proto";
 
 // ---
 
@@ -12,14 +13,24 @@ import "google/protobuf/wrappers.proto";
 // (╯°□°)╯︵ ┻━┻
 
 /**
- * A Seismic data cube, often derived from a single SEG-Y file, but could also
- * represent a subvolume/slice of another volume, or another arbitrary 3 dimensional data set.
+ * A Seismic data cube or another arbitrary 3 dimensional data set.
  */
 message Cube {
     string id = 1;  // Always present
-    string name = 2;  // Present if specified on volume creation
-    string survey_id = 3;  // Always present, all volumes are associated with a survey
+    string name = 2;  // Present if specified on cube creation
+    string survey_id = 3;  // Always present, all cube are associated with a survey
     map<string, string> metadata = 4;
+}
+
+/**
+A collection of traces, originally from a common source. Backed by a trace store.
+**/
+message VirtualFile {
+    string id = 1;
+    string name = 2;
+    string survey_id = 3;
+    TraceSources trace_store = 4; // Where the traces are stored
+    map<string, string> metadata = 5;
 }
 
 // Specify either an identifier or a name (prefix) to retrieve data for
@@ -58,24 +69,31 @@ message ReadCubeResponse {
     string id = 1;
     string name = 2;
     string crs = 3;
-    string survey_id = 4; 
+    string survey_id = 4;
     map<string, string> metadata = 5;
     TextHeader text_header = 6;
     BinaryHeader binary_header = 7;
     LineRange line_range = 8;
 }
 
-message ReadCubeSourceRequest {
-    oneof findby {
-        SearchSpec survey = 1;
-        repeated SearchSpec cubes = 2;
-    }
-}
-
 message ReadCubeSourceResponse {
     string id = 1;
     string name = 2;
-    CubeSource source = 3;
+    VirtualFile virtual_file = 3;
+}
+
+message ReadVirtualFileResponse {
+    string id = 1;
+    string name = 2;
+    string crs = 3;
+    string survey_id = 4;
+    map<string, string> metadata = 5;
+    TextHeader text_header = 6;
+    BinaryHeader binary_header = 7;
+    LineRange line_range = 8;
+    TraceSource storage = 9;
+    IngestionSource source = 10; // The file or other pathway through which this file was ingested
+    string source_info = 11;
 }
 
 /**
@@ -101,16 +119,19 @@ message WritePartitionRequest {
     repeated ReadPartitionResponse partitions = 1; // The ids cannot be changed, but everything else can.
 }
 
-message DeletePartitionRequest {
+message DeletePartitionsRequest {
     repeated string id = 1;
 }
 
-message DeletePartitionResponse {
+message DeletePartitionsResponse {
     repeated string id = 1;
 }
 
+/**
 
+    Metadata
 
+**/
 
 message LineRange {
     LineDescriptor iline = 1;

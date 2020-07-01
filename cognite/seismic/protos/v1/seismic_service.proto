@@ -43,7 +43,7 @@ Queries are divided in:
 package cognite.seismic.v1;
 
 service Seismic {
-    // Metadata queries
+// Metadata queries
 
     /**
     Get Survey by ID.
@@ -70,11 +70,17 @@ service Seismic {
     **/
     rpc ReadCubes (ReadCubeRequest) returns (stream ReadCubeResponse) {}
 
+    /**
+    Returns information about the virtual files that back cubes.
+    **/
+    rpc ReadCubeSource (ReadCubeRequest) returns (stream ReadCubeSourceResponse) {}
 
     /**
-    Returns specific information on cube implementation details. Only tenant manager & users should be able to see.
+    Returns info about the backing store for a virtual file.
+
+    Reusing ReadCubeRequest because all the fields are the same.
     **/
-    rpc ReadCubeSourceInfo (ReadCubeSourceRequest) returns (stream ReadCubeSourceResponse) {}
+    rpc ReadVirtualFile (ReadCubeRequest) returns (stream ReadVirtualFileResponse) {}
 
     /**
     Returns a binary header given its file name or id.
@@ -122,5 +128,10 @@ service Seismic {
     /**
     Delete the specified partitions, and return all partitions successfully deleted.
     **/
-    rpc DeletePartitions (DeletePartitionRequest) returns (DeletePartitionResponse) {}
+    rpc DeletePartitions (DeletePartitionsRequest) returns (DeletePartitionsResponse) {} 
+
+    /**
+    Request a volume of traces by range of inlines, crosslines and time
+    **/
+    rpc GetVolume(VolumeRequest) returns (stream Trace) {}
 }
