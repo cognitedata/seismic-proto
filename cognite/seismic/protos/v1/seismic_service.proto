@@ -1,11 +1,12 @@
 import "google/protobuf/empty.proto";
 import "cognite/seismic/protos/types.proto";
-import "cognite/seismic/protos/seismic_service_messages.proto";
+import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
+import "cognite/seismic/protos/v1/seismic_service_messages.proto";
 
 /**
 Service for querying data and metadata from seismic cube in Cognite Data Fusion (CDF) seismic datastore.
 
-Queries are done on virtual files, which represent the related traces that were originally loaded from one source.
+Queries are done on cubes, which represent the related traces that were originally loaded from one source.
 
 Queries are divided in:
 
@@ -52,7 +53,7 @@ service Seismic {
     **/
 
     /**
-    Lists all surveys accessible to the client. Optionally includes Cubes associated with the surveys.
+    Lists all surveys accessible to the client. Optionally includes Cutouts associated with the surveys.
     
     Can optionally search surveys based on both/either of two criteria:
         Coverage polygon of files in the survey are within an area delimited by a specified polygon
@@ -66,31 +67,45 @@ service Seismic {
     **/
 
     /**
-    Returns cube metadata given its id.
+    Create new cutouts and assign them to partitions.
+    Excluding their name, cutouts are immutable. The user needs to delete an existing cutout and create a new one
+    if e.g. the definition or the cube target must be changed
     **/
-    rpc ReadCubes (ReadCubeRequest) returns (stream ReadCubeResponse) {}
+    rpc CreateCutouts (CreateCutoutsRequest) returns (stream Cutout) {}
 
     /**
-    Returns information about the virtual files that back cubes.
+    Returns cutout metadata given its id.
+    Can optionally retrieve backing information & partition info if user has the right scope.
     **/
-    rpc ReadCubeSource (ReadCubeRequest) returns (stream ReadCubeSourceResponse) {}
+    rpc ReadCutouts (ReadCutoutRequest) returns (stream Cutout) {}
 
     /**
-    Returns info about the backing store for a virtual file.
+    Set cutout name.
 
-    Reusing ReadCubeRequest because all the fields are the same.
+    Although cutout definitions can't be changed, their names can.
+    If user wants to modify the definition or the partition, they should instead create a new partition and delete the old one.
     **/
-    rpc ReadVirtualFile (ReadCubeRequest) returns (stream ReadVirtualFileResponse) {}
+    rpc SetCutoutName (SetCutoutNameRequest) returns (Cutout) {}
+
+    /**
+    Search and retrieve cubes.
+    **/
+    rpc ReadCubes (ReadCubeRequest) returns (stream Cube) {}
+
+    /**
+    Set the name of a cube.
+    **/
+    rpc SetCubeName (SetCubeNameRequest) returns (Cube) {}
 
     /**
     Returns a binary header given its file name or id.
-    REMOVED: Use ReadCubes
+    REMOVED: Use ReadCutouts
     rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
     **/
 
     /**
     Returns a text header given its file name or id.
-    REMOVED: Use ReadCubes
+    REMOVED: Use ReadCutouts
     rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
     **/
 
@@ -111,24 +126,29 @@ service Seismic {
 
     /**
     Returns the full range of the inlines and crosslines in the file, i.e. the minimum and maximum inline and crossline
-    REMOVED: OPTIONALLY INCLUDE IN GetCubeMetadata
+    REMOVED: OPTIONALLY INCLUDE IN GetCutoutMetadata
     rpc GetFileLineRange (FileQueryRequest) returns (LineRangeResponse) {}
     **/
 
     /**
-    Returns the partition(s) specified.
+    Create partitions, possibly setting a name.
     **/
-    rpc ReadPartitions (ReadPartitionRequest) returns (stream ReadPartitionResponse) {}
+    rpc CreatePartitions (CreatePartitionsRequest) returns (stream Partition) {}
 
     /**
-    Write to the specified partitions, and return the partitions written.
+    Returns the partition(s) specified.
     **/
-    rpc WritePartitions (WritePartitionRequest) returns (stream ReadPartitionResponse) {}
+    rpc ReadPartitions (ReadPartitionsRequest) returns (stream Partition) {}
+
+    /**
+    Set names for partitions
+    **/
+    rpc SetPartitionNames (SetPartitionNamesRequest) returns (stream Partition) {}
 
     /**
     Delete the specified partitions, and return all partitions successfully deleted.
     **/
-    rpc DeletePartitions (DeletePartitionsRequest) returns (DeletePartitionsResponse) {} 
+    rpc DeletePartitions (DeletePartitionsRequest) returns (stream DeletePartitionResponse) {} 
 
     /**
     Request a volume of traces by range of inlines, crosslines and time

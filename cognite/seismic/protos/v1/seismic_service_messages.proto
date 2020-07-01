@@ -1,0 +1,116 @@
+/**
+Messages that describe requests/responses from the Seismic Datastore in Cognite Data Fusion
+*/
+syntax = "proto3";
+package com.cognite.seismic.v1;
+
+import "google/protobuf/wrappers.proto";
+import "cognite/seismic/protos/types.proto";
+import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
+
+// ---
+
+// Iteration: 3 <- increment this number when you modify this file
+// (╯°□°)╯︵ ┻━┻
+
+message ReadSurveysRequest {
+    repeated SearchSpec surveys = 1; // Optional identifier of the survey. If empty, retrieve all accessible surveys
+    bool list_cutout_ids = 2;           // set to true to list the survey's cutouts in the response (default: false)
+    bool list_cube_ids = 3;  // Set to true to list the survey's cubes in the response. Only tenant users can see this.
+    bool include_metadata = 4;       // set to true to include survey metadata in the response (default: false)
+}
+
+message ReadSurveyResponse {
+    string id = 1;
+    string name = 2;
+    map<string, string> metadata = 3;
+    repeated string cutout_ids = 4;  // Optionally present
+    repeated string cube_ids = 5;  // Optionally present
+}
+
+message CreateCutoutsRequest {
+    string name = 1;  // optional
+    SearchSpec partition = 2;  // Must uniquely identify a partition. If there's multiple valid partitions, operation will fail.
+    SearchSpec cube = 3;  // Must uniquely identify a cube. If there's multiple valid cubes, operation will fail.
+    CutoutDef cutout_def = 4;  // Defines the portion of the cube to cut out    
+}
+
+message ReadCutoutRequest {
+    oneof findby {
+        SearchSpec survey = 1;
+        repeated SearchSpec cutouts = 2;
+        repeated SearchSpec partitions = 3;  // Can only search on partitions you can see.
+    }
+    bool include_text_header = 3;
+    bool include_binary_header = 4;
+    bool include_line_range = 5;
+    bool include_cutout_definition = 6;  // If true, include the cutout definition blob
+    bool include_cube = 7; // If true, include info on the backing cubes. Must be data manager.
+    bool include_partition = 8; // If true, include info on the partition. Must be data manager.
+}
+
+message SetCutoutNameRequest {
+    SearchSpec cutout = 1;
+    string new_name = 2;
+}
+
+message ReadCubeRequest {
+    repeated SearchSpec cubes = 1;
+    bool include_file_info = 2;  // If true, include File information in the response
+}
+
+message SetCubeNameRequest {
+    SearchSpec cube = 1;
+    string new_name = 2;
+}
+
+/**
+
+    Partitions
+
+**/
+
+message CreatePartitionsRequest {
+    string name = 1;  // optional name
+}
+
+message ReadPartitionsRequest {
+    oneof findby {
+        string id = 1;
+        string name = 2;
+    }
+}
+
+message SendPartitionNameRequest {
+    SearchSpec partition = 1;  // Must uniquely identify a partition
+    string new_name = 2;
+}
+
+message DeletePartitionsRequest {
+    repeated string id = 1;
+}
+
+message DeletePartitionResponse {
+    string id = 1;
+    bool success = 2;
+}
+
+/**
+Request a volume from a cutout by range of inlines, crosslines and time
+**/
+message TraceDataRequest {
+    string cutout_id = 1;
+    oneof traceExtent {
+        LineBasedVolume volume = 2; // Inline/crossline, z extent
+        GeometryBasedExtent geometry = 3;  //  Simple WKT geometry? What is "simple"?
+        //GeospatialObjectExtent geospatial = 4;  // Retrieve object from Geospatial API?
+    }
+    bool include_trace_header = 16;
+}
+
+
+message VolumeRequest {
+    SearchSpec cutout = 1;
+    LineBasedVolume volume = 2;
+    bool include_trace_header = 3;
+}
