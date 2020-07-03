@@ -42,8 +42,8 @@ message LineRange {
     BinaryHeader binary_header = 7;
     LineRange line_range = 8;
     CutoutDef cutout_def = 9;
-    string partition_id = 10; // Present only if user is allowed to manage partitions
-    Cube cube = 11;  // Present only if user is allowed to manage partitions
+    string partition_id = 10;
+    Cube cube = 11;  // Present only if user can view the cube
 }
 
 /**
@@ -74,7 +74,30 @@ message CutoutDef {
     string json = 1;  // Uses the Cutout Definition schema
 }
 
-// Specify either an identifier or a name (prefix) to retrieve data for
+message IdHandle {
+    string id = 1;
+}
+
+message NameHandle {
+    string parent_id = 1; // The id for the namespace. A partition for cutouts, a project for cubes.
+    string name = 2; // Is unique per namespace (per partition for cutouts, per project for cubes)
+}
+
+/**
+Used to identify zero or one objects. 
+**/
+message Identifier {
+    oneof handle {
+        IdHandle id_handle = 1;
+        NameHandle name_handle = 2;
+    }
+}
+
+/**
+Used to identify any number of objects, intended for any Read* endpoints. Set* endpoints should use Identifier.
+
+Can search by id, name, or prefix.
+**/
 message SearchSpec {
     oneof findby {
         string id = 1;

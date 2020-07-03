@@ -88,7 +88,7 @@ service Seismic {
     rpc SetCutoutName (SetCutoutNameRequest) returns (Cutout) {}
 
     /**
-    Search and retrieve cubes.
+    Search and retrieve cubes. Can only retrieve cubes you own.
     **/
     rpc ReadCubes (ReadCubeRequest) returns (stream Cube) {}
 
@@ -143,7 +143,7 @@ service Seismic {
     /**
     Set names for partitions
     **/
-    rpc SetPartitionNames (SetPartitionNamesRequest) returns (stream Partition) {}
+    rpc SetPartitionName (SetPartitionNameRequest) returns (Partition) {}
 
     /**
     Delete the specified partitions, and return all partitions successfully deleted.

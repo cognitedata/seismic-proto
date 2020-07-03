@@ -10,7 +10,7 @@ import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 
 // ---
 
-// Iteration: 3 <- increment this number when you modify this file
+// Iteration: 4 <- increment this number when you modify this file
 // (╯°□°)╯︵ ┻━┻
 
 message ReadSurveysRequest {
@@ -30,8 +30,8 @@ message ReadSurveyResponse {
 
 message CreateCutoutsRequest {
     string name = 1;  // optional
-    SearchSpec partition = 2;  // Must uniquely identify a partition. If there's multiple valid partitions, operation will fail.
-    SearchSpec cube = 3;  // Must uniquely identify a cube. If there's multiple valid cubes, operation will fail.
+    Identifier partition = 2;
+    Identifier cube = 3;
     CutoutDef cutout_def = 4;  // Defines the portion of the cube to cut out    
 }
 
@@ -50,7 +50,7 @@ message ReadCutoutRequest {
 }
 
 message SetCutoutNameRequest {
-    SearchSpec cutout = 1;
+    Identifier cutout = 1;
     string new_name = 2;
 }
 
@@ -60,7 +60,7 @@ message ReadCubeRequest {
 }
 
 message SetCubeNameRequest {
-    SearchSpec cube = 1;
+    Identifier cube = 1;
     string new_name = 2;
 }
 
@@ -75,14 +75,11 @@ message CreatePartitionsRequest {
 }
 
 message ReadPartitionsRequest {
-    oneof findby {
-        string id = 1;
-        string name = 2;
-    }
+    SearchSpec partitions = 1;
 }
 
 message SendPartitionNameRequest {
-    SearchSpec partition = 1;  // Must uniquely identify a partition
+    Identifier partition = 1;  // Must uniquely identify a partition
     string new_name = 2;
 }
 
@@ -99,7 +96,7 @@ message DeletePartitionResponse {
 Request a volume from a cutout by range of inlines, crosslines and time
 **/
 message TraceDataRequest {
-    string cutout_id = 1;
+    Identifier cutout = 1;
     oneof traceExtent {
         LineBasedVolume volume = 2; // Inline/crossline, z extent
         GeometryBasedExtent geometry = 3;  //  Simple WKT geometry? What is "simple"?
@@ -110,7 +107,7 @@ message TraceDataRequest {
 
 
 message VolumeRequest {
-    SearchSpec cutout = 1;
+    Identifier cutout = 1;
     LineBasedVolume volume = 2;
     bool include_trace_header = 3;
 }
