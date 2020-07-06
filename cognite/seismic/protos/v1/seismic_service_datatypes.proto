@@ -32,9 +32,9 @@ message LineRange {
 /**
  * A cutout of a seismic cube, or other 3D dataset.
  */
- message Cutout {
+ message Cube {
     string id = 1;  // Always present
-    string name = 2;  // Present if specified when cutout is created
+    string name = 2;  // Present if specified when cube was created
     string crs = 3;
     string survey_id = 4;  // All cutouts are associated with a survey
     map<string, string> metadata = 5;
@@ -43,41 +43,49 @@ message LineRange {
     LineRange line_range = 8;
     CutoutDef cutout_def = 9;
     string partition_id = 10;
-    Cube cube = 11;  // Present only if user can view the cube
+    Tracestore tracestore = 11;  // Present only if user can view the cube
 }
 
 /**
-A collection of traces, originally from a common source. Backed by a trace store.
+Represents a trace store.
 **/
-message Cube {
+message Tracestore {
     string id = 1;
     string name = 2;
     string survey_id = 3;
-    TraceSource trace_store = 4; // Where the traces are stored
+    TraceSource location = 4; // Where the traces are stored
     IngestionSource ingestion_source = 5; // How the file was ingested
     map<string, string> metadata = 6;
     File ingested_file = 7; // The info for the original file, if it was ingested as a file
 }
 
+/**
+Represents partitions, used for granular access control
+**/
 message Partition {
     string id = 1;
     string name = 2;
     string survey_id = 3;
-    repeated Cutout cutouts = 4;
+    repeated Cube cubes = 4;
 }
 
 /**
 Specifies the cutout "shape"
 **/
-
 message CutoutDef {
     string json = 1;  // Uses the Cutout Definition schema
 }
 
+/**
+Ids are great because you only need an ID and the object type to uniquely identify an object
+**/
 message IdHandle {
     string id = 1;
 }
 
+/**
+Names are not so great because they're not guaranteed to be unique. We need a namespace id for it.
+**/
 message NameHandle {
     string parent_id = 1; // The id for the namespace. A partition for cutouts, a project for cubes.
     string name = 2; // Is unique per namespace (per partition for cutouts, per project for cubes)
@@ -94,7 +102,7 @@ message Identifier {
 }
 
 /**
-Used to identify any number of objects, intended for any Read* endpoints. Set* endpoints should use Identifier.
+Used to identify any number of objects, intended for any plural Read* endpoints. Set* endpoints should use Identifier.
 
 Can search by id, name, or prefix.
 **/

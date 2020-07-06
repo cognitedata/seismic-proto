@@ -4,41 +4,14 @@ import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 import "cognite/seismic/protos/v1/seismic_service_messages.proto";
 
 /**
-Service for querying data and metadata from seismic cube in Cognite Data Fusion (CDF) seismic datastore.
+Service for querying data and metadata from seismic tracestore in Cognite Data Fusion (CDF) seismic datastore.
 
-Queries are done on cubes, which represent the related traces that were originally loaded from one source.
+Queries are done primarily on cubes, with some management endpoints for tracestores & partitions. 
 
 Queries are divided in:
-
-    - Metadata:
-
-    General information and headers for surveys and files
-
-    - Geometry and grid:
-
-    Information on a file's grid and positioning, such as coverage and range of inlines and crosslines
-
-    - Trace:
-
-    Find a single trace in the file. A trace will include header, position information and samples.
-    More details about the trace format can be found on its definition in (types.proto)
-
-    - Vertical slice:
-
-    Get 2D vertical slices of samples (thus 1D arrays of traces). The slices can be based on a single defined line or
-    in an arbitrarily defined line with interpolation.
-
-    - Area:
-
-     Get 3D Cubes of samples (thus 2D arrays of traces) defined by a region in the horizontal plane
-
-    - Horizontal slice:
-
-     Get 2D horizontal slices of samples defined by a region in the horizontal plane and a specific index in depth/time
-
-    - Artificial sampling:
-
-    Get the (calculated/interpolated) values of properties in the file/cube given arbitrary positions
+    Metadata: General information and headers for surveys and files
+    Trace: Retrieve traces, be it by geometry, line or volume
+    Artificial sampling: Get the (calculated/interpolated) values of properties in the file/tracestore given arbitrary positions
 **/
 
 package cognite.seismic.v1;
@@ -53,7 +26,7 @@ service Seismic {
     **/
 
     /**
-    Lists all surveys accessible to the client. Optionally includes Cutouts associated with the surveys.
+    Lists all surveys accessible to the client. Optionally includes Cubes associated with the surveys.
     
     Can optionally search surveys based on both/either of two criteria:
         Coverage polygon of files in the survey are within an area delimited by a specified polygon
@@ -67,45 +40,46 @@ service Seismic {
     **/
 
     /**
-    Create new cutouts and assign them to partitions.
-    Excluding their name, cutouts are immutable. The user needs to delete an existing cutout and create a new one
-    if e.g. the definition or the cube target must be changed
+    Create new Cubes and assign them to partitions.
+    Excluding their name, Cubes are immutable. The user needs to delete an existing cutout and create a new one
+    if e.g. the definition or the tracestore target must be changed
     **/
-    rpc CreateCutouts (CreateCutoutsRequest) returns (stream Cutout) {}
+    rpc CreateCube (CreateCubeRequest) returns (Cube) {}
 
     /**
-    Returns cutout metadata given its id.
+    Returns cube metadata given its id.
     Can optionally retrieve backing information & partition info if user has the right scope.
-    **/
-    rpc ReadCutouts (ReadCutoutRequest) returns (stream Cutout) {}
-
-    /**
-    Set cutout name.
-
-    Although cutout definitions can't be changed, their names can.
-    If user wants to modify the definition or the partition, they should instead create a new partition and delete the old one.
-    **/
-    rpc SetCutoutName (SetCutoutNameRequest) returns (Cutout) {}
-
-    /**
-    Search and retrieve cubes. Can only retrieve cubes you own.
+    Use GetVolume to retrieve traces.
     **/
     rpc ReadCubes (ReadCubeRequest) returns (stream Cube) {}
 
     /**
-    Set the name of a cube.
+    Set cube name.
+
+    Although cube definitions can't be changed, their names can.
+    If user wants to modify the definition or the owning partition, they should instead create a new partition and delete the old one.
     **/
-    rpc SetCubeName (SetCubeNameRequest) returns (Cube) {}
+    rpc SetCubeName (SetCubeNameRequest) returns (Cutout) {}
+
+    /**
+    Search and retrieve tracestores. Can only retrieve tracestores you own.
+    **/
+    rpc ReadTracestores (ReadTracestoreRequest) returns (stream Tracestore) {}
+
+    /**
+    Set the name of a tracestore.
+    **/
+    rpc SetTracestoreName (SetTracestoreNameRequest) returns (Tracestore) {}
 
     /**
     Returns a binary header given its file name or id.
-    REMOVED: Use ReadCutouts
+    REMOVED: Use ReadCubes
     rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
     **/
 
     /**
     Returns a text header given its file name or id.
-    REMOVED: Use ReadCutouts
+    REMOVED: Use ReadCubes
     rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
     **/
 

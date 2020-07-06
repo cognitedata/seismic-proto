@@ -160,13 +160,13 @@ enum InterpolationMethod {
 }
 
 enum TraceSource {
-    INVALID = 0;
+    INVALID_STORE = 0;
     BIGTABLE = 1;
     GCS = 2;
 }
 
 enum IngestionSource {
-    INVALID = 0;
-    FILE = 1;
-    WRITER = 2;  // TraceWriter
+    INVALID_SOURCE = 0;
+    FILE_SOURCE = 1;
+    TRACE_WRITER = 2;  // TraceWriter
 }
