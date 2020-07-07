@@ -34,16 +34,17 @@ message LineRange {
  */
  message Cube {
     string id = 1;  // Always present
-    string name = 2;  // Present if specified when cube was created
-    string crs = 3;
-    string survey_id = 4;  // All cutouts are associated with a survey
-    map<string, string> metadata = 5;
-    TextHeader text_header = 6;
-    BinaryHeader binary_header = 7;
-    LineRange line_range = 8;
-    CutoutDef cutout_def = 9;
-    string partition_id = 10;
-    Tracestore tracestore = 11;  // Present only if user can view the cube
+    string external_id = 2;
+    string name = 3;
+    string crs = 4;
+    string survey_id = 5;  // All cutouts are associated with a survey
+    map<string, string> metadata = 6;
+    TextHeader text_header = 7;
+    BinaryHeader binary_header = 8;
+    LineRange line_range = 9;
+    CutoutDef cutout_def = 10;
+    string partition_id = 11;
+    Tracestore tracestore = 12;  // Present only if user can view the tracestore
 }
 
 /**
@@ -65,8 +66,9 @@ Represents partitions, used for granular access control
 message Partition {
     string id = 1;
     string name = 2;
-    string survey_id = 3;
-    repeated Cube cubes = 4;
+    string external_id = 3;
+    string survey_id = 4;
+    repeated Cube cubes = 5;
 }
 
 /**
@@ -77,27 +79,12 @@ message CutoutDef {
 }
 
 /**
-Ids are great because you only need an ID and the object type to uniquely identify an object
-**/
-message IdHandle {
-    string id = 1;
-}
-
-/**
-Names are not so great because they're not guaranteed to be unique. We need a namespace id for it.
-**/
-message NameHandle {
-    string parent_id = 1; // The id for the namespace. A partition for cutouts, a project for cubes.
-    string name = 2; // Is unique per namespace (per partition for cutouts, per project for cubes)
-}
-
-/**
-Used to identify zero or one objects. 
+Used to identify zero or one objects that may have an external id 
 **/
 message Identifier {
     oneof handle {
-        IdHandle id_handle = 1;
-        NameHandle name_handle = 2;
+        string id = 1;
+        string external_id = 2;
     }
 }
 
@@ -109,8 +96,12 @@ Can search by id, name, or prefix.
 message SearchSpec {
     oneof findby {
         string id = 1;
-        string name = 2;  // An exact string match is required
-        string name_prefix = 3;  // Searches for names having this prefix
+        // External ids only exist for partitions and cubes.
+        string external_id = 2;  // Exact match required
+        string external_id_substring = 3;
+        // Names exist for everything
+        string name = 4;  // An exact string match is required
+        string name_substring = 5;  // Searches for names having this substring.
     }
 }
 

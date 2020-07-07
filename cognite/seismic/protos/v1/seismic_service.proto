@@ -62,6 +62,11 @@ service Seismic {
     rpc SetCubeName (SetCubeNameRequest) returns (Cutout) {}
 
     /**
+    Delete cubes.
+    **/
+    rpc DeleteCubes (DeleteCubesRequest) returns (stream DeleteCubeResponse) {}
+
+    /**
     Search and retrieve tracestores. Can only retrieve tracestores you own.
     **/
     rpc ReadTracestores (ReadTracestoreRequest) returns (stream Tracestore) {}
