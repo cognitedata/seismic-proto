@@ -1,3 +1,7 @@
+syntax = "proto3";
+
+package cognite.seismic.v1;
+
 import "google/protobuf/empty.proto";
 import "cognite/seismic/protos/types.proto";
 import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
@@ -13,8 +17,6 @@ Queries are divided in:
     Trace: Retrieve traces, be it by geometry, line or volume
     Artificial sampling: Get the (calculated/interpolated) values of properties in the file/tracestore given arbitrary positions
 **/
-
-package cognite.seismic.v1;
 
 service Seismic {
 // Metadata queries
