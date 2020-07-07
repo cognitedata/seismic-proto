@@ -1,8 +1,7 @@
 syntax = "proto3";
 
-package cognite.seismic.v1;
+package com.cognite.seismic.v1;
 
-import "google/protobuf/empty.proto";
 import "cognite/seismic/protos/types.proto";
 import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 import "cognite/seismic/protos/v1/seismic_service_messages.proto";
@@ -34,7 +33,7 @@ service Seismic {
         Coverage polygon of files in the survey are within an area delimited by a specified polygon
         Filters on metadata of both the survey and the file
     **/
-    rpc ReadSurveys (ReadSurveysRequest) returns (stream ReadSurveysResponse) {}
+    rpc ReadSurveys (ReadSurveysRequest) returns (stream ReadSurveyResponse) {}
 
     /**
     REMOVED: Use ReadSurveys with SearchSpec
@@ -61,7 +60,7 @@ service Seismic {
     Although cube definitions can't be changed, their names can.
     If user wants to modify the definition or the owning partition, they should instead create a new partition and delete the old one.
     **/
-    rpc SetCubeName (SetCubeNameRequest) returns (Cutout) {}
+    rpc SetCubeName (SetCubeNameRequest) returns (Cube) {}
 
     /**
     Delete cubes.
@@ -134,5 +133,5 @@ service Seismic {
     /**
     Request a volume of traces by range of inlines, crosslines and time
     **/
-    rpc GetVolume(VolumeRequest) returns (stream Trace) {}
+    rpc GetVolume(VolumeRequest) returns (stream com.cognite.seismic.Trace) {}
 }

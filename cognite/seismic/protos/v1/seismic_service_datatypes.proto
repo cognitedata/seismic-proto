@@ -5,6 +5,7 @@ syntax = "proto3";
 package com.cognite.seismic.v1;
 
 import "google/protobuf/wrappers.proto";
+import "cognite/seismic/protos/types.proto";
 
 message Coordinate {
     float x = 1;
@@ -30,7 +31,7 @@ message LineRange {
 }
 
 /**
- * A cutout of a seismic cube, or other 3D dataset.
+ * A cutout of a tracestore, or other 3D dataset.
  */
  message Cube {
     string id = 1;  // Always present
@@ -105,16 +106,6 @@ message SearchSpec {
     }
 }
 
-message LineRange {
-    LineDescriptor iline = 1;
-    LineDescriptor xline = 2;
-}
-
-message LineDescriptor {
-    google.protobuf.Int32Value min = 1;
-    google.protobuf.Int32Value max = 2;
-}
-
 message TextHeader {
     string file_id = 1;
     string header = 2;
@@ -151,14 +142,6 @@ message BinaryHeader {
     bytes raw_header = 27;
 }
 
-/**
-Range of inline, crossline and z indices defining an extent of trace data to retrieve from a Cube.
-**/
-message LineBasedVolume {
-    LineDescriptor iline = 1;
-    LineDescriptor xline = 2;
-    LineDescriptor z = 3;
-}
 
 message TraceExtent {
     int32 xline = 1;
@@ -167,5 +150,5 @@ message TraceExtent {
 }
 
 message LineBasedExtent {
-    repeated TraceExtent = 1;
+    repeated TraceExtent extents = 1;
 }

@@ -4,8 +4,6 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 syntax = "proto3";
 package com.cognite.seismic.v1;
 
-import "google/protobuf/wrappers.proto";
-import "cognite/seismic/protos/types.proto";
 import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 
 // ---
@@ -39,8 +37,8 @@ message CreateCubeRequest {
 message ReadCubeRequest {
     oneof findby {
         SearchSpec survey = 1;
-        repeated SearchSpec cubes = 2;
-        repeated SearchSpec partitions = 3;  // Can only search on partitions you can see.
+        SearchSpec cube = 2;
+        SearchSpec partition = 3;  // Can only search on partitions you can see.
     }
     bool include_text_header = 4;
     bool include_binary_header = 5;
