@@ -22,7 +22,7 @@ service Seismic {
 
     /**
     Get Survey by ID.
-    REMOVED: Use ReadSurveys, providing SearchSpec with the survey ID.
+    REMOVED: Use SearchSurveys, providing SearchSpec with the survey ID.
     rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
     **/
 
@@ -33,7 +33,7 @@ service Seismic {
         Coverage polygon of files in the survey are within an area delimited by a specified polygon
         Filters on metadata of both the survey and the file
     **/
-    rpc ReadSurveys (ReadSurveysRequest) returns (stream ReadSurveyResponse) {}
+    rpc SearchSurveys (SearchSurveysRequest) returns (stream SearchSurveyResponse) {}
 
     /**
     REMOVED: Use ReadSurveys with SearchSpec
@@ -52,15 +52,13 @@ service Seismic {
     Can optionally retrieve backing information & partition info if user has the right scope.
     Use GetVolume to retrieve traces.
     **/
-    rpc ReadCubes (ReadCubeRequest) returns (stream Cube) {}
+    rpc SearchCubes (SearchCubesRequest) returns (stream Cube) {}
 
     /**
-    Set cube name.
-
-    Although cube definitions can't be changed, their names can.
+    Edit the specified cube. Although cube definitions can't be changed, their names can.
     If user wants to modify the definition or the owning partition, they should instead create a new partition and delete the old one.
     **/
-    rpc SetCubeName (SetCubeNameRequest) returns (Cube) {}
+    rpc EditCube (EditCubeRequest) returns (Cube) {}
 
     /**
     Delete cubes.
@@ -116,14 +114,14 @@ service Seismic {
     rpc CreatePartitions (CreatePartitionsRequest) returns (stream Partition) {}
 
     /**
-    Returns the partition(s) specified.
+    Returns the partition(s) specified, with the same search options as the other search endpoints.
     **/
-    rpc ReadPartitions (ReadPartitionsRequest) returns (stream Partition) {}
+    rpc SearchPartitions (ReadPartitionsRequest) returns (stream Partition) {}
 
     /**
-    Set names for partitions
+    Edit partitions. The only modifiable field is the name
     **/
-    rpc SetPartitionName (SetPartitionNameRequest) returns (Partition) {}
+    rpc EditPartition (EditPartitionRequest) returns (Partition) {}
 
     /**
     Delete the specified partitions, and return all partitions successfully deleted.

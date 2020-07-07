@@ -11,14 +11,14 @@ import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 // Iteration: 5 <- increment this number when you modify this file
 // (╯°□°)╯︵ ┻━┻
 
-message ReadSurveysRequest {
+message SearchSurveysRequest {
     repeated SearchSpec surveys = 1; // Optional identifier of the survey. If empty, retrieve all accessible surveys
     bool list_cube_ids = 2;           // set to true to list the survey's cubes in the response (default: false)
     bool list_tracestore_ids = 3;  // Set to true to list the survey's tracestores in the response. Only tenant users can see this.
     bool include_metadata = 4;       // set to true to include survey metadata in the response (default: false)
 }
 
-message ReadSurveyResponse {
+message SearchSurveyResponse {
     string id = 1;
     string name = 2;
     map<string, string> metadata = 3;
@@ -34,7 +34,7 @@ message CreateCubeRequest {
     CutoutDef cutout_def = 5;  // Defines the portion of the tracestore volume to cut out    
 }
 
-message ReadCubeRequest {
+message SearchCubesRequest {
     oneof findby {
         SearchSpec survey = 1;
         SearchSpec cube = 2;
@@ -48,7 +48,7 @@ message ReadCubeRequest {
     bool include_partition = 9; // If true, include info on the partition. Must be data manager.
 }
 
-message SetCubeNameRequest {
+message EditCubeRequest {
     Identifier cube = 1;
     string new_name = 2;
 }
@@ -88,7 +88,7 @@ message ReadPartitionsRequest {
     SearchSpec partitions = 1;
 }
 
-message SetPartitionNameRequest {
+message EditPartitionRequest {
     Identifier partition = 1;  // Must uniquely identify a partition
     string new_name = 2;
 }
