@@ -8,13 +8,17 @@ import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 
 // ---
 
-// Iteration: 5 <- increment this number when you modify this file
+// Iteration: 6 <- increment this number when you modify this file
 // (╯°□°)╯︵ ┻━┻
+
+/**
+    Surveys
+**/
 
 message SearchSurveysRequest {
     repeated SearchSpec surveys = 1; // Optional identifier of the survey. If empty, retrieve all accessible surveys
-    bool list_cube_ids = 2;           // set to true to list the survey's cubes in the response (default: false)
-    bool list_tracestore_ids = 3;  // Set to true to list the survey's tracestores in the response. Only tenant users can see this.
+    bool list_seismic_ids = 2;           // set to true to list the survey's seismics in the response (default: false)
+    bool list_seismic_store_ids = 3;  // Set to true to list the survey's seismic stores in the response. Only tenant users can see this.
     bool include_metadata = 4;       // set to true to include survey metadata in the response (default: false)
 }
 
@@ -22,55 +26,59 @@ message SearchSurveyResponse {
     string id = 1;
     string name = 2;
     map<string, string> metadata = 3;
-    repeated string cube_ids = 4;  // Optionally present
-    repeated string tracestore_ids = 5;  // Optionally present
+    repeated string seismic_ids = 4;  // Optionally present
+    repeated string seismic_store_ids = 5;  // Optionally present
 }
 
-message CreateCubeRequest {
+/**
+    Seismics
+**/
+
+message CreateSeismicRequest {
     string name = 1;  // optional
     string external_id = 2;  // not optional
     Identifier partition = 3;
-    string tracestore_id = 4;
+    string seismic_store_id = 4;
     CutoutDef cutout_def = 5;  // Defines the portion of the tracestore volume to cut out    
 }
 
-message SearchCubesRequest {
+message SearchSeismicsRequest {
     oneof findby {
         SearchSpec survey = 1;
-        SearchSpec cube = 2;
+        SearchSpec seismic = 2;
         SearchSpec partition = 3;  // Can only search on partitions you can see.
     }
     bool include_text_header = 4;
     bool include_binary_header = 5;
     bool include_line_range = 6;
     bool include_cutout_definition = 7;  // If true, include the cutout definition blob
-    bool include_tracestore = 8; // If true, include info on the backing tracestores. Must be data manager.
+    bool include_seismic_store = 8; // If true, include info on the backing seismicstore. Must be data manager.
     bool include_partition = 9; // If true, include info on the partition. Must be data manager.
 }
 
-message EditCubeRequest {
-    Identifier cube = 1;
-    string new_name = 2;
+message EditSeismicRequest {
+    Identifier seismic = 1;
+    string name = 2;
 }
 
-message DeleteCubesRequest {
-    repeated Identifier cubes = 1;
+message DeleteSeismicsRequest {
+    repeated Identifier seismics = 1;
 }
 
-message DeleteCubeResponse {
+message DeleteSeismicResponse {
     string id = 1;
     string external_id = 2;
     bool succeeded = 3;    
 }
 
-message ReadTracestoreRequest {
-    repeated SearchSpec tracestores = 1;
+message SearchSeismicStoresRequest {
+    repeated SearchSpec seismic_stores = 1;
     bool include_file_info = 2;  // If true, include File information in the response
 }
 
-message SetTracestoreNameRequest {
-    string tracestore_id = 1;
-    string new_name = 2;
+message EditSeismicStoreRequest {
+    string seismic_store_id = 1;
+    string name = 2;
 }
 
 /**
@@ -82,7 +90,7 @@ message SetTracestoreNameRequest {
 message CreatePartitionsRequest {
     string name = 1;  // optional name
     string external_id = 2;  // not optional externalid
-    Identifier project = 3;  // the parent project to assign to
+    string project_id = 3;  // the parent project to assign to
 }
 
 message ReadPartitionsRequest {
@@ -110,8 +118,8 @@ message DeletePartitionResponse {
 
 message VolumeRequest {
     oneof identifier {
-        Identifier cube = 1;
-        string tracestore_id = 2;  // Need to be a data manager or tenant user, not 3rd party, to access by tracestore
+        Identifier seismic = 1;
+        string seismic_store_id = 2;  // Need to be a data manager or tenant user, not 3rd party, to access by tracestore
     }
     LineBasedVolume volume = 3;
     bool include_trace_header = 4;

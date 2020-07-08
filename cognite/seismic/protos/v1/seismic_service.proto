@@ -17,7 +17,7 @@ Queries are divided in:
     Artificial sampling: Get the (calculated/interpolated) values of properties in the file/tracestore given arbitrary positions
 **/
 
-service Seismic {
+service SeismicV1 {
 // Metadata queries
 
     /**
@@ -41,39 +41,39 @@ service Seismic {
     **/
 
     /**
-    Create new Cubes and assign them to partitions.
-    Excluding their name, Cubes are immutable. The user needs to delete an existing cutout and create a new one
-    if e.g. the definition or the tracestore target must be changed
+    Create new Seismics and assign them to partitions.
+    Except for their name, Seismics are immutable. The user needs to delete an existing cutout and create a new one
+    if e.g. the definition or the seismic store must be changed
     **/
-    rpc CreateCube (CreateCubeRequest) returns (Cube) {}
+    rpc CreateSeismic (CreateSeismicRequest) returns (Seismic) {}
 
     /**
-    Returns cube metadata given its id.
-    Can optionally retrieve backing information & partition info if user has the right scope.
+    Returns Seismic metadata given its id.
+    Can optionally retrieve seismic store & partition info if user has the right scope.
     Use GetVolume to retrieve traces.
     **/
-    rpc SearchCubes (SearchCubesRequest) returns (stream Cube) {}
+    rpc SearchSeismics (SearchSeismicsRequest) returns (stream Seismic) {}
 
     /**
-    Edit the specified cube. Although cube definitions can't be changed, their names can.
+    Edit the specified seismic. Although cutout definitions can't be changed, their names can.
     If user wants to modify the definition or the owning partition, they should instead create a new partition and delete the old one.
     **/
-    rpc EditCube (EditCubeRequest) returns (Cube) {}
+    rpc EditSeismic (EditSeismicRequest) returns (Seismic) {}
 
     /**
-    Delete cubes.
+    Delete seismics.
     **/
-    rpc DeleteCubes (DeleteCubesRequest) returns (stream DeleteCubeResponse) {}
+    rpc DeleteSeismics (DeleteSeismicsRequest) returns (stream DeleteSeismicResponse) {}
 
     /**
-    Search and retrieve tracestores. Can only retrieve tracestores you own.
+    Search and retrieve seismic stores. Can only retrieve seismic stores you own.
     **/
-    rpc ReadTracestores (ReadTracestoreRequest) returns (stream Tracestore) {}
+    rpc SearchSeismicStores (SearchSeismicStoresRequest) returns (stream SeismicStore) {}
 
     /**
     Set the name of a tracestore.
     **/
-    rpc SetTracestoreName (SetTracestoreNameRequest) returns (Tracestore) {}
+    rpc EditSeismicStore (EditSeismicStoreRequest) returns (SeismicStore) {}
 
     /**
     Returns a binary header given its file name or id.

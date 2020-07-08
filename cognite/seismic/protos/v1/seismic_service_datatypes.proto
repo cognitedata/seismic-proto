@@ -31,9 +31,9 @@ message LineRange {
 }
 
 /**
- * A cutout of a tracestore, or other 3D dataset.
+ * A cutout of a seismic store
  */
- message Cube {
+ message Seismic {
     string id = 1;  // Always present
     string external_id = 2;
     string name = 3;
@@ -45,13 +45,13 @@ message LineRange {
     LineRange line_range = 9;
     CutoutDef cutout_def = 10;
     string partition_id = 11;
-    Tracestore tracestore = 12;  // Present only if user can view the tracestore
+    SeismicStore seismic_store = 12;  // Present only if user can view the tracestore
 }
 
 /**
-Represents a trace store.
+Represents a seismic store.
 **/
-message Tracestore {
+message SeismicStore {
     string id = 1;
     string name = 2;
     string survey_id = 3;
@@ -69,7 +69,7 @@ message Partition {
     string name = 2;
     string external_id = 3;
     string survey_id = 4;
-    repeated Cube cubes = 5;
+    repeated Seismic seismics = 5;
 }
 
 /**
@@ -97,7 +97,7 @@ Can search by id, name, or prefix.
 message SearchSpec {
     oneof findby {
         string id = 1;
-        // External ids only exist for partitions and cubes.
+        // External ids only exist for partitions and seismics.
         string external_id = 2;  // Exact match required
         string external_id_substring = 3;
         // Names exist for everything
