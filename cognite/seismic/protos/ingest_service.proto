@@ -52,6 +52,10 @@ service Ingest {
     **/
     rpc DeleteFile (DeleteFileRequest) returns (google.protobuf.Empty) {}
     /**
+    Deletes a survey
+    **/
+    rpc DeleteSurvey (DeleteSurveyRequest) returns (google.protobuf.Empty) {}
+    /**
     Updates file metadata
     **/
     rpc EditFile (EditFileRequest) returns (EditFileResponse) {}

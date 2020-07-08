@@ -119,6 +119,22 @@ message DeleteFileRequest {
 
 /**
     [Example]
+    {"survey": {"name": "survey_name"} }
+**/
+message DeleteSurveyRequest {
+    cognite.seismic.Identifier survey = 1; // [required] Either name or id of a survey previously registered with /RegisterSurvey
+    /*
+     If set to true, will only delete metadata (undo the ingestion), but keep the registered files of survey as is.
+     If set to false, will delete the registered files of survey.
+     If no option is set, default is false
+     */
+    bool keep_registered = 2;
+}
+
+// -----
+
+/**
+    [Example]
     {"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
 **/
 message EditFileRequest {
