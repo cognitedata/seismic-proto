@@ -82,6 +82,7 @@ message SetTracestoreNameRequest {
 message CreatePartitionsRequest {
     string name = 1;  // optional name
     string external_id = 2;  // not optional externalid
+    Identifier project = 3;  // the parent project to assign to
 }
 
 message ReadPartitionsRequest {
