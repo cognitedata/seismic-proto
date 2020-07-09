@@ -108,11 +108,21 @@ message StatusResponse {
 message DeleteFileRequest {
     cognite.seismic.Identifier file = 1; // [required] Either name or id of a file previously registered with /RegisterFile
     /*
-     If set to true, will only delete metadata (undo the ingestion), but keep the registered file as is.
-     If set to false, will delete the registered file.
+     If set to true, will delete contents of file (undo the ingestion), but keep the file registered.
+     If set to false, will completely remove the file from database.
      If no option is set, default is false
      */
     bool keep_registered = 2;
+}
+
+// -----
+
+/**
+    [Example]
+    {"survey": {"name": "survey_name"} }
+**/
+message DeleteSurveyRequest {
+    cognite.seismic.Identifier survey = 1; // [required] Either name or id of a survey previously registered with /RegisterSurvey
 }
 
 // -----
