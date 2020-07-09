@@ -66,10 +66,9 @@ Represents partitions, used for granular access control
 **/
 message Partition {
     string id = 1;
-    string name = 2;
-    string external_id = 3;
-    string survey_id = 4;
-    repeated Seismic seismics = 5;
+    string external_id = 2;
+    string name = 3;
+    repeated Seismic seismics = 4;
 }
 
 /**
