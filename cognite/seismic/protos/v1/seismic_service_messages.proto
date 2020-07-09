@@ -93,7 +93,7 @@ message CreatePartitionsRequest {
     string project_id = 3;  // the parent project to assign to
 }
 
-message ReadPartitionsRequest {
+message SearchPartitionsRequest {
     SearchSpec partitions = 1;
 }
 

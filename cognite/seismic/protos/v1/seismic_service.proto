@@ -116,7 +116,7 @@ service SeismicV1 {
     /**
     Returns the partition(s) specified, with the same search options as the other search endpoints.
     **/
-    rpc SearchPartitions (ReadPartitionsRequest) returns (stream Partition) {}
+    rpc SearchPartitions (SearchPartitionsRequest) returns (stream Partition) {}
 
     /**
     Edit partitions. The only modifiable field is the name
