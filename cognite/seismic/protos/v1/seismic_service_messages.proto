@@ -87,10 +87,9 @@ message EditSeismicStoreRequest {
 
 **/
 
-message CreatePartitionsRequest {
+message CreatePartitionRequest {
     string name = 1;  // optional name
     string external_id = 2;  // not optional externalid
-    string project_id = 3;  // the parent project to assign to
 }
 
 message SearchPartitionsRequest {

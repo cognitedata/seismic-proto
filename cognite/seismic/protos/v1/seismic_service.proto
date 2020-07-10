@@ -109,9 +109,9 @@ service SeismicV1 {
     **/
 
     /**
-    Create partitions, possibly setting a name.
+    Create partition, possibly setting a name.
     **/
-    rpc CreatePartitions (CreatePartitionsRequest) returns (stream Partition) {}
+    rpc CreatePartition (CreatePartitionRequest) returns (Partition) {}
 
     /**
     Returns the partition(s) specified, with the same search options as the other search endpoints.
