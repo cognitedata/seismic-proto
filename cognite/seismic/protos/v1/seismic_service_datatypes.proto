@@ -38,14 +38,13 @@ message LineRange {
     string external_id = 2;
     string name = 3;
     string crs = 4;
-    string survey_id = 5;  // All cutouts are associated with a survey
-    map<string, string> metadata = 6;
-    TextHeader text_header = 7;
-    BinaryHeader binary_header = 8;
-    LineRange line_range = 9;
-    CutoutDef cutout_def = 10;
-    string partition_id = 11;
-    SeismicStore seismic_store = 12;  // Present only if user can view the tracestore
+    map<string, string> metadata = 5;
+    TextHeader text_header = 6;
+    BinaryHeader binary_header = 7;
+    LineRange line_range = 8;
+    CutoutDef cutout_def = 9;
+    string partition_id = 10;
+    SeismicStore seismic_store = 11;  // Present only if user can view the tracestore
 }
 
 /**
