@@ -124,9 +124,9 @@ service SeismicV1 {
     rpc EditPartition (EditPartitionRequest) returns (Partition) {}
 
     /**
-    Delete the specified partitions, and return all partitions successfully deleted.
+    Delete the specified partition, and return whether it was successfully deleted.
     **/
-    rpc DeletePartitions (DeletePartitionsRequest) returns (stream DeletePartitionResponse) {} 
+    rpc DeletePartition (DeletePartitionRequest) returns (DeletePartitionResponse) {} 
 
     /**
     Request a volume of traces by range of inlines, crosslines and time

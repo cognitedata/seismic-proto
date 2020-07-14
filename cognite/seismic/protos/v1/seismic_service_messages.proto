@@ -101,14 +101,12 @@ message EditPartitionRequest {
     string new_name = 2;
 }
 
-message DeletePartitionsRequest {
-    repeated Identifier id = 1;
+message DeletePartitionRequest {
+    Identifier partition = 1;
 }
 
 message DeletePartitionResponse {
-    string id = 1;
-    string external_id = 2;
-    bool success = 3;
+    bool success = 1;
 }
 
 /**
