@@ -72,7 +72,7 @@ message DeleteSeismicResponse {
 }
 
 message SearchSeismicStoresRequest {
-    repeated SearchSpec seismic_stores = 1;
+    SearchSpec seismic_stores = 1;
     bool include_file_info = 2;  // If true, include File information in the response
 }
 
