@@ -61,14 +61,12 @@ message EditSeismicRequest {
     string name = 2;
 }
 
-message DeleteSeismicsRequest {
-    repeated Identifier seismics = 1;
+message DeleteSeismicRequest {
+    Identifier seismic = 1;
 }
 
 message DeleteSeismicResponse {
-    string id = 1;
-    string external_id = 2;
-    bool succeeded = 3;    
+    bool succeeded = 1;
 }
 
 message SearchSeismicStoresRequest {

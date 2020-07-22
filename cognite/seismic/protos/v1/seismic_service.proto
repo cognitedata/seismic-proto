@@ -63,7 +63,7 @@ service SeismicV1 {
     /**
     Delete seismics.
     **/
-    rpc DeleteSeismics (DeleteSeismicsRequest) returns (stream DeleteSeismicResponse) {}
+    rpc DeleteSeismic (DeleteSeismicRequest) returns (DeleteSeismicResponse) {}
 
     /**
     Search and retrieve seismic stores. Can only retrieve seismic stores you own.
