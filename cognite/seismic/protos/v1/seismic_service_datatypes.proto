@@ -44,7 +44,7 @@ message LineRange {
     LineRange line_range = 8;
     CutoutDef cutout_def = 9;
     string partition_id = 10;
-    SeismicStore seismic_store = 11;  // Present only if user can view the tracestore
+    string seismicstore_id = 11;  // Present only if user can view the tracestore
 }
 
 /**
