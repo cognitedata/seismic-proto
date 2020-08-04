@@ -42,9 +42,9 @@ message LineRange {
     TextHeader text_header = 6;
     BinaryHeader binary_header = 7;
     LineRange line_range = 8;
-    CutoutDef cutout_def = 9;
+    VolumeDef volume_def = 9;
     string partition_id = 10;
-    string seismicstore_id = 11;  // Present only if user can view the tracestore
+    string seismicstore_id = 11;  // Present only if agent has READ access and ALL scope 
 }
 
 /**
@@ -54,10 +54,9 @@ message SeismicStore {
     string id = 1;
     string name = 2;
     string survey_id = 3;
-    TraceSource location = 4; // Where the traces are stored
-    IngestionSource ingestion_source = 5; // How the file was ingested
-    map<string, string> metadata = 6;
-    File ingested_file = 7; // The info for the original file, if it was ingested as a file
+    IngestionSource ingestion_source = 4; // How the file was ingested
+    map<string, string> metadata = 5;
+    File ingested_file = 6; // The info for the original file, if it was ingested as a file
 }
 
 /**
@@ -71,10 +70,10 @@ message Partition {
 }
 
 /**
-Specifies the cutout "shape"
+Specifies the volume "shape"
 **/
-message CutoutDef {
-    string json = 1;  // Uses the Cutout Definition schema
+message VolumeDef {
+    string json = 1;  // Uses the Volume Definition schema
 }
 
 /**

@@ -39,7 +39,8 @@ message CreateSeismicRequest {
     string external_id = 2;  // not optional
     Identifier partition = 3;
     string seismic_store_id = 4;
-    CutoutDef cutout_def = 5;  // Defines the portion of the tracestore volume to cut out    
+    VolumeDef volume_def = 5;  // Defines the portion of the tracestore volume to limit the new seismic to 
+    map<string, string> metadata = 6;
 }
 
 message SearchSeismicsRequest {
@@ -51,7 +52,7 @@ message SearchSeismicsRequest {
     bool include_text_header = 4;
     bool include_binary_header = 5;
     bool include_line_range = 6;
-    bool include_cutout_definition = 7;  // If true, include the cutout definition blob
+    bool include_volume_definition = 7;  // If true, include the volume definition blob
     bool include_seismic_store = 8; // If true, include info on the backing seismicstore. Must be data manager.
     bool include_partition = 9; // If true, include info on the partition. Must be data manager.
 }
@@ -59,6 +60,7 @@ message SearchSeismicsRequest {
 message EditSeismicRequest {
     Identifier seismic = 1;
     string name = 2;
+    map<string, string> metadata = 3;
 }
 
 message DeleteSeismicRequest {

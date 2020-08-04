@@ -19,13 +19,6 @@ Queries are divided in:
 
 service SeismicV1 {
 // Metadata queries
-
-    /**
-    Get Survey by ID.
-    REMOVED: Use SearchSurveys, providing SearchSpec with the survey ID.
-    rpc GetSurvey (SurveyQueryRequest) returns (GetSurveyResponse) {}
-    **/
-
     /**
     Lists all surveys accessible to the client. Optionally includes Cubes associated with the surveys.
     
@@ -36,13 +29,8 @@ service SeismicV1 {
     rpc SearchSurveys (SearchSurveysRequest) returns (stream SearchSurveyResponse) {}
 
     /**
-    REMOVED: Use ReadSurveys with SearchSpec
-    rpc SearchSurveys (SearchSurveyRequest) returns (SurveyWithFilesResponse) {}
-    **/
-
-    /**
     Create new Seismics and assign them to partitions.
-    Except for their name, Seismics are immutable. The user needs to delete an existing cutout and create a new one
+    Seismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one
     if e.g. the definition or the seismic store must be changed
     **/
     rpc CreateSeismic (CreateSeismicRequest) returns (Seismic) {}
@@ -74,39 +62,6 @@ service SeismicV1 {
     Set the name of a tracestore.
     **/
     rpc EditSeismicStore (EditSeismicStoreRequest) returns (SeismicStore) {}
-
-    /**
-    Returns a binary header given its file name or id.
-    REMOVED: Use ReadCubes
-    rpc GetBinaryHeader (HeaderFileQueryRequest) returns (GetBinaryHeaderResponse) {}
-    **/
-
-    /**
-    Returns a text header given its file name or id.
-    REMOVED: Use ReadCubes
-    rpc GetTextHeader (HeaderFileQueryRequest) returns (GetTextHeaderResponse) {}
-    **/
-
-    /**
-    Returns the coverage for a given file identified by its id or name.
-    The coverage is represented by a polygon either in WKT or geojson and represents the area covered by traces
-    in the file.
-    There can be holes in the polygon if traces do not exist in an area inside of it.
-    REMOVED: MOVING TO GEOSPATIAL
-    rpc GetFileDataCoverage (FileCoverageRequest) returns (DataCoverageResponse) {}
-    **/
-
-    /**
-    Returns the navigation polygon for the survey obtained from DISKOS
-    REMOVED: WAS NOT IMPLEMENTED.
-    rpc GetNavigationPolygon (NavigationPolygonRequest) returns (DataCoverageResponse) {}
-    **/
-
-    /**
-    Returns the full range of the inlines and crosslines in the file, i.e. the minimum and maximum inline and crossline
-    REMOVED: OPTIONALLY INCLUDE IN GetCutoutMetadata
-    rpc GetFileLineRange (FileQueryRequest) returns (LineRangeResponse) {}
-    **/
 
     /**
     Create partition, possibly setting a name.

@@ -159,12 +159,6 @@ enum InterpolationMethod {
     INVERSE_DISTANCE_WEIGHTING = 1;
 }
 
-enum TraceSource {
-    INVALID_STORE = 0;
-    BIGTABLE = 1;
-    GCS = 2;
-}
-
 enum IngestionSource {
     INVALID_SOURCE = 0;
     FILE_SOURCE = 1;
