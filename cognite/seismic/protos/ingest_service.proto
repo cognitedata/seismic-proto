@@ -73,4 +73,8 @@ service Ingest {
     Only users in the CDF project that owns the file have access to this method
     **/
     rpc EditFileAccess(EditFileAccessRequest) returns (google.protobuf.Empty) {}
+    /**
+    Store a single trace to synthetic file/volume
+    **/
+    rpc StoreTrace(StoreTraceRequest) returns (google.protobuf.Empty) {}
 }
