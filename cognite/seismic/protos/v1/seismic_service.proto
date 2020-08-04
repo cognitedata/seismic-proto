@@ -17,7 +17,7 @@ Queries are divided in:
     Artificial sampling: Get the (calculated/interpolated) values of properties in the file/tracestore given arbitrary positions
 **/
 
-service SeismicV1 {
+service SeismicAPI {
 // Metadata queries
     /**
     Lists all surveys accessible to the client. Optionally includes Cubes associated with the surveys.
