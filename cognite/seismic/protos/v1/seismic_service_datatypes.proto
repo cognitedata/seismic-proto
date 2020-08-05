@@ -31,6 +31,15 @@ message LineRange {
 }
 
 /**
+Representation of the data for a survey
+**/
+message Survey {
+    string id = 1;
+    string name = 2;
+    map<string, string> metadata = 3;
+}
+
+/**
  * A cutout of a seismic store
  */
  message Seismic {

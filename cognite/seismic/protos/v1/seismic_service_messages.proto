@@ -8,12 +8,17 @@ import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 
 // ---
 
-// Iteration: 6 <- increment this number when you modify this file
+// Iteration: 7 <- increment this number when you modify this file
 // (╯°□°)╯︵ ┻━┻
 
 /**
     Surveys
 **/
+
+message CreateSurveyRequest {
+    string name = 1;  // equivalent to external id
+    map<string, string> metadata = 2;
+}
 
 message SearchSurveysRequest {
     repeated SearchSpec surveys = 1; // Optional identifier of the survey. If empty, retrieve all accessible surveys
@@ -23,11 +28,22 @@ message SearchSurveysRequest {
 }
 
 message SearchSurveyResponse {
-    string id = 1;
-    string name = 2;
-    map<string, string> metadata = 3;
-    repeated string seismic_ids = 4;  // Optionally present
-    repeated string seismic_store_ids = 5;  // Optionally present
+    Survey survey = 1;
+    repeated string seismic_ids = 2;  // Optionally present
+    repeated string seismic_store_ids = 3;  // Optionally present
+}
+
+message EditSurveyRequest {
+    Identifier survey = 1;
+    map<string, string> metadata = 2;  // The existing metadata will be replaced with this metadata.
+}
+
+message DeleteSurveyRequest {
+    Identifier survey = 1;
+}
+
+message DeleteSurveyResponse {
+    bool success = 1;
 }
 
 /**

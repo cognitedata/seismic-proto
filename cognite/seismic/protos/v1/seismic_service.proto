@@ -19,6 +19,7 @@ Queries are divided in:
 
 service SeismicAPI {
 // Metadata queries
+    rpc CreateSurvey (CreateSurveyRequest) returns (Survey) {}
     /**
     Lists all surveys accessible to the client. Optionally includes Cubes associated with the surveys.
     
@@ -27,6 +28,19 @@ service SeismicAPI {
         Filters on metadata of both the survey and the file
     **/
     rpc SearchSurveys (SearchSurveysRequest) returns (stream SearchSurveyResponse) {}
+
+    /**
+    Modify the metadata for a survey.
+    **/
+    rpc EditSurvey (EditSurveyRequest) returns (Survey) {}
+
+    /**
+    Deletes a specified survey. Must have ALL scope and Write capabilities.
+   
+    In the case of Surveys, the "name" should be input into the external_ids field of the Identifier.
+    **/
+    rpc DeleteSurvey(DeleteSurveyRequest) returns (DeleteSurveyResponse) {}
+    
 
     /**
     Create new Seismics and assign them to partitions.
