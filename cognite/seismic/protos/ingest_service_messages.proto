@@ -6,6 +6,8 @@ package com.cognite.seismic;
 
 import "cognite/seismic/protos/types.proto";
 
+import "google/protobuf/wrappers.proto";
+
 // -----
 
 /**
@@ -33,15 +35,28 @@ message RegisterSurveyResponse {
     }
 **/
 message RegisterFileRequest {
-    Identifier survey = 1;             // [required] Either name or id of a survey previously registered with /RegisterSurvey
-    string path = 2;                   // [required] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
-    string name = 3;                   // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
-    map<string, string> metadata = 4;  // [optional]
-    CRS crs = 5;                       // [required] Official name of the CRS used. Example: "EPSG:23031"
+    Identifier survey = 1;                                  // [required] Either name or id of a survey previously registered with /RegisterSurvey
+    string path = 2;                                        // [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                                        // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
+    map<string, string> metadata = 4;                       // [optional]
+    CRS crs = 5;                                            // [required] Official name of the CRS used. Example: "EPSG:23031"
+    google.protobuf.BoolValue is_temporary = 6;             // [optional] tells whether file is temporary (writeable) or not. False by default
 }
 
 message RegisterFileResponse {
     File file = 1;
+}
+
+// -----
+
+message StoreTraceRequest {
+    Identifier file = 1;
+    int32 iline = 2;
+    int32 xline = 3;
+    google.protobuf.Int32Value x = 4;
+    google.protobuf.Int32Value y = 5;
+    repeated float trace = 6;
+    bytes raw_header = 7;
 }
 
 // -----
