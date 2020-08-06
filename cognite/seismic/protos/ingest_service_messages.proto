@@ -40,7 +40,7 @@ message RegisterFileRequest {
     string name = 3;                                        // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
     map<string, string> metadata = 4;                       // [optional]
     CRS crs = 5;                                            // [required] Official name of the CRS used. Example: "EPSG:23031"
-    google.protobuf.BoolValue is_synthetic = 6;             // [optional] tells whether file is synthetic or not. False by default
+    google.protobuf.BoolValue is_temporary = 6;             // [optional] tells whether file is temporary (writeable) or not. False by default
 }
 
 message RegisterFileResponse {
