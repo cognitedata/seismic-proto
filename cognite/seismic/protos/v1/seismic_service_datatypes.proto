@@ -31,6 +31,13 @@ message LineRange {
 }
 
 /**
+Used in edit messages to distinguish between an empty map, and a missing map
+**/
+message OptionalMap {
+    map<string, string> data = 1;
+}
+
+/**
 Representation of the data for a survey
 **/
 message Survey {

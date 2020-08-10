@@ -35,7 +35,7 @@ message SearchSurveyResponse {
 
 message EditSurveyRequest {
     Identifier survey = 1;
-    map<string, string> metadata = 2;  // The existing metadata will be replaced with this metadata.
+    OptionalMap metadata = 2;  // The existing metadata will be replaced with this metadata.
 }
 
 message DeleteSurveyRequest {
@@ -76,7 +76,7 @@ message SearchSeismicsRequest {
 message EditSeismicRequest {
     Identifier seismic = 1;
     string name = 2;
-    map<string, string> metadata = 3;
+    OptionalMap metadata = 3;
 }
 
 message DeleteSeismicRequest {
