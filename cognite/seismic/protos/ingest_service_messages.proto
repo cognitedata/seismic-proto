@@ -41,6 +41,8 @@ message RegisterFileRequest {
     map<string, string> metadata = 4;                       // [optional]
     CRS crs = 5;                                            // [required] Official name of the CRS used. Example: "EPSG:23031"
     google.protobuf.BoolValue is_temporary = 6;             // [optional] tells whether file is temporary (writeable) or not. False by default
+    google.protobuf.Int32Value inline_offset = 7;           // [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value crossline_offset = 8;        // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
 }
 
 message RegisterFileResponse {
@@ -147,11 +149,13 @@ message DeleteSurveyRequest {
     {"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
 **/
 message EditFileRequest {
-    Identifier file = 1; // [required] Either name or id of a file previously registered with /RegisterFile
-    string path = 2;                   // [optional] New path. Example: "gs://cognite-seismic-eu/samples/"
-    string name = 3;                   // [optional] New (unique) filename. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
-    map<string, string> metadata = 4;  // [optional] New metadata
-    CRS crs = 5;                       // [optional] Official name of the CRS used. Example: "EPSG:23031"
+    Identifier file = 1;                                // [required] Either name or id of a file previously registered with /RegisterFile
+    string path = 2;                                    // [optional] New path. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                                    // [optional] New (unique) filename. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
+    map<string, string> metadata = 4;                   // [optional] New metadata
+    CRS crs = 5;                                        // [optional] Official name of the CRS used. Example: "EPSG:23031"
+    google.protobuf.Int32Value inline_offset = 6;       // [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value crossline_offset = 7;    // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
 }
 
 message EditFileResponse {
