@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package com.cognite.seismic.v1;
+
+import "cognite/seismic/protos/types.proto";
+import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
+import "cognite/seismic/protos/v1/seismic_service_messages.proto";
+
+/**
+Service for querying data and metadata from seismic tracestore in Cognite Data Fusion (CDF) seismic datastore.
+
+Queries are done primarily on cubes, with some management endpoints for tracestores & partitions. 
+
+Queries are divided in:
+    Metadata: General information and headers for surveys and files
+    Trace: Retrieve traces, be it by geometry, line or volume
+    Artificial sampling: Get the (calculated/interpolated) values of properties in the file/tracestore given arbitrary positions
+**/
+
+service SeismicAPI {
+// Metadata queries
+    rpc CreateSurvey (CreateSurveyRequest) returns (Survey) {}
+    /**
+    Lists all surveys accessible to the client. Optionally includes Cubes associated with the surveys.
+    
+    Can optionally search surveys based on both/either of two criteria:
+        Coverage polygon of files in the survey are within an area delimited by a specified polygon
+        Filters on metadata of both the survey and the file
+    **/
+    rpc SearchSurveys (SearchSurveysRequest) returns (stream SearchSurveyResponse) {}
+
+    /**
+    Modify the metadata for a survey.
+    **/
+    rpc EditSurvey (EditSurveyRequest) returns (Survey) {}
+
+    /**
+    Deletes a specified survey. Must have ALL scope and Write capabilities.
+   
+    In the case of Surveys, the "name" should be input into the external_ids field of the Identifier.
+    **/
+    rpc DeleteSurvey(DeleteSurveyRequest) returns (DeleteSurveyResponse) {}
+    
+
+    /**
+    Create new Seismics and assign them to partitions.
+    Seismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one
+    if e.g. the definition or the seismic store must be changed
+    **/
+    rpc CreateSeismic (CreateSeismicRequest) returns (Seismic) {}
+
+    /**
+    Returns Seismic metadata given its id.
+    Can optionally retrieve seismic store & partition info if user has the right scope.
+    Use GetVolume to retrieve traces.
+    **/
+    rpc SearchSeismics (SearchSeismicsRequest) returns (stream Seismic) {}
+
+    /**
+    Edit the specified seismic. Although cutout definitions can't be changed, their names can.
+    If user wants to modify the definition or the owning partition, they should instead create a new partition and delete the old one.
+    **/
+    rpc EditSeismic (EditSeismicRequest) returns (Seismic) {}
+
+    /**
+    Delete seismics.
+    **/
+    rpc DeleteSeismic (DeleteSeismicRequest) returns (DeleteSeismicResponse) {}
+
+    /**
+    Search and retrieve seismic stores. Can only retrieve seismic stores you own.
+    **/
+    rpc SearchSeismicStores (SearchSeismicStoresRequest) returns (stream SeismicStore) {}
+
+    /**
+    Set the name of a tracestore.
+    **/
+    rpc EditSeismicStore (EditSeismicStoreRequest) returns (SeismicStore) {}
+
+    /**
+    Create partition, possibly setting a name.
+    **/
+    rpc CreatePartition (CreatePartitionRequest) returns (Partition) {}
+
+    /**
+    Returns the partition(s) specified, with the same search options as the other search endpoints.
+    **/
+    rpc SearchPartitions (SearchPartitionsRequest) returns (stream Partition) {}
+
+    /**
+    Edit partitions. The only modifiable field is the name
+    **/
+    rpc EditPartition (EditPartitionRequest) returns (Partition) {}
+
+    /**
+    Delete the specified partition, and return whether it was successfully deleted.
+    **/
+    rpc DeletePartition (DeletePartitionRequest) returns (DeletePartitionResponse) {} 
+
+    /**
+    Request a volume of traces by range of inlines, crosslines and time
+    **/
+    rpc GetVolume(VolumeRequest) returns (stream com.cognite.seismic.Trace) {}
+}

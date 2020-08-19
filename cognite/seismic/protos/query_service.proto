@@ -87,6 +87,7 @@ service Query {
     The coverage is represented by a polygon either in WKT or geojson and represents the area covered by traces
     in the file.
     There can be holes in the polygon if traces do not exist in an area inside of it.
+    DEPRECATE in favor of Geospatial APIs.
     **/
     rpc GetFileDataCoverage (FileCoverageRequest) returns (DataCoverageResponse) {}
     /**
@@ -95,10 +96,12 @@ service Query {
     rpc GetFileLineRange (FileQueryRequest) returns (LineRangeResponse) {}
     /**
     Returns the set of valid crossline indices for a specific inline, in a given file
+    DEPRECATE: Move to GetFileLineRange.
     **/
     rpc GetCrosslinesByInline (FileLineQueryRequest) returns (AvailableLines) {}
     /**
     Returns the set of valid inline indices for a specific crossline, in a given file
+    DEPRECATE: Move to GetFileLineRange.
     **/
     rpc GetInlinesByCrossline (FileLineQueryRequest) returns (AvailableLines) {}
 
@@ -119,6 +122,7 @@ service Query {
 
     /**
     Returns all or a subset of traces in a slice (inline or crossline) given its index (and optionally from/to)
+    DEPRECATED, use GetVolume instead.
     **/
     rpc GetSliceByLine (LineSliceQueryRequest) returns (stream Trace) {}
     /**
@@ -134,6 +138,7 @@ service Query {
 
     /**
     Returns a volume with all traces inside a given range of inlines and a given range of crosslines
+    DEPRECATED, use GetVolume instead.
     **/
     rpc GetCubeByLines (LineCubeRequest) returns (stream Trace) {}
     /**
@@ -143,6 +148,8 @@ service Query {
     /**
     Returns a SEG-Y file.
     Can retrieve a full file or create a new cropped file filtering on areas of interest only.
+    DEPRECATED, to be replaced with a command line tool or an SDK method for constructing a
+    SEG-Y file by calling GetVolume
     **/
     rpc GetSegYFile (SegYQueryRequest) returns (stream SegYQueryResponse) {}
 
@@ -151,6 +158,7 @@ service Query {
 
     /**
     Returns a horizontal slice for a given depth or time and area constrained by a range of inlines and crosslines
+    DEPRECATED, use GetVolume instead.
     **/
     rpc GetTimeSliceByLines (LineTimeSliceQueryRequest) returns (stream SurfacePoint) {}
     /**
