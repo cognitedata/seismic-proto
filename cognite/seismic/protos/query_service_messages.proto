@@ -178,6 +178,15 @@ message SearchSurveyRequest {
 // Supporting query message types.
 
 /**
+Wrapper message for include settings for a trace
+ */
+message TraceIncludeSettings {
+    bool include_trace_header = 1;
+    bool include_trace_data = 2;
+    bool include_trace_coordinates = 3;
+}
+
+/**
 Range of inline and crossline indices defining a 2D region
 **/
 message LineBasedRectangle {
