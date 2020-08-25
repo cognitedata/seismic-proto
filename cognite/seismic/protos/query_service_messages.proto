@@ -55,10 +55,8 @@ Request a single trace from a file by index (inline AND crossline)
 **/
 message LineTraceQueryRequest {
     Identifier file = 1;
-    PositionQuery position = 3;
-    bool include_trace_header = 4;
-    bool include_trace_coordinates = 5;
-    bool include_trace_data = 6;
+    PositionQuery position = 2;
+    TraceIncludeSettings trace_include_settings = 3;
 }
 
 /**
