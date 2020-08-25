@@ -267,6 +267,8 @@ message GetFileResponse {
     string path = 3;
     string survey_name = 4;
     string last_step = 5;
+    int32 inline_offset = 6;
+    int32 crossline_offset = 7;
 }
 
 message ListFilesResponse {
