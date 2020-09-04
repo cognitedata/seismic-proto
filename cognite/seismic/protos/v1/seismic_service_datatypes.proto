@@ -39,7 +39,7 @@ message OptionalMap {
 
 // Used in edit messages to distinguish between empty strings and missing strings
 message OptionalString {
-    string string_ = 1;
+    string data = 1;
 }
 
 /**
