@@ -37,6 +37,11 @@ message OptionalMap {
     map<string, string> data = 1;
 }
 
+// Used in edit messages to distinguish between empty strings and missing strings
+message OptionalString {
+    string string_ = 1;
+}
+
 /**
 Representation of the data for a survey
 **/

@@ -80,7 +80,7 @@ message SearchSeismicsRequest {
 
 message EditSeismicRequest {
     Identifier seismic = 1;
-    string name = 2;
+    OptionalString name = 2;
     OptionalMap metadata = 3;
 }
 
@@ -99,7 +99,8 @@ message SearchSeismicStoresRequest {
 
 message EditSeismicStoreRequest {
     string seismic_store_id = 1;
-    string name = 2;
+    OptionalString name = 2;
+    OptionalMap metadata = 3;
 }
 
 /**
