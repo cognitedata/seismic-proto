@@ -4,7 +4,6 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 syntax = "proto3";
 package com.cognite.seismic.v1;
 
-import "google/protobuf/wrappers.proto";
 import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 import "cognite/seismic/protos/types.proto";
 
@@ -81,7 +80,7 @@ message SearchSeismicsRequest {
 
 message EditSeismicRequest {
     Identifier seismic = 1;
-    google.protobuf.StringValue name = 2;
+    string name = 2;
     OptionalMap metadata = 3;
 }
 
@@ -100,8 +99,7 @@ message SearchSeismicStoresRequest {
 
 message EditSeismicStoreRequest {
     string seismic_store_id = 1;
-    google.protobuf.StringValue name = 2;
-    OptionalMap metadata = 3;
+    string name = 2;
 }
 
 /**
