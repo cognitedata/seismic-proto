@@ -162,6 +162,8 @@ message EditFileResponse {
     cognite.seismic.File file = 1;
     string path = 2;
     CRS crs = 3;
+    google.protobuf.Int32Value inline_offset = 4;
+    google.protobuf.Int32Value crossline_offset = 5;
 }
 
 // -----
