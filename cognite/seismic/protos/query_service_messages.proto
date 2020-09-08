@@ -248,7 +248,7 @@ message LineRangeResponse {
     LineDescriptor inline = 1;
     LineDescriptor xline = 2;
     TraceValueRange trace_value_range = 3;
-    int32 trace_sample_count = 4;
+    google.protobuf.Int32Value trace_sample_count = 4;
 }
 
 message SurveyWithFilesResponse {
