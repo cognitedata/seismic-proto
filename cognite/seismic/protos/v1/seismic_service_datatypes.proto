@@ -73,6 +73,8 @@ message SeismicStore {
     IngestionSource ingestion_source = 4; // How the file was ingested
     map<string, string> metadata = 5;
     File ingested_file = 6; // The info for the original file, if it was ingested as a file
+    VolumeDef inline_volume_def = 7;
+    VolumeDef crossline_volume_def = 8;
 }
 
 /**
