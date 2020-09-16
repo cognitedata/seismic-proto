@@ -1,6 +1,7 @@
-def label = "seismic-proto-${UUID.randomUUID().toString().substring(0, 5)}"
 
 @Library('jenkins-helpers') _
+
+def label = jenkinsHelpersUtil.uniquePodLabel()
 
 void pod(body) {
     podTemplate(
@@ -18,7 +19,7 @@ void pod(body) {
         ],
         volumes: []
     ) {
-        node(POD_LABEL) {
+        node(label) {
             body()
         }
     }
