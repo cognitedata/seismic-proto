@@ -18,13 +18,8 @@ void pod(body) {
         ],
         volumes: []
     ) {
-        spinnaker.pod() {
-            dockerUtils.pod() {
-                properties([buildDiscarder(logRotator(daysToKeepStr: '30', numToKeepStr: '20'))])
-                node(POD_LABEL) {
-                    body()
-                }
-            }
+        node(POD_LABEL) {
+            body()
         }
     }
 }
