@@ -138,9 +138,9 @@ message DeleteFileRequest {
     [Example]
     {"survey": {"name": "survey_name"} }
 **/
-message DeleteSurveywadwadawawdRequest {
-    cognite.wadawdawdawd.Identwadawdifier survey = 1; // [required] Either name or id of a survey previously registered with /RegisterSurvey
-}daw
+message DeleteSurveyRequest {
+    cognite.seismic.Identifier survey = 1; // [required] Either name or id of a survey previously registered with /RegisterSurvey
+}
 
 // -----
 

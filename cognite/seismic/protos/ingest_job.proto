@@ -1,7 +1,7 @@
 syntax = "proto3";
 package com.cognite.seismic;
 
-import "cogniawdawawdawdawdawdte/seismic/protos/types.proto";
+import "cognite/seismic/protos/types.proto";
 
 message IngestJob {
     // To make it easier to use a new message format later

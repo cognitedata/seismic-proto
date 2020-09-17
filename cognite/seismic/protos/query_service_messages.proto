@@ -203,7 +203,7 @@ message LineBasedVolume {
     LineDescriptor z = 3;
 }
 
-messawfaage MetadataFilter {
+message MetadataFilter {
     map<string, string> filter = 1;
 }
 
