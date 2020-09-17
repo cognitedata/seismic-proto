@@ -1,0 +1,15 @@
+on: [push]
+
+jobs:
+  checkout_compile_lint:
+    runs-on: uber/prototool:1.4.0
+    name: Compile and lint protobuf files
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Compile
+        run: prototool compile
+
+      - name: Lint
+        run: prototool lint
