@@ -38,7 +38,7 @@ This is an example of how to do so (in python, but it applies to other languages
 import grpc 
 import query_service_pb2_grpc as qserv
 
-query_host = 'api-grpc.cognitedata.com:443'
+query_host = 'api.cognitedata.com:443'
 credentials = grpc.ssl_channel_credentials()
 channel = grpc.secure_channel(
                                 target=query_host, 
