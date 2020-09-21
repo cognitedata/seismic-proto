@@ -63,6 +63,8 @@ message CreateSeismicRequest {
         Geometry geometry = 7;  // Defines the volume as WKT or GeoJson
     }
     map<string, string> metadata = 6;
+    TextHeader text_header = 8;  // Optionally set a custom text header
+    BinaryHeader binary_header = 9;  // Optionally set a custom binary header
 }
 
 message SearchSeismicsRequest {
@@ -83,6 +85,8 @@ message EditSeismicRequest {
     Identifier seismic = 1;
     google.protobuf.StringValue name = 2;
     OptionalMap metadata = 3;
+    TextHeader text_header = 4;  // Replaces the existing text header, if specified
+    BinaryHeader binary_header = 5; // Replaces the existing binary header, if specified
 }
 
 message DeleteSeismicRequest {
