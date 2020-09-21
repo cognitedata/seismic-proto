@@ -50,7 +50,7 @@ message Survey {
  * A cutout of a seismic store
  */
  message Seismic {
-    string id = 1;  // Always present
+    int64 id = 1;  // Always present
     string external_id = 2;
     string name = 3;
     string crs = 4;
@@ -67,7 +67,7 @@ message Survey {
 Represents a seismic store.
 **/
 message SeismicStore {
-    string id = 1;
+    int64 id = 1;
     string name = 2;
     string survey_id = 3;
     IngestionSource ingestion_source = 4; // How the file was ingested
@@ -81,7 +81,7 @@ message SeismicStore {
 Represents partitions, used for granular access control
 **/
 message Partition {
-    string id = 1;
+    int64 id = 1;
     string external_id = 2;
     string name = 3;
     repeated Seismic seismics = 4;
@@ -112,7 +112,7 @@ Used to identify zero or one objects that may have an external id
 **/
 message Identifier {
     oneof handle {
-        string id = 1;
+        int64 id = 1;
         string external_id = 2;
     }
 }
@@ -124,7 +124,8 @@ Can search by id, name, or prefix.
 **/
 message SearchSpec {
     oneof findby {
-        string id = 1;
+        int64 id = 1;
+        string id_string = 6; // Surveys must have string format ids. Other objects can't use this.
         // External ids only exist for partitions and seismics.
         string external_id = 2;  // Exact match required
         string external_id_substring = 3;

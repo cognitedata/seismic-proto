@@ -104,7 +104,7 @@ message SearchSeismicStoresRequest {
 }
 
 message EditSeismicStoreRequest {
-    string seismic_store_id = 1;
+    int64 seismic_store_id = 1;
     google.protobuf.StringValue name = 2;
     OptionalMap metadata = 3;
 }
