@@ -56,7 +56,7 @@ message CreateSeismicRequest {
     string name = 1;  // optional
     string external_id = 2;  // not optional
     Identifier partition = 3;
-    string seismic_store_id = 4;
+    int64 seismic_store_id = 4;
     // Defines the portion of the tracestore volume to limit the new seismic to 
     oneof volume {
         VolumeDef volume_def = 5;  // Define the volume as VolumeDef format
