@@ -73,8 +73,6 @@ message SeismicStore {
     IngestionSource ingestion_source = 4; // How the file was ingested
     map<string, string> metadata = 5;
     File ingested_file = 6; // The info for the original file, if it was ingested as a file
-    VolumeDef inline_volume_def = 7; // Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines
-    VolumeDef crossline_volume_def = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
 }
 
 /**
@@ -89,19 +87,6 @@ message Partition {
 
 /**
 Specifies the volume "shape"
-
-The json data describes a map from an inline value to all of its valid crosslines. The valid crosslines can
-be defined by a combination of value lists, or ranges (defining a start and end crossline and a step value).
-
-Example:
-
-{
-    "lines": {
-        "1": [{"range": [20, 24, 1]}],
-        "2": [{"range": [20, 22, 1]}, "list": [23, 24]]
-    },
-    "version": 100
- }
 **/
 message VolumeDef {
     string json = 1;  // Uses the Volume Definition schema

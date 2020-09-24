@@ -100,7 +100,6 @@ message DeleteSeismicResponse {
 message SearchSeismicStoresRequest {
     SearchSpec seismic_stores = 1;
     bool include_file_info = 2;  // If true, include File information in the response
-    bool include_volume_definitions = 3; // If true, includes inline/crossline volume definitions for store
 }
 
 message EditSeismicStoreRequest {
