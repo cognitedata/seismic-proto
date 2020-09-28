@@ -15,7 +15,7 @@ message SurveyQueryRequest {
     Identifier survey = 1;        // name or id of the survey
     bool list_files = 2;          // set to true to list the survey files in the response (default: false)
     bool include_metadata = 3;    // set to true to include metadata in the response (default: false)
-    bool include_coverage = 4;    // set to true to include coverage in the response (default: false)
+    CoverageParameters include_coverage = 4;    // set to true to include coverage in the response (default: false)
 }
 
 message ListSurveysQueryRequest {
