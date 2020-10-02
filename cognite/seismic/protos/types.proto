@@ -97,6 +97,12 @@ message LineRange {
     google.protobuf.Int32Value to_line = 2;
 }
 
+// Parameters for requesting coverage of survey
+message CoverageParameters {
+    CRS crs = 1;                 // [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the survey's original CRS
+    bool in_wkt = 2;             // set this to true to return in WKT format. Otherwise, response will be in geojson format by default
+}
+
 // -----
 
 // Common geometry types
