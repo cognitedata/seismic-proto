@@ -10,7 +10,7 @@ import "cognite/seismic/protos/types.proto";
 
 // ---
 
-// Iteration: 7 <- increment this number when you modify this file
+// Iteration: 8 <- increment this number when you modify this file
 // (╯°□°)╯︵ ┻━┻
 
 /**
@@ -79,6 +79,7 @@ message SearchSeismicsRequest {
     bool include_volume_definition = 7;  // If true, include the volume definition blob
     bool include_seismic_store = 8; // If true, include info on the backing seismicstore. Must be data manager.
     bool include_partition = 9; // If true, include info on the partition. Must be data manager.
+    bool include_coverage = 10; // If true, include the coverage polygon in the response.
 }
 
 message EditSeismicRequest {
@@ -101,6 +102,7 @@ message SearchSeismicStoresRequest {
     SearchSpec seismic_stores = 1;
     bool include_file_info = 2;  // If true, include File information in the response
     bool include_volume_definitions = 3; // If true, includes inline/crossline volume definitions for store
+    bool include_coverage = 4; // If true, includes the coverage polygon
 }
 
 message EditSeismicStoreRequest {
