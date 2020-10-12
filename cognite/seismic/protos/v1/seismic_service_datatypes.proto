@@ -61,6 +61,7 @@ message Survey {
     VolumeDef volume_def = 9;
     string partition_id = 10;
     string seismicstore_id = 11;  // Present only if agent has READ access and ALL scope 
+    Geometry coverage = 12;
 }
 
 /**
@@ -75,6 +76,7 @@ message SeismicStore {
     File ingested_file = 6; // The info for the original file, if it was ingested as a file
     VolumeDef inline_volume_def = 7; // Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines
     VolumeDef crossline_volume_def = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
+    Geometry coverage = 12;
 }
 
 /**

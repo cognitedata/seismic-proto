@@ -66,3 +66,7 @@ sudo docker run --rm \
 ```
 
 _(We're using --doc_opt=: to remove files with internal messages that are not used by external services)_
+
+#### Contributions
+
+Before opening a PR, it is a good idea to run `prototool compile` to verify the syntax of the new defs.
