@@ -181,14 +181,6 @@ message SearchSurveyRequest {
 // Supporting query message types.
 
 /**
-Range of inline and crossline indices defining a 2D region
-**/
-message LineBasedRectangle {
-    PositionQuery top_left = 1;
-    PositionQuery bottom_right = 2;
-}
-
-/**
 Range of z_values to use in time/depth slice queries
  */
 message Horizon {
@@ -221,13 +213,6 @@ message CoordinateQuery {
     float y = 2;
 }
 
-/**
-Point defined by its inline and crossline indices
-**/
-message PositionQuery {
-    int32 iline = 1;
-    int32 xline = 2;
-}
 
 /**
 The minimum and maximum values of all traces in a specific file

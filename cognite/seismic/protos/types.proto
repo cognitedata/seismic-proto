@@ -136,6 +136,22 @@ message Geometry {
     }
 }
 
+/**
+Range of inline and crossline indices defining a 2D region
+**/
+message LineBasedRectangle {
+    PositionQuery top_left = 1;
+    PositionQuery bottom_right = 2;
+}
+
+/**
+Point defined by its inline and crossline indices
+**/
+message PositionQuery {
+    int32 iline = 1;
+    int32 xline = 2;
+}
+
 // -----
 
 // Enums
