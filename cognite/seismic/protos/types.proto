@@ -156,6 +156,7 @@ enum FileStep {
     INSERT_DATA = 3;
     COMPUTE_COVERAGE = 4;
     COMPUTE_GRID = 5;
+    COMPUTE_TRACE_INDICES = 6;
     DELETING = 254;
     DELETE = 255;
 }
