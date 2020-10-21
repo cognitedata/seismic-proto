@@ -59,8 +59,8 @@ message Survey {
     BinaryHeader binary_header = 7;
     LineRange line_range = 8;
     VolumeDef volume_def = 9;
-    string partition_id = 10;
-    string seismicstore_id = 11;  // Present only if agent has READ access and ALL scope 
+    int64 partition_id = 10;
+    int64 seismicstore_id = 11;  // Present only if agent has READ access and ALL scope 
     Geometry coverage = 12;
 }
 
