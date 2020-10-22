@@ -78,6 +78,7 @@ message IngestFileRequest {
            2 -- insert trace headers
            3 -- insert trace data
            4 -- compute coverage polygon and additional metadata (trace count, valid lines, etc)
+           6 -- insert trace offset indices
         [Use cases]
         * Usual ingestion:
            If the last successful step was 0 (REGISTER), the file will be fully ingested regardless of start_step
