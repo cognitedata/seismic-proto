@@ -78,7 +78,7 @@ message SeismicStore {
     VolumeDef crossline_volume_def = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
     TextHeader text_header = 9;
     BinaryHeader binary_header = 10;
-    Geometry coverage = 12;
+    Geometry coverage = 11;
 }
 
 /**
