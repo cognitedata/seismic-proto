@@ -76,6 +76,8 @@ message SeismicStore {
     File ingested_file = 6; // The info for the original file, if it was ingested as a file
     VolumeDef inline_volume_def = 7; // Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines
     VolumeDef crossline_volume_def = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
+    TextHeader text_header = 9;
+    BinaryHeader binary_header = 10;
     Geometry coverage = 12;
 }
 

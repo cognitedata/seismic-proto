@@ -62,7 +62,7 @@ message CreateSeismicRequest {
         VolumeDef volume_def = 5;  // Define the volume as VolumeDef format
         Geometry geometry = 7;  // Defines the volume as WKT or GeoJson
     }
-    map<string, string> metadata = 6;
+    OptionalMap metadata = 6;
     TextHeader text_header = 8;  // Optionally set a custom text header
     BinaryHeader binary_header = 9;  // Optionally set a custom binary header
 }
@@ -103,6 +103,7 @@ message SearchSeismicStoresRequest {
     bool include_file_info = 2;  // If true, include File information in the response
     bool include_volume_definitions = 3; // If true, includes inline/crossline volume definitions for store
     bool include_coverage = 4; // If true, includes the coverage polygon
+    bool include_headers = 5; // if true, include text and binary headers in the response
 }
 
 message EditSeismicStoreRequest {
