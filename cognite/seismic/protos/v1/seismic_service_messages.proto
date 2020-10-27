@@ -152,3 +152,18 @@ message VolumeRequest {
     LineBasedVolume volume = 3;
     bool include_trace_header = 4;
 }
+
+message SegYSeismicRequest {
+    oneof identifier {
+        Identifier seismic = 1;
+        int64 seismic_store_id = 2;
+    }
+    oneof query {
+        Geometry polygon = 3;
+        LineBasedRectangle lines = 4;
+    }
+}
+
+message SegYSeismicResponse {
+    bytes content = 1;
+}

@@ -101,4 +101,10 @@ service SeismicAPI {
     Request a volume of traces by range of inlines, crosslines and time
     **/
     rpc GetVolume(VolumeRequest) returns (stream com.cognite.seismic.Trace) {}
+
+    /**
+    Returns a SEG-Y file.
+    Can retrieve a full file or create a new cropped file filtering on areas of interest only.
+    **/
+    rpc GetSegYFile (SegYSeismicRequest) returns (stream SegYSeismicResponse) {}
 }
