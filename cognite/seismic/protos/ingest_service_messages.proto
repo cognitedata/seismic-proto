@@ -93,6 +93,24 @@ message IngestFileRequest {
            for example, only coverage will be computed while headers and traces will be preserved
     **/
     FileStep start_step = 2;
+
+    /**
+        [optional as of 2020-11-01, will be required at some later time]
+        Target storage tier for this file. If empty a bigtable-based storage will be used.
+
+        A storage tier is a defined facility for storing the trace data associated with a seismic volume.
+        The default storage facility is based on Cloud Bigtable, but it is also possible to leave trace data stored
+        in SEG-Y files in Cloud Storage, only retaining a compact index of file data in fast storage to facilitate
+        retrieval of data from Cloud Storage in a performant manner.
+
+        [Accepted values]
+        Accepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage
+        cost, retrieval performance, numeric precision and sampling.
+
+        Note that currently only one storage tier per trace store is supported, so ingesting an already ingested file
+        will result in the file's data being removed from the previously active storage tier.
+    **/
+    string target_storage_tier_name = 3;
 }
 
 message IngestFileResponse {

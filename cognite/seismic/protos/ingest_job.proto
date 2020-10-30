@@ -16,5 +16,9 @@ message IngestJob {
     // [optional] Selected step to start ingestion. Leave blank to start from last completed step.
     // More details on IngestFileRequest message description
     FileStep start_step = 4;
+
+    // Target storage tier to ingest file in. Tier names are tenant-specific.
+    // By default, if this field is empty, the file will be loaded in a bigtable-based trace store.
+    string target_tier_name = 5;
 }
 
