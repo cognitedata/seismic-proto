@@ -36,16 +36,18 @@ Finally, remember to set the maximum message length to a reasonable number.
 This is an example of how to do so (in python, but it applies to other languages as well):
 ```
 import grpc 
-import query_service_pb2_grpc as qserv
+from cognite.seismic.protos import query_service_pb2_grpc as query_service
+from cognite.seismic._api.survey import SurveyAPI
 
 query_host = 'api.cognitedata.com:443'
 credentials = grpc.ssl_channel_credentials()
+metadata = [("api-key", "SECRET")]
 channel = grpc.secure_channel(
                                 target=query_host, 
                                 credentials=credentials, 
                                 options=[('grpc.max_receive_message_length', 10*1024*1024)]
                              )
-query = qserv.QueryStub(channel)
+query = query_service.QueryStub(channel)
 
 ```
 _(The import query_service_pb2_grpc, in this case, is the file generated on the outcome of compiling the protobufs)_
