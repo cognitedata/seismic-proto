@@ -78,6 +78,9 @@ message SeismicStore {
     VolumeDef crossline_volume_def = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
     TextHeader text_header = 9;
     BinaryHeader binary_header = 10;
+    // Tenant specific name for the storage facility the trace data are stored in. If empty, it is stored in an unspecified trace store.
+    // While support for multiple storage backends per store is planned, this is not currently offered.
+    repeated string storage_tier_name = 11;
     Geometry coverage = 12;
 }
 
