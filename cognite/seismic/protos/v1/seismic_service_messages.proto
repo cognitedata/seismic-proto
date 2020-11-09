@@ -99,11 +99,14 @@ message DeleteSeismicResponse {
 }
 
 message SearchSeismicStoresRequest {
-    SearchSpec seismic_stores = 1;
-    bool include_file_info = 2;  // If true, include File information in the response
-    bool include_volume_definitions = 3; // If true, includes inline/crossline volume definitions for store
-    bool include_coverage = 4; // If true, includes the coverage polygon
-    bool include_headers = 5; // if true, include text and binary headers in the response
+    oneof findby {
+        SearchSpec seismic_stores = 1;
+        SearchSpec survey = 2;
+    }
+    bool include_file_info = 3;  // If true, include File information in the response
+    bool include_volume_definitions = 4; // If true, includes inline/crossline volume definitions for store
+    bool include_coverage = 5; // If true, includes the coverage polygon
+    bool include_headers = 6; // if true, include text and binary headers in the response
 }
 
 message EditSeismicStoreRequest {
