@@ -26,8 +26,8 @@ message LineBasedVolume {
 }
 
 message LineRange {
-    google.protobuf.Int32Value from_line = 1;
-    google.protobuf.Int32Value to_line = 2;
+    LineDescriptor inline = 1;
+    LineDescriptor crossline = 2;
 }
 
 /**
