@@ -137,7 +137,7 @@ message Geometry {
 }
 
 /**
-Range of inline and crossline indices defining a 2D region
+Range of inline, crossline and z indices defining a 3D region
 **/
 message Range3D {
     google.protobuf.Int32Value inline_min = 1;
