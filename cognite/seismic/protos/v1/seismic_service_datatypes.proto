@@ -19,12 +19,6 @@ message LineSelect {
     }
 }
 
-message LineBasedVolume {
-    LineDescriptor iline = 1;
-    LineDescriptor xline = 2;
-    LineDescriptor z = 3;
-}
-
 message LineRange {
     LineDescriptor inline = 1;
     LineDescriptor crossline = 2;

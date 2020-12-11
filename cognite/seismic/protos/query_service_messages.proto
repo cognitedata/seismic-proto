@@ -93,33 +93,12 @@ message GeometrySliceQueryRequest {
 }
 
 /**
-Request a volume of traces from a file by range of inlines and crosslines
-**/
-message LineCubeRequest {
-    Identifier file = 1;
-    LineBasedRectangle rectangle = 2;
-    bool include_trace_header = 3;
-}
-
-/**
 Request a volume of traces from a file with coordinates inside an arbitrary polygon
 **/
 message GeometryCubeRequest {
     Identifier file = 1;
     Geometry geometry = 2;
     bool include_trace_header = 3;
-}
-
-/**
-Request a time slice from a file and filter by range of inlines and crosslines
-**/
-message LineTimeSliceQueryRequest {
-    Identifier file = 1;
-    LineBasedRectangle rectangle = 2;
-    oneof z {
-        int32 constant = 3;
-        Horizon horizon = 4;
-    }
 }
 
 /**
@@ -136,7 +115,7 @@ Request a volume from a file by range of inlines, crosslines and time
 **/
 message VolumeRequest {
     Identifier file = 1;
-    LineBasedVolume volume = 2;
+    Range3D range = 2;
     bool include_trace_header = 3;
 }
 
@@ -153,7 +132,7 @@ message SegYQueryRequest {
     Identifier file = 1;
     oneof query {
         Geometry polygon = 2;
-        LineBasedRectangle lines = 3;
+        Range3D range = 3;
     }
 }
 
@@ -185,15 +164,6 @@ Range of z_values to use in time/depth slice queries
  */
 message Horizon {
     repeated int32 z_values = 1;
-}
-
-/**
-Range of inline, crossline and time indices defining a volume
-**/
-message LineBasedVolume {
-    LineDescriptor iline = 1;
-    LineDescriptor xline = 2;
-    LineDescriptor z = 3;
 }
 
 message MetadataFilter {

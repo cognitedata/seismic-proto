@@ -139,9 +139,13 @@ message Geometry {
 /**
 Range of inline and crossline indices defining a 2D region
 **/
-message LineBasedRectangle {
-    PositionQuery top_left = 1;
-    PositionQuery bottom_right = 2;
+message Range3D {
+    google.protobuf.Int32Value inline_min = 1;
+    google.protobuf.Int32Value inline_max = 2;
+    google.protobuf.Int32Value xline_min = 3;
+    google.protobuf.Int32Value xline_max = 4;
+    google.protobuf.Int32Value z_min = 5;
+    google.protobuf.Int32Value z_max = 6;
 }
 
 /**

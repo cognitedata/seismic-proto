@@ -137,11 +137,6 @@ service Query {
     // Area queries
 
     /**
-    Returns a volume with all traces inside a given range of inlines and a given range of crosslines
-    DEPRECATED, use GetVolume instead.
-    **/
-    rpc GetCubeByLines (LineCubeRequest) returns (stream Trace) {}
-    /**
     Returns a volume with all traces with x, y coordinates inside an arbitrary 2D polygon
     **/
     rpc GetCubeByGeometry (GeometryCubeRequest) returns (stream Trace) {}
@@ -156,11 +151,6 @@ service Query {
 
     // Depth-indexed area queries
 
-    /**
-    Returns a horizontal slice for a given depth or time and area constrained by a range of inlines and crosslines
-    DEPRECATED, use GetVolume instead.
-    **/
-    rpc GetTimeSliceByLines (LineTimeSliceQueryRequest) returns (stream SurfacePoint) {}
     /**
     Returns a horizontal slice for a given depth or time and area constrained by an arbitrary 2D polygon
     **/

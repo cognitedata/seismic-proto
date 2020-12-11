@@ -10,7 +10,7 @@ import "cognite/seismic/protos/types.proto";
 
 // ---
 
-// Iteration: 8 <- increment this number when you modify this file
+// Iteration: 9 <- increment this number when you modify this file
 // (╯°□°)╯︵ ┻━┻
 
 /**
@@ -152,7 +152,7 @@ message VolumeRequest {
         Identifier seismic = 1;
         int64 seismic_store_id = 2;  // Need to be a data manager or tenant user, not 3rd party, to access by tracestore
     }
-    LineBasedVolume volume = 3;
+    Range3D range = 3;
     bool include_trace_header = 4;
 }
 
@@ -163,7 +163,7 @@ message SegYSeismicRequest {
     }
     oneof query {
         Geometry polygon = 3;
-        LineBasedRectangle lines = 4;
+        Range3D range = 4;
     }
 }
 
