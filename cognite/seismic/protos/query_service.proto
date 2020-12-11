@@ -152,6 +152,11 @@ service Query {
     // Depth-indexed area queries
 
     /**
+    Returns a horizontal slice for a given depth or time and area constrained by a range of inlines and crosslines
+    DEPRECATED, use GetVolume instead.
+    **/
+    rpc GetTimeSliceByLines (LineTimeSliceQueryRequest) returns (stream SurfacePoint) {}
+    /**
     Returns a horizontal slice for a given depth or time and area constrained by an arbitrary 2D polygon
     **/
     rpc GetTimeSliceByGeometry (GeometryTimeSliceQueryRequest) returns (stream SurfacePoint) {}

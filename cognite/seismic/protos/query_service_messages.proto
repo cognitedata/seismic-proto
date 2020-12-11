@@ -92,6 +92,18 @@ message GeometrySliceQueryRequest {
     InterpolationMethod interpolation_method = 3;
 }
 
+/**	
+Request a time slice from a file and filter by 3d range
+**/	
+message LineTimeSliceQueryRequest {	
+    Identifier file = 1;	
+    Range3D range = 2;	
+    oneof z {	
+        int32 constant = 3;	
+        Horizon horizon = 4;
+    }	
+}
+
 /**
 Request a volume of traces from a file with coordinates inside an arbitrary polygon
 **/
