@@ -125,10 +125,7 @@ message IngestFileResponse {
     {"job_id": "1e9a4f9b-7c15-44dd-bbbb-e9e9fb83e401"}
 **/
 message StatusRequest {
-    oneof id {
-        string job_id = 1;
-        string file_id = 2;
-    }
+    string job_id = 1;
 }
 
 message StatusResponse {
