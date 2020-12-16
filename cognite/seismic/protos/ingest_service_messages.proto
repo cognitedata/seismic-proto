@@ -133,6 +133,12 @@ message StatusResponse {
     string message = 2;
     string started_at = 3;
     string updated_at = 4;
+    repeated IngestionLog logs = 5;
+}
+
+message IngestionLog {
+    string timestamp = 1;
+    string log_line = 2;
 }
 
 // -----
