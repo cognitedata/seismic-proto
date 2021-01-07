@@ -54,7 +54,7 @@ service Query {
     /**
     Lists all surveys owned by this project. Optionally, includes their lists of files.
     **/
-    rpc ListSurveys (ListSurveysQueryRequest) returns (SurveyWithFilesResponse) {}
+    rpc ListSurveys (ListSurveysQueryRequest) returns (ListSurveysResponse) {}
     /**
     Lists all files available, both owned by the authorized CDF project and shared with it
     **/
@@ -65,7 +65,7 @@ service Query {
         Filters on metadata of both the survey and the file
     Both criteria are optional and can be combined for a more detailed search.
     **/
-    rpc SearchSurveys (SearchSurveyRequest) returns (SurveyWithFilesResponse) {}
+    rpc SearchSurveys (SearchSurveyRequest) returns (ListSurveysResponse) {}
     /**
     Returns file metadata given its name or id.
     **/

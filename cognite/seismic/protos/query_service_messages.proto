@@ -21,6 +21,7 @@ message SurveyQueryRequest {
 message ListSurveysQueryRequest {
     bool list_files = 1;          // set to true to list the survey files in the response (default: false)
     bool include_metadata = 2;    // set to true to include metadata in the response (default: false)
+    CoverageParameters include_coverage = 3;    // set this field to include coverage in the response (default: false)
 }
 
 message FileQueryRequest {
@@ -174,6 +175,8 @@ message SearchSurveyRequest {
     MetadataFilter survey_metadata = 2;
     MetadataFilter file_metadata = 3;
     bool include_metadata = 4;
+    bool list_files = 5;
+    CoverageParameters include_coverage = 6;
 }
 
 // ---
@@ -237,15 +240,8 @@ message LineRangeResponse {
     google.protobuf.Int32Value trace_sample_count = 4;
 }
 
-message SurveyWithFilesResponse {
-    repeated SurveyWithFiles surveys = 1;
-}
-
-message SurveyWithFiles {
-    string id = 1;
-    string name = 2;
-    map<string, string> metadata = 3;
-    repeated File files = 4;
+message ListSurveysResponse {
+    repeated GetSurveyResponse surveys = 1;
 }
 
 message DataCoverageResponse {
