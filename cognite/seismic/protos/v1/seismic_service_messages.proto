@@ -80,6 +80,7 @@ message SearchSeismicsRequest {
     bool include_seismic_store = 8; // If true, include info on the backing seismicstore. Must be data manager.
     bool include_partition = 9; // If true, include info on the partition. Must be data manager.
     bool include_coverage = 10; // If true, include the coverage polygon in the response.
+    bool include_as_geojson = 11; // If true and coverage is true, includes coverage as a geoJSON.
 }
 
 message EditSeismicRequest {
