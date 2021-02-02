@@ -108,6 +108,7 @@ message SearchSeismicStoresRequest {
     bool include_volume_definitions = 3; // If true, includes inline/crossline volume definitions for store
     bool include_coverage = 4; // If true, includes the coverage polygon
     bool include_headers = 5; // if true, include text and binary headers in the response
+    bool include_as_geojson = 7; // If true and coverage is true, include the coverage as GeoJSON format
 }
 
 message EditSeismicStoreRequest {
