@@ -27,12 +27,14 @@ message SearchSurveysRequest {
     bool list_seismic_ids = 2;           // set to true to list the survey's seismics in the response (default: false)
     bool list_seismic_store_ids = 3;  // Set to true to list the survey's seismic stores in the response. Only tenant users can see this.
     bool include_metadata = 4;       // set to true to include survey metadata in the response (default: false)
+    CoverageParameters include_coverage = 5;    // set this field to include coverage in the response (default: false)
 }
 
 message SearchSurveyResponse {
     Survey survey = 1;
     repeated string seismic_ids = 2;  // Optionally present
     repeated string seismic_store_ids = 3;  // Optionally present
+    Geometry coverage = 4;
 }
 
 message EditSurveyRequest {
