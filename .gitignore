@@ -1,2 +1,5 @@
 .idea/
 doc
+.DS_Store
+cognite/.DS_Store
+cognite/seismic/.DS_Store
