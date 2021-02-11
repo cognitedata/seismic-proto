@@ -142,6 +142,15 @@ message SearchSpec {
     }
 }
 
+message CoverageSpec {
+    string crs = 1;
+    enum Format {
+        WKT = 0;
+        GEOJSON = 1;
+    }
+    Format format = 2;
+}
+
 message TextHeader {
     string file_id = 1;
     string header = 2;
