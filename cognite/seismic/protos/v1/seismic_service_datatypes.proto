@@ -143,6 +143,7 @@ message SearchSpec {
 }
 
 message CoverageSpec {
+    // If crs is not specified (aka is blank), uses default crs from file
     string crs = 1;
     enum Format {
         WKT = 0;

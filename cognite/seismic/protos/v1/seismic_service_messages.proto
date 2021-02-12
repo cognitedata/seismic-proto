@@ -81,7 +81,7 @@ message SearchSeismicsRequest {
     bool include_volume_definition = 7;  // If true, include the volume definition blob
     bool include_seismic_store = 8; // If true, include info on the backing seismicstore. Must be data manager.
     bool include_partition = 9; // If true, include info on the partition. Must be data manager.\
-    reserved 10;
+    bool include_coverage = 10; // Deprecated. Use `coverage` instead.
     CoverageSpec coverage = 11; // If specified, requests coverage as well.
 }
 
@@ -109,7 +109,7 @@ message SearchSeismicStoresRequest {
     bool include_file_info = 2;  // If true, include File information in the response
     bool include_volume_definitions = 3; // If true, includes inline/crossline volume definitions for store
     bool include_headers = 5; // if true, include text and binary headers in the response
-    reserved 4;
+    bool include_coverage = 4; // Deprecated. Use `coverage` instead.
     CoverageSpec coverage = 7; // If specified, include coverage
 }
 
