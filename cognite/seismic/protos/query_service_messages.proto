@@ -266,6 +266,8 @@ message GetFileResponse {
     string last_step = 5;
     google.protobuf.Int32Value inline_offset = 6;
     google.protobuf.Int32Value crossline_offset = 7;
+    google.protobuf.Int32Value cdp_x_offset = 8;
+    google.protobuf.Int32Value cdp_y_offset = 9;
 }
 
 message ListFilesResponse {
