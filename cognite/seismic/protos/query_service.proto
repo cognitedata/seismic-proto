@@ -157,6 +157,10 @@ service Query {
     // Depth-indexed area queries
 
     /**
+    Returns a horizontal slab of seismic data along a horizon.
+    **/
+    rpc GetSlabByLines (LineSeismicSlabRequest) returns (stream Trace) {}
+    /**
     Returns a horizontal slice for a given depth or time and area constrained by a range of inlines and crosslines
     DEPRECATED, use GetVolume instead.
     **/
