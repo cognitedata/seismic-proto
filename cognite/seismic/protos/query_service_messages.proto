@@ -115,16 +115,11 @@ Request a time slice from a file and filter by range of inlines and crosslines
 **/
 message LineTimeSliceQueryRequest {
     Identifier file = 1;
-    LineBasedRectangle rectangle = 2;    
-    int32 z = 3;
-}
-
-message LineSeismicSlabRequest {
-    Identifier file = 1;
-    LineBasedRectangle rectangle = 2;    
-    Horizon horizon = 3;
-    google.protobuf.Int32Value n_above = 4;
-    google.protobuf.Int32Value n_below = 5;
+    LineBasedRectangle rectangle = 2;
+    oneof z {
+        int32 constant = 3;
+        Horizon horizon = 4;
+    }
 }
 
 /**
