@@ -183,13 +183,6 @@ message SearchSurveyRequest {
 // Supporting query message types.
 
 /**
-Range of z_values to use in time/depth slice queries
- */
-message Horizon {
-    repeated int32 z_values = 1;
-}
-
-/**
 Range of inline, crossline and time indices defining a volume
 **/
 message LineBasedVolume {

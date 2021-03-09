@@ -31,6 +31,13 @@ message LineRange {
 }
 
 /**
+Range of z_values to use in time/depth slice queries
+ */
+ message Horizon {
+    repeated int32 z_values = 1;
+}
+
+/**
 Used in edit messages to distinguish between an empty map, and a missing map
 **/
 message OptionalMap {

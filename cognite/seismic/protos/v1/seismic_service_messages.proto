@@ -171,6 +171,20 @@ message SegYSeismicRequest {
     }
 }
 
+/**
+Request a volume below and above a time slice from a file and filter by range of inlines and crosslines
+**/
+message LineSlabRequest {
+    Identifier file = 1;
+    LineBasedRectangle rectangle = 2;
+    oneof z {
+        int32 constant = 3;
+        Horizon horizon = 4;
+    }
+    google.protobuf.Int32Value n_above = 5;
+    google.protobuf.Int32Value n_below = 6;
+}
+
 message SegYSeismicResponse {
     bytes content = 1;
 }
