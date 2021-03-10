@@ -36,6 +36,16 @@ message Trace {
 }
 
 /**
+    Wrapper over Trace type that additionally provide information about the range of z values
+    included in the trace.
+ **/
+ message SlabTrace {
+    Trace trace = 1;
+    int32 z_from = 2;
+    int32 z_to = 3;
+}
+
+/**
     Basic type to represent a point in a surface defined by a horizontal grid
     Used in horizontal slice queries
  **/
