@@ -45,13 +45,6 @@ message SurfacePoint {
     float value = 3;
 }
 
-/**
-Range of z_values to use in time/depth slice queries
- */
- message Horizon {
-    repeated int32 z_values = 1;
-}
-
 // -----
 
 // Common request types

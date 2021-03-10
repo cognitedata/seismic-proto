@@ -107,8 +107,4 @@ service SeismicAPI {
     Can retrieve a full file or create a new cropped file filtering on areas of interest only.
     **/
     rpc GetSegYFile (SegYSeismicRequest) returns (stream SegYSeismicResponse) {}
-        /**
-    Returns a seismic slab by either horizon or constant depth and area constrained by a range of inlines and crosslines    
-    **/
-    rpc GetSlabByLines (LineSlabRequest) returns (stream Trace) {}
 }
