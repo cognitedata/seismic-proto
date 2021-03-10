@@ -159,7 +159,7 @@ service Query {
     /**
     Returns a seismic slab by either horizon or constant depth and area constrained by a range of inlines and crosslines    
     **/
-    rpc GetSlabByLines (LineSlabRequest) returns (stream Trace) {}
+    rpc GetSlabByLines (LineSlabRequest) returns (stream SlabTrace) {}
     /**
     Returns a horizontal slice for a given depth or time and area constrained by an arbitrary 2D polygon
     **/
