@@ -44,6 +44,7 @@ message Survey {
     string id = 1;
     string name = 2;
     map<string, string> metadata = 3;
+    optional string external_id = 4;
 }
 
 /**
