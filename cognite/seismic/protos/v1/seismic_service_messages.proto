@@ -20,7 +20,7 @@ import "cognite/seismic/protos/types.proto";
 message CreateSurveyRequest {
     string name = 1;
     map<string, string> metadata = 2;
-    optional string external_id = 3;
+    ExternalId external_id = 3;
 }
 
 message SearchSurveysRequest {
@@ -41,7 +41,7 @@ message SearchSurveyResponse {
 message EditSurveyRequest {
     Identifier survey = 1;
     OptionalMap metadata = 2;  // The existing metadata will be replaced with this metadata.
-    optional string external_id = 3;
+    ExternalId external_id = 3;
 }
 
 message DeleteSurveyRequest {
