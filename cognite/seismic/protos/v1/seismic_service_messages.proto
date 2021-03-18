@@ -41,6 +41,7 @@ message SearchSurveyResponse {
 message EditSurveyRequest {
     Identifier survey = 1;
     OptionalMap metadata = 2;  // The existing metadata will be replaced with this metadata.
+    ExternalId external_id = 3;
 }
 
 message DeleteSurveyRequest {
