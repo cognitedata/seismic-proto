@@ -111,7 +111,10 @@ Example:
  }
 **/
 message VolumeDef {
-    string json = 1;  // Uses the Volume Definition schema
+    oneof content {
+        string json = 1;  // Uses the Volume Definition schema
+        bytes msgpack = 2;  // Same as `json` field, but as MessagePack binary
+    }
 }
 
 /**
