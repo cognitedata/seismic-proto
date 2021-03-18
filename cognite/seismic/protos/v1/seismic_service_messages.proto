@@ -111,6 +111,7 @@ message SearchSeismicStoresRequest {
     bool include_headers = 5; // if true, include text and binary headers in the response
     bool include_coverage = 4; // Deprecated. Use `coverage` instead.
     CoverageSpec coverage = 7; // If specified, include coverage
+    bool volumedef_as_msgpack = 8; // If true and include_volume_defs is true, outputs as msgpack
 }
 
 message EditSeismicStoreRequest {
