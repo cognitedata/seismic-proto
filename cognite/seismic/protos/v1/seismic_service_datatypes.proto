@@ -4,7 +4,6 @@ Messages that describe data types used by Seismic Datastore in Cognite Data Fusi
 syntax = "proto3";
 package com.cognite.seismic.v1;
 
-import "google/protobuf/wrappers.proto";
 import "cognite/seismic/protos/types.proto";
 
 message Coordinate {
