@@ -131,7 +131,7 @@ Can search by id, name, or prefix.
 message SearchSpec {
     oneof findby {
         int64 id = 1;
-        string id_string = 6; // Surveys must have string format ids. Other objects can't use this.
+        string id_string = 6; // Surveys and files must have string format ids. Other objects can't use this.
         // External ids only exist for partitions and seismics.
         string external_id = 2;  // Exact match required
         string external_id_substring = 3;
