@@ -72,6 +72,7 @@ message File {
     string name = 2;
     map<string, string> metadata = 3;
     bool is_temporary = 4;
+    ExternalId external_id = 5;
 }
 
 message Project {
@@ -85,6 +86,10 @@ message Identifier {
         string id = 1;
         string name = 2;
     }
+}
+
+message ExternalId {
+    string external_id = 1;
 }
 
 message LineDescriptor {

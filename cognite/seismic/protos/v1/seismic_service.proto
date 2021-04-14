@@ -108,5 +108,8 @@ service SeismicAPI {
     **/
     rpc GetSegYFile (SegYSeismicRequest) returns (stream SegYSeismicResponse) {}
 
+    /**
+    Searches files.
+    **/
     rpc SearchFiles(SearchFilesRequest) returns (stream File) {}
 }
