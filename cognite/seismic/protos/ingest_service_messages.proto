@@ -12,11 +12,12 @@ import "google/protobuf/wrappers.proto";
 
 /**
     [Example]
-    {"name": "surveyname", "metadata": {"location": "underwater"} }
+    {"name": "surveyname", "metadata": {"location": "underwater"}, "external_id": "surveyname-external" }
 **/
 message RegisterSurveyRequest {
     string name = 1;                  // [required]
     map<string, string> metadata = 2; // [optional]
+    ExternalId external_id = 3;       // [optional]
 }
 
 message RegisterSurveyResponse {
@@ -45,6 +46,7 @@ message RegisterFileRequest {
     google.protobuf.Int32Value crossline_offset = 8;        // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value cdp_x_offset = 9;            // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value cdp_y_offset = 10;           // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+    ExternalId external_id = 11;                            // [optional] An external identifier - matches service contract field
 }
 
 message RegisterFileResponse {
@@ -189,6 +191,7 @@ message EditFileRequest {
     google.protobuf.Int32Value crossline_offset = 7;    // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value cdp_x_offset = 8;        // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value cdp_y_offset = 9;        // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+    ExternalId external_id = 10;                        // [optional] An external identifier - matches service contract field
 }
 
 message EditFileResponse {
@@ -211,6 +214,7 @@ message EditSurveyRequest {
     Identifier survey = 1;            // [required] Either name or id of a survey previously registered with /RegisterSurvey
     string name = 2;                  // [optional] New name
     map<string, string> metadata = 3; // [optional] New metadata
+    ExternalId external_id = 4;       // [optional] External id matching service contract type
 }
 
 message EditSurveyResponse {
