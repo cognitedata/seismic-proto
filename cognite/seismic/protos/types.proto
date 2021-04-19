@@ -31,16 +31,18 @@ message DoubleTraceCoordinates {
     float y = 4;
 }
 
+enum Handedness {
+    // inline axis is 90 deg clockwise from crossline
+    // AKA EPSG code 9666
+    RIGHTHANDED = 0;
+    // inline axis is 90 deg counterclockwise from crossline
+    // AKA EPSG code 1049
+    LEFTHANDED = 1;
+}
+
 // Specify the transformation by an origin point and the crossline azimuth
 message P6Transformation {
-    enum Handedness {
-        // inline axis is 90 deg clockwise from crossline
-        // AKA EPSG code 9666
-        RIGHTHANDED = 0;
-        // inline axis is 90 deg counterclockwise from crossline
-        // AKA EPSG code 1049
-        LEFTHANDED = 1;
-    }
+    Handedness handedness = 1;
     // A point in the grid
     DoubleTraceCoordinates origin = 2;
     // The bin width along the inline axis
