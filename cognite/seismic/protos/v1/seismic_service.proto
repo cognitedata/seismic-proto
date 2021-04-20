@@ -107,4 +107,6 @@ service SeismicAPI {
     Can retrieve a full file or create a new cropped file filtering on areas of interest only.
     **/
     rpc GetSegYFile (SegYSeismicRequest) returns (stream SegYSeismicResponse) {}
+
+    rpc SearchFiles(SearchFilesRequest) returns (stream File) {}
 }
