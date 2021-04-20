@@ -51,6 +51,10 @@ message P6Transformation {
     float xline_bin_width = 4;
     // Map bearing of the crossline axis in clockwise degrees from north
     float xline_azimuth = 5;
+    // Inline increment corresponding to a bin
+    int32 iline_bin_inc = 6;
+    // Crossline increment corresponding to a bin
+    int32 xline_bin_inc = 7;
 }
 
 // Specify the transformation by giving the coordinates of three or more corners
