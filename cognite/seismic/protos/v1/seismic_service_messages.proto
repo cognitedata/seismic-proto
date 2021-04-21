@@ -22,7 +22,7 @@ message CreateSurveyRequest {
     map<string, string> metadata = 2;
     ExternalId external_id = 3;
     CRS crs = 4; // CRS used by all members
-    AffineTransformation affine_transformation = 5; // Optional
+    SurveyGridTransformation grid_transformation = 5; // Optional
 }
 
 message SearchSurveysRequest {
@@ -45,7 +45,7 @@ message EditSurveyRequest {
     OptionalMap metadata = 2;  // The existing metadata will be replaced with this metadata.
     ExternalId external_id = 3;
     CRS crs = 4; // CRS used by all members
-    AffineTransformation affine_transformation = 5; // Optional
+    SurveyGridTransformation grid_transformation = 5; // Optional
 }
 
 message DeleteSurveyRequest {

@@ -63,7 +63,7 @@ message TraceCorners {
 }
 
 // Specify the affine transformation between line indices and coordinates
-message AffineTransformation {
+message SurveyGridTransformation {
     oneof transformation {
         P6Transformation p6_transformation = 1;
         TraceCorners trace_corners = 2;

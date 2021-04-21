@@ -19,7 +19,7 @@ message RegisterSurveyRequest {
     map<string, string> metadata = 2; // [optional]
     ExternalId external_id = 3;       // [optional]
     CRS crs = 4;                   // [optional] new CRS used by all members
-    AffineTransformation affine_transformation = 5; // [optional] Affine transformation from grid bins to coordinates
+    SurveyGridTransformation grid_transformation = 5; // [optional] Affine transformation from grid bins to coordinates
 }
 
 message RegisterSurveyResponse {
@@ -218,7 +218,7 @@ message EditSurveyRequest {
     map<string, string> metadata = 3; // [optional] New metadata
     ExternalId external_id = 4;       // [optional] External id matching service contract type
     CRS crs = 5;                   // [optional] new CRS used by all members
-    AffineTransformation affine_transformation = 6; // [optional] Affine transformation from grid bins to coordinates
+    SurveyGridTransformation grid_transformation = 6; // [optional] Affine transformation from grid bins to coordinates
 }
 
 message EditSurveyResponse {
