@@ -115,6 +115,7 @@ message Survey {
     string id = 1;
     string name = 2;
     map<string, string> metadata = 3;
+    ExternalId external_id = 4;
 }
 
 // File or dataset or cube derived from a single SEG-Y file
