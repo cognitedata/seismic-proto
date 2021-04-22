@@ -118,7 +118,7 @@ message LineSlabRequest {
     LineBasedRectangle rectangle = 2;
     oneof z {
         int32 constant = 3;
-        Horizon horizon = 4;
+        Surface surface = 4;
     }
     google.protobuf.Int32Value n_above = 5;
     google.protobuf.Int32Value n_below = 6;
@@ -185,7 +185,7 @@ message SearchSurveyRequest {
 /**
 Range of z_values to use in time/depth slice queries
  */
-message Horizon {
+message Surface {
     repeated int32 z_values = 1;
 }
 
