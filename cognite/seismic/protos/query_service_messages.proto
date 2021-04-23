@@ -251,6 +251,8 @@ message SurveyWithFiles {
     map<string, string> metadata = 3;
     repeated File files = 4;
     ExternalId external_id = 5;
+    CRS crs = 6;
+    SurveyGridTransformation grid_transformation = 7;
 }
 
 message DataCoverageResponse {
