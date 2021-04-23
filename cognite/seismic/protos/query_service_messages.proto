@@ -16,11 +16,13 @@ message SurveyQueryRequest {
     bool list_files = 2;          // set to true to list the survey files in the response (default: false)
     bool include_metadata = 3;    // set to true to include metadata in the response (default: false)
     CoverageParameters include_coverage = 4;    // set this field to include coverage in the response (default: false)
+    bool include_grid_transformation = 5; // set to true to include the grid transformation in the response, if available (default: false)
 }
 
 message ListSurveysQueryRequest {
     bool list_files = 1;          // set to true to list the survey files in the response (default: false)
     bool include_metadata = 2;    // set to true to include metadata in the response (default: false)
+    bool include_grid_transformation = 3; // set to true to include the grid transformation in the response, if available (default: false)
 }
 
 message FileQueryRequest {
