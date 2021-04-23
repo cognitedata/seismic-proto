@@ -271,6 +271,7 @@ message GetFileResponse {
     google.protobuf.Int32Value crossline_offset = 7;
     google.protobuf.Int32Value cdp_x_offset = 8;
     google.protobuf.Int32Value cdp_y_offset = 9;
+    google.protobuf.FloatValue source_group_scalar_override = 10;
 }
 
 message ListFilesResponse {
