@@ -108,5 +108,12 @@ service SeismicAPI {
     **/
     rpc GetSegYFile (SegYSeismicRequest) returns (stream SegYSeismicResponse) {}
 
+    /**
+    Retrieves File objects describing the seismic files registered with the tenant. 
+    Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved
+    to a subset of the files in the tenant. See SearchFilesRequest for more information.
+    Returns a stream of file objects, terminating all files matching the search criteria have been
+    returned.
+    **/
     rpc SearchFiles(SearchFilesRequest) returns (stream File) {}
 }
