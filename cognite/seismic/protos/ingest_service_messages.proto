@@ -195,7 +195,7 @@ message EditFileRequest {
     google.protobuf.Int32Value cdp_x_offset = 8;                    // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value cdp_y_offset = 9;                    // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
     ExternalId external_id = 10;                                    // [optional] An external identifier - matches service contract field
-    google.protobuf.FloatValue source_group_scalar_override = 11;   // [optioanl] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header
+    google.protobuf.FloatValue source_group_scalar_override = 11;   // [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header
 }
 
 message EditFileResponse {
