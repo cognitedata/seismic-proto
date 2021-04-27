@@ -38,17 +38,18 @@ message RegisterSurveyResponse {
     }
 **/
 message RegisterFileRequest {
-    Identifier survey = 1;                                  // [required] Either name or id of a survey previously registered with /RegisterSurvey
-    string path = 2;                                        // [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
-    string name = 3;                                        // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
-    map<string, string> metadata = 4;                       // [optional]
-    CRS crs = 5;                                            // [required] Official name of the CRS used. Example: "EPSG:23031"
-    google.protobuf.BoolValue is_temporary = 6;             // [optional] tells whether file is temporary (writeable) or not. False by default
-    google.protobuf.Int32Value inline_offset = 7;           // [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value crossline_offset = 8;        // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_x_offset = 9;            // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_y_offset = 10;           // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
-    ExternalId external_id = 11;                            // [optional] An external identifier - matches service contract field
+    Identifier survey = 1;                                          // [required] Either name or id of a survey previously registered with /RegisterSurvey
+    string path = 2;                                                // [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                                                // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
+    map<string, string> metadata = 4;                               // [optional]
+    CRS crs = 5;                                                    // [required] Official name of the CRS used. Example: "EPSG:23031"
+    google.protobuf.BoolValue is_temporary = 6;                     // [optional] tells whether file is temporary (writeable) or not. False by default
+    google.protobuf.Int32Value inline_offset = 7;                   // [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value crossline_offset = 8;                // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_x_offset = 9;                    // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_y_offset = 10;                   // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+    ExternalId external_id = 11;                                    // [optional] An external identifier - matches service contract field
+    google.protobuf.FloatValue source_group_scalar_override = 12;   // [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header
 }
 
 message RegisterFileResponse {
@@ -184,26 +185,28 @@ message DeleteSurveyRequest {
     {"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
 **/
 message EditFileRequest {
-    Identifier file = 1;                                // [required] Either name or id of a file previously registered with /RegisterFile
-    string path = 2;                                    // [optional] New path. Example: "gs://cognite-seismic-eu/samples/"
-    string name = 3;                                    // [optional] New (unique) filename. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
-    map<string, string> metadata = 4;                   // [optional] New metadata
-    CRS crs = 5;                                        // [optional] Official name of the CRS used. Example: "EPSG:23031"
-    google.protobuf.Int32Value inline_offset = 6;       // [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value crossline_offset = 7;    // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_x_offset = 8;        // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_y_offset = 9;        // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
-    ExternalId external_id = 10;                        // [optional] An external identifier - matches service contract field
+    Identifier file = 1;                                            // [required] Either name or id of a file previously registered with /RegisterFile
+    string path = 2;                                                // [optional] New path. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                                                // [optional] New (unique) filename. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
+    map<string, string> metadata = 4;                               // [optional] New metadata
+    CRS crs = 5;                                                    // [optional] Official name of the CRS used. Example: "EPSG:23031"
+    google.protobuf.Int32Value inline_offset = 6;                   // [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value crossline_offset = 7;                // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_x_offset = 8;                    // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_y_offset = 9;                    // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+    ExternalId external_id = 10;                                    // [optional] An external identifier - matches service contract field
+    google.protobuf.FloatValue source_group_scalar_override = 11;   // [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header
 }
 
 message EditFileResponse {
     cognite.seismic.File file = 1;
     string path = 2;
     CRS crs = 3;
-    google.protobuf.Int32Value inline_offset = 4;       // [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value crossline_offset = 5;    // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_x_offset = 6;        // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_y_offset = 7;        // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value inline_offset = 4;                   // [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value crossline_offset = 5;                // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_x_offset = 6;                    // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_y_offset = 7;                    // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+    google.protobuf.FloatValue source_group_scalar_override = 8;    // [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header
 }
 
 // -----
