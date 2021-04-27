@@ -103,13 +103,24 @@ service SeismicAPI {
     rpc GetVolume(VolumeRequest) returns (stream com.cognite.seismic.Trace) {}
 
     /**
-    Returns a SEG-Y file.
-    Can retrieve a full file or create a new cropped file filtering on areas of interest only.
+    Fetches seismic data in SEG-Y format.
+    The stream of responses each contain a byte array that must be written sequentially to a
+    file to produce a SEG-Y file. The ordering of traces in the output is unspecified.
+    
+    The request object can be used to specify whether the file should contain the whole set
+    of traces in the source dataset or a subset of the traces (ie. a cropped file). See 
+    SegYSeismicRequest for more information.
+    Returns a stream of SegYSeismicResponse objects, each containing a fragment of a SEG-Y
+    data stream.
     **/
     rpc GetSegYFile (SegYSeismicRequest) returns (stream SegYSeismicResponse) {}
 
     /**
-    Searches files.
+    Retrieves File objects describing the seismic files registered with the tenant. 
+    Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved
+    to a subset of the files in the tenant. See SearchFilesRequest for more information.
+    Returns a stream of file objects, terminating all files matching the search criteria have been
+    returned.
     **/
     rpc SearchFiles(SearchFilesRequest) returns (stream File) {}
 }

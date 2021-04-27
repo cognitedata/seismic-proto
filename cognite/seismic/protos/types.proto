@@ -20,6 +20,57 @@ message Coordinate {
     float y = 3;
 }
 
+
+/** Type for user-specified affine transformation in surveys **/
+
+// Correlated grid indices and coordinates
+message DoubleTraceCoordinates {
+    int32 iline = 1;
+    int32 xline = 2;
+    float x = 3;
+    float y = 4;
+}
+
+enum Handedness {
+    // inline axis is 90 deg clockwise from crossline
+    // AKA EPSG code 9666
+    RIGHTHANDED = 0;
+    // inline axis is 90 deg counterclockwise from crossline
+    // AKA EPSG code 1049
+    LEFTHANDED = 1;
+}
+
+// Specify the transformation by an origin point and the crossline azimuth
+message P6Transformation {
+    Handedness handedness = 1;
+    // A point in the grid
+    DoubleTraceCoordinates origin = 2;
+    // The bin width along the inline axis
+    float iline_bin_width = 3;
+    // The bin width along the crossline axis
+    float xline_bin_width = 4;
+    // Map bearing of the crossline axis in clockwise degrees from north
+    float xline_azimuth = 5;
+    // Inline increment corresponding to a bin
+    int32 iline_bin_inc = 6;
+    // Crossline increment corresponding to a bin
+    int32 xline_bin_inc = 7;
+}
+
+// Specify the transformation by giving the coordinates of three or more corners
+message TraceCorners {
+    repeated DoubleTraceCoordinates corners = 1;
+}
+
+// Specify the affine transformation between line indices and coordinates
+message SurveyGridTransformation {
+    oneof transformation {
+        P6Transformation p6_transformation = 1;
+        TraceCorners trace_corners = 2;
+    }
+}
+
+
 /**
     Basic type to represent a seismic trace
     Used in trace, vertical slices and volume queries
@@ -64,6 +115,7 @@ message Survey {
     string id = 1;
     string name = 2;
     map<string, string> metadata = 3;
+    ExternalId external_id = 4;
 }
 
 // File or dataset or cube derived from a single SEG-Y file
