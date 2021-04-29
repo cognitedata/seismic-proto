@@ -178,6 +178,7 @@ message SearchSurveyRequest {
     MetadataFilter survey_metadata = 2;
     MetadataFilter file_metadata = 3;
     bool include_metadata = 4;
+    bool include_grid_transformation = 5;
 }
 
 // ---
