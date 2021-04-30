@@ -44,6 +44,8 @@ message Survey {
     string name = 2;
     map<string, string> metadata = 3;
     ExternalId external_id = 4;
+    string crs = 5;
+    SurveyGridTransformation grid_transformation = 6;
 }
 
 /**
