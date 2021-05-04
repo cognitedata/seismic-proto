@@ -11,6 +11,9 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
 
+      - name: Debug
+        run: echo $pwd 
+
       - name: Build docs with protoc-gen-doc
         run: |
               docker run --rm \
