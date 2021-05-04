@@ -90,6 +90,7 @@ message SearchSeismicsRequest {
     bool include_partition = 9; // If true, include info on the partition. Must be data manager.\
     bool include_coverage = 10; // Deprecated. Use `coverage` instead.
     CoverageSpec coverage = 11; // If specified, requests coverage as well.
+    bool purge_cache = 12; // If true, purges cached coverages and recalculates
 }
 
 message EditSeismicRequest {
@@ -118,6 +119,7 @@ message SearchSeismicStoresRequest {
     bool include_headers = 5; // if true, include text and binary headers in the response
     bool include_coverage = 4; // Deprecated. Use `coverage` instead.
     CoverageSpec coverage = 7; // If specified, include coverage
+    bool purge_cache = 8; // If true, purges cached coverages and recalculates
 }
 
 message EditSeismicStoreRequest {
