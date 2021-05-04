@@ -1,0 +1,26 @@
+name: Build docs
+on:
+  push:
+    branches:
+      - main
+      - cd-of-proto-docs
+jobs:
+  build-and-deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+
+      - name: Build docs with protoc-gen-doc
+        uses: docker://pseudomuto/protoc-gen-doc:latest
+        run: |
+              docker run --rm \
+                -v $(pwd)/docs:/out \
+                -v $(pwd):/cognite/seismic/protos \
+                pseudomuto/protoc-gen-doc \
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: main # The branch the action should deploy to.
+          folder: docs # The folder the action should deploy.

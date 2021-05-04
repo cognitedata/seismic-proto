@@ -185,6 +185,7 @@ message DeleteSurveyRequest {
     {"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
 **/
 message EditFileRequest {
+<<<<<<< Updated upstream
     Identifier file = 1;                                            // [required] Either name or id of a file previously registered with /RegisterFile
     string path = 2;                                                // [optional] New path. Example: "gs://cognite-seismic-eu/samples/"
     string name = 3;                                                // [optional] New (unique) filename. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
@@ -196,6 +197,15 @@ message EditFileRequest {
     google.protobuf.Int32Value cdp_y_offset = 9;                    // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
     ExternalId external_id = 10;                                    // [optional] An external identifier - matches service contract field
     google.protobuf.FloatValue source_group_scalar_override = 11;   // [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header
+=======
+    Identifier file = 1;                                // [required] Either name or id of a file previously registered with /RegisterFile
+    string path = 2;                                    // [optional] New path. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                                    // [optional] New (unique) filename. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
+    map<string, string> metadata = 4;                   // [optional] New metadata
+    CRS crs = 5;                                        // [optional] Official name of the CRS used. Example: "EPSG:23031"
+    google.protobuf.Int32Value inline_offset = 6;       // [optional]
+    google.protobuf.Int32Value crossline_offset = 6;    // [optional]
+>>>>>>> Stashed changes
 }
 
 message EditFileResponse {
