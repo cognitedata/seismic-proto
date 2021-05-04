@@ -18,7 +18,7 @@ jobs:
         run: |
               docker run --rm \
                 -v $(pwd)/docs:/out \
-                -v $(pwd):/cognite/seismic/protos \
+                -v $(pwd)/cognite/seismic/protos:/protos \
                 pseudomuto/protoc-gen-doc \
 
       - name: Deploy 🚀
