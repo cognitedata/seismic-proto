@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Remove previous docs
+        run: rm -rf docs
       - name: Build docs with protoc-gen-doc
         run: |
               docker run --rm \
