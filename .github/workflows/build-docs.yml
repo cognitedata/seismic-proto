@@ -13,7 +13,7 @@ jobs:
       - name: Build docs with protoc-gen-doc
         run: |
               docker run --rm \
-                -v $(pwd)/docs:/out \
+                -v $(pwd)/docs/docs:/out \
                 -v $(pwd):/protos \
                 pseudomuto/protoc-gen-doc -I/protos $(find $PWD/cognite/seismic/protos -name '*.proto' -printf "protos/cognite/seismic/protos/%P ")
       - name: Deploy
