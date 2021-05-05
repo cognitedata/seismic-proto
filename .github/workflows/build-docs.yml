@@ -8,20 +8,15 @@ jobs:
   build-and-deploy-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Debug
-        run: echo $pwd 
-
       - name: Build docs with protoc-gen-doc
         run: |
               docker run --rm \
                 -v $(pwd)/docs:/out \
-                -v $(pwd)/cognite/seismic/protos:/protos \
-                pseudomuto/protoc-gen-doc \
-
-      - name: Deploy 🚀
+                -v $(pwd):/protos \
+                pseudomuto/protoc-gen-doc -I/protos $(find $pwd -name '*.proto')
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           branch: main # The branch the action should deploy to.
