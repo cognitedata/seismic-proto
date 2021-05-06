@@ -42,11 +42,13 @@ message OptionalMap {
 Representation of the data for a survey
 **/
 message Survey {
-    string id = 1;
-    string name = 2;
-    map<string, string> metadata = 3;
-    ExternalId external_id = 4;
-    string crs = 5;
+    string id = 1; //id of the survey
+    string name = 2; //Survey name
+    map<string, string> metadata = 3; //Metadata of the survey
+    ExternalId external_id = 4; //External id of the survey
+    string crs = 5; //Coordinate reference system to be used by all members of this survey
+    //Manually specify an affine transformation between bin grid coordinates and projected crs coordinates, either using an origin point and the azimuth of the xline axis (P6Transformation) 
+    //or by specifying three or more corners of the grid as a list of DoubleTraceCoordinates. This transformation must be valid for all members of this survey.
     SurveyGridTransformation grid_transformation = 6;
 }
 
