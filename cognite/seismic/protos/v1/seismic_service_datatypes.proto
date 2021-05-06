@@ -92,9 +92,13 @@ message SeismicStore {
 Represents partitions, used for granular access control
 **/
 message Partition {
+    //The unique internal id for this partition
     int64 id = 1;
+    //The external id of the partition
     string external_id = 2;
+    //The human-friendly name for this partition
     string name = 3;
+    //The list of seismics that belong to this partition
     repeated Seismic seismics = 4;
 }
 
