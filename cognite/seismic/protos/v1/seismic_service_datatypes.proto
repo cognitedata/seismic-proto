@@ -159,7 +159,9 @@ message TextHeader {
     string header = 2;
     string raw_header = 3;
 }
-
+/**
+A representation of binary headers used to create or edit existing headers. BinaryHeader FIELDS contains the list of valid fields. to set after the object is constructed.
+**/
 message BinaryHeader {
     string file_id = 1;
     int32 traces = 2;
