@@ -61,7 +61,7 @@ message Survey {
     map<string, string> metadata = 5; //Any custom-defined metadata
     TextHeader text_header = 6; //The text header that corresponds to the seismic
     BinaryHeader binary_header = 7; //The binary header that corresponds to the seismic
-    LineRange line_range = 8; 
+    LineRange line_range = 8; // The minimum and maximum extents of the seismic's grid, described in inlines and crosslines.
     VolumeDef volume_def = 9; //The VolumeDef describing the seismic
     int64 partition_id = 10; //The id of the partition the seismic belongs to
     int64 seismicstore_id = 11;  // The id of the seismicstore the seismic is derived from. It is present only if agent has READ access and ALL scope  
