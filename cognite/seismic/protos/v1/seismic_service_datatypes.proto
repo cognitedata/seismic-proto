@@ -56,7 +56,7 @@ message Survey {
  message Seismic {
     int64 id = 1;  // The unique internal id of the seismic. It is always present
     string external_id = 2; //The external id of the seismic
-    string name = 3; 
+    string name = 3; // A non-unique name for the seismic. It is easily editable and is intended to be used as a human-friendly reference. 
     string crs = 4; //The Coordinate Reference System of the seismic
     map<string, string> metadata = 5; //Any custom-defined metadata
     TextHeader text_header = 6; //The text header that corresponds to the seismic
