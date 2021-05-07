@@ -2,12 +2,14 @@ syntax = "proto3";
 package com.cognite.seismic;
 
 /*
-   Version:
-   0 - no compression of traces
-   1 - fpzip compression of traces
-   2 - waveform compression
-
-   The trace header is gzip compressed in all versions
+Version:
+    For trace data:
+        1 - no compression of traces
+        2 - zstd compression of traces
+        3 - waveform compression
+    For trace headers:
+        1 - gzip compression
+        2 - no compression, storing diff bytes of base header
 */
 message PersistedTrace {
     int32 version = 1;
