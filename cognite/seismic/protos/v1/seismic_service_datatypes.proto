@@ -46,7 +46,8 @@ message Survey {
     string id = 1; 
     // Survey name: Should be a short but recognizable name for the survey. Must be unique within a single CDF tenant, and may be used to refer to the survey in API calls.
     string name = 2; //Survey name
-    map<string, string> metadata = 3; //Metadata of the survey
+    // Metadata describing the survey with named fields and values. 
+    map<string, string> metadata = 3; // @exclude TODO: Augment surveys with a predefined set of fields giving a predictable metadata model and better integration with Discover.
     ExternalId external_id = 4; //External id of the survey
     string crs = 5; //Coordinate reference system to be used by all members of this survey
     //Manually specify an affine transformation between bin grid coordinates and projected crs coordinates, either using an origin point and the azimuth of the xline axis (P6Transformation) 
