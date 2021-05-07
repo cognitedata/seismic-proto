@@ -66,11 +66,13 @@ service Ingest {
     /**
     List projects that have access to a specific file.
     Only users in the CDF project that owns the file have access to this method
+    DEPRECATED - multitenant file sharing is not supported anymore
     **/
     rpc ListFileAccess(ListFileAccessRequest) returns (ProjectListResponse) {}
     /**
     Add or remove access to a file for CDF projects
     Only users in the CDF project that owns the file have access to this method
+    DEPRECATED - multitenant file sharing is not supported anymore
     **/
     rpc EditFileAccess(EditFileAccessRequest) returns (google.protobuf.Empty) {}
     /**
