@@ -60,38 +60,38 @@ message Survey {
  * A cutout of a seismic store
  */
  message Seismic {
-    int64 id = 1;  // Always present
-    string external_id = 2;
-    string name = 3;
-    string crs = 4;
-    map<string, string> metadata = 5;
-    TextHeader text_header = 6;
-    BinaryHeader binary_header = 7;
-    LineRange line_range = 8;
-    VolumeDef volume_def = 9;
-    int64 partition_id = 10;
-    int64 seismicstore_id = 11;  // Present only if agent has READ access and ALL scope 
-    Geometry coverage = 12;
+    int64 id = 1;  // The unique internal id of the seismic. It is always present
+    string external_id = 2; //The external id of the seismic
+    string name = 3; // A non-unique name for the seismic. It is easily editable and is intended to be used as a human-friendly reference. 
+    string crs = 4; //The Coordinate Reference System of the seismic
+    map<string, string> metadata = 5; //Any custom-defined metadata
+    TextHeader text_header = 6; //The text header that corresponds to the seismic
+    BinaryHeader binary_header = 7; //The binary header that corresponds to the seismic
+    LineRange line_range = 8; // The minimum and maximum extents of the seismic's grid, described in inlines and crosslines.
+    VolumeDef volume_def = 9; //The VolumeDef describing the seismic
+    int64 partition_id = 10; //The id of the partition the seismic belongs to
+    int64 seismicstore_id = 11;  // The id of the seismicstore the seismic is derived from. It is present only if agent has READ access and ALL scope  
+    Geometry coverage = 12; //The coverage geometry for the seismic.
 }
 
 /**
 Represents a seismic store.
 **/
 message SeismicStore {
-    int64 id = 1;
-    string name = 2;
-    string survey_id = 3;
-    IngestionSource ingestion_source = 4; // How the file was ingested
-    map<string, string> metadata = 5;
-    File ingested_file = 6; // The info for the original file, if it was ingested as a file
-    VolumeDef inline_volume_def = 7; // Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines
+    int64 id = 1; //The unique internal id of the seismic store
+    string name = 2; // The unique name of the seismic store. Will become non-unique in the future, and `external_id` will become the unique identifier.
+    string survey_id = 3; //The survey this seismic store belongs to.
+    IngestionSource ingestion_source = 4; // The source of the seismicstore. It indicates how the file was ingested
+    map<string, string> metadata = 5; //Any custom-defined metadata
+    File ingested_file = 6; // If present, the file this SeismicStore was ingested from
+    VolumeDef inline_volume_def = 7; // Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines.
     VolumeDef crossline_volume_def = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
-    TextHeader text_header = 9;
-    BinaryHeader binary_header = 10;
+    TextHeader text_header = 9; //If present, the text header for this seismic store
+    BinaryHeader binary_header = 10; //If present, the binary header for this seismic store
     // Tenant specific name for the storage facility the trace data are stored in. If empty, it is stored in an unspecified trace store.
     // While support for multiple storage backends per store is planned, this is not currently offered.
     repeated string storage_tier_name = 11;
-    Geometry coverage = 12;
+    Geometry coverage = 12; //If present, the coverage geometry for this seismic store
 }
 
 /**
