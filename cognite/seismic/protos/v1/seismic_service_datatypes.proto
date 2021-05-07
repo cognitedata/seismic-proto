@@ -73,7 +73,7 @@ Represents a seismic store.
 **/
 message SeismicStore {
     int64 id = 1; //The unique internal id of the seismic store
-    string name = 2; // The unique name of the seismic store. Will be changed to external-id in the future
+    string name = 2; // The unique name of the seismic store. Will become non-unique in the future, and `external_id` will become the unique identifier.
     string survey_id = 3; //The survey this seismic store belongs to.
     IngestionSource ingestion_source = 4; // The source of the seismicstore. It indicates how the file was ingested
     map<string, string> metadata = 5; //Any custom-defined metadata
