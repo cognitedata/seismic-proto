@@ -243,10 +243,6 @@
                 </li>
               
                 <li>
-                  <a href="#com.cognite.seismic.Horizon"><span class="badge">M</span>Horizon</a>
-                </li>
-              
-                <li>
                   <a href="#com.cognite.seismic.KeyValueFilter"><span class="badge">M</span>KeyValueFilter</a>
                 </li>
               
@@ -308,6 +304,10 @@
               
                 <li>
                   <a href="#com.cognite.seismic.SegYQueryResponse"><span class="badge">M</span>SegYQueryResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.Surface"><span class="badge">M</span>Surface</a>
                 </li>
               
                 <li>
@@ -1612,30 +1612,6 @@
 
         
       
-        <h3 id="com.cognite.seismic.Horizon">Horizon</h3>
-        <p>Range of z_values to use in time/depth slice queries</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>z_values</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="com.cognite.seismic.KeyValueFilter">KeyValueFilter</h3>
         <p></p>
 
@@ -1820,8 +1796,8 @@
                 </tr>
               
                 <tr>
-                  <td>horizon</td>
-                  <td><a href="#com.cognite.seismic.Horizon">Horizon</a></td>
+                  <td>surface</td>
+                  <td><a href="#com.cognite.seismic.Surface">Surface</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2227,6 +2203,30 @@
                   <td>content</td>
                   <td><a href="#bytes">bytes</a></td>
                   <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.Surface">Surface</h3>
+        <p>Range of z_values to use in time/depth slice queries</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>z_values</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
               
@@ -4183,21 +4183,21 @@ DEPRECATED - multitenant file sharing is not supported anymore</p></td>
                   <td>name</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Short descriptive name </p></td>
                 </tr>
               
                 <tr>
                   <td>metadata</td>
                   <td><a href="#com.cognite.seismic.v1.CreateSurveyRequest.MetadataEntry">CreateSurveyRequest.MetadataEntry</a></td>
                   <td>repeated</td>
-                  <td><p> </p></td>
+                  <td><p>Key-value pairs of metadata for the survey. </p></td>
                 </tr>
               
                 <tr>
                   <td>external_id</td>
                   <td><a href="#com.cognite.seismic.ExternalId">com.cognite.seismic.ExternalId</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Identifier for correlation with systems outside CDF </p></td>
                 </tr>
               
                 <tr>
