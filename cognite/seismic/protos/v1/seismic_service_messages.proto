@@ -18,8 +18,11 @@ import "cognite/seismic/protos/types.proto";
 **/
 
 message CreateSurveyRequest {
+    // Short descriptive name
     string name = 1;
+    // Key-value pairs of metadata for the survey.
     map<string, string> metadata = 2;
+    // Identifier for correlation with systems outside CDF
     ExternalId external_id = 3;
     string crs = 4; // CRS used by all members
     SurveyGridTransformation grid_transformation = 5; // Optional
