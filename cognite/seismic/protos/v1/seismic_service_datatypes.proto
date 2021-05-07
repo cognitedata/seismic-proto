@@ -43,6 +43,7 @@ Representation of the data for a survey
 **/
 message Survey {
     string id = 1; //id of the survey
+    // Survey name: Should be a short but recognizable name for the survey. Must be unique within a single CDF tenant, and may be used to refer to the survey in API calls.
     string name = 2; //Survey name
     map<string, string> metadata = 3; //Metadata of the survey
     ExternalId external_id = 4; //External id of the survey
