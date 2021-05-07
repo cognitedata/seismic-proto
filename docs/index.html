@@ -3900,7 +3900,7 @@ AKA EPSG code 1049</p></td>
 
       
         <h3 id="com.cognite.seismic.PersistedTrace">PersistedTrace</h3>
-        <p>Version:</p><p>0 - no compression of traces</p><p>1 - fpzip compression of traces</p><p>2 - waveform compression</p><p>The trace header is gzip compressed in all versions</p>
+        <p>Version:</p><p>For trace data:</p><p>1 - no compression of traces</p><p>2 - zstd compression of traces</p><p>3 - waveform compression</p><p>For trace headers:</p><p>1 - gzip compression</p><p>2 - no compression, storing diff bytes of base header</p>
 
         
           <table class="field-table">
