@@ -5609,84 +5609,84 @@ An exact string match is required </p></td>
                   <td>id</td>
                   <td><a href="#int64">int64</a></td>
                   <td></td>
-                  <td><p>Always present </p></td>
+                  <td><p>The unique internal id of the seismic. It is always present </p></td>
                 </tr>
               
                 <tr>
                   <td>external_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The external id of the seismic </p></td>
                 </tr>
               
                 <tr>
                   <td>name</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>A non-unique name for the seismic. It is easily editable and is intended to be used as a human-friendly reference. </p></td>
                 </tr>
               
                 <tr>
                   <td>crs</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The Coordinate Reference System of the seismic </p></td>
                 </tr>
               
                 <tr>
                   <td>metadata</td>
                   <td><a href="#com.cognite.seismic.v1.Seismic.MetadataEntry">Seismic.MetadataEntry</a></td>
                   <td>repeated</td>
-                  <td><p> </p></td>
+                  <td><p>Any custom-defined metadata </p></td>
                 </tr>
               
                 <tr>
                   <td>text_header</td>
                   <td><a href="#com.cognite.seismic.v1.TextHeader">TextHeader</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The text header that corresponds to the seismic </p></td>
                 </tr>
               
                 <tr>
                   <td>binary_header</td>
                   <td><a href="#com.cognite.seismic.v1.BinaryHeader">BinaryHeader</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The binary header that corresponds to the seismic </p></td>
                 </tr>
               
                 <tr>
                   <td>line_range</td>
                   <td><a href="#com.cognite.seismic.v1.LineRange">LineRange</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The minimum and maximum extents of the seismic&#39;s grid, described in inlines and crosslines. </p></td>
                 </tr>
               
                 <tr>
                   <td>volume_def</td>
                   <td><a href="#com.cognite.seismic.v1.VolumeDef">VolumeDef</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The VolumeDef describing the seismic </p></td>
                 </tr>
               
                 <tr>
                   <td>partition_id</td>
                   <td><a href="#int64">int64</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The id of the partition the seismic belongs to </p></td>
                 </tr>
               
                 <tr>
                   <td>seismicstore_id</td>
                   <td><a href="#int64">int64</a></td>
                   <td></td>
-                  <td><p>Present only if agent has READ access and ALL scope </p></td>
+                  <td><p>The id of the seismicstore the seismic is derived from. It is present only if agent has READ access and ALL scope </p></td>
                 </tr>
               
                 <tr>
                   <td>coverage</td>
                   <td><a href="#com.cognite.seismic.Geometry">com.cognite.seismic.Geometry</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The coverage geometry for the seismic. </p></td>
                 </tr>
               
             </tbody>
@@ -5741,49 +5741,49 @@ An exact string match is required </p></td>
                   <td>id</td>
                   <td><a href="#int64">int64</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The unique internal id of the seismic store </p></td>
                 </tr>
               
                 <tr>
                   <td>name</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The unique name of the seismic store. Will become non-unique in the future, and `external_id` will become the unique identifier. </p></td>
                 </tr>
               
                 <tr>
                   <td>survey_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The survey this seismic store belongs to. </p></td>
                 </tr>
               
                 <tr>
                   <td>ingestion_source</td>
                   <td><a href="#com.cognite.seismic.IngestionSource">com.cognite.seismic.IngestionSource</a></td>
                   <td></td>
-                  <td><p>How the file was ingested </p></td>
+                  <td><p>The source of the seismicstore. It indicates how the file was ingested </p></td>
                 </tr>
               
                 <tr>
                   <td>metadata</td>
                   <td><a href="#com.cognite.seismic.v1.SeismicStore.MetadataEntry">SeismicStore.MetadataEntry</a></td>
                   <td>repeated</td>
-                  <td><p> </p></td>
+                  <td><p>Any custom-defined metadata </p></td>
                 </tr>
               
                 <tr>
                   <td>ingested_file</td>
                   <td><a href="#com.cognite.seismic.File">com.cognite.seismic.File</a></td>
                   <td></td>
-                  <td><p>The info for the original file, if it was ingested as a file </p></td>
+                  <td><p>If present, the file this SeismicStore was ingested from </p></td>
                 </tr>
               
                 <tr>
                   <td>inline_volume_def</td>
                   <td><a href="#com.cognite.seismic.v1.VolumeDef">VolumeDef</a></td>
                   <td></td>
-                  <td><p>Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines </p></td>
+                  <td><p>Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines. </p></td>
                 </tr>
               
                 <tr>
@@ -5797,14 +5797,14 @@ An exact string match is required </p></td>
                   <td>text_header</td>
                   <td><a href="#com.cognite.seismic.v1.TextHeader">TextHeader</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>If present, the text header for this seismic store </p></td>
                 </tr>
               
                 <tr>
                   <td>binary_header</td>
                   <td><a href="#com.cognite.seismic.v1.BinaryHeader">BinaryHeader</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>If present, the binary header for this seismic store </p></td>
                 </tr>
               
                 <tr>
@@ -5819,7 +5819,7 @@ While support for multiple storage backends per store is planned, this is not cu
                   <td>coverage</td>
                   <td><a href="#com.cognite.seismic.Geometry">com.cognite.seismic.Geometry</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>If present, the coverage geometry for this seismic store </p></td>
                 </tr>
               
             </tbody>
