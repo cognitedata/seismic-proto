@@ -126,6 +126,7 @@ message Survey {
     ExternalId external_id = 4;
     CRS crs = 5;
     SurveyGridTransformation grid_transformation = 6;
+    SurveyCoverageOverride coverage_override = 7;
 }
 
 // File or dataset or cube derived from a single SEG-Y file
@@ -210,6 +211,18 @@ message Geometry {
     oneof format {
         Wkt wkt = 2;
         GeoJson geo = 3;
+    }
+}
+
+// User-provided coverage override for surveys
+message SurveyCoverageOverride {
+    message NoOverride { };
+    oneof override {
+        // Overrides survey coverage with the provided geometry
+        Geometry coverage_override = 1;
+        // Specifies that coverage should not be overridden, but computed from
+        // the seismicstores in the survey
+        NoOverride no_override = 2;
     }
 }
 

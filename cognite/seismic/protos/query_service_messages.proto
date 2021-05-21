@@ -179,6 +179,7 @@ message SearchSurveyRequest {
     MetadataFilter file_metadata = 3;
     bool include_metadata = 4;
     bool include_grid_transformation = 5;
+    bool include_coverage_override = 6;
 }
 
 // ---
@@ -254,6 +255,7 @@ message SurveyWithFiles {
     ExternalId external_id = 5;
     CRS crs = 6;
     SurveyGridTransformation grid_transformation = 7;
+    SurveyCoverageOverride coverage_override = 8;
 }
 
 message DataCoverageResponse {
