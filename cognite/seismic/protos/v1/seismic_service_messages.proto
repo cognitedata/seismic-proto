@@ -97,7 +97,6 @@ message SearchSeismicsRequest {
     bool include_partition = 9; // If true, include info on the partition. Must be data manager.\
     bool include_coverage = 10; // Deprecated. Use `coverage` instead.
     CoverageSpec coverage = 11; // If specified, requests coverage as well.
-    bool include_coverage_override = 12; // If specified, requests the user-provided coverage override
 }
 
 message EditSeismicRequest {
