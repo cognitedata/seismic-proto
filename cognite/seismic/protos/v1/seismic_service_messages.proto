@@ -44,7 +44,6 @@ message SearchSurveyResponse {
     repeated string seismic_ids = 2;  // Optionally present
     repeated string seismic_store_ids = 3;  // Optionally present
     Geometry coverage = 4;  // Optionally present
-    SurveyCoverageOverride coverage_override = 5; // Optionally present
 }
 
 message EditSurveyRequest {
