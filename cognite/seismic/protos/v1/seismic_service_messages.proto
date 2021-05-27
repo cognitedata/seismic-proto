@@ -26,7 +26,7 @@ message CreateSurveyRequest {
     ExternalId external_id = 3;
     string crs = 4; // CRS used by all members
     SurveyGridTransformation grid_transformation = 5; // Optional
-    SurveyCoverageOverride coverage_override = 6; // [optional] User-provided coverage override
+    CustomSurveyCoverage custom_coverage = 6; // [optional] Customer-provided survey coverage
 }
 
 message SearchSurveysRequest {
@@ -36,7 +36,7 @@ message SearchSurveysRequest {
     bool include_metadata = 4;       // set to true to include survey metadata in the response (default: false)
     CoverageParameters include_coverage = 5;    // set this field to include coverage in the response (default: false)
     bool include_grid_transformation = 6;    // set this field to include the manually specified grid transformation in the response (default: false)
-    bool include_coverage_override = 7;    // set this field to include the user-provided coverage override
+    bool include_custom_coverage = 7;    // set this field to include the customer-provided survey coverage in the response
 }
 
 message SearchSurveyResponse {
@@ -52,7 +52,7 @@ message EditSurveyRequest {
     ExternalId external_id = 3;
     string crs = 4; // CRS used by all members
     SurveyGridTransformation grid_transformation = 5; // Optional
-    SurveyCoverageOverride coverage_override = 6; // Optional
+    CustomSurveyCoverage custom_coverage = 6; // Optional
 }
 
 message DeleteSurveyRequest {

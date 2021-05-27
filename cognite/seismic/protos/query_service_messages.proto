@@ -17,14 +17,14 @@ message SurveyQueryRequest {
     bool include_metadata = 3;    // set to true to include metadata in the response (default: false)
     CoverageParameters include_coverage = 4;    // set this field to include coverage in the response (default: false)
     bool include_grid_transformation = 5; // set to true to include the grid transformation in the response, if available (default: false)
-    bool include_coverage_override = 6; // set to true to include the coverage override in the response, if available (default: false)
+    bool include_custom_coverage = 6; // set to true to include the custom survey coverage in the response, if available (default: false)
 }
 
 message ListSurveysQueryRequest {
     bool list_files = 1;          // set to true to list the survey files in the response (default: false)
     bool include_metadata = 2;    // set to true to include metadata in the response (default: false)
     bool include_grid_transformation = 3; // set to true to include the grid transformation in the response, if available (default: false)
-    bool include_coverage_override = 4; // set to true to include the coverage override in the response, if available (default: false)
+    bool include_custom_coverage = 4; // set to true to include the custom survey coverage in the response, if available (default: false)
 }
 
 message FileQueryRequest {
@@ -181,7 +181,7 @@ message SearchSurveyRequest {
     MetadataFilter file_metadata = 3;
     bool include_metadata = 4;
     bool include_grid_transformation = 5;
-    bool include_coverage_override = 6;
+    bool include_custom_coverage = 6;
 }
 
 // ---
@@ -257,7 +257,7 @@ message SurveyWithFiles {
     ExternalId external_id = 5;
     CRS crs = 6;
     SurveyGridTransformation grid_transformation = 7;
-    SurveyCoverageOverride coverage_override = 8;
+    CustomSurveyCoverage custom_coverage = 8;
 }
 
 message DataCoverageResponse {
