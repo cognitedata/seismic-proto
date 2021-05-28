@@ -20,6 +20,7 @@ message RegisterSurveyRequest {
     ExternalId external_id = 3;       // [optional]
     CRS crs = 4;                   // [optional] new CRS used by all members
     SurveyGridTransformation grid_transformation = 5; // [optional] Affine transformation from grid bins to coordinates
+    CustomSurveyCoverage custom_coverage = 6;
 }
 
 message RegisterSurveyResponse {
@@ -222,6 +223,7 @@ message EditSurveyRequest {
     ExternalId external_id = 4;       // [optional] External id matching service contract type
     CRS crs = 5;                   // [optional] new CRS used by all members
     SurveyGridTransformation grid_transformation = 6; // [optional] Affine transformation from grid bins to coordinates
+    CustomSurveyCoverage custom_coverage = 7; // [optional] Customer-provided custom survey coverage
 }
 
 message EditSurveyResponse {
