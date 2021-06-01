@@ -5,11 +5,10 @@ package com.cognite.seismic;
 Version:
     For trace data:
         1 - no compression of traces
-        2 - zstd compression of traces
-        3 - waveform compression
+        2 - zfp compression of traces
     For trace headers:
         1 - gzip compression
-        2 - no compression, storing diff bytes of base header
+        2 - no compression, storing diff bytes of prototype trace header
 */
 message PersistedTrace {
     int32 version = 1;
