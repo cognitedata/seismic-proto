@@ -16,7 +16,8 @@ jobs:
               docker run --rm \
                 -v $(pwd)/docs/docs:/out \
                 -v $(pwd):/protos \
-                pseudomuto/protoc-gen-doc -I/protos $(find $PWD/cognite/seismic/protos -name '*.proto' -printf "protos/cognite/seismic/protos/%P ")
+                pseudomuto/protoc-gen-doc -I/protos $(find $PWD/cognite/seismic/protos -name '*.proto' -printf "protos/cognite/seismic/protos/%P ") \
+                --doc_opt=markdown,docs.md
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:

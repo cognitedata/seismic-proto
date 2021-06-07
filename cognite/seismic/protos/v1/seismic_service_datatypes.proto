@@ -54,6 +54,7 @@ message Survey {
     // Manually specify an affine transformation between bin grid coordinates and projected crs coordinates, either using an origin point and the azimuth of the xline axis (P6Transformation) 
     // or by specifying three or more corners of the grid as a list of DoubleTraceCoordinates. This transformation must be valid for all members of this survey.
     SurveyGridTransformation grid_transformation = 6;
+    CustomSurveyCoverage custom_coverage = 7; // User-provided coverage override
 }
 
 /**
@@ -109,20 +110,13 @@ message Partition {
 }
 
 /**
-Specifies the volume "shape"
+VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.
 
-The json data describes a map from an inline value to all of its valid crosslines. The valid crosslines can
-be defined by a combination of value lists, or ranges (defining a start and end crossline and a step value).
+The grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line. 
+For example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.
 
-Example:
+For more information refer to <a href="https://cognite-seismic-sdk.readthedocs-hosted.com/en/latest/volumedef.html#volumedef-overview">the SDK docs</a>.
 
-{
-    "lines": {
-        "1": [{"range": [20, 24, 1]}],
-        "2": [{"range": [20, 22, 1]}, "list": [23, 24]]
-    },
-    "version": 100
- }
 **/
 message VolumeDef {
     string json = 1;  // Uses the Volume Definition schema

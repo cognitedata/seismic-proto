@@ -126,6 +126,7 @@ message Survey {
     ExternalId external_id = 4;
     CRS crs = 5;
     SurveyGridTransformation grid_transformation = 6;
+    CustomSurveyCoverage custom_coverage = 7;
 }
 
 // File or dataset or cube derived from a single SEG-Y file
@@ -210,6 +211,18 @@ message Geometry {
     oneof format {
         Wkt wkt = 2;
         GeoJson geo = 3;
+    }
+}
+
+// Customer-provided custom coverage for surveys
+message CustomSurveyCoverage {
+    message NoCustomCoverage { };
+    oneof custom {
+        // Overrides survey coverage with the provided custom coverage geometry
+        Geometry custom_coverage = 1;
+        // Specifies that no custom coverage is provided, so survey coverage
+        // is computed from the seismicstores in the survey
+        NoCustomCoverage no_custom_coverage = 2;
     }
 }
 
