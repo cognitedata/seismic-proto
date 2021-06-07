@@ -169,26 +169,17 @@ message VolumeRequest {
         Identifier seismic = 1;
         int64 seismic_store_id = 2;  // Need to be a data manager or tenant user, not 3rd party, to access by tracestore
     }
-    LineBasedVolume volume = 3;
-    GeometryFilter geometry_filter = 5; // Mutually exclusive with volume
+    oneof filter {
+        LineBasedVolume volume = 3;
+        GeometryBasedVolume geometry = 5;
+    }
     bool include_trace_header = 4;
 }
 
-message GeometryFilter {
-    oneof filter {
-        LineSlice slice = 1;
-        VolumeCube cube = 2;
-    }
+message GeometryBasedVolume {
+    Geometry geometry = 1;
+    InterpolationMethod interpolation_method = 2; // Required if the geometry describes a line
     LineDescriptor z_range = 3;
-}
-
-message LineSlice {
-    Geometry line = 1;
-    InterpolationMethod interpolation_method = 2;
-}
-
-message VolumeCube {
-    Geometry cube = 1;
 }
 
 message SegYSeismicRequest {
