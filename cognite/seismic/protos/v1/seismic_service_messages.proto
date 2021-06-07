@@ -178,7 +178,7 @@ message VolumeRequest {
 
 message GeometryBasedVolume {
     Geometry geometry = 1;
-    InterpolationMethod interpolation_method = 2; // Required if the geometry describes a line
+    InterpolationMethod interpolation_method = 2; // Required if the geometry describes a line, otherwise ignored
     LineDescriptor z_range = 3;
 }
 
