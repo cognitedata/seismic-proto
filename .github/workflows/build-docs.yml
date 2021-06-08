@@ -11,13 +11,19 @@ jobs:
         uses: actions/checkout@v2
       - name: Remove previous docs
         run: rm -rf docs
-      - name: Build docs with protoc-gen-doc
+      - name: Build HTML docs with protoc-gen-doc
         run: |
-              docker run --rm \
-                -v $(pwd)/docs/docs:/out \
-                -v $(pwd):/protos \
-                pseudomuto/protoc-gen-doc -I/protos $(find $PWD/cognite/seismic/protos -name '*.proto' -printf "protos/cognite/seismic/protos/%P ") \
-                --doc_opt=markdown,docs.md
+          docker run --rm \
+            -v $(pwd)/docs/docs:/out \
+            -v $(pwd):/protos \
+            pseudomuto/protoc-gen-doc -I/protos $(find $PWD/cognite/seismic/protos -name '*.proto' -printf "protos/cognite/seismic/protos/%P ")
+      - name: Build markdown docs with protoc-gen-doc
+        run: |
+          docker run --rm \
+            -v $(pwd)/docs/docs:/out \
+            -v $(pwd):/protos \
+            pseudomuto/protoc-gen-doc -I/protos $(find $PWD/cognite/seismic/protos -name '*.proto' -printf "protos/cognite/seismic/protos/%P ") \
+            --doc_opt=markdown,docs.md
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
