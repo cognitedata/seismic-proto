@@ -15,9 +15,9 @@ import "google/protobuf/wrappers.proto";
     Basic type representing (x,y) coordinate in the given CRS
 **/
 message Coordinate {
-    string crs = 1;
-    float x = 2;
-    float y = 3;
+    string crs = 1; // The Coordinate Reference System of the coordinate. Generally should be an EPSG code
+    float x = 2; // The x value of the coordinate
+    float y = 3; // The y value of the coordinate
 }
 
 
@@ -25,10 +25,10 @@ message Coordinate {
 
 // Correlated grid indices and coordinates
 message DoubleTraceCoordinates {
-    int32 iline = 1;
-    int32 xline = 2;
-    float x = 3;
-    float y = 4;
+    int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
+    int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. 
+    float x = 3; // The x value of the coordinate
+    float y = 4; // The y value of the coordinate
 }
 
 enum Handedness {
@@ -88,8 +88,8 @@ message SurveyGridTransformation {
  **/
 message Trace {
     bytes trace_header = 1;
-    google.protobuf.Int32Value iline = 2;
-    google.protobuf.Int32Value xline = 3;
+    google.protobuf.Int32Value iline = 2; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
+    google.protobuf.Int32Value xline = 3; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. 
     repeated float trace = 4;                // The underlying array of floats representing samples
     Coordinate coordinate = 5;
 }
@@ -109,8 +109,8 @@ message Trace {
     Used in horizontal slice queries
  **/
 message SurfacePoint {
-    int32 iline = 1;
-    int32 xline = 2;
+    int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
+    int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. 
     float value = 3;
 }
 
@@ -120,11 +120,11 @@ message SurfacePoint {
 
 // A survey represents a collection of files in the same area
 message Survey {
-    string id = 1;
-    string name = 2;
+    string id = 1; // Survey ID
+    string name = 2; // Survey name
     map<string, string> metadata = 3;
-    ExternalId external_id = 4;
-    CRS crs = 5;
+    ExternalId external_id = 4; // Survey external ID
+    CRS crs = 5; // The Coordinate Reference System of the survey
     SurveyGridTransformation grid_transformation = 6;
     CustomSurveyCoverage custom_coverage = 7;
 }
@@ -164,8 +164,8 @@ message LineDescriptor {
 // Specify either inline OR crossline
 message LineSelect {
     oneof direction {
-        int32 iline = 1;
-        int32 xline = 2;
+        int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
+        int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.
     }
 }
 
@@ -238,8 +238,8 @@ message LineBasedRectangle {
 Point defined by its inline and crossline indices
 **/
 message PositionQuery {
-    int32 iline = 1;
-    int32 xline = 2;
+    int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
+    int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.
 }
 
 // -----
