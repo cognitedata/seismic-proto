@@ -133,7 +133,7 @@ message EditSeismicStoreRequest {
 }
 
 message DeleteSeismicStoreRequest {
-    Identifier seismicstore = 1;
+    Identifier seismic_store = 1;
 }
 
 message DeleteSeismicStoreResponse {
