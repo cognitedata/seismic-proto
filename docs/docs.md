@@ -310,9 +310,9 @@ Basic type representing (x,y) coordinate in the given CRS
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| crs | [string](#string) |  |  |
-| x | [float](#float) |  |  |
-| y | [float](#float) |  |  |
+| crs | [string](#string) |  | The Coordinate Reference System of the coordinate. Generally should be an EPSG code including the EPSG: prefix, for example `EPSG:23031` |
+| x | [float](#float) |  | The x value of the coordinate |
+| y | [float](#float) |  | The y value of the coordinate |
 
 
 
@@ -380,10 +380,10 @@ Correlated grid indices and coordinates
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| iline | [int32](#int32) |  |  |
-| xline | [int32](#int32) |  |  |
-| x | [float](#float) |  |  |
-| y | [float](#float) |  |  |
+| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
+| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
+| x | [float](#float) |  | The x value of the coordinate |
+| y | [float](#float) |  | The y value of the coordinate |
 
 
 
@@ -551,8 +551,8 @@ Specify either inline OR crossline
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| iline | [int32](#int32) |  |  |
-| xline | [int32](#int32) |  |  |
+| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
+| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
 
 
 
@@ -590,8 +590,8 @@ Point defined by its inline and crossline indices
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| iline | [int32](#int32) |  |  |
-| xline | [int32](#int32) |  |  |
+| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
+| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
 
 
 
@@ -641,8 +641,8 @@ Used in horizontal slice queries
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| iline | [int32](#int32) |  |  |
-| xline | [int32](#int32) |  |  |
+| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
+| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
 | value | [float](#float) |  |  |
 
 
@@ -658,11 +658,11 @@ A survey represents a collection of files in the same area
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| name | [string](#string) |  |  |
+| id | [string](#string) |  | Survey ID |
+| name | [string](#string) |  | Survey name |
 | metadata | [Survey.MetadataEntry](#com.cognite.seismic.Survey.MetadataEntry) | repeated |  |
-| external_id | [ExternalId](#com.cognite.seismic.ExternalId) |  |  |
-| crs | [CRS](#com.cognite.seismic.CRS) |  |  |
+| external_id | [ExternalId](#com.cognite.seismic.ExternalId) |  | Survey external ID |
+| crs | [CRS](#com.cognite.seismic.CRS) |  | The Coordinate Reference System of the survey |
 | grid_transformation | [SurveyGridTransformation](#com.cognite.seismic.SurveyGridTransformation) |  |  |
 | custom_coverage | [CustomSurveyCoverage](#com.cognite.seismic.CustomSurveyCoverage) |  |  |
 
@@ -717,8 +717,8 @@ This is not valid for traces that are synthetically generated from interpolation
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | trace_header | [bytes](#bytes) |  |  |
-| iline | [google.protobuf.Int32Value](#google.protobuf.Int32Value) |  |  |
-| xline | [google.protobuf.Int32Value](#google.protobuf.Int32Value) |  |  |
+| iline | [google.protobuf.Int32Value](#google.protobuf.Int32Value) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
+| xline | [google.protobuf.Int32Value](#google.protobuf.Int32Value) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
 | trace | [float](#float) | repeated | The underlying array of floats representing samples |
 | coordinate | [Coordinate](#com.cognite.seismic.Coordinate) |  |  |
 
