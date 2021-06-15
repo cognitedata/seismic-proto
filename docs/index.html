@@ -802,6 +802,14 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.DeleteSeismicStoreRequest"><span class="badge">M</span>DeleteSeismicStoreRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.DeleteSeismicStoreResponse"><span class="badge">M</span>DeleteSeismicStoreResponse</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.DeleteSurveyRequest"><span class="badge">M</span>DeleteSurveyRequest</a>
                 </li>
               
@@ -6368,6 +6376,13 @@ If user wants to modify the definition or the owning partition, they should inst
               </tr>
             
               <tr>
+                <td>DeleteSeismicStore</td>
+                <td><a href="#com.cognite.seismic.v1.DeleteSeismicStoreRequest">DeleteSeismicStoreRequest</a></td>
+                <td><a href="#com.cognite.seismic.v1.DeleteSeismicStoreResponse">DeleteSeismicStoreResponse</a></td>
+                <td><p>Delete a seismic store. If any seismics still reference the specified seismic store, the request will fail.</p></td>
+              </tr>
+            
+              <tr>
                 <td>CreatePartition</td>
                 <td><a href="#com.cognite.seismic.v1.CreatePartitionRequest">CreatePartitionRequest</a></td>
                 <td><a href="#com.cognite.seismic.v1.Partition">Partition</a></td>
@@ -6714,6 +6729,54 @@ returned.</p></td>
         
       
         <h3 id="com.cognite.seismic.v1.DeleteSeismicResponse">DeleteSeismicResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>succeeded</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.DeleteSeismicStoreRequest">DeleteSeismicStoreRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>seismic_store</td>
+                  <td><a href="#com.cognite.seismic.v1.Identifier">Identifier</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.DeleteSeismicStoreResponse">DeleteSeismicStoreResponse</h3>
         <p></p>
 
         

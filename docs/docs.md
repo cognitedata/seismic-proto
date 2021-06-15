@@ -155,6 +155,8 @@
     - [DeletePartitionResponse](#com.cognite.seismic.v1.DeletePartitionResponse)
     - [DeleteSeismicRequest](#com.cognite.seismic.v1.DeleteSeismicRequest)
     - [DeleteSeismicResponse](#com.cognite.seismic.v1.DeleteSeismicResponse)
+    - [DeleteSeismicStoreRequest](#com.cognite.seismic.v1.DeleteSeismicStoreRequest)
+    - [DeleteSeismicStoreResponse](#com.cognite.seismic.v1.DeleteSeismicStoreResponse)
     - [DeleteSurveyRequest](#com.cognite.seismic.v1.DeleteSurveyRequest)
     - [DeleteSurveyResponse](#com.cognite.seismic.v1.DeleteSurveyResponse)
     - [EditPartitionRequest](#com.cognite.seismic.v1.EditPartitionRequest)
@@ -2547,6 +2549,7 @@ In the case of Surveys, the &#34;name&#34; should be input into the external_ids
 | DeleteSeismic | [DeleteSeismicRequest](#com.cognite.seismic.v1.DeleteSeismicRequest) | [DeleteSeismicResponse](#com.cognite.seismic.v1.DeleteSeismicResponse) | Delete seismics. |
 | SearchSeismicStores | [SearchSeismicStoresRequest](#com.cognite.seismic.v1.SearchSeismicStoresRequest) | [SeismicStore](#com.cognite.seismic.v1.SeismicStore) stream | Search and retrieve seismic stores. Can only retrieve seismic stores you own. |
 | EditSeismicStore | [EditSeismicStoreRequest](#com.cognite.seismic.v1.EditSeismicStoreRequest) | [SeismicStore](#com.cognite.seismic.v1.SeismicStore) | Set the name of a tracestore. |
+| DeleteSeismicStore | [DeleteSeismicStoreRequest](#com.cognite.seismic.v1.DeleteSeismicStoreRequest) | [DeleteSeismicStoreResponse](#com.cognite.seismic.v1.DeleteSeismicStoreResponse) | Delete a seismic store. If any seismics still reference the specified seismic store, the request will fail. |
 | CreatePartition | [CreatePartitionRequest](#com.cognite.seismic.v1.CreatePartitionRequest) | [Partition](#com.cognite.seismic.v1.Partition) | Create partition, possibly setting a name. |
 | SearchPartitions | [SearchPartitionsRequest](#com.cognite.seismic.v1.SearchPartitionsRequest) | [Partition](#com.cognite.seismic.v1.Partition) stream | Returns the partition(s) specified, with the same search options as the other search endpoints. |
 | EditPartition | [EditPartitionRequest](#com.cognite.seismic.v1.EditPartitionRequest) | [Partition](#com.cognite.seismic.v1.Partition) | Edit partitions. The only modifiable field is the name |
@@ -2691,6 +2694,36 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 <a name="com.cognite.seismic.v1.DeleteSeismicResponse"></a>
 
 ### DeleteSeismicResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| succeeded | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="com.cognite.seismic.v1.DeleteSeismicStoreRequest"></a>
+
+### DeleteSeismicStoreRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| seismic_store | [Identifier](#com.cognite.seismic.v1.Identifier) |  |  |
+
+
+
+
+
+
+<a name="com.cognite.seismic.v1.DeleteSeismicStoreResponse"></a>
+
+### DeleteSeismicStoreResponse
 
 
 
