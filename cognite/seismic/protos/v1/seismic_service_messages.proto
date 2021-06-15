@@ -132,6 +132,14 @@ message EditSeismicStoreRequest {
     OptionalMap metadata = 3;
 }
 
+message DeleteSeismicStoreRequest {
+    Identifier seismic_store = 1;
+}
+
+message DeleteSeismicStoreResponse {
+    bool succeeded = 1;
+}
+
 /**
 
     Partitions
