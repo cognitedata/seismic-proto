@@ -78,6 +78,11 @@ service SeismicAPI {
     rpc EditSeismicStore (EditSeismicStoreRequest) returns (SeismicStore) {}
 
     /**
+    Delete a seismic store. If any seismics still reference the specified seismic store, the request will fail.
+    **/
+    rpc DeleteSeismicStore (DeleteSeismicStoreRequest) returns (DeleteSeismicStoreResponse) {}
+
+    /**
     Create partition, possibly setting a name.
     **/
     rpc CreatePartition (CreatePartitionRequest) returns (Partition) {}
