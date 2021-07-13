@@ -5684,21 +5684,35 @@ AKA EPSG code 1049</p></td>
                   <td>seismic_store_id</td>
                   <td><a href="#int64">int64</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Deprecated. Use `identifier` instead. </p></td>
                 </tr>
               
                 <tr>
                   <td>name</td>
                   <td><a href="#google.protobuf.StringValue">google.protobuf.StringValue</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>If not null will change the seismic store name </p></td>
                 </tr>
               
                 <tr>
                   <td>metadata</td>
                   <td><a href="#com.cognite.seismic.v1.OptionalMap">OptionalMap</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>If not null, will replace the seismic store metadata </p></td>
+                </tr>
+              
+                <tr>
+                  <td>seismic_store</td>
+                  <td><a href="#com.cognite.seismic.v1.Identifier">Identifier</a></td>
+                  <td></td>
+                  <td><p>Uniquely identifies one seismic store </p></td>
+                </tr>
+              
+                <tr>
+                  <td>external_id</td>
+                  <td><a href="#google.protobuf.StringValue">google.protobuf.StringValue</a></td>
+                  <td></td>
+                  <td><p>If not null, will attempt to change the seismic store external id. Can fail if the new external id is not unique. </p></td>
                 </tr>
               
             </tbody>

@@ -2326,9 +2326,11 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| seismic_store_id | [int64](#int64) |  |  |
-| name | [google.protobuf.StringValue](#google.protobuf.StringValue) |  |  |
-| metadata | [OptionalMap](#com.cognite.seismic.v1.OptionalMap) |  |  |
+| seismic_store_id | [int64](#int64) |  | Deprecated. Use `identifier` instead. |
+| name | [google.protobuf.StringValue](#google.protobuf.StringValue) |  | If not null will change the seismic store name |
+| metadata | [OptionalMap](#com.cognite.seismic.v1.OptionalMap) |  | If not null, will replace the seismic store metadata |
+| seismic_store | [Identifier](#com.cognite.seismic.v1.Identifier) |  | Uniquely identifies one seismic store |
+| external_id | [google.protobuf.StringValue](#google.protobuf.StringValue) |  | If not null, will attempt to change the seismic store external id. Can fail if the new external id is not unique. |
 
 
 
