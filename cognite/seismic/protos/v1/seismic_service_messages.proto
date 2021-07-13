@@ -127,9 +127,11 @@ message SearchSeismicStoresRequest {
 }
 
 message EditSeismicStoreRequest {
-    int64 seismic_store_id = 1;
-    google.protobuf.StringValue name = 2;
-    OptionalMap metadata = 3;
+    int64 seismic_store_id = 1; // Deprecated. Use `identifier` instead.
+    google.protobuf.StringValue name = 2; // If not null will change the seismic store name
+    OptionalMap metadata = 3; // If not null, will replace the seismic store metadata
+    Identifier seismic_store = 4; // Uniquely identifies one seismic store
+    google.protobuf.StringValue external_id = 5; // If not null, will attempt to change the seismic store external id. Can fail if the new external id is not unique.
 }
 
 message DeleteSeismicStoreRequest {
