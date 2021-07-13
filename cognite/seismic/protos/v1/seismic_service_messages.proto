@@ -80,6 +80,7 @@ message CreateSeismicRequest {
     OptionalMap metadata = 6;
     TextHeader text_header = 8;  // Optionally set a custom text header
     BinaryHeader binary_header = 9;  // Optionally set a custom binary header
+    bool force_create = 10;  // If true, will create a seismic even if there are no traces included in the cutout.
 }
 
 message SearchSeismicsRequest {
