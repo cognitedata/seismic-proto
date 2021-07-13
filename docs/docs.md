@@ -2118,6 +2118,7 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 | seismic_store_id | [int64](#int64) |  |  |
 | volume_def | [VolumeDef](#com.cognite.seismic.v1.VolumeDef) |  | Define the volume as VolumeDef format |
 | geometry | [com.cognite.seismic.Geometry](#com.cognite.seismic.Geometry) |  | Defines the volume as WKT or GeoJson |
+| empty | [bool](#bool) |  | If true, will create a seismic with an empty cutout |
 | metadata | [OptionalMap](#com.cognite.seismic.v1.OptionalMap) |  |  |
 | text_header | [TextHeader](#com.cognite.seismic.v1.TextHeader) |  | Optionally set a custom text header |
 | binary_header | [BinaryHeader](#com.cognite.seismic.v1.BinaryHeader) |  | Optionally set a custom binary header |
