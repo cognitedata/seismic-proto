@@ -128,4 +128,14 @@ service SeismicAPI {
     returned.
     **/
     rpc SearchFiles(SearchFilesRequest) returns (stream File) {}
+
+    /**
+    Edit a specific text header.
+    **/
+    rpc EditTextHeader(EditTextHeaderRequest) returns (TextHeader) {}
+
+    /**
+    Edit a specific binary header.
+    **/
+    rpc EditBinaryHeader(EditBinaryHeaderRequest) returns (BinaryHeader) {}
 }
