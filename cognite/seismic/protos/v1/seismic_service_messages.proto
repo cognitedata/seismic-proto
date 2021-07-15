@@ -114,6 +114,17 @@ message DeleteSeismicResponse {
     bool succeeded = 1;
 }
 
+// Directly create a seismic store, skipping ingestion.
+// This seismic store will NOT have any trace data, and currently cannot
+// be assigned trace data retroactively.
+message CreateSeismicStoreRequest {
+    string name = 1;  // The name of the newly created seismic store
+    string survey_id = 2;  // The survey to which this seismic store is assigned
+    map<string, string> metadata = 3;  // Any custom metadata
+    TextHeader text_header = 4;  // An optional text header
+    BinaryHeader binary_header = 5;  // An optional binary header
+}
+
 message SearchSeismicStoresRequest {
     oneof findby {
         SearchSpec seismic_store = 1;
