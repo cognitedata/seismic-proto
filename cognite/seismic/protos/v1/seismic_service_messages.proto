@@ -133,6 +133,8 @@ message EditSeismicStoreRequest {
     OptionalMap metadata = 3; // If not null, will replace the seismic store metadata
     Identifier seismic_store = 4; // Uniquely identifies one seismic store
     google.protobuf.StringValue external_id = 5; // If not null, will attempt to change the seismic store external id. Can fail if the new external id is not unique.
+    TextHeader text_header = 6;  // Replaces the existing text header, if specified
+    BinaryHeader binary_header = 7; // Replaces the existing binary header, if specified
 }
 
 message DeleteSeismicStoreRequest {
