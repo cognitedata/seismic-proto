@@ -76,6 +76,7 @@ message CreateSeismicRequest {
     oneof volume {
         VolumeDef volume_def = 5;  // Define the volume as VolumeDef format
         Geometry geometry = 7;  // Defines the volume as WKT or GeoJson
+        bool empty = 10;  // If true, will create a seismic with an empty cutout
     }
     OptionalMap metadata = 6;
     TextHeader text_header = 8;  // Optionally set a custom text header
@@ -127,9 +128,11 @@ message SearchSeismicStoresRequest {
 }
 
 message EditSeismicStoreRequest {
-    int64 seismic_store_id = 1;
-    google.protobuf.StringValue name = 2;
-    OptionalMap metadata = 3;
+    int64 seismic_store_id = 1; // Deprecated. Use `identifier` instead.
+    google.protobuf.StringValue name = 2; // If not null will change the seismic store name
+    OptionalMap metadata = 3; // If not null, will replace the seismic store metadata
+    Identifier seismic_store = 4; // Uniquely identifies one seismic store
+    google.protobuf.StringValue external_id = 5; // If not null, will attempt to change the seismic store external id. Can fail if the new external id is not unique.
 }
 
 message DeleteSeismicStoreRequest {
