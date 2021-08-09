@@ -48,4 +48,6 @@ for mdfile in dockerout/*.md; do
     cat markdown_preamble.md $mdfile > docs/docs/$(basename $mdfile)
 done
 
+touch docs/docs/.nojekyll # Don't use Jekyll, we just publish the md files directly
+
 rm -rf dockerout
