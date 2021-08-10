@@ -105,8 +105,9 @@ message Partition {
     string external_id = 2;
     //The human-friendly name for this partition
     string name = 3;
-    //The list of seismics that belong to this partition
-    repeated Seismic seismics = 4;
+    reserved 4;  // Used to be list of seismics.
+    //The list of ids of seismics that belong to this partition
+    repeated int64 seismic_ids = 5;
 }
 
 /**
