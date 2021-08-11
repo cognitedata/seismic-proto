@@ -907,7 +907,8 @@ Represents partitions, used for granular access control
 | id | [int64](#int64) |  | The unique internal id for this partition |
 | external_id | [string](#string) |  | The external id of the partition |
 | name | [string](#string) |  | The human-friendly name for this partition |
-| seismics | [Seismic](#com.cognite.seismic.v1.Seismic) | repeated | The list of seismics that belong to this partition |
+| seismics | [Seismic](#com.cognite.seismic.v1.Seismic) | repeated | DEPRECATED: This field will always be empty. Use seismic search by partition instead. |
+| seismic_ids | [int64](#int64) | repeated | The list of ids of seismics that belong to this partition |
 
 
 
