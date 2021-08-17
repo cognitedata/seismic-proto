@@ -5,6 +5,7 @@ syntax = "proto3";
 package com.cognite.seismic.v1;
 
 import "cognite/seismic/protos/types.proto";
+import "google/protobuf/empty.proto";
 
 message Coordinate {
     //The x value of the coordinate
@@ -210,4 +211,11 @@ message TraceExtent {
 
 message LineBasedExtent {
     repeated TraceExtent extents = 1;
+}
+
+message SurveyCoverageSource {
+    oneof source {
+        google.protobuf.Empty custom = 5;
+        google.protobuf.Empty calculated = 6;
+    }
 }

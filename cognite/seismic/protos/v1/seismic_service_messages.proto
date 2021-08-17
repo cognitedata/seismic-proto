@@ -37,6 +37,11 @@ message SearchSurveysRequest {
     CoverageParameters include_coverage = 5;    // set this field to include coverage in the response (default: false)
     bool include_grid_transformation = 6;    // set this field to include the manually specified grid transformation in the response (default: false)
     bool include_custom_coverage = 7;    // set this field to include the customer-provided survey coverage in the response
+    // Determines the type of coverage returned in the SearchSurveysResponse.
+    // Requires the coverage parameters to be set.
+    // This is independent from the custom coverage returned as part of the survey.
+    // If no coverage source is provided, but the coverage parameters are provided, the coverage source will default to custom if available.
+    SurveyCoverageSource coverage_source = 8;
 }
 
 message SearchSurveyResponse {
@@ -44,6 +49,7 @@ message SearchSurveyResponse {
     repeated string seismic_ids = 2;  // Optionally present
     repeated string seismic_store_ids = 3;  // Optionally present
     Geometry coverage = 4;  // Optionally present
+    SurveyCoverageSource coverage_source = 5;
 }
 
 message EditSurveyRequest {
