@@ -105,8 +105,9 @@ message Partition {
     string external_id = 2;
     //The human-friendly name for this partition
     string name = 3;
-    //The list of seismics that belong to this partition
-    repeated Seismic seismics = 4;
+    repeated Seismic seismics = 4;  // DEPRECATED: This field will always be empty. Use seismic search by partition instead.
+    //The list of ids of seismics that belong to this partition
+    repeated int64 seismic_ids = 5;
 }
 
 /**
