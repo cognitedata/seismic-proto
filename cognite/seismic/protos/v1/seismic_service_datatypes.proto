@@ -73,6 +73,8 @@ message Survey {
     int64 partition_id = 10; //The id of the partition the seismic belongs to
     int64 seismicstore_id = 11;  // The id of the seismicstore the seismic is derived from. It is present only if agent has READ access and ALL scope  
     Geometry coverage = 12; //The coverage geometry for the seismic.
+    bool created_empty = 13; // If true, this seismic was created with the 'empty' volume option and thus will have no trace data available
+    int64 trace_count = 14;  // Provides an estimate of the number of traces contained within the seismic.
 }
 
 /**
