@@ -321,7 +321,15 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.Filter"><span class="badge">M</span>Filter</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.Identifier"><span class="badge">M</span>Identifier</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.KeyValueExactMatch"><span class="badge">M</span>KeyValueExactMatch</a>
                 </li>
               
                 <li>
@@ -338,6 +346,10 @@
               
                 <li>
                   <a href="#com.cognite.seismic.v1.LineSelect"><span class="badge">M</span>LineSelect</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.MetadataFilter"><span class="badge">M</span>MetadataFilter</a>
                 </li>
               
                 <li>
@@ -2401,6 +2413,30 @@ returned.</p></td>
 
         
       
+        <h3 id="com.cognite.seismic.v1.Filter">Filter</h3>
+        <p>Specify an individual filter.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>key_value_exact_match</td>
+                  <td><a href="#com.cognite.seismic.v1.KeyValueExactMatch">KeyValueExactMatch</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="com.cognite.seismic.v1.Identifier">Identifier</h3>
         <p>Used to identify zero or one objects that may have an external id</p>
 
@@ -2420,6 +2456,37 @@ returned.</p></td>
               
                 <tr>
                   <td>external_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.KeyValueExactMatch">KeyValueExactMatch</h3>
+        <p>Matches when the key AND value are exact matches.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
@@ -2546,6 +2613,30 @@ returned.</p></td>
                   <td>xline</td>
                   <td><a href="#int32">int32</a></td>
                   <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.MetadataFilter">MetadataFilter</h3>
+        <p>Specifying how to filter metadata. An object will be considered a match if it satisfies ALL filters.</p><p>All strings are case sensitive.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>filters</td>
+                  <td><a href="#com.cognite.seismic.v1.Filter">Filter</a></td>
+                  <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
               
@@ -2717,6 +2808,13 @@ An exact string match is required </p></td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>Searches for names having this substring. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>metadata</td>
+                  <td><a href="#com.cognite.seismic.v1.MetadataFilter">MetadataFilter</a></td>
+                  <td></td>
+                  <td><p>Filters by metadata. Currently only supported by Surveys. </p></td>
                 </tr>
               
             </tbody>
