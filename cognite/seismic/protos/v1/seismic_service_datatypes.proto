@@ -213,9 +213,11 @@ message LineBasedExtent {
     repeated TraceExtent extents = 1;
 }
 
-message SurveyCoverageSource {
-    oneof source {
-        google.protobuf.Empty custom = 5;
-        google.protobuf.Empty calculated = 6;
-    }
+enum SurveyCoverageSource {
+    // Used as the default when a specific source isn't requested by the user.
+    UNSPECIFIED = 0;
+    // Requesting or returning custom coverage
+    CUSTOM = 1;
+    // Requesting or returning calculated coverage
+    CALCULATED = 2;
 }
