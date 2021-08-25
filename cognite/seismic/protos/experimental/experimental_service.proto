@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package com.cognite.seismic.experimental;
+
+import "cognite/seismic/protos/ingest_service_messages.proto";
+import "cognite/seismic/protos/experimental/experimental_service_messages.proto";
+
+/**
+A service for experimental features.
+Should only be enabled on greenfield.
+**/
+service ExperimentalAPI {
+    /**
+    Attempts to ingest a registered file with the streaming implementation of the ingestion worker.
+
+    Returns a stream of acknowledgements. At least one acknowledgement can always be expected, returning the ingestion id and its initial status.
+
+    If the ingestion was immediately started by the server, the logs are streamed back as ingestion progresses.
+    **/
+    rpc ExperimentalFileIngestion (IngestFileRequest) returns (stream ExperimentalFileIngestionResponse) {}
+}

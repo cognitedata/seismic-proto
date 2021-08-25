@@ -149,6 +149,7 @@ message SearchSpec {
         // Names exist for everything
         string name = 4;  // An exact string match is required
         string name_substring = 5;  // Searches for names having this substring.
+        MetadataFilter metadata = 7;  // Filters by metadata. Currently only supported by Surveys.
     }
 }
 
@@ -161,6 +162,32 @@ message CoverageSpec {
     }
     Format format = 2;
 }
+
+/**
+Specifying how to filter metadata. An object will be considered a match if it satisfies ALL filters.
+All strings are case sensitive. 
+**/
+message MetadataFilter {
+    repeated Filter filters = 1;
+}
+
+/**
+Specify an individual filter.
+**/
+message Filter {
+    oneof match_type {
+        KeyValueExactMatch key_value_exact_match = 1;
+    }
+}
+
+/**
+Matches when the key AND value are exact matches.
+**/
+message KeyValueExactMatch {
+    string key = 1;
+    string value = 2;
+}
+
 /**
 A representation of text headers used to create or edit existing headers.
 **/
