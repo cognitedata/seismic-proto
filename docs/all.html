@@ -878,6 +878,36 @@
         
           
           <li>
+            <a href="#cognite%2fseismic%2fprotos%2fexperimental%2fexperimental_service_messages.proto">cognite/seismic/protos/experimental/experimental_service_messages.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#com.cognite.seismic.experimental.ExperimentalFileIngestionResponse"><span class="badge">M</span>ExperimentalFileIngestionResponse</a>
+                </li>
+              
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#cognite%2fseismic%2fprotos%2fexperimental%2fexperimental_service.proto">cognite/seismic/protos/experimental/experimental_service.proto</a>
+            <ul>
+              
+              
+              
+              
+                <li>
+                  <a href="#com.cognite.seismic.experimental.ExperimentalAPI"><span class="badge">S</span>ExperimentalAPI</a>
+                </li>
+              
+            </ul>
+          </li>
+        
+          
+          <li>
             <a href="#cognite%2fseismic%2fprotos%2fpersisted_trace.proto">cognite/seismic/protos/persisted_trace.proto</a>
             <ul>
               
@@ -7611,6 +7641,102 @@ AKA EPSG code 1049</p></td>
       
 
       
+    
+      
+      <div class="file-heading">
+        <h2 id="cognite/seismic/protos/experimental/experimental_service_messages.proto">cognite/seismic/protos/experimental/experimental_service_messages.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="com.cognite.seismic.experimental.ExperimentalFileIngestionResponse">ExperimentalFileIngestionResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>job_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>file_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#com.cognite.seismic.JobStatus">com.cognite.seismic.JobStatus</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>log</td>
+                  <td><a href="#com.cognite.seismic.IngestionLog">com.cognite.seismic.IngestionLog</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+    
+      
+      <div class="file-heading">
+        <h2 id="cognite/seismic/protos/experimental/experimental_service.proto">cognite/seismic/protos/experimental/experimental_service.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+
+      
+
+      
+
+      
+        <h3 id="com.cognite.seismic.experimental.ExperimentalAPI">ExperimentalAPI</h3>
+        <p>A service for experimental features.</p><p>Should only be enabled on greenfield.</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>ExperimentalFileIngestion</td>
+                <td><a href="#com.cognite.seismic.IngestFileRequest">.com.cognite.seismic.IngestFileRequest</a></td>
+                <td><a href="#com.cognite.seismic.experimental.ExperimentalFileIngestionResponse">ExperimentalFileIngestionResponse</a> stream</td>
+                <td><p>Attempts to ingest a registered file with the streaming implementation of the ingestion worker.
+
+Returns a stream of acknowledgements. At least one acknowledgement can always be expected, returning the ingestion id and its initial status.
+
+If the ingestion was immediately started by the server, the logs are streamed back as ingestion progresses.</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        
     
       
       <div class="file-heading">

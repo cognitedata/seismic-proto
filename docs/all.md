@@ -178,6 +178,12 @@ sidebarDepth: 2
     - [InterpolationMethod](#com.cognite.seismic.InterpolationMethod)
     - [JobStatus](#com.cognite.seismic.JobStatus)
   
+- [cognite/seismic/protos/experimental/experimental_service_messages.proto](#cognite/seismic/protos/experimental/experimental_service_messages.proto)
+    - [ExperimentalFileIngestionResponse](#com.cognite.seismic.experimental.ExperimentalFileIngestionResponse)
+  
+- [cognite/seismic/protos/experimental/experimental_service.proto](#cognite/seismic/protos/experimental/experimental_service.proto)
+    - [ExperimentalAPI](#com.cognite.seismic.experimental.ExperimentalAPI)
+  
 - [cognite/seismic/protos/persisted_trace.proto](#cognite/seismic/protos/persisted_trace.proto)
     - [PersistedTrace](#com.cognite.seismic.PersistedTrace)
   
@@ -3099,6 +3105,71 @@ Well-known text representation of geometry (&lt;a href=&#34;http://www.opengeosp
  
 
  
+
+ 
+
+
+
+<a name="cognite/seismic/protos/experimental/experimental_service_messages.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/experimental/experimental_service_messages.proto
+
+
+
+<a name="com.cognite.seismic.experimental.ExperimentalFileIngestionResponse"></a>
+
+### ExperimentalFileIngestionResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| job_id | [string](#string) |  |  |
+| file_id | [string](#string) |  |  |
+| status | [com.cognite.seismic.JobStatus](#com.cognite.seismic.JobStatus) |  |  |
+| log | [com.cognite.seismic.IngestionLog](#com.cognite.seismic.IngestionLog) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="cognite/seismic/protos/experimental/experimental_service.proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/experimental/experimental_service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="com.cognite.seismic.experimental.ExperimentalAPI"></a>
+
+### ExperimentalAPI
+A service for experimental features.
+Should only be enabled on greenfield.
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| ExperimentalFileIngestion | [.com.cognite.seismic.IngestFileRequest](#com.cognite.seismic.IngestFileRequest) | [ExperimentalFileIngestionResponse](#com.cognite.seismic.experimental.ExperimentalFileIngestionResponse) stream | Attempts to ingest a registered file with the streaming implementation of the ingestion worker.
+
+Returns a stream of acknowledgements. At least one acknowledgement can always be expected, returning the ingestion id and its initial status.
+
+If the ingestion was immediately started by the server, the logs are streamed back as ingestion progresses. |
 
  
 
