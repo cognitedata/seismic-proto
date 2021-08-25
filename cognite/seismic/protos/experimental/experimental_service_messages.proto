@@ -1,0 +1,13 @@
+syntax = "proto3";
+package com.cognite.seismic.experimental;
+
+import "google/protobuf/wrappers.proto";
+import "cognite/seismic/protos/types.proto";
+import "cognite/seismic/protos/ingest_service_messages.proto";
+
+message ExperimentalFileIngestionResponse {
+    string job_id = 1;
+    string file_id = 2;
+    JobStatus status = 3;
+    IngestionLog log = 4;
+}
