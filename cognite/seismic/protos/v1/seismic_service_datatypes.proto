@@ -5,7 +5,6 @@ syntax = "proto3";
 package com.cognite.seismic.v1;
 
 import "cognite/seismic/protos/types.proto";
-import "google/protobuf/empty.proto";
 
 message Coordinate {
     //The x value of the coordinate
