@@ -495,6 +495,10 @@
                   <a href="#com.cognite.seismic.v1.CoverageSpec.Format"><span class="badge">E</span>CoverageSpec.Format</a>
                 </li>
               
+                <li>
+                  <a href="#com.cognite.seismic.v1.SurveyCoverageSource"><span class="badge">E</span>SurveyCoverageSource</a>
+                </li>
+              
               
               
             </ul>
@@ -4160,6 +4164,35 @@ or by specifying three or more corners of the grid as a list of DoubleTraceCoord
           </tbody>
         </table>
       
+        <h3 id="com.cognite.seismic.v1.SurveyCoverageSource">SurveyCoverageSource</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>UNSPECIFIED</td>
+                <td>0</td>
+                <td><p>Used as the default when a specific source isn&#39;t requested by the user.</p></td>
+              </tr>
+            
+              <tr>
+                <td>CUSTOM</td>
+                <td>1</td>
+                <td><p>Requesting or returning custom coverage</p></td>
+              </tr>
+            
+              <tr>
+                <td>CALCULATED</td>
+                <td>2</td>
+                <td><p>Requesting or returning calculated coverage</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
 
       
 
@@ -5057,6 +5090,13 @@ or by specifying three or more corners of the grid as a list of DoubleTraceCoord
                   <td><p>Optionally present </p></td>
                 </tr>
               
+                <tr>
+                  <td>coverage_source</td>
+                  <td><a href="#com.cognite.seismic.v1.SurveyCoverageSource">SurveyCoverageSource</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -5121,6 +5161,16 @@ or by specifying three or more corners of the grid as a list of DoubleTraceCoord
                   <td><a href="#bool">bool</a></td>
                   <td></td>
                   <td><p>set this field to include the customer-provided survey coverage in the response </p></td>
+                </tr>
+              
+                <tr>
+                  <td>coverage_source</td>
+                  <td><a href="#com.cognite.seismic.v1.SurveyCoverageSource">SurveyCoverageSource</a></td>
+                  <td></td>
+                  <td><p>Requests that a coverage geometry from a particular source is returned in the SearchSurveysResponse.
+If this field is specified, the coverage parameters in the include_coverage field must also be set.
+Note that this is independent from the custom coverage returned as part of the survey.
+If no coverage source is provided, but the coverage parameters are provided, the coverage geometry will be fetched from the custom coverage if one has been provided, and the calculated coverage in other cases. </p></td>
                 </tr>
               
             </tbody>
