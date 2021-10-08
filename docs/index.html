@@ -6731,7 +6731,12 @@ Add project access to this file </p></td>
                   <td>source_group_scalar_override</td>
                   <td><a href="#google.protobuf.FloatValue">google.protobuf.FloatValue</a></td>
                   <td></td>
-                  <td><p>[optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header </p></td>
+                  <td><p>[optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header.
+Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header
+field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100.
+Negative values and values greater than 1 are not permitted.
+To remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN.
+The next ingestion processing of a file will then use the source group scalar values found in trace headers. </p></td>
                 </tr>
               
             </tbody>
@@ -7236,7 +7241,11 @@ will result in the file&#39;s data being removed from the previously active stor
                   <td>source_group_scalar_override</td>
                   <td><a href="#google.protobuf.FloatValue">google.protobuf.FloatValue</a></td>
                   <td></td>
-                  <td><p>[optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header </p></td>
+                  <td><p>[optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header.
+Must be in the range (0,1].
+Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header
+field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100.
+Negative values, 0 and values greater than 1 are not permitted when registering a file, although 0 may be used in the EditFile call to unset this field. </p></td>
                 </tr>
               
             </tbody>
