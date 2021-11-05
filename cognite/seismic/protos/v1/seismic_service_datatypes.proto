@@ -131,7 +131,6 @@ Used to identify zero or one objects that may have an external id
 message Identifier {
     oneof handle {
         int64 id = 1;
-        string id_string = 3; // For the case of surveys, which have ids that are strings.
         string external_id = 2;
     }
 }
