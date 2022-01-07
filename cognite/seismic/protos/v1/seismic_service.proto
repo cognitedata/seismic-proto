@@ -138,5 +138,5 @@ service SeismicAPI {
 
     rpc RegisterFile(RegisterFileRequest) returns (FileV1) {}
 
-    rpc IngestFile(IngestFileRequest) returns (FileV1) {}
+    rpc IngestFile(IngestFileRequest) returns (IngestFileResponse) {}
 }

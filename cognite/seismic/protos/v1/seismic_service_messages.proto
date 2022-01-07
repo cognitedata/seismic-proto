@@ -295,3 +295,7 @@ message IngestFileRequest {
     **/
     string target_storage_tier_name = 3;
 }
+
+message IngestFileResponse {
+    string job_id = 1;
+}
