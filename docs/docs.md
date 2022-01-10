@@ -727,7 +727,7 @@ A representation of binary headers used to create or edit existing headers. Bina
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| file_id | [string](#string) |  |  |
+| file_id | [string](#string) |  | DEPRECATED: This field will always be empty |
 | traces | [int32](#int32) |  |  |
 | trace_data_type | [int32](#int32) |  |  |
 | fixed_length_traces | [int32](#int32) |  |  |
@@ -1132,7 +1132,7 @@ A representation of text headers used to create or edit existing headers.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| file_id | [string](#string) |  |  |
+| file_id | [string](#string) |  | DEPRECATED: This field will always be empty |
 | header | [string](#string) |  | The text content of the header |
 | raw_header | [string](#string) |  | The raw bytes of a header as a string |
 
@@ -1948,7 +1948,7 @@ Messages from the query service of Seismic Datastore in Cognite Data Fusion
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| file_id | [string](#string) |  |  |
+| file_id | [string](#string) |  | DEPRECATED: This field will always be empty |
 | traces | [int32](#int32) |  |  |
 | trace_data_type | [int32](#int32) |  |  |
 | fixed_length_traces | [int32](#int32) |  |  |
@@ -2587,7 +2587,7 @@ Range of z_values to use in time/depth slice queries
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| file_id | [string](#string) |  |  |
+| file_id | [string](#string) |  | DEPRECATED: This field will always be empty |
 | header | [string](#string) |  |  |
 | raw_header | [string](#string) |  |  |
 
