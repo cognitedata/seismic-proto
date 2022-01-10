@@ -252,7 +252,12 @@ message RegisterFileRequest {
 
 message IngestFileRequest {
     // [required] Either name or id of a file previously registered with /RegisterFile
-    Identifier file = 1;
+    // We do not use the (v1) Identifier message because files have string ids.
+    // We don't use the (v0) Identifier message because of issues with namespaces in protobuf
+    oneof file {
+        string name = 1;
+        string id = 4;
+    }
 
     /**
         [optional] Selected step to start ingestion. Leave blank to start from last completed step.
