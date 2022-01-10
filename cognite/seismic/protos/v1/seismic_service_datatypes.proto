@@ -195,7 +195,7 @@ message KeyValueExactMatch {
 A representation of text headers used to create or edit existing headers.
 **/
 message TextHeader {
-    string file_id = 1;
+    string file_id = 1; // DEPRECATED: This field will always be empty
     string header = 2; // The text content of the header
     string raw_header = 3; // The raw bytes of a header as a string
 }
@@ -203,7 +203,7 @@ message TextHeader {
 A representation of binary headers used to create or edit existing headers. BinaryHeader FIELDS contains the list of valid fields. to set after the object is constructed.
 **/
 message BinaryHeader {
-    string file_id = 1;
+    string file_id = 1; // DEPRECATED: This field will always be empty
     int32 traces = 2;
     int32 trace_data_type = 3;
     int32 fixed_length_traces = 4;
