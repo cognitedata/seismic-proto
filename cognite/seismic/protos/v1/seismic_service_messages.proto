@@ -190,9 +190,15 @@ message VolumeRequest {
     }
     oneof filter {
         LineBasedVolume volume = 3;
+        TraceKeyFilter twodee_range = 6;
         GeometryBasedVolume geometry = 5;
     }
     bool include_trace_header = 4;
+}
+
+message TraceKeyFilter {
+    TraceKey trace_key = 1;
+    LineDescriptor field_value_range = 2;
 }
 
 message GeometryBasedVolume {
@@ -208,6 +214,7 @@ message SegYSeismicRequest {
     }
     oneof query {
         Geometry polygon = 3;
+        TraceKeyFilter twodee_range = 5;
         LineBasedRectangle lines = 4;
     }
 }
