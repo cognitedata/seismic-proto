@@ -71,7 +71,10 @@ message Survey {
     TextHeader text_header = 6; //The text header that corresponds to the seismic
     BinaryHeader binary_header = 7; //The binary header that corresponds to the seismic
     LineRange line_range = 8; // The minimum and maximum extents of the seismic's grid, described in inlines and crosslines.
-    VolumeDef volume_def = 9; //The VolumeDef describing the seismic
+    oneof volume_definition { 
+        VolumeDef volume_def = 9; //The VolumeDef describing the seismic
+        TwoDeeSlice slice_def = 15; // If the thing is a 2d seismic 
+    }
     int64 partition_id = 10; //The id of the partition the seismic belongs to
     int64 seismicstore_id = 11;  // The id of the seismicstore the seismic is derived from. It is present only if agent has READ access and ALL scope  
     Geometry coverage = 12; //The coverage geometry for the seismic.
@@ -89,8 +92,11 @@ message SeismicStore {
     IngestionSource ingestion_source = 4; // The source of the seismicstore. It indicates how the file was ingested
     map<string, string> metadata = 5; //Any custom-defined metadata
     File ingested_file = 6; // If present, the file this SeismicStore was ingested from
-    VolumeDef inline_volume_def = 7; // Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines.
-    VolumeDef crossline_volume_def = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
+    oneof linedef { 
+        VolumeDef inline_volume_def = 7; // Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines.
+        TwoDeeSlice slice_def = 16; // If the thing is a 2d seismic 
+    }
+    reserved = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
     TextHeader text_header = 9; //If present, the text header for this seismic store
     BinaryHeader binary_header = 10; //If present, the binary header for this seismic store
     // Tenant specific name for the storage facility the trace data are stored in. If empty, it is stored in an unspecified trace store.
@@ -125,6 +131,30 @@ For more information refer to <a href="https://cognite-seismic-sdk.readthedocs-h
 **/
 message VolumeDef {
     string json = 1;  // Uses the Volume Definition schema
+}
+
+enum TraceKeyField {
+    "trace_sequence_line",
+    "trace_sequence_file",
+    "whatever",
+} 
+
+message TwoDeeSlice {
+    TraceKeyField trace_key = 1;
+    repeated ValueRange ranges = 2;
+}
+
+message ValueRange {
+    oneof values {
+        RangeSpec range = 1;
+        repeated int32 list = 2;
+    }
+}
+
+message RangeSpec {
+    int32 start_incl = 1;
+    int32 end_incl = 2;
+    int32 step = 3;
 }
 
 /**
