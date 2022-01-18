@@ -233,3 +233,81 @@ message SegYSeismicResponse {
 message SearchFilesRequest {
     SearchSpec spec = 1;
 }
+
+message RegisterFileRequest {
+    Identifier survey = 1;                                          // [required] Either name or id of a survey previously registered with /RegisterSurvey
+    string path = 2;                                                // [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                                                // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
+    map<string, string> metadata = 4;                               // [optional]
+    CRS crs = 5;                                                 // [required] Official name of the CRS used. Example: "EPSG:23031"
+    google.protobuf.BoolValue is_temporary = 6;                     // [optional] tells whether file is temporary (writeable) or not. False by default
+    google.protobuf.Int32Value inline_offset = 7;                   // [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value crossline_offset = 8;                // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_x_offset = 9;                    // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_y_offset = 10;                   // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+    ExternalId external_id = 11;                                    // [optional] An external identifier - matches service contract field
+    /**
+    [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header.
+    Must be in the range (0,1].
+    Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header
+    field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100.
+    Negative values, 0 and values greater than 1 are not permitted when registering a file, although 0 may be used in the EditFile call to unset this field.
+    **/
+    google.protobuf.FloatValue source_group_scalar_override = 12;
+}
+
+
+message IngestFileRequest {
+    // [required] Either name or id of a file previously registered with /RegisterFile
+    // We do not use the (v1) Identifier message because files have string ids.
+    // We don't use the (v0) Identifier message because of issues with namespaces in protobuf
+    oneof file {
+        string name = 1;
+        string id = 4;
+    }
+
+    /**
+        [optional] Selected step to start ingestion. Leave blank to start from last completed step.
+        [Accepted values]
+           1 -- insert binary and text headers
+           2 -- insert trace headers
+           3 -- insert trace data
+           4 -- compute coverage polygon and additional metadata (trace count, valid lines, etc)
+           6 -- insert trace offset indices
+        [Use cases]
+        * Usual ingestion:
+           If the last successful step was 0 (REGISTER), the file will be fully ingested regardless of start_step
+        * Completing a failed ingestion:
+           If the last successful step was 3 (INSERT_DATA), and no start step is selected, only coverage will be
+           computed. Previously ingested headers and traces will be preserved in this case.
+        * Forcing reingestion:
+           If start_step is 1 (INSERT_FILE_HEADERS), regardless of previous ingestion status, all headers
+           and data will be deleted and the whole file will be forcefully reingested
+        * Forcing a single step to be rerun:
+           If the file is ingested (last step is COMPUTE_COVERAGE), by using start_step = 4 (COMPUTE_COVERAGE),
+           for example, only coverage will be computed while headers and traces will be preserved
+    **/
+    FileStep start_step = 2;
+
+    /**
+        [optional as of 2020-11-01, will be required at some later time]
+        Target storage tier for this file. If empty a bigtable-based storage will be used.
+
+        A storage tier is a defined facility for storing the trace data associated with a seismic volume.
+        The default storage facility is based on Cloud Bigtable, but it is also possible to leave trace data stored
+        in SEG-Y files in Cloud Storage, only retaining a compact index of file data in fast storage to facilitate
+        retrieval of data from Cloud Storage in a performant manner.
+
+        [Accepted values]
+        Accepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage
+        cost, retrieval performance, numeric precision and sampling.
+
+        Note that currently only one storage tier per trace store is supported, so ingesting an already ingested file
+        will result in the file's data being removed from the previously active storage tier.
+    **/
+    string target_storage_tier_name = 3;
+}
+
+message IngestFileResponse {
+    string job_id = 1;
+}
