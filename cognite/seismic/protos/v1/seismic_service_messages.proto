@@ -85,6 +85,12 @@ message CreateSeismicRequest {
         Geometry geometry = 7;  // Defines the volume as WKT or GeoJson
         bool empty = 10;  // If true, will create a seismic with an empty cutout
     }
+    // Defines the portion of the trecestore line to limit the new seismic to.
+    // Providing this field on a volume will break things
+    oneof line {
+        TwoDeeSlice slice = 12;
+        bool empty = 13;
+    }
     OptionalMap metadata = 6;
     TextHeader text_header = 8;  // Optionally set a custom text header
     BinaryHeader binary_header = 9;  // Optionally set a custom binary header
@@ -190,14 +196,14 @@ message VolumeRequest {
     }
     oneof filter {
         LineBasedVolume volume = 3;
-        TraceKeyFilter twodee_range = 6;
         GeometryBasedVolume geometry = 5;
+        TraceKeyFilter twodee_range = 6;
     }
     bool include_trace_header = 4;
 }
 
 message TraceKeyFilter {
-    TraceKey trace_key = 1;
+    TraceKeyField trace_key = 1;
     LineDescriptor field_value_range = 2;
 }
 
@@ -234,6 +240,15 @@ message SearchFilesRequest {
     SearchSpec spec = 1;
 }
 
+// Specifies which header field to index by, for 2d files
+message TraceIndexSpec {
+    TraceKeyField field = 1;
+} 
+
+message ThreeDee {
+
+}
+
 message RegisterFileRequest {
     Identifier survey = 1;                                          // [required] Either name or id of a survey previously registered with /RegisterSurvey
     string path = 2;                                                // [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
@@ -254,6 +269,16 @@ message RegisterFileRequest {
     Negative values, 0 and values greater than 1 are not permitted when registering a file, although 0 may be used in the EditFile call to unset this field.
     **/
     google.protobuf.FloatValue source_group_scalar_override = 12;
+
+    // Nullable field that if present indicates 2D file
+    TraceIndexSpec two_dimensional_index = 13;
+
+    // Alternative: Using a Dimensionality field oneof
+    // (names very temporary)
+    oneof dimensionality {
+        ThreeDee _3d = 14;
+        TraceIndexSpec _2d = 15;
+    }
 }
 
 

@@ -143,9 +143,10 @@ message VolumeDef {
 }
 
 enum TraceKeyField {
-    "trace_sequence_line",
-    "trace_sequence_file",
-    "whatever",
+    TRACE_SEQUENCE_WITHIN_LINE = 1;
+    TRACE_SEQUENCE_WITHIN_FILE = 2;
+    SHOTPOINT = 3;
+    // etc.
 } 
 
 message TwoDeeSlice {
@@ -156,10 +157,15 @@ message TwoDeeSlice {
 message ValueRange {
     oneof values {
         RangeSpec range = 1;
-        repeated int32 list = 2;
+        ListSpec list = 2;
     }
 }
 
+message ListSpec {
+    repeated int32 list = 1;
+}
+
+// TODO/THINKABOUT: RangeSpec identical to LineDescriptor, reuse?
 message RangeSpec {
     int32 start_incl = 1;
     int32 end_incl = 2;
