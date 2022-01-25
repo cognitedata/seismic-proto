@@ -507,7 +507,7 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 | survey | [Identifier](#com.cognite.seismic.v1.Identifier) |  |  |
 | metadata | [OptionalMap](#com.cognite.seismic.v1.OptionalMap) |  | The existing metadata will be replaced with this metadata. |
 | external_id | [com.cognite.seismic.ExternalId](#com.cognite.seismic.ExternalId) |  |  |
-| crs | [google.protobuf.StringValue](#google.protobuf.StringValue) |  | CRS used by all members |
+| crs | [com.cognite.seismic.CRS](#com.cognite.seismic.CRS) |  | CRS used by all members |
 | grid_transformation | [com.cognite.seismic.SurveyGridTransformation](#com.cognite.seismic.SurveyGridTransformation) |  | Optional |
 | custom_coverage | [com.cognite.seismic.CustomSurveyCoverage](#com.cognite.seismic.CustomSurveyCoverage) |  | Optional |
 | new_name | [google.protobuf.StringValue](#google.protobuf.StringValue) |  | If provided, the new name of the survey |
