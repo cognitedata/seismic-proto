@@ -56,7 +56,7 @@ message EditSurveyRequest {
     Identifier survey = 1;
     OptionalMap metadata = 2;  // The existing metadata will be replaced with this metadata.
     ExternalId external_id = 3;
-    google.protobuf.StringValue crs = 4; // CRS used by all members
+    CRS crs = 4; // CRS used by all members
     SurveyGridTransformation grid_transformation = 5; // Optional
     CustomSurveyCoverage custom_coverage = 6; // Optional
     google.protobuf.StringValue new_name = 7; // If provided, the new name of the survey
