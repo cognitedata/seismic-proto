@@ -234,7 +234,6 @@ message SearchJobStatusRequest {
             oneof id {
                 string job_id = 1;
                 string file_id = 2;
-                string file_name = 3;
             }
         }
 
@@ -249,24 +248,17 @@ message SearchJobStatusRequest {
         }
     }
 
-    enum Order {
-        DESCENDING = 0;
-        ASCENDING = 1;
-    }
-
-    Order order_by_updated = 1; // Defaults to most recently updated first
-    repeated Filter filters = 2; // Multiple filters further restrict returned values
+    Filter filter = 1;
 }
 
 message JobStatusResponse {
     string job_id = 1;
     string file_id = 2;
-    string file_name = 3;
-    JobStatus status = 4;
-    google.protobuf.Timestamp started_at = 5;
-    google.protobuf.Timestamp updated_at = 6;
-    string target_storage_tier_name = 7;
-    repeated IngestionLog logs = 8;
+    JobStatus status = 3;
+    google.protobuf.Timestamp started_at = 4;
+    google.protobuf.Timestamp updated_at = 5;
+    google.protobuf.StringValue target_storage_tier_name = 6;
+    repeated IngestionLog logs = 7;
 }
 
 message IngestionLog {
