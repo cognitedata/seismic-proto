@@ -1,0 +1,4842 @@
+{
+  "files": [
+    {
+      "name": "cognite/seismic/protos/v1/seismic_service.proto",
+      "description": "",
+      "package": "com.cognite.seismic.v1",
+      "hasEnums": false,
+      "hasExtensions": false,
+      "hasMessages": false,
+      "hasServices": true,
+      "enums": [],
+      "extensions": [],
+      "messages": [],
+      "services": [
+        {
+          "name": "SeismicAPI",
+          "longName": "SeismicAPI",
+          "fullName": "com.cognite.seismic.v1.SeismicAPI",
+          "description": "Service for querying data and metadata from seismic tracestore in Cognite Data Fusion (CDF) seismic datastore.\n\nQueries are done primarily on cubes, with some management endpoints for tracestores \u0026 partitions.\n\nQueries are divided in:\n  Metadata: General information and headers for surveys and files\n  Trace: Retrieve traces, be it by geometry, line or volume\n  Artificial sampling: Get the (calculated/interpolated) values of properties in the file/tracestore given arbitrary positions\n\nMetadata queries",
+          "methods": [
+            {
+              "name": "CreateSurvey",
+              "description": "Creates a Survey object in the data model. A Survey object represents a grouping of seismic data\nin the same area and normally sharing acquisition and most processing parameters.\nCapabilities: Requires Seismic:WRITE capability to the CDF tenant.",
+              "requestType": "CreateSurveyRequest",
+              "requestLongType": "CreateSurveyRequest",
+              "requestFullType": "com.cognite.seismic.v1.CreateSurveyRequest",
+              "requestStreaming": false,
+              "responseType": "Survey",
+              "responseLongType": "Survey",
+              "responseFullType": "com.cognite.seismic.v1.Survey",
+              "responseStreaming": false
+            },
+            {
+              "name": "SearchSurveys",
+              "description": "Lists all surveys accessible to the client. Optionally includes Cubes associated with the surveys.\n\nCan optionally search surveys based on both/either of two criteria:\n  Coverage polygon of files in the survey are within an area delimited by a specified polygon\n  Filters on metadata of both the survey and the file",
+              "requestType": "SearchSurveysRequest",
+              "requestLongType": "SearchSurveysRequest",
+              "requestFullType": "com.cognite.seismic.v1.SearchSurveysRequest",
+              "requestStreaming": false,
+              "responseType": "SearchSurveyResponse",
+              "responseLongType": "SearchSurveyResponse",
+              "responseFullType": "com.cognite.seismic.v1.SearchSurveyResponse",
+              "responseStreaming": true
+            },
+            {
+              "name": "EditSurvey",
+              "description": "Modify the metadata for a survey.",
+              "requestType": "EditSurveyRequest",
+              "requestLongType": "EditSurveyRequest",
+              "requestFullType": "com.cognite.seismic.v1.EditSurveyRequest",
+              "requestStreaming": false,
+              "responseType": "Survey",
+              "responseLongType": "Survey",
+              "responseFullType": "com.cognite.seismic.v1.Survey",
+              "responseStreaming": false
+            },
+            {
+              "name": "DeleteSurvey",
+              "description": "Deletes a specified survey. Must have ALL scope and Write capabilities.\n\nIn the case of Surveys, the \"name\" should be input into the external_ids field of the Identifier.",
+              "requestType": "DeleteSurveyRequest",
+              "requestLongType": "DeleteSurveyRequest",
+              "requestFullType": "com.cognite.seismic.v1.DeleteSurveyRequest",
+              "requestStreaming": false,
+              "responseType": "DeleteSurveyResponse",
+              "responseLongType": "DeleteSurveyResponse",
+              "responseFullType": "com.cognite.seismic.v1.DeleteSurveyResponse",
+              "responseStreaming": false
+            },
+            {
+              "name": "CreateSeismic",
+              "description": "Create new Seismics and assign them to partitions.\nSeismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one\nif e.g. the definition or the seismic store must be changed",
+              "requestType": "CreateSeismicRequest",
+              "requestLongType": "CreateSeismicRequest",
+              "requestFullType": "com.cognite.seismic.v1.CreateSeismicRequest",
+              "requestStreaming": false,
+              "responseType": "Seismic",
+              "responseLongType": "Seismic",
+              "responseFullType": "com.cognite.seismic.v1.Seismic",
+              "responseStreaming": false
+            },
+            {
+              "name": "SearchSeismics",
+              "description": "Returns Seismic metadata given its id.\nCan optionally retrieve seismic store \u0026 partition info if user has the right scope.\nUse GetVolume to retrieve traces.",
+              "requestType": "SearchSeismicsRequest",
+              "requestLongType": "SearchSeismicsRequest",
+              "requestFullType": "com.cognite.seismic.v1.SearchSeismicsRequest",
+              "requestStreaming": false,
+              "responseType": "Seismic",
+              "responseLongType": "Seismic",
+              "responseFullType": "com.cognite.seismic.v1.Seismic",
+              "responseStreaming": true
+            },
+            {
+              "name": "EditSeismic",
+              "description": "Edit the specified seismic. Seismic object names and metadata can be changed.\nThe cutout definition, however, cannot be changed.\nTo modify the definition or the owning partition, delete the seismic object\nand create a new one.",
+              "requestType": "EditSeismicRequest",
+              "requestLongType": "EditSeismicRequest",
+              "requestFullType": "com.cognite.seismic.v1.EditSeismicRequest",
+              "requestStreaming": false,
+              "responseType": "Seismic",
+              "responseLongType": "Seismic",
+              "responseFullType": "com.cognite.seismic.v1.Seismic",
+              "responseStreaming": false
+            },
+            {
+              "name": "DeleteSeismic",
+              "description": "Delete seismic objects.",
+              "requestType": "DeleteSeismicRequest",
+              "requestLongType": "DeleteSeismicRequest",
+              "requestFullType": "com.cognite.seismic.v1.DeleteSeismicRequest",
+              "requestStreaming": false,
+              "responseType": "DeleteSeismicResponse",
+              "responseLongType": "DeleteSeismicResponse",
+              "responseFullType": "com.cognite.seismic.v1.DeleteSeismicResponse",
+              "responseStreaming": false
+            },
+            {
+              "name": "SearchSeismicStores",
+              "description": "Search and retrieve seismic stores. Can only retrieve seismic stores you own.",
+              "requestType": "SearchSeismicStoresRequest",
+              "requestLongType": "SearchSeismicStoresRequest",
+              "requestFullType": "com.cognite.seismic.v1.SearchSeismicStoresRequest",
+              "requestStreaming": false,
+              "responseType": "SeismicStore",
+              "responseLongType": "SeismicStore",
+              "responseFullType": "com.cognite.seismic.v1.SeismicStore",
+              "responseStreaming": true
+            },
+            {
+              "name": "EditSeismicStore",
+              "description": "Set the name of a seismic store object.",
+              "requestType": "EditSeismicStoreRequest",
+              "requestLongType": "EditSeismicStoreRequest",
+              "requestFullType": "com.cognite.seismic.v1.EditSeismicStoreRequest",
+              "requestStreaming": false,
+              "responseType": "SeismicStore",
+              "responseLongType": "SeismicStore",
+              "responseFullType": "com.cognite.seismic.v1.SeismicStore",
+              "responseStreaming": false
+            },
+            {
+              "name": "DeleteSeismicStore",
+              "description": "Delete a seismic store. If any seismics still reference the specified seismic store, the request will fail.",
+              "requestType": "DeleteSeismicStoreRequest",
+              "requestLongType": "DeleteSeismicStoreRequest",
+              "requestFullType": "com.cognite.seismic.v1.DeleteSeismicStoreRequest",
+              "requestStreaming": false,
+              "responseType": "DeleteSeismicStoreResponse",
+              "responseLongType": "DeleteSeismicStoreResponse",
+              "responseFullType": "com.cognite.seismic.v1.DeleteSeismicStoreResponse",
+              "responseStreaming": false
+            },
+            {
+              "name": "CreatePartition",
+              "description": "Create a data partition, optionally setting a name.",
+              "requestType": "CreatePartitionRequest",
+              "requestLongType": "CreatePartitionRequest",
+              "requestFullType": "com.cognite.seismic.v1.CreatePartitionRequest",
+              "requestStreaming": false,
+              "responseType": "Partition",
+              "responseLongType": "Partition",
+              "responseFullType": "com.cognite.seismic.v1.Partition",
+              "responseStreaming": false
+            },
+            {
+              "name": "SearchPartitions",
+              "description": "Returns the partition(s) specified, with the same search options as the other search endpoints.",
+              "requestType": "SearchPartitionsRequest",
+              "requestLongType": "SearchPartitionsRequest",
+              "requestFullType": "com.cognite.seismic.v1.SearchPartitionsRequest",
+              "requestStreaming": false,
+              "responseType": "Partition",
+              "responseLongType": "Partition",
+              "responseFullType": "com.cognite.seismic.v1.Partition",
+              "responseStreaming": true
+            },
+            {
+              "name": "EditPartition",
+              "description": "Edit partitions. The only modifiable field is the name",
+              "requestType": "EditPartitionRequest",
+              "requestLongType": "EditPartitionRequest",
+              "requestFullType": "com.cognite.seismic.v1.EditPartitionRequest",
+              "requestStreaming": false,
+              "responseType": "Partition",
+              "responseLongType": "Partition",
+              "responseFullType": "com.cognite.seismic.v1.Partition",
+              "responseStreaming": false
+            },
+            {
+              "name": "DeletePartition",
+              "description": "Delete the specified partition, and return whether it was successfully deleted.",
+              "requestType": "DeletePartitionRequest",
+              "requestLongType": "DeletePartitionRequest",
+              "requestFullType": "com.cognite.seismic.v1.DeletePartitionRequest",
+              "requestStreaming": false,
+              "responseType": "DeletePartitionResponse",
+              "responseLongType": "DeletePartitionResponse",
+              "responseFullType": "com.cognite.seismic.v1.DeletePartitionResponse",
+              "responseStreaming": false
+            },
+            {
+              "name": "GetVolume",
+              "description": "Request a volume of traces by range of inlines, crosslines and time",
+              "requestType": "VolumeRequest",
+              "requestLongType": "VolumeRequest",
+              "requestFullType": "com.cognite.seismic.v1.VolumeRequest",
+              "requestStreaming": false,
+              "responseType": "Trace",
+              "responseLongType": ".com.cognite.seismic.Trace",
+              "responseFullType": "com.cognite.seismic.Trace",
+              "responseStreaming": true
+            },
+            {
+              "name": "GetSegYFile",
+              "description": "Fetch seismic data in SEG-Y format.\nThe stream of responses each contain a byte array that must be written sequentially to a\nfile to produce a SEG-Y file. The ordering of traces in the output is unspecified.\n\nThe request object can be used to specify whether the file should contain the whole set\nof traces in the source dataset or a subset of the traces (ie. a cropped file). See\nSegYSeismicRequest for more information.\nReturns a stream of SegYSeismicResponse objects, each containing a fragment of a SEG-Y\ndata stream.",
+              "requestType": "SegYSeismicRequest",
+              "requestLongType": "SegYSeismicRequest",
+              "requestFullType": "com.cognite.seismic.v1.SegYSeismicRequest",
+              "requestStreaming": false,
+              "responseType": "SegYSeismicResponse",
+              "responseLongType": "SegYSeismicResponse",
+              "responseFullType": "com.cognite.seismic.v1.SegYSeismicResponse",
+              "responseStreaming": true
+            },
+            {
+              "name": "SearchFiles",
+              "description": "Retrieves File objects describing the seismic files registered with the tenant.\nSearch criteria can be specified in the SearchFilesRequest, restricting the data retrieved\nto a subset of the files in the tenant. See SearchFilesRequest for more information.\nReturns a stream of file objects, terminating all files matching the search criteria have been\nreturned.",
+              "requestType": "SearchFilesRequest",
+              "requestLongType": "SearchFilesRequest",
+              "requestFullType": "com.cognite.seismic.v1.SearchFilesRequest",
+              "requestStreaming": false,
+              "responseType": "File",
+              "responseLongType": ".com.cognite.seismic.File",
+              "responseFullType": "com.cognite.seismic.File",
+              "responseStreaming": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cognite/seismic/protos/v1/seismic_service_messages.proto",
+      "description": "Messages that describe requests/responses from the Seismic Datastore in Cognite Data Fusion",
+      "package": "com.cognite.seismic.v1",
+      "hasEnums": false,
+      "hasExtensions": false,
+      "hasMessages": true,
+      "hasServices": false,
+      "enums": [],
+      "extensions": [],
+      "messages": [
+        {
+          "name": "CreatePartitionRequest",
+          "longName": "CreatePartitionRequest",
+          "fullName": "com.cognite.seismic.v1.CreatePartitionRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "name",
+              "description": "optional name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "not optional externalid",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CreateSeismicRequest",
+          "longName": "CreateSeismicRequest",
+          "fullName": "com.cognite.seismic.v1.CreateSeismicRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "name",
+              "description": "optional",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "not optional",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "partition",
+              "description": "",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismic_store_id",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "volume_def",
+              "description": "Define the volume as VolumeDef format",
+              "label": "",
+              "type": "VolumeDef",
+              "longType": "VolumeDef",
+              "fullType": "com.cognite.seismic.v1.VolumeDef",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "volume",
+              "defaultValue": ""
+            },
+            {
+              "name": "geometry",
+              "description": "Defines the volume as WKT or GeoJson",
+              "label": "",
+              "type": "Geometry",
+              "longType": "com.cognite.seismic.Geometry",
+              "fullType": "com.cognite.seismic.Geometry",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "volume",
+              "defaultValue": ""
+            },
+            {
+              "name": "empty",
+              "description": "If true, will create a seismic with an empty cutout",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "volume",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "",
+              "label": "",
+              "type": "OptionalMap",
+              "longType": "OptionalMap",
+              "fullType": "com.cognite.seismic.v1.OptionalMap",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "text_header",
+              "description": "Optionally set a custom text header",
+              "label": "",
+              "type": "TextHeader",
+              "longType": "TextHeader",
+              "fullType": "com.cognite.seismic.v1.TextHeader",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "binary_header",
+              "description": "Optionally set a custom binary header",
+              "label": "",
+              "type": "BinaryHeader",
+              "longType": "BinaryHeader",
+              "fullType": "com.cognite.seismic.v1.BinaryHeader",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "copy_metadata",
+              "description": "If true, copy the metadata from the source seismic store.",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CreateSurveyRequest",
+          "longName": "CreateSurveyRequest",
+          "fullName": "com.cognite.seismic.v1.CreateSurveyRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "name",
+              "description": "Short descriptive name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "Key-value pairs of metadata for the survey.",
+              "label": "repeated",
+              "type": "MetadataEntry",
+              "longType": "CreateSurveyRequest.MetadataEntry",
+              "fullType": "com.cognite.seismic.v1.CreateSurveyRequest.MetadataEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "Identifier for correlation with systems outside CDF",
+              "label": "",
+              "type": "ExternalId",
+              "longType": "com.cognite.seismic.ExternalId",
+              "fullType": "com.cognite.seismic.ExternalId",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crs",
+              "description": "CRS used by all members",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "grid_transformation",
+              "description": "Optional",
+              "label": "",
+              "type": "SurveyGridTransformation",
+              "longType": "com.cognite.seismic.SurveyGridTransformation",
+              "fullType": "com.cognite.seismic.SurveyGridTransformation",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "custom_coverage",
+              "description": "[optional] Customer-provided survey coverage",
+              "label": "",
+              "type": "CustomSurveyCoverage",
+              "longType": "com.cognite.seismic.CustomSurveyCoverage",
+              "fullType": "com.cognite.seismic.CustomSurveyCoverage",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MetadataEntry",
+          "longName": "CreateSurveyRequest.MetadataEntry",
+          "fullName": "com.cognite.seismic.v1.CreateSurveyRequest.MetadataEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeletePartitionRequest",
+          "longName": "DeletePartitionRequest",
+          "fullName": "com.cognite.seismic.v1.DeletePartitionRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "partition",
+              "description": "",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeletePartitionResponse",
+          "longName": "DeletePartitionResponse",
+          "fullName": "com.cognite.seismic.v1.DeletePartitionResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "success",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeleteSeismicRequest",
+          "longName": "DeleteSeismicRequest",
+          "fullName": "com.cognite.seismic.v1.DeleteSeismicRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "seismic",
+              "description": "",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeleteSeismicResponse",
+          "longName": "DeleteSeismicResponse",
+          "fullName": "com.cognite.seismic.v1.DeleteSeismicResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "succeeded",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeleteSeismicStoreRequest",
+          "longName": "DeleteSeismicStoreRequest",
+          "fullName": "com.cognite.seismic.v1.DeleteSeismicStoreRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "seismic_store",
+              "description": "",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeleteSeismicStoreResponse",
+          "longName": "DeleteSeismicStoreResponse",
+          "fullName": "com.cognite.seismic.v1.DeleteSeismicStoreResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "succeeded",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeleteSurveyRequest",
+          "longName": "DeleteSurveyRequest",
+          "fullName": "com.cognite.seismic.v1.DeleteSurveyRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "survey",
+              "description": "",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeleteSurveyResponse",
+          "longName": "DeleteSurveyResponse",
+          "fullName": "com.cognite.seismic.v1.DeleteSurveyResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "success",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "EditPartitionRequest",
+          "longName": "EditPartitionRequest",
+          "fullName": "com.cognite.seismic.v1.EditPartitionRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "partition",
+              "description": "Must uniquely identify a partition",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "new_name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "EditSeismicRequest",
+          "longName": "EditSeismicRequest",
+          "fullName": "com.cognite.seismic.v1.EditSeismicRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "seismic",
+              "description": "",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "",
+              "label": "",
+              "type": "StringValue",
+              "longType": "google.protobuf.StringValue",
+              "fullType": "google.protobuf.StringValue",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "",
+              "label": "",
+              "type": "OptionalMap",
+              "longType": "OptionalMap",
+              "fullType": "com.cognite.seismic.v1.OptionalMap",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "text_header",
+              "description": "Replaces the existing text header, if specified",
+              "label": "",
+              "type": "TextHeader",
+              "longType": "TextHeader",
+              "fullType": "com.cognite.seismic.v1.TextHeader",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "binary_header",
+              "description": "Replaces the existing binary header, if specified",
+              "label": "",
+              "type": "BinaryHeader",
+              "longType": "BinaryHeader",
+              "fullType": "com.cognite.seismic.v1.BinaryHeader",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "EditSeismicStoreRequest",
+          "longName": "EditSeismicStoreRequest",
+          "fullName": "com.cognite.seismic.v1.EditSeismicStoreRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "seismic_store_id",
+              "description": "Deprecated. Use `identifier` instead.",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "If not null will change the seismic store name",
+              "label": "",
+              "type": "StringValue",
+              "longType": "google.protobuf.StringValue",
+              "fullType": "google.protobuf.StringValue",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "If not null, will replace the seismic store metadata",
+              "label": "",
+              "type": "OptionalMap",
+              "longType": "OptionalMap",
+              "fullType": "com.cognite.seismic.v1.OptionalMap",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismic_store",
+              "description": "Uniquely identifies one seismic store",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "If not null, will attempt to change the seismic store external id. Can fail if the new external id is not unique.",
+              "label": "",
+              "type": "StringValue",
+              "longType": "google.protobuf.StringValue",
+              "fullType": "google.protobuf.StringValue",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "EditSurveyRequest",
+          "longName": "EditSurveyRequest",
+          "fullName": "com.cognite.seismic.v1.EditSurveyRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "survey",
+              "description": "",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "The existing metadata will be replaced with this metadata.",
+              "label": "",
+              "type": "OptionalMap",
+              "longType": "OptionalMap",
+              "fullType": "com.cognite.seismic.v1.OptionalMap",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "",
+              "label": "",
+              "type": "ExternalId",
+              "longType": "com.cognite.seismic.ExternalId",
+              "fullType": "com.cognite.seismic.ExternalId",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crs",
+              "description": "CRS used by all members",
+              "label": "",
+              "type": "CRS",
+              "longType": "com.cognite.seismic.CRS",
+              "fullType": "com.cognite.seismic.CRS",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "grid_transformation",
+              "description": "Optional",
+              "label": "",
+              "type": "SurveyGridTransformation",
+              "longType": "com.cognite.seismic.SurveyGridTransformation",
+              "fullType": "com.cognite.seismic.SurveyGridTransformation",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "custom_coverage",
+              "description": "Optional",
+              "label": "",
+              "type": "CustomSurveyCoverage",
+              "longType": "com.cognite.seismic.CustomSurveyCoverage",
+              "fullType": "com.cognite.seismic.CustomSurveyCoverage",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "new_name",
+              "description": "If provided, the new name of the survey",
+              "label": "",
+              "type": "StringValue",
+              "longType": "google.protobuf.StringValue",
+              "fullType": "google.protobuf.StringValue",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GeometryBasedVolume",
+          "longName": "GeometryBasedVolume",
+          "fullName": "com.cognite.seismic.v1.GeometryBasedVolume",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "geometry",
+              "description": "",
+              "label": "",
+              "type": "Geometry",
+              "longType": "com.cognite.seismic.Geometry",
+              "fullType": "com.cognite.seismic.Geometry",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "interpolation_method",
+              "description": "Required if the geometry describes a line, otherwise ignored",
+              "label": "",
+              "type": "InterpolationMethod",
+              "longType": "com.cognite.seismic.InterpolationMethod",
+              "fullType": "com.cognite.seismic.InterpolationMethod",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "z_range",
+              "description": "",
+              "label": "",
+              "type": "LineDescriptor",
+              "longType": "com.cognite.seismic.LineDescriptor",
+              "fullType": "com.cognite.seismic.LineDescriptor",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SearchFilesRequest",
+          "longName": "SearchFilesRequest",
+          "fullName": "com.cognite.seismic.v1.SearchFilesRequest",
+          "description": "Used to search files by id, extid, extid substring, name, name substring",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "spec",
+              "description": "",
+              "label": "",
+              "type": "SearchSpec",
+              "longType": "SearchSpec",
+              "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SearchPartitionsRequest",
+          "longName": "SearchPartitionsRequest",
+          "fullName": "com.cognite.seismic.v1.SearchPartitionsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "partitions",
+              "description": "",
+              "label": "",
+              "type": "SearchSpec",
+              "longType": "SearchSpec",
+              "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SearchSeismicStoresRequest",
+          "longName": "SearchSeismicStoresRequest",
+          "fullName": "com.cognite.seismic.v1.SearchSeismicStoresRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "seismic_store",
+              "description": "",
+              "label": "",
+              "type": "SearchSpec",
+              "longType": "SearchSpec",
+              "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "survey",
+              "description": "",
+              "label": "",
+              "type": "SearchSpec",
+              "longType": "SearchSpec",
+              "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_file_info",
+              "description": "If true, include File information in the response",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_volume_definitions",
+              "description": "If true, includes inline/crossline volume definitions for store",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_headers",
+              "description": "if true, include text and binary headers in the response",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_coverage",
+              "description": "Deprecated. Use `coverage` instead.",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "coverage",
+              "description": "If specified, include coverage",
+              "label": "",
+              "type": "CoverageSpec",
+              "longType": "CoverageSpec",
+              "fullType": "com.cognite.seismic.v1.CoverageSpec",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SearchSeismicsRequest",
+          "longName": "SearchSeismicsRequest",
+          "fullName": "com.cognite.seismic.v1.SearchSeismicsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "survey",
+              "description": "",
+              "label": "",
+              "type": "SearchSpec",
+              "longType": "SearchSpec",
+              "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismic",
+              "description": "",
+              "label": "",
+              "type": "SearchSpec",
+              "longType": "SearchSpec",
+              "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "partition",
+              "description": "Can only search on partitions you can see.",
+              "label": "",
+              "type": "SearchSpec",
+              "longType": "SearchSpec",
+              "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_text_header",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_binary_header",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_line_range",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_volume_definition",
+              "description": "If true, include the volume definition blob",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_seismic_store",
+              "description": "If true, include info on the backing seismicstore. Must be data manager.",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_partition",
+              "description": "If true, include info on the partition. Must be data manager.\\",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_coverage",
+              "description": "Deprecated. Use `coverage` instead.",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "coverage",
+              "description": "If specified, requests coverage as well.",
+              "label": "",
+              "type": "CoverageSpec",
+              "longType": "CoverageSpec",
+              "fullType": "com.cognite.seismic.v1.CoverageSpec",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SearchSurveyResponse",
+          "longName": "SearchSurveyResponse",
+          "fullName": "com.cognite.seismic.v1.SearchSurveyResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "survey",
+              "description": "",
+              "label": "",
+              "type": "Survey",
+              "longType": "Survey",
+              "fullType": "com.cognite.seismic.v1.Survey",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismic_ids",
+              "description": "Optionally present",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismic_store_ids",
+              "description": "Optionally present",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "coverage",
+              "description": "Optionally present",
+              "label": "",
+              "type": "Geometry",
+              "longType": "com.cognite.seismic.Geometry",
+              "fullType": "com.cognite.seismic.Geometry",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "coverage_source",
+              "description": "",
+              "label": "",
+              "type": "SurveyCoverageSource",
+              "longType": "SurveyCoverageSource",
+              "fullType": "com.cognite.seismic.v1.SurveyCoverageSource",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SearchSurveysRequest",
+          "longName": "SearchSurveysRequest",
+          "fullName": "com.cognite.seismic.v1.SearchSurveysRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "surveys",
+              "description": "Optional identifier of the survey. If empty, retrieve all accessible surveys",
+              "label": "repeated",
+              "type": "SearchSpec",
+              "longType": "SearchSpec",
+              "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "list_seismic_ids",
+              "description": "set to true to list the survey's seismics in the response (default: false)",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "list_seismic_store_ids",
+              "description": "Set to true to list the survey's seismic stores in the response. Only tenant users can see this.",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_metadata",
+              "description": "set to true to include survey metadata in the response (default: false)",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_coverage",
+              "description": "set this field to include coverage in the response (default: false)",
+              "label": "",
+              "type": "CoverageParameters",
+              "longType": "com.cognite.seismic.CoverageParameters",
+              "fullType": "com.cognite.seismic.CoverageParameters",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_grid_transformation",
+              "description": "set this field to include the manually specified grid transformation in the response (default: false)",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_custom_coverage",
+              "description": "set this field to include the customer-provided survey coverage in the response",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "coverage_source",
+              "description": "Requests that a coverage geometry from a particular source is returned in the SearchSurveysResponse.\nIf this field is specified, the coverage parameters in the include_coverage field must also be set.\nNote that this is independent from the custom coverage returned as part of the survey.\nIf no coverage source is provided, but the coverage parameters are provided, the coverage geometry will be fetched from the custom coverage if one has been provided, and the calculated coverage in other cases.",
+              "label": "",
+              "type": "SurveyCoverageSource",
+              "longType": "SurveyCoverageSource",
+              "fullType": "com.cognite.seismic.v1.SurveyCoverageSource",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SegYSeismicRequest",
+          "longName": "SegYSeismicRequest",
+          "fullName": "com.cognite.seismic.v1.SegYSeismicRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "seismic",
+              "description": "",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "identifier",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismic_store_id",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "identifier",
+              "defaultValue": ""
+            },
+            {
+              "name": "polygon",
+              "description": "",
+              "label": "",
+              "type": "Geometry",
+              "longType": "com.cognite.seismic.Geometry",
+              "fullType": "com.cognite.seismic.Geometry",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "query",
+              "defaultValue": ""
+            },
+            {
+              "name": "lines",
+              "description": "",
+              "label": "",
+              "type": "LineBasedRectangle",
+              "longType": "com.cognite.seismic.LineBasedRectangle",
+              "fullType": "com.cognite.seismic.LineBasedRectangle",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "query",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SegYSeismicResponse",
+          "longName": "SegYSeismicResponse",
+          "fullName": "com.cognite.seismic.v1.SegYSeismicResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "content",
+              "description": "",
+              "label": "",
+              "type": "bytes",
+              "longType": "bytes",
+              "fullType": "bytes",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "VolumeRequest",
+          "longName": "VolumeRequest",
+          "fullName": "com.cognite.seismic.v1.VolumeRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "seismic",
+              "description": "",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "identifier",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismic_store_id",
+              "description": "Need to be a data manager or tenant user, not 3rd party, to access by tracestore",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "identifier",
+              "defaultValue": ""
+            },
+            {
+              "name": "volume",
+              "description": "",
+              "label": "",
+              "type": "LineBasedVolume",
+              "longType": "LineBasedVolume",
+              "fullType": "com.cognite.seismic.v1.LineBasedVolume",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "filter",
+              "defaultValue": ""
+            },
+            {
+              "name": "geometry",
+              "description": "",
+              "label": "",
+              "type": "GeometryBasedVolume",
+              "longType": "GeometryBasedVolume",
+              "fullType": "com.cognite.seismic.v1.GeometryBasedVolume",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "filter",
+              "defaultValue": ""
+            },
+            {
+              "name": "include_trace_header",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        }
+      ],
+      "services": []
+    },
+    {
+      "name": "cognite/seismic/protos/v1/seismic_service_datatypes.proto",
+      "description": "Messages that describe data types used by Seismic Datastore in Cognite Data Fusion",
+      "package": "com.cognite.seismic.v1",
+      "hasEnums": true,
+      "hasExtensions": false,
+      "hasMessages": true,
+      "hasServices": false,
+      "enums": [
+        {
+          "name": "Format",
+          "longName": "CoverageSpec.Format",
+          "fullName": "com.cognite.seismic.v1.CoverageSpec.Format",
+          "description": "",
+          "values": [
+            {
+              "name": "WKT",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "GEOJSON",
+              "number": "1",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SurveyCoverageSource",
+          "longName": "SurveyCoverageSource",
+          "fullName": "com.cognite.seismic.v1.SurveyCoverageSource",
+          "description": "",
+          "values": [
+            {
+              "name": "UNSPECIFIED",
+              "number": "0",
+              "description": "Used as the default when a specific source isn't requested by the user."
+            },
+            {
+              "name": "CUSTOM",
+              "number": "1",
+              "description": "Requesting or returning custom coverage"
+            },
+            {
+              "name": "CALCULATED",
+              "number": "2",
+              "description": "Requesting or returning calculated coverage"
+            }
+          ]
+        }
+      ],
+      "extensions": [],
+      "messages": [
+        {
+          "name": "BinaryHeader",
+          "longName": "BinaryHeader",
+          "fullName": "com.cognite.seismic.v1.BinaryHeader",
+          "description": "A representation of binary headers used to create or edit existing headers. BinaryHeader FIELDS contains the list of valid fields. to set after the object is constructed.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "file_id",
+              "description": "DEPRECATED: This field will always be empty",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "traces",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "trace_data_type",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "fixed_length_traces",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "segy_revision",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "auxtraces",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "interval",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "interval_original",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "samples",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "samples_original",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "ensemble_fold",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "vertical_sum",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "trace_type_sorting_code",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sweep_type_code",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sweep_frequency_start",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sweep_frequency_end",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sweep_length",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sweep_channel",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sweep_taper_start",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sweep_taper_end",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sweep_taper_type",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "correlated_traces",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "amplitude_recovery",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "original_measurement_system",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "impulse_signal_polarity",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "vibratory_polarity_code",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "raw_header",
+              "description": "",
+              "label": "",
+              "type": "bytes",
+              "longType": "bytes",
+              "fullType": "bytes",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Coordinate",
+          "longName": "Coordinate",
+          "fullName": "com.cognite.seismic.v1.Coordinate",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "x",
+              "description": "The x value of the coordinate",
+              "label": "",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "y",
+              "description": "The y value of the coordinate",
+              "label": "",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CoverageSpec",
+          "longName": "CoverageSpec",
+          "fullName": "com.cognite.seismic.v1.CoverageSpec",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "crs",
+              "description": "If crs is not specified (aka is blank), uses default crs from file",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "format",
+              "description": "",
+              "label": "",
+              "type": "Format",
+              "longType": "CoverageSpec.Format",
+              "fullType": "com.cognite.seismic.v1.CoverageSpec.Format",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Filter",
+          "longName": "Filter",
+          "fullName": "com.cognite.seismic.v1.Filter",
+          "description": "Specify an individual filter.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key_value_exact_match",
+              "description": "",
+              "label": "",
+              "type": "KeyValueExactMatch",
+              "longType": "KeyValueExactMatch",
+              "fullType": "com.cognite.seismic.v1.KeyValueExactMatch",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "match_type",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Identifier",
+          "longName": "Identifier",
+          "fullName": "com.cognite.seismic.v1.Identifier",
+          "description": "Used to identify zero or one objects that may have an external id",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "handle",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "handle",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "KeyValueExactMatch",
+          "longName": "KeyValueExactMatch",
+          "fullName": "com.cognite.seismic.v1.KeyValueExactMatch",
+          "description": "Matches when the key AND value are exact matches.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "LineBasedExtent",
+          "longName": "LineBasedExtent",
+          "fullName": "com.cognite.seismic.v1.LineBasedExtent",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "extents",
+              "description": "",
+              "label": "repeated",
+              "type": "TraceExtent",
+              "longType": "TraceExtent",
+              "fullType": "com.cognite.seismic.v1.TraceExtent",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "LineBasedVolume",
+          "longName": "LineBasedVolume",
+          "fullName": "com.cognite.seismic.v1.LineBasedVolume",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "iline",
+              "description": "",
+              "label": "",
+              "type": "LineDescriptor",
+              "longType": "com.cognite.seismic.LineDescriptor",
+              "fullType": "com.cognite.seismic.LineDescriptor",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xline",
+              "description": "",
+              "label": "",
+              "type": "LineDescriptor",
+              "longType": "com.cognite.seismic.LineDescriptor",
+              "fullType": "com.cognite.seismic.LineDescriptor",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "z",
+              "description": "",
+              "label": "",
+              "type": "LineDescriptor",
+              "longType": "com.cognite.seismic.LineDescriptor",
+              "fullType": "com.cognite.seismic.LineDescriptor",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "LineRange",
+          "longName": "LineRange",
+          "fullName": "com.cognite.seismic.v1.LineRange",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "inline",
+              "description": "",
+              "label": "",
+              "type": "LineDescriptor",
+              "longType": "com.cognite.seismic.LineDescriptor",
+              "fullType": "com.cognite.seismic.LineDescriptor",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crossline",
+              "description": "",
+              "label": "",
+              "type": "LineDescriptor",
+              "longType": "com.cognite.seismic.LineDescriptor",
+              "fullType": "com.cognite.seismic.LineDescriptor",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "LineSelect",
+          "longName": "LineSelect",
+          "fullName": "com.cognite.seismic.v1.LineSelect",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "iline",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "direction",
+              "defaultValue": ""
+            },
+            {
+              "name": "xline",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "direction",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MetadataFilter",
+          "longName": "MetadataFilter",
+          "fullName": "com.cognite.seismic.v1.MetadataFilter",
+          "description": "Specifying how to filter metadata. An object will be considered a match if it satisfies ALL filters.\nAll strings are case sensitive.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "filters",
+              "description": "",
+              "label": "repeated",
+              "type": "Filter",
+              "longType": "Filter",
+              "fullType": "com.cognite.seismic.v1.Filter",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "OptionalMap",
+          "longName": "OptionalMap",
+          "fullName": "com.cognite.seismic.v1.OptionalMap",
+          "description": "Used in edit messages to distinguish between an empty map, and a missing map",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "data",
+              "description": "",
+              "label": "repeated",
+              "type": "DataEntry",
+              "longType": "OptionalMap.DataEntry",
+              "fullType": "com.cognite.seismic.v1.OptionalMap.DataEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DataEntry",
+          "longName": "OptionalMap.DataEntry",
+          "fullName": "com.cognite.seismic.v1.OptionalMap.DataEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Partition",
+          "longName": "Partition",
+          "fullName": "com.cognite.seismic.v1.Partition",
+          "description": "Represents partitions, used for granular access control",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "The unique internal id for this partition",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "The external id of the partition",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "The human-friendly name for this partition",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismics",
+              "description": "DEPRECATED: This field will always be empty. Use seismic search by partition instead.",
+              "label": "repeated",
+              "type": "Seismic",
+              "longType": "Seismic",
+              "fullType": "com.cognite.seismic.v1.Seismic",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismic_ids",
+              "description": "The list of ids of seismics that belong to this partition",
+              "label": "repeated",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SearchSpec",
+          "longName": "SearchSpec",
+          "fullName": "com.cognite.seismic.v1.SearchSpec",
+          "description": "Used to identify any number of objects, intended for any plural Read* endpoints. Set* endpoints should use Identifier.\n\nCan search by id, name, or prefix.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "id_string",
+              "description": "Surveys and files must have string format ids. Other objects can't use this.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "External ids only exist for partitions and seismics.\n\nExact match required",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id_substring",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "Names exist for everything\n\nAn exact string match is required",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "name_substring",
+              "description": "Searches for names having this substring.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "Filters by metadata. Currently only supported by Surveys.",
+              "label": "",
+              "type": "MetadataFilter",
+              "longType": "MetadataFilter",
+              "fullType": "com.cognite.seismic.v1.MetadataFilter",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Seismic",
+          "longName": "Seismic",
+          "fullName": "com.cognite.seismic.v1.Seismic",
+          "description": "A cutout of a seismic store",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "The unique internal id of the seismic. It is always present",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "The external id of the seismic",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "A non-unique name for the seismic. It is easily editable and is intended to be used as a human-friendly reference.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crs",
+              "description": "The Coordinate Reference System of the seismic",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "Any custom-defined metadata",
+              "label": "repeated",
+              "type": "MetadataEntry",
+              "longType": "Seismic.MetadataEntry",
+              "fullType": "com.cognite.seismic.v1.Seismic.MetadataEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "text_header",
+              "description": "The text header that corresponds to the seismic",
+              "label": "",
+              "type": "TextHeader",
+              "longType": "TextHeader",
+              "fullType": "com.cognite.seismic.v1.TextHeader",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "binary_header",
+              "description": "The binary header that corresponds to the seismic",
+              "label": "",
+              "type": "BinaryHeader",
+              "longType": "BinaryHeader",
+              "fullType": "com.cognite.seismic.v1.BinaryHeader",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "line_range",
+              "description": "The minimum and maximum extents of the seismic's grid, described in inlines and crosslines.",
+              "label": "",
+              "type": "LineRange",
+              "longType": "LineRange",
+              "fullType": "com.cognite.seismic.v1.LineRange",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "volume_def",
+              "description": "The VolumeDef describing the seismic",
+              "label": "",
+              "type": "VolumeDef",
+              "longType": "VolumeDef",
+              "fullType": "com.cognite.seismic.v1.VolumeDef",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "partition_id",
+              "description": "The id of the partition the seismic belongs to",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismicstore_id",
+              "description": "The id of the seismicstore the seismic is derived from. It is present only if agent has READ access and ALL scope",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "coverage",
+              "description": "The coverage geometry for the seismic.",
+              "label": "",
+              "type": "Geometry",
+              "longType": "com.cognite.seismic.Geometry",
+              "fullType": "com.cognite.seismic.Geometry",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "created_empty",
+              "description": "If true, this seismic was created with the 'empty' volume option and thus will have no trace data available",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "trace_count",
+              "description": "Provides an estimate of the number of traces contained within the seismic.",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MetadataEntry",
+          "longName": "Seismic.MetadataEntry",
+          "fullName": "com.cognite.seismic.v1.Seismic.MetadataEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SeismicStore",
+          "longName": "SeismicStore",
+          "fullName": "com.cognite.seismic.v1.SeismicStore",
+          "description": "Represents a seismic store.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "The unique internal id of the seismic store",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "The unique name of the seismic store. Will become non-unique in the future, and `external_id` will become the unique identifier.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "survey_id",
+              "description": "The survey this seismic store belongs to.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "ingestion_source",
+              "description": "The source of the seismicstore. It indicates how the file was ingested",
+              "label": "",
+              "type": "IngestionSource",
+              "longType": "com.cognite.seismic.IngestionSource",
+              "fullType": "com.cognite.seismic.IngestionSource",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "Any custom-defined metadata",
+              "label": "repeated",
+              "type": "MetadataEntry",
+              "longType": "SeismicStore.MetadataEntry",
+              "fullType": "com.cognite.seismic.v1.SeismicStore.MetadataEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "ingested_file",
+              "description": "If present, the file this SeismicStore was ingested from",
+              "label": "",
+              "type": "File",
+              "longType": "com.cognite.seismic.File",
+              "fullType": "com.cognite.seismic.File",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "inline_volume_def",
+              "description": "Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines.",
+              "label": "",
+              "type": "VolumeDef",
+              "longType": "VolumeDef",
+              "fullType": "com.cognite.seismic.v1.VolumeDef",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crossline_volume_def",
+              "description": "Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines",
+              "label": "",
+              "type": "VolumeDef",
+              "longType": "VolumeDef",
+              "fullType": "com.cognite.seismic.v1.VolumeDef",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "text_header",
+              "description": "If present, the text header for this seismic store",
+              "label": "",
+              "type": "TextHeader",
+              "longType": "TextHeader",
+              "fullType": "com.cognite.seismic.v1.TextHeader",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "binary_header",
+              "description": "If present, the binary header for this seismic store",
+              "label": "",
+              "type": "BinaryHeader",
+              "longType": "BinaryHeader",
+              "fullType": "com.cognite.seismic.v1.BinaryHeader",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "storage_tier_name",
+              "description": "Tenant specific name for the storage facility the trace data are stored in. If empty, it is stored in an unspecified trace store.\nWhile support for multiple storage backends per store is planned, this is not currently offered.",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "coverage",
+              "description": "If present, the coverage geometry for this seismic store",
+              "label": "",
+              "type": "Geometry",
+              "longType": "com.cognite.seismic.Geometry",
+              "fullType": "com.cognite.seismic.Geometry",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MetadataEntry",
+          "longName": "SeismicStore.MetadataEntry",
+          "fullName": "com.cognite.seismic.v1.SeismicStore.MetadataEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Survey",
+          "longName": "Survey",
+          "fullName": "com.cognite.seismic.v1.Survey",
+          "description": "Representation of the data for a survey",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "Unique identifier for the survey in CDF. The identifier is generated by CDF on creation and not editable.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "id_int",
+              "description": "The integer unique ID for the survey. This ID should be used for V1 survey operations.",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "Survey name: Should be a short but recognizable name for the survey. Must be unique within a single CDF tenant, and may be used to refer to the survey in API calls.\n\nSurvey name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "Metadata describing the survey with named fields and values.\n\n@exclude TODO: Augment surveys with a predefined set of fields giving a predictable metadata model and better integration with Discover.",
+              "label": "repeated",
+              "type": "MetadataEntry",
+              "longType": "Survey.MetadataEntry",
+              "fullType": "com.cognite.seismic.v1.Survey.MetadataEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "External identifier of the survey. The value of this field must be unique among all the surveys in the CDF tenant. It may be used for correlating with systems outside CDF, and for search and retrieval operations later.",
+              "label": "",
+              "type": "ExternalId",
+              "longType": "com.cognite.seismic.ExternalId",
+              "fullType": "com.cognite.seismic.ExternalId",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crs",
+              "description": "Coordinate reference system to be used by all members of this survey",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "grid_transformation",
+              "description": "Manually specify an affine transformation between bin grid coordinates and projected crs coordinates, either using an origin point and the azimuth of the xline axis (P6Transformation) \nor by specifying three or more corners of the grid as a list of DoubleTraceCoordinates. This transformation must be valid for all members of this survey.",
+              "label": "",
+              "type": "SurveyGridTransformation",
+              "longType": "com.cognite.seismic.SurveyGridTransformation",
+              "fullType": "com.cognite.seismic.SurveyGridTransformation",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "custom_coverage",
+              "description": "User-provided coverage override",
+              "label": "",
+              "type": "CustomSurveyCoverage",
+              "longType": "com.cognite.seismic.CustomSurveyCoverage",
+              "fullType": "com.cognite.seismic.CustomSurveyCoverage",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MetadataEntry",
+          "longName": "Survey.MetadataEntry",
+          "fullName": "com.cognite.seismic.v1.Survey.MetadataEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "TextHeader",
+          "longName": "TextHeader",
+          "fullName": "com.cognite.seismic.v1.TextHeader",
+          "description": "A representation of text headers used to create or edit existing headers.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "file_id",
+              "description": "DEPRECATED: This field will always be empty",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "header",
+              "description": "The text content of the header",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "raw_header",
+              "description": "The raw bytes of a header as a string",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "TraceExtent",
+          "longName": "TraceExtent",
+          "fullName": "com.cognite.seismic.v1.TraceExtent",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "xline",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "iline",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "z",
+              "description": "",
+              "label": "",
+              "type": "LineDescriptor",
+              "longType": "com.cognite.seismic.LineDescriptor",
+              "fullType": "com.cognite.seismic.LineDescriptor",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "VolumeDef",
+          "longName": "VolumeDef",
+          "fullName": "com.cognite.seismic.v1.VolumeDef",
+          "description": "VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.\n\nThe grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line. \nFor example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.\n\nFor more information refer to \u003ca href=\"https://cognite-seismic-sdk.readthedocs-hosted.com/en/latest/volumedef.html#volumedef-overview\"\u003ethe SDK docs\u003c/a\u003e.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "json",
+              "description": "Uses the Volume Definition schema",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        }
+      ],
+      "services": []
+    },
+    {
+      "name": "cognite/seismic/protos/types.proto",
+      "description": "Messages for types used in ingestion and query services in Seismic Datastore in Cognite Data Fusion",
+      "package": "com.cognite.seismic",
+      "hasEnums": true,
+      "hasExtensions": false,
+      "hasMessages": true,
+      "hasServices": false,
+      "enums": [
+        {
+          "name": "FileStep",
+          "longName": "FileStep",
+          "fullName": "com.cognite.seismic.FileStep",
+          "description": "",
+          "values": [
+            {
+              "name": "REGISTER",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "INSERT_FILE_HEADERS",
+              "number": "1",
+              "description": ""
+            },
+            {
+              "name": "INSERT_TRACE_HEADERS",
+              "number": "2",
+              "description": ""
+            },
+            {
+              "name": "INSERT_DATA",
+              "number": "3",
+              "description": ""
+            },
+            {
+              "name": "COMPUTE_COVERAGE",
+              "number": "4",
+              "description": ""
+            },
+            {
+              "name": "COMPUTE_GRID",
+              "number": "5",
+              "description": ""
+            },
+            {
+              "name": "COMPUTE_TRACE_INDICES",
+              "number": "6",
+              "description": ""
+            },
+            {
+              "name": "DELETING",
+              "number": "254",
+              "description": ""
+            },
+            {
+              "name": "DELETE",
+              "number": "255",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "Handedness",
+          "longName": "Handedness",
+          "fullName": "com.cognite.seismic.Handedness",
+          "description": "",
+          "values": [
+            {
+              "name": "RIGHTHANDED",
+              "number": "0",
+              "description": "inline axis is 90 deg clockwise from crossline\nAKA EPSG code 9666"
+            },
+            {
+              "name": "LEFTHANDED",
+              "number": "1",
+              "description": "inline axis is 90 deg counterclockwise from crossline\nAKA EPSG code 1049"
+            }
+          ]
+        },
+        {
+          "name": "IngestionSource",
+          "longName": "IngestionSource",
+          "fullName": "com.cognite.seismic.IngestionSource",
+          "description": "",
+          "values": [
+            {
+              "name": "INVALID_SOURCE",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "FILE_SOURCE",
+              "number": "1",
+              "description": ""
+            },
+            {
+              "name": "TRACE_WRITER",
+              "number": "2",
+              "description": "TraceWriter"
+            }
+          ]
+        },
+        {
+          "name": "InterpolationMethod",
+          "longName": "InterpolationMethod",
+          "fullName": "com.cognite.seismic.InterpolationMethod",
+          "description": "",
+          "values": [
+            {
+              "name": "NEAREST_TRACE",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "INVERSE_DISTANCE_WEIGHTING",
+              "number": "1",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "JobStatus",
+          "longName": "JobStatus",
+          "fullName": "com.cognite.seismic.JobStatus",
+          "description": "",
+          "values": [
+            {
+              "name": "NONE",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "QUEUED",
+              "number": "1",
+              "description": ""
+            },
+            {
+              "name": "IN_PROGRESS",
+              "number": "2",
+              "description": ""
+            },
+            {
+              "name": "SUCCESS",
+              "number": "3",
+              "description": ""
+            },
+            {
+              "name": "FAILED",
+              "number": "4",
+              "description": ""
+            },
+            {
+              "name": "TIMEOUT",
+              "number": "5",
+              "description": ""
+            }
+          ]
+        }
+      ],
+      "extensions": [],
+      "messages": [
+        {
+          "name": "CRS",
+          "longName": "CRS",
+          "fullName": "com.cognite.seismic.CRS",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "crs",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Coordinate",
+          "longName": "Coordinate",
+          "fullName": "com.cognite.seismic.Coordinate",
+          "description": "Basic type representing (x,y) coordinate in the given CRS",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "crs",
+              "description": "The Coordinate Reference System of the coordinate. Generally should be an EPSG code including the EPSG: prefix, for example `EPSG:23031`",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "x",
+              "description": "The x value of the coordinate",
+              "label": "",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "y",
+              "description": "The y value of the coordinate",
+              "label": "",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CoverageParameters",
+          "longName": "CoverageParameters",
+          "fullName": "com.cognite.seismic.CoverageParameters",
+          "description": "Parameters for requesting coverage of survey",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "crs",
+              "description": "[optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the survey's original CRS",
+              "label": "",
+              "type": "CRS",
+              "longType": "CRS",
+              "fullType": "com.cognite.seismic.CRS",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "in_wkt",
+              "description": "set this to true to return in WKT format. Otherwise, response will be in geojson format by default",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CustomSurveyCoverage",
+          "longName": "CustomSurveyCoverage",
+          "fullName": "com.cognite.seismic.CustomSurveyCoverage",
+          "description": "Customer-provided custom coverage for surveys",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "custom_coverage",
+              "description": "Overrides survey coverage with the provided custom coverage geometry",
+              "label": "",
+              "type": "Geometry",
+              "longType": "Geometry",
+              "fullType": "com.cognite.seismic.Geometry",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "custom",
+              "defaultValue": ""
+            },
+            {
+              "name": "no_custom_coverage",
+              "description": "Specifies that no custom coverage is provided, so survey coverage\nis computed from the seismicstores in the survey",
+              "label": "",
+              "type": "NoCustomCoverage",
+              "longType": "CustomSurveyCoverage.NoCustomCoverage",
+              "fullType": "com.cognite.seismic.CustomSurveyCoverage.NoCustomCoverage",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "custom",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "NoCustomCoverage",
+          "longName": "CustomSurveyCoverage.NoCustomCoverage",
+          "fullName": "com.cognite.seismic.CustomSurveyCoverage.NoCustomCoverage",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": false,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": []
+        },
+        {
+          "name": "DeduceFromTraces",
+          "longName": "DeduceFromTraces",
+          "fullName": "com.cognite.seismic.DeduceFromTraces",
+          "description": "Have the seismic service try to deduce the affine transformation for each file by\nreading trace coordinates",
+          "hasExtensions": false,
+          "hasFields": false,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": []
+        },
+        {
+          "name": "DoubleTraceCoordinates",
+          "longName": "DoubleTraceCoordinates",
+          "fullName": "com.cognite.seismic.DoubleTraceCoordinates",
+          "description": "Correlated grid indices and coordinates",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "iline",
+              "description": "The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xline",
+              "description": "The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "x",
+              "description": "The x value of the coordinate",
+              "label": "",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "y",
+              "description": "The y value of the coordinate",
+              "label": "",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ExternalId",
+          "longName": "ExternalId",
+          "fullName": "com.cognite.seismic.ExternalId",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "external_id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "File",
+          "longName": "File",
+          "fullName": "com.cognite.seismic.File",
+          "description": "File or dataset or cube derived from a single SEG-Y file",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "",
+              "label": "repeated",
+              "type": "MetadataEntry",
+              "longType": "File.MetadataEntry",
+              "fullType": "com.cognite.seismic.File.MetadataEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "is_temporary",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "",
+              "label": "",
+              "type": "ExternalId",
+              "longType": "ExternalId",
+              "fullType": "com.cognite.seismic.ExternalId",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MetadataEntry",
+          "longName": "File.MetadataEntry",
+          "fullName": "com.cognite.seismic.File.MetadataEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GeoJson",
+          "longName": "GeoJson",
+          "fullName": "com.cognite.seismic.GeoJson",
+          "description": "The GeoJSON format (\u003ca href=\"https://tools.ietf.org/html/rfc7946\"\u003eRFC 7946\u003c/a\u003e)\nSupported geometry: Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, and GeometryCollection.\nExample:\n\u003cpre\u003e{\n   \"type\": \"Point\",\n   \"coordinates\": [100.0, 0.0]\n}\u003c/pre\u003e",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "json",
+              "description": "",
+              "label": "",
+              "type": "Struct",
+              "longType": "google.protobuf.Struct",
+              "fullType": "google.protobuf.Struct",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Geometry",
+          "longName": "Geometry",
+          "fullName": "com.cognite.seismic.Geometry",
+          "description": "Geometry can be specified using either wkt or geoJSON. CRS is always required.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "crs",
+              "description": "required",
+              "label": "",
+              "type": "CRS",
+              "longType": "CRS",
+              "fullType": "com.cognite.seismic.CRS",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "wkt",
+              "description": "",
+              "label": "",
+              "type": "Wkt",
+              "longType": "Wkt",
+              "fullType": "com.cognite.seismic.Wkt",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "format",
+              "defaultValue": ""
+            },
+            {
+              "name": "geo",
+              "description": "",
+              "label": "",
+              "type": "GeoJson",
+              "longType": "GeoJson",
+              "fullType": "com.cognite.seismic.GeoJson",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "format",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Identifier",
+          "longName": "Identifier",
+          "fullName": "com.cognite.seismic.Identifier",
+          "description": "Specify either id or name to find a file or survey.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "LineBasedRectangle",
+          "longName": "LineBasedRectangle",
+          "fullName": "com.cognite.seismic.LineBasedRectangle",
+          "description": "Range of inline and crossline indices defining a 2D region",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "top_left",
+              "description": "",
+              "label": "",
+              "type": "PositionQuery",
+              "longType": "PositionQuery",
+              "fullType": "com.cognite.seismic.PositionQuery",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "bottom_right",
+              "description": "",
+              "label": "",
+              "type": "PositionQuery",
+              "longType": "PositionQuery",
+              "fullType": "com.cognite.seismic.PositionQuery",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "LineDescriptor",
+          "longName": "LineDescriptor",
+          "fullName": "com.cognite.seismic.LineDescriptor",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "min",
+              "description": "",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "max",
+              "description": "",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "step",
+              "description": "",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "LineRange",
+          "longName": "LineRange",
+          "fullName": "com.cognite.seismic.LineRange",
+          "description": "Object to store the line range. From and to are optional",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "from_line",
+              "description": "",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "to_line",
+              "description": "",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "LineSelect",
+          "longName": "LineSelect",
+          "fullName": "com.cognite.seismic.LineSelect",
+          "description": "Specify either inline OR crossline",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "iline",
+              "description": "The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "direction",
+              "defaultValue": ""
+            },
+            {
+              "name": "xline",
+              "description": "The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "direction",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "P6Transformation",
+          "longName": "P6Transformation",
+          "fullName": "com.cognite.seismic.P6Transformation",
+          "description": "Specify the transformation by an origin point and the crossline azimuth\nFormat inspired by IOGP guidance note 373-7-2 section 2.3.2.4.\nhttps://ge0mlib.com/papers/Guide/IOGP/373-07-2-1_2017.pdf",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "handedness",
+              "description": "",
+              "label": "",
+              "type": "Handedness",
+              "longType": "Handedness",
+              "fullType": "com.cognite.seismic.Handedness",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "origin",
+              "description": "A point in the grid",
+              "label": "",
+              "type": "DoubleTraceCoordinates",
+              "longType": "DoubleTraceCoordinates",
+              "fullType": "com.cognite.seismic.DoubleTraceCoordinates",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "iline_bin_width",
+              "description": "The bin width along the inline axis",
+              "label": "",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xline_bin_width",
+              "description": "The bin width along the crossline axis",
+              "label": "",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xline_azimuth",
+              "description": "Map bearing of the crossline axis in clockwise degrees from north",
+              "label": "",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "iline_bin_inc",
+              "description": "Inline increment corresponding to a bin",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xline_bin_inc",
+              "description": "Crossline increment corresponding to a bin",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "PositionQuery",
+          "longName": "PositionQuery",
+          "fullName": "com.cognite.seismic.PositionQuery",
+          "description": "Point defined by its inline and crossline indices",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "iline",
+              "description": "The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xline",
+              "description": "The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Project",
+          "longName": "Project",
+          "fullName": "com.cognite.seismic.Project",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "alias",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SlabTrace",
+          "longName": "SlabTrace",
+          "fullName": "com.cognite.seismic.SlabTrace",
+          "description": "Wrapper over Trace type that additionally provide information about the range of z values\nincluded in the trace.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "trace",
+              "description": "",
+              "label": "",
+              "type": "Trace",
+              "longType": "Trace",
+              "fullType": "com.cognite.seismic.Trace",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "z_from",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "z_to",
+              "description": "",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SurfacePoint",
+          "longName": "SurfacePoint",
+          "fullName": "com.cognite.seismic.SurfacePoint",
+          "description": "Basic type to represent a point in a surface defined by a horizontal grid\nUsed in horizontal slice queries",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "iline",
+              "description": "The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xline",
+              "description": "The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Survey",
+          "longName": "Survey",
+          "fullName": "com.cognite.seismic.Survey",
+          "description": "A survey represents a collection of files in the same area",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "Survey ID",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "Survey name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "",
+              "label": "repeated",
+              "type": "MetadataEntry",
+              "longType": "Survey.MetadataEntry",
+              "fullType": "com.cognite.seismic.Survey.MetadataEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "Survey external ID",
+              "label": "",
+              "type": "ExternalId",
+              "longType": "ExternalId",
+              "fullType": "com.cognite.seismic.ExternalId",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crs",
+              "description": "The Coordinate Reference System of the survey",
+              "label": "",
+              "type": "CRS",
+              "longType": "CRS",
+              "fullType": "com.cognite.seismic.CRS",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "grid_transformation",
+              "description": "",
+              "label": "",
+              "type": "SurveyGridTransformation",
+              "longType": "SurveyGridTransformation",
+              "fullType": "com.cognite.seismic.SurveyGridTransformation",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "custom_coverage",
+              "description": "",
+              "label": "",
+              "type": "CustomSurveyCoverage",
+              "longType": "CustomSurveyCoverage",
+              "fullType": "com.cognite.seismic.CustomSurveyCoverage",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MetadataEntry",
+          "longName": "Survey.MetadataEntry",
+          "fullName": "com.cognite.seismic.Survey.MetadataEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SurveyGridTransformation",
+          "longName": "SurveyGridTransformation",
+          "fullName": "com.cognite.seismic.SurveyGridTransformation",
+          "description": "Specify the affine transformation between line indices and coordinates",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "p6_transformation",
+              "description": "",
+              "label": "",
+              "type": "P6Transformation",
+              "longType": "P6Transformation",
+              "fullType": "com.cognite.seismic.P6Transformation",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "transformation",
+              "defaultValue": ""
+            },
+            {
+              "name": "trace_corners",
+              "description": "",
+              "label": "",
+              "type": "TraceCorners",
+              "longType": "TraceCorners",
+              "fullType": "com.cognite.seismic.TraceCorners",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "transformation",
+              "defaultValue": ""
+            },
+            {
+              "name": "deduce_from_traces",
+              "description": "",
+              "label": "",
+              "type": "DeduceFromTraces",
+              "longType": "DeduceFromTraces",
+              "fullType": "com.cognite.seismic.DeduceFromTraces",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "transformation",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Trace",
+          "longName": "Trace",
+          "fullName": "com.cognite.seismic.Trace",
+          "description": "Basic type to represent a seismic trace\nUsed in trace, vertical slices and volume queries\nContains the samples and information on positioning\nIf a trace is an original trace in the file, it can optionally contain the trace header.\nThis is not valid for traces that are synthetically generated from interpolation.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "trace_header",
+              "description": "",
+              "label": "",
+              "type": "bytes",
+              "longType": "bytes",
+              "fullType": "bytes",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "iline",
+              "description": "The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired.",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "xline",
+              "description": "The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "trace",
+              "description": "The underlying array of floats representing samples",
+              "label": "repeated",
+              "type": "float",
+              "longType": "float",
+              "fullType": "float",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "coordinate",
+              "description": "",
+              "label": "",
+              "type": "Coordinate",
+              "longType": "Coordinate",
+              "fullType": "com.cognite.seismic.Coordinate",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "TraceCorners",
+          "longName": "TraceCorners",
+          "fullName": "com.cognite.seismic.TraceCorners",
+          "description": "Specify the transformation by giving the coordinates of three or more corners",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "corners",
+              "description": "",
+              "label": "repeated",
+              "type": "DoubleTraceCoordinates",
+              "longType": "DoubleTraceCoordinates",
+              "fullType": "com.cognite.seismic.DoubleTraceCoordinates",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Wkt",
+          "longName": "Wkt",
+          "fullName": "com.cognite.seismic.Wkt",
+          "description": "Well-known text representation of geometry (\u003ca href=\"http://www.opengeospatial.org/standards/sfa\"\u003eWKT\u003c/a\u003e)",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "geometry",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        }
+      ],
+      "services": []
+    }
+  ],
+  "scalarValueTypes": [
+    {
+      "protoType": "double",
+      "notes": "",
+      "cppType": "double",
+      "csType": "double",
+      "goType": "float64",
+      "javaType": "double",
+      "phpType": "float",
+      "pythonType": "float",
+      "rubyType": "Float"
+    },
+    {
+      "protoType": "float",
+      "notes": "",
+      "cppType": "float",
+      "csType": "float",
+      "goType": "float32",
+      "javaType": "float",
+      "phpType": "float",
+      "pythonType": "float",
+      "rubyType": "Float"
+    },
+    {
+      "protoType": "int32",
+      "notes": "Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.",
+      "cppType": "int32",
+      "csType": "int",
+      "goType": "int32",
+      "javaType": "int",
+      "phpType": "integer",
+      "pythonType": "int",
+      "rubyType": "Bignum or Fixnum (as required)"
+    },
+    {
+      "protoType": "int64",
+      "notes": "Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.",
+      "cppType": "int64",
+      "csType": "long",
+      "goType": "int64",
+      "javaType": "long",
+      "phpType": "integer/string",
+      "pythonType": "int/long",
+      "rubyType": "Bignum"
+    },
+    {
+      "protoType": "uint32",
+      "notes": "Uses variable-length encoding.",
+      "cppType": "uint32",
+      "csType": "uint",
+      "goType": "uint32",
+      "javaType": "int",
+      "phpType": "integer",
+      "pythonType": "int/long",
+      "rubyType": "Bignum or Fixnum (as required)"
+    },
+    {
+      "protoType": "uint64",
+      "notes": "Uses variable-length encoding.",
+      "cppType": "uint64",
+      "csType": "ulong",
+      "goType": "uint64",
+      "javaType": "long",
+      "phpType": "integer/string",
+      "pythonType": "int/long",
+      "rubyType": "Bignum or Fixnum (as required)"
+    },
+    {
+      "protoType": "sint32",
+      "notes": "Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.",
+      "cppType": "int32",
+      "csType": "int",
+      "goType": "int32",
+      "javaType": "int",
+      "phpType": "integer",
+      "pythonType": "int",
+      "rubyType": "Bignum or Fixnum (as required)"
+    },
+    {
+      "protoType": "sint64",
+      "notes": "Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.",
+      "cppType": "int64",
+      "csType": "long",
+      "goType": "int64",
+      "javaType": "long",
+      "phpType": "integer/string",
+      "pythonType": "int/long",
+      "rubyType": "Bignum"
+    },
+    {
+      "protoType": "fixed32",
+      "notes": "Always four bytes. More efficient than uint32 if values are often greater than 2^28.",
+      "cppType": "uint32",
+      "csType": "uint",
+      "goType": "uint32",
+      "javaType": "int",
+      "phpType": "integer",
+      "pythonType": "int",
+      "rubyType": "Bignum or Fixnum (as required)"
+    },
+    {
+      "protoType": "fixed64",
+      "notes": "Always eight bytes. More efficient than uint64 if values are often greater than 2^56.",
+      "cppType": "uint64",
+      "csType": "ulong",
+      "goType": "uint64",
+      "javaType": "long",
+      "phpType": "integer/string",
+      "pythonType": "int/long",
+      "rubyType": "Bignum"
+    },
+    {
+      "protoType": "sfixed32",
+      "notes": "Always four bytes.",
+      "cppType": "int32",
+      "csType": "int",
+      "goType": "int32",
+      "javaType": "int",
+      "phpType": "integer",
+      "pythonType": "int",
+      "rubyType": "Bignum or Fixnum (as required)"
+    },
+    {
+      "protoType": "sfixed64",
+      "notes": "Always eight bytes.",
+      "cppType": "int64",
+      "csType": "long",
+      "goType": "int64",
+      "javaType": "long",
+      "phpType": "integer/string",
+      "pythonType": "int/long",
+      "rubyType": "Bignum"
+    },
+    {
+      "protoType": "bool",
+      "notes": "",
+      "cppType": "bool",
+      "csType": "bool",
+      "goType": "bool",
+      "javaType": "boolean",
+      "phpType": "boolean",
+      "pythonType": "boolean",
+      "rubyType": "TrueClass/FalseClass"
+    },
+    {
+      "protoType": "string",
+      "notes": "A string must always contain UTF-8 encoded or 7-bit ASCII text.",
+      "cppType": "string",
+      "csType": "string",
+      "goType": "string",
+      "javaType": "String",
+      "phpType": "string",
+      "pythonType": "str/unicode",
+      "rubyType": "String (UTF-8)"
+    },
+    {
+      "protoType": "bytes",
+      "notes": "May contain any arbitrary sequence of bytes.",
+      "cppType": "string",
+      "csType": "ByteString",
+      "goType": "[]byte",
+      "javaType": "ByteString",
+      "phpType": "string",
+      "pythonType": "str",
+      "rubyType": "String (ASCII-8BIT)"
+    }
+  ]
+}
