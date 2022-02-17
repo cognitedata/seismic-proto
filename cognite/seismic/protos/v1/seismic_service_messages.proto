@@ -240,11 +240,11 @@ message SearchJobStatusRequest {
         oneof filter {
             Id id = 1;
             JobStatus status = 2;
-            string target_storage_tier_name = 4;
-            google.protobuf.Timestamp started_before = 5;
-            google.protobuf.Timestamp started_after = 6;
-            google.protobuf.Timestamp updated_before = 7;
-            google.protobuf.Timestamp updated_after = 8;
+            string target_storage_tier_name = 3;
+            google.protobuf.Timestamp started_before = 4;
+            google.protobuf.Timestamp started_after = 5;
+            google.protobuf.Timestamp updated_before = 6;
+            google.protobuf.Timestamp updated_after = 7;
         }
     }
 
