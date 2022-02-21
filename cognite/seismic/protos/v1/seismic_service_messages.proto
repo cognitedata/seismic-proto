@@ -34,7 +34,8 @@ message SearchSurveysRequest {
     bool list_seismic_ids = 2;           // set to true to list the survey's seismics in the response (default: false)
     bool list_seismic_store_ids = 3;  // Set to true to list the survey's seismic stores in the response. Only tenant users can see this.
     bool include_metadata = 4;       // set to true to include survey metadata in the response (default: false)
-    CoverageParameters include_coverage = 5;    // set this field to include coverage in the response (default: false)
+    CoverageParameters include_coverage = 5;    // Deprecated. Use `coverage` instead.
+    CoverageSpec coverage = 9;    // set this field to include coverage in the response (default: No coverage)
     bool include_grid_transformation = 6;    // set this field to include the manually specified grid transformation in the response (default: false)
     bool include_custom_coverage = 7;    // set this field to include the customer-provided survey coverage in the response
     // Requests that a coverage geometry from a particular source is returned in the SearchSurveysResponse.
