@@ -278,7 +278,7 @@ enum IngestionSource {
     TRACE_WRITER = 2;  // TraceWriter
 }
 
-enum Dimensionality {
-  TWO_DEE = 0;
-  THREE_DEE = 1;
+enum Dimensions {
+    TWO_DEE = 0;
+    THREE_DEE = 1;
 }
