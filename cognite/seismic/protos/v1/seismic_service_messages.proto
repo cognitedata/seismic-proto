@@ -233,7 +233,7 @@ message SearchJobStatusRequest {
         message Id {
             oneof id {
                 string job_id = 1;
-                string file_id = 2;
+                string file_uuid = 2;
             }
         }
 
@@ -253,7 +253,7 @@ message SearchJobStatusRequest {
 
 message JobStatusResponse {
     string job_id = 1;
-    string file_id = 2;
+    string file_uuid = 2;
     JobStatus status = 3;
     google.protobuf.Timestamp started_at = 4;
     google.protobuf.Timestamp updated_at = 5;
