@@ -49,6 +49,7 @@ message CloudStorageFile {
     HeaderOffsets header_offsets = 6;
 }
 
+// Metadata related to interpreting SEG-Y files.
 message HeaderOffsets {
     google.protobuf.Int32Value inline_offset = 1; // Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value crossline_offset = 2; // Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
