@@ -3522,6 +3522,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "dimensions",
+              "description": "[required] File data dimensionality, either 2D or 3D",
+              "label": "",
+              "type": "Dimensions",
+              "longType": "Dimensions",
+              "fullType": "com.cognite.seismic.Dimensions",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -3957,6 +3969,24 @@
       "hasMessages": true,
       "hasServices": false,
       "enums": [
+        {
+          "name": "Dimensions",
+          "longName": "Dimensions",
+          "fullName": "com.cognite.seismic.Dimensions",
+          "description": "",
+          "values": [
+            {
+              "name": "TWO_DEE",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "THREE_DEE",
+              "number": "1",
+              "description": ""
+            }
+          ]
+        },
         {
           "name": "FileStep",
           "longName": "FileStep",

@@ -596,6 +596,10 @@
               
               
                 <li>
+                  <a href="#com.cognite.seismic.Dimensions"><span class="badge">E</span>Dimensions</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.FileStep"><span class="badge">E</span>FileStep</a>
                 </li>
               
@@ -3331,6 +3335,13 @@ field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -
 Negative values, 0 and values greater than 1 are not permitted when registering a file, although 0 may be used in the EditFile call to unset this field. </p></td>
                 </tr>
               
+                <tr>
+                  <td>dimensions</td>
+                  <td><a href="#com.cognite.seismic.Dimensions">Dimensions</a></td>
+                  <td></td>
+                  <td><p>[required] File data dimensionality, either 2D or 3D </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -4632,6 +4643,29 @@ is computed from the seismicstores in the survey </p></td>
         
       
 
+      
+        <h3 id="com.cognite.seismic.Dimensions">Dimensions</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>TWO_DEE</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>THREE_DEE</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
       
         <h3 id="com.cognite.seismic.FileStep">FileStep</h3>
         <p></p>

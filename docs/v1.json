@@ -3342,6 +3342,24 @@
       "hasServices": false,
       "enums": [
         {
+          "name": "Dimensions",
+          "longName": "Dimensions",
+          "fullName": "com.cognite.seismic.Dimensions",
+          "description": "",
+          "values": [
+            {
+              "name": "TWO_DEE",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "THREE_DEE",
+              "number": "1",
+              "description": ""
+            }
+          ]
+        },
+        {
           "name": "FileStep",
           "longName": "FileStep",
           "fullName": "com.cognite.seismic.FileStep",
