@@ -236,6 +236,7 @@ message RegisterFileRequest {
     CRS crs = 5;                       // [required] Official name of the CRS used. Example: "EPSG:23031"
     HeaderOffsets header_offsets = 6;  // Byte offsets for headers
     ExternalId external_id = 7;        // [optional] An external identifier - matches service contract field
+    Dimensions dimensions = 8;         // [required] File data dimensionality, either 2D or 3D
 }
 
 

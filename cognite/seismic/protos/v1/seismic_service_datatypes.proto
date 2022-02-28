@@ -47,6 +47,7 @@ message CloudStorageFile {
     string name = 4;
     map<string, string> metadata = 5;
     HeaderOffsets header_offsets = 6;
+    Dimensions dimensions = 7;
 }
 
 // Metadata related to interpreting SEG-Y files.
