@@ -58,6 +58,7 @@ message RegisterFileRequest {
     Negative values, 0 and values greater than 1 are not permitted when registering a file, although 0 may be used in the EditFile call to unset this field.
     **/
     google.protobuf.FloatValue source_group_scalar_override = 12;
+    Dimensions dimensions = 13;                                     // [required] File data dimensionality, either 2D or 3D
 }
 
 message RegisterFileResponse {
