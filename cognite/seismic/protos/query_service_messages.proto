@@ -296,13 +296,13 @@ message GetTextHeaderResponse {
 }
 
 message TextHeader {
-    string file_id = 1;
+    string file_id = 1; // DEPRECATED: This field will always be empty
     string header = 2;
     string raw_header = 3;
 }
 
 message BinaryHeader {
-    string file_id = 1;
+    string file_id = 1; // DEPRECATED: This field will always be empty
     int32 traces = 2;
     int32 trace_data_type = 3;
     int32 fixed_length_traces = 4;

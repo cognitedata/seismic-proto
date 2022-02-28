@@ -134,9 +134,9 @@ service SeismicAPI {
      * Returns a stream of file objects, terminating all files matching the search criteria have been
      * returned.
      */
-    rpc SearchFiles(SearchFilesRequest) returns (stream FileV1) {}
+    rpc SearchFiles(SearchFilesRequest) returns (stream CloudStorageFile) {}
 
-    rpc RegisterFile(RegisterFileRequest) returns (FileV1) {}
+    rpc RegisterFile(RegisterFileRequest) returns (CloudStorageFile) {}
 
     rpc IngestFile(IngestFileRequest) returns (IngestFileResponse) {}
 }

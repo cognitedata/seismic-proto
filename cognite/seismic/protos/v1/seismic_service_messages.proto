@@ -56,7 +56,7 @@ message EditSurveyRequest {
     Identifier survey = 1;
     OptionalMap metadata = 2;  // The existing metadata will be replaced with this metadata.
     ExternalId external_id = 3;
-    google.protobuf.StringValue crs = 4; // CRS used by all members
+    CRS crs = 4; // CRS used by all members
     SurveyGridTransformation grid_transformation = 5; // Optional
     CustomSurveyCoverage custom_coverage = 6; // Optional
     google.protobuf.StringValue new_name = 7; // If provided, the new name of the survey
@@ -228,25 +228,13 @@ message SearchFilesRequest {
 }
 
 message RegisterFileRequest {
-    Identifier survey = 1;                                          // [required] Either name or id of a survey previously registered with /RegisterSurvey
-    string path = 2;                                                // [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
-    string name = 3;                                                // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
-    map<string, string> metadata = 4;                               // [optional]
-    CRS crs = 5;                                                 // [required] Official name of the CRS used. Example: "EPSG:23031"
-    google.protobuf.BoolValue is_temporary = 6;                     // [optional] tells whether file is temporary (writeable) or not. False by default
-    google.protobuf.Int32Value inline_offset = 7;                   // [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value crossline_offset = 8;                // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_x_offset = 9;                    // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_y_offset = 10;                   // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
-    ExternalId external_id = 11;                                    // [optional] An external identifier - matches service contract field
-    /**
-    [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header.
-    Must be in the range (0,1].
-    Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header
-    field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100.
-    Negative values, 0 and values greater than 1 are not permitted when registering a file, although 0 may be used in the EditFile call to unset this field.
-    **/
-    google.protobuf.FloatValue source_group_scalar_override = 12;
+    Identifier survey = 1;             // [required] Either name or id of a survey previously registered with /RegisterSurvey
+    string path = 2;                   // [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                   // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
+    map<string, string> metadata = 4;  // [optional]
+    CRS crs = 5;                       // [required] Official name of the CRS used. Example: "EPSG:23031"
+    HeaderOffsets header_offsets = 6;  // Byte offsets for headers
+    ExternalId external_id = 7;        // [optional] An external identifier - matches service contract field
 }
 
 
@@ -256,7 +244,7 @@ message IngestFileRequest {
     // We don't use the (v0) Identifier message because of issues with namespaces in protobuf
     oneof file {
         string name = 1;
-        string id = 4;
+        string id = 2;
     }
 
     /**
@@ -280,7 +268,7 @@ message IngestFileRequest {
            If the file is ingested (last step is COMPUTE_COVERAGE), by using start_step = 4 (COMPUTE_COVERAGE),
            for example, only coverage will be computed while headers and traces will be preserved
     **/
-    FileStep start_step = 2;
+    FileStep start_step = 3;
 
     /**
         [optional as of 2020-11-01, will be required at some later time]
@@ -298,7 +286,7 @@ message IngestFileRequest {
         Note that currently only one storage tier per trace store is supported, so ingesting an already ingested file
         will result in the file's data being removed from the previously active storage tier.
     **/
-    string target_storage_tier_name = 3;
+    string target_storage_tier_name = 4;
 }
 
 message IngestFileResponse {
