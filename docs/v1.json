@@ -233,6 +233,18 @@
               "responseLongType": ".com.cognite.seismic.File",
               "responseFullType": "com.cognite.seismic.File",
               "responseStreaming": true
+            },
+            {
+              "name": "SearchJobStatus",
+              "description": "Retrieves ingestion job statuses, filtered by the specified criteria.",
+              "requestType": "SearchJobStatusRequest",
+              "requestLongType": "SearchJobStatusRequest",
+              "requestFullType": "com.cognite.seismic.v1.SearchJobStatusRequest",
+              "requestStreaming": false,
+              "responseType": "JobStatusResponse",
+              "responseLongType": "JobStatusResponse",
+              "responseFullType": "com.cognite.seismic.v1.JobStatusResponse",
+              "responseStreaming": true
             }
           ]
         }
@@ -1066,6 +1078,138 @@
           ]
         },
         {
+          "name": "IngestionLog",
+          "longName": "IngestionLog",
+          "fullName": "com.cognite.seismic.v1.IngestionLog",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "timestamp",
+              "description": "",
+              "label": "",
+              "type": "Timestamp",
+              "longType": "google.protobuf.Timestamp",
+              "fullType": "google.protobuf.Timestamp",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "log_line",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "JobStatusResponse",
+          "longName": "JobStatusResponse",
+          "fullName": "com.cognite.seismic.v1.JobStatusResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "job_id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "file_uuid",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "status",
+              "description": "",
+              "label": "",
+              "type": "JobStatus",
+              "longType": "com.cognite.seismic.JobStatus",
+              "fullType": "com.cognite.seismic.JobStatus",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "started_at",
+              "description": "",
+              "label": "",
+              "type": "Timestamp",
+              "longType": "google.protobuf.Timestamp",
+              "fullType": "google.protobuf.Timestamp",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "updated_at",
+              "description": "",
+              "label": "",
+              "type": "Timestamp",
+              "longType": "google.protobuf.Timestamp",
+              "fullType": "google.protobuf.Timestamp",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "target_storage_tier_name",
+              "description": "",
+              "label": "",
+              "type": "StringValue",
+              "longType": "google.protobuf.StringValue",
+              "fullType": "google.protobuf.StringValue",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "logs",
+              "description": "",
+              "label": "repeated",
+              "type": "IngestionLog",
+              "longType": "IngestionLog",
+              "fullType": "com.cognite.seismic.v1.IngestionLog",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "SearchFilesRequest",
           "longName": "SearchFilesRequest",
           "fullName": "com.cognite.seismic.v1.SearchFilesRequest",
@@ -1085,6 +1229,162 @@
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SearchJobStatusRequest",
+          "longName": "SearchJobStatusRequest",
+          "fullName": "com.cognite.seismic.v1.SearchJobStatusRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "filter",
+              "description": "",
+              "label": "",
+              "type": "Filter",
+              "longType": "SearchJobStatusRequest.Filter",
+              "fullType": "com.cognite.seismic.v1.SearchJobStatusRequest.Filter",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Filter",
+          "longName": "SearchJobStatusRequest.Filter",
+          "fullName": "com.cognite.seismic.v1.SearchJobStatusRequest.Filter",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "label": "",
+              "type": "Id",
+              "longType": "SearchJobStatusRequest.Filter.Id",
+              "fullType": "com.cognite.seismic.v1.SearchJobStatusRequest.Filter.Id",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "filter",
+              "defaultValue": ""
+            },
+            {
+              "name": "status",
+              "description": "",
+              "label": "",
+              "type": "JobStatus",
+              "longType": "com.cognite.seismic.JobStatus",
+              "fullType": "com.cognite.seismic.JobStatus",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "filter",
+              "defaultValue": ""
+            },
+            {
+              "name": "target_storage_tier_name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "filter",
+              "defaultValue": ""
+            },
+            {
+              "name": "started_before",
+              "description": "",
+              "label": "",
+              "type": "Timestamp",
+              "longType": "google.protobuf.Timestamp",
+              "fullType": "google.protobuf.Timestamp",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "filter",
+              "defaultValue": ""
+            },
+            {
+              "name": "started_after",
+              "description": "",
+              "label": "",
+              "type": "Timestamp",
+              "longType": "google.protobuf.Timestamp",
+              "fullType": "google.protobuf.Timestamp",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "filter",
+              "defaultValue": ""
+            },
+            {
+              "name": "updated_before",
+              "description": "",
+              "label": "",
+              "type": "Timestamp",
+              "longType": "google.protobuf.Timestamp",
+              "fullType": "google.protobuf.Timestamp",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "filter",
+              "defaultValue": ""
+            },
+            {
+              "name": "updated_after",
+              "description": "",
+              "label": "",
+              "type": "Timestamp",
+              "longType": "google.protobuf.Timestamp",
+              "fullType": "google.protobuf.Timestamp",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "filter",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Id",
+          "longName": "SearchJobStatusRequest.Filter.Id",
+          "fullName": "com.cognite.seismic.v1.SearchJobStatusRequest.Filter.Id",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "job_id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "id",
+              "defaultValue": ""
+            },
+            {
+              "name": "file_uuid",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "id",
               "defaultValue": ""
             }
           ]

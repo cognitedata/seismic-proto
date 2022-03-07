@@ -97,7 +97,12 @@ sidebarDepth: 2
     - [EditSeismicStoreRequest](#com-cognite-seismic-v1-EditSeismicStoreRequest)
     - [EditSurveyRequest](#com-cognite-seismic-v1-EditSurveyRequest)
     - [GeometryBasedVolume](#com-cognite-seismic-v1-GeometryBasedVolume)
+    - [IngestionLog](#com-cognite-seismic-v1-IngestionLog)
+    - [JobStatusResponse](#com-cognite-seismic-v1-JobStatusResponse)
     - [SearchFilesRequest](#com-cognite-seismic-v1-SearchFilesRequest)
+    - [SearchJobStatusRequest](#com-cognite-seismic-v1-SearchJobStatusRequest)
+    - [SearchJobStatusRequest.Filter](#com-cognite-seismic-v1-SearchJobStatusRequest-Filter)
+    - [SearchJobStatusRequest.Filter.Id](#com-cognite-seismic-v1-SearchJobStatusRequest-Filter-Id)
     - [SearchPartitionsRequest](#com-cognite-seismic-v1-SearchPartitionsRequest)
     - [SearchSeismicStoresRequest](#com-cognite-seismic-v1-SearchSeismicStoresRequest)
     - [SearchSeismicsRequest](#com-cognite-seismic-v1-SearchSeismicsRequest)
@@ -1658,6 +1663,43 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 
 
+<a name="com-cognite-seismic-v1-IngestionLog"></a>
+
+### IngestionLog
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| log_line | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-JobStatusResponse"></a>
+
+### JobStatusResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| job_id | [string](#string) |  |  |
+| file_uuid | [string](#string) |  |  |
+| status | [com.cognite.seismic.JobStatus](#com-cognite-seismic-JobStatus) |  |  |
+| started_at | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| updated_at | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| target_storage_tier_name | [google.protobuf.StringValue](#google-protobuf-StringValue) |  |  |
+| logs | [IngestionLog](#com-cognite-seismic-v1-IngestionLog) | repeated |  |
+
+
+
+
+
+
 <a name="com-cognite-seismic-v1-SearchFilesRequest"></a>
 
 ### SearchFilesRequest
@@ -1667,6 +1709,58 @@ Used to search files by id, extid, extid substring, name, name substring
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | spec | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-SearchJobStatusRequest"></a>
+
+### SearchJobStatusRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| filter | [SearchJobStatusRequest.Filter](#com-cognite-seismic-v1-SearchJobStatusRequest-Filter) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-SearchJobStatusRequest-Filter"></a>
+
+### SearchJobStatusRequest.Filter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [SearchJobStatusRequest.Filter.Id](#com-cognite-seismic-v1-SearchJobStatusRequest-Filter-Id) |  |  |
+| status | [com.cognite.seismic.JobStatus](#com-cognite-seismic-JobStatus) |  |  |
+| target_storage_tier_name | [string](#string) |  |  |
+| started_before | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| started_after | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| updated_before | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| updated_after | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-SearchJobStatusRequest-Filter-Id"></a>
+
+### SearchJobStatusRequest.Filter.Id
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| job_id | [string](#string) |  |  |
+| file_uuid | [string](#string) |  |  |
 
 
 
@@ -1890,6 +1984,7 @@ In the case of Surveys, the &#34;name&#34; should be input into the external_ids
 
 The request object can be used to specify whether the file should contain the whole set of traces in the source dataset or a subset of the traces (ie. a cropped file). See SegYSeismicRequest for more information. Returns a stream of SegYSeismicResponse objects, each containing a fragment of a SEG-Y data stream. |
 | SearchFiles | [SearchFilesRequest](#com-cognite-seismic-v1-SearchFilesRequest) | [.com.cognite.seismic.File](#com-cognite-seismic-File) stream | Retrieves File objects describing the seismic files registered with the tenant. Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved to a subset of the files in the tenant. See SearchFilesRequest for more information. Returns a stream of file objects, terminating all files matching the search criteria have been returned. |
+| SearchJobStatus | [SearchJobStatusRequest](#com-cognite-seismic-v1-SearchJobStatusRequest) | [JobStatusResponse](#com-cognite-seismic-v1-JobStatusResponse) stream | Retrieves ingestion job statuses, filtered by the specified criteria. |
 
  
 

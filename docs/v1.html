@@ -262,7 +262,27 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.IngestionLog"><span class="badge">M</span>IngestionLog</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.JobStatusResponse"><span class="badge">M</span>JobStatusResponse</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.SearchFilesRequest"><span class="badge">M</span>SearchFilesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.SearchJobStatusRequest"><span class="badge">M</span>SearchJobStatusRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.SearchJobStatusRequest.Filter"><span class="badge">M</span>SearchJobStatusRequest.Filter</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.SearchJobStatusRequest.Filter.Id"><span class="badge">M</span>SearchJobStatusRequest.Filter.Id</a>
                 </li>
               
                 <li>
@@ -742,6 +762,13 @@ Search criteria can be specified in the SearchFilesRequest, restricting the data
 to a subset of the files in the tenant. See SearchFilesRequest for more information.
 Returns a stream of file objects, terminating all files matching the search criteria have been
 returned.</p></td>
+              </tr>
+            
+              <tr>
+                <td>SearchJobStatus</td>
+                <td><a href="#com.cognite.seismic.v1.SearchJobStatusRequest">SearchJobStatusRequest</a></td>
+                <td><a href="#com.cognite.seismic.v1.JobStatusResponse">JobStatusResponse</a> stream</td>
+                <td><p>Retrieves ingestion job statuses, filtered by the specified criteria.</p></td>
               </tr>
             
           </tbody>
@@ -1402,6 +1429,103 @@ returned.</p></td>
 
         
       
+        <h3 id="com.cognite.seismic.v1.IngestionLog">IngestionLog</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>log_line</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.JobStatusResponse">JobStatusResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>job_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>file_uuid</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#com.cognite.seismic.JobStatus">com.cognite.seismic.JobStatus</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>started_at</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>updated_at</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>target_storage_tier_name</td>
+                  <td><a href="#google.protobuf.StringValue">google.protobuf.StringValue</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>logs</td>
+                  <td><a href="#com.cognite.seismic.v1.IngestionLog">IngestionLog</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="com.cognite.seismic.v1.SearchFilesRequest">SearchFilesRequest</h3>
         <p>Used to search files by id, extid, extid substring, name, name substring</p>
 
@@ -1415,6 +1539,127 @@ returned.</p></td>
                 <tr>
                   <td>spec</td>
                   <td><a href="#com.cognite.seismic.v1.SearchSpec">SearchSpec</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.SearchJobStatusRequest">SearchJobStatusRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>filter</td>
+                  <td><a href="#com.cognite.seismic.v1.SearchJobStatusRequest.Filter">SearchJobStatusRequest.Filter</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.SearchJobStatusRequest.Filter">SearchJobStatusRequest.Filter</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#com.cognite.seismic.v1.SearchJobStatusRequest.Filter.Id">SearchJobStatusRequest.Filter.Id</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#com.cognite.seismic.JobStatus">com.cognite.seismic.JobStatus</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>target_storage_tier_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>started_before</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>started_after</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>updated_before</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>updated_after</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.SearchJobStatusRequest.Filter.Id">SearchJobStatusRequest.Filter.Id</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>job_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>file_uuid</td>
+                  <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
