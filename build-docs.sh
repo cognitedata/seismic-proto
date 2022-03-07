@@ -10,7 +10,7 @@ mkdir -p docs/docs dockerout
 # All protocol buffer files
 # These include a number of proto files that aren't part of the API, notably persisted_trace.proto
 # and ingest_job.proto. Those should probably be moved out of this repository.
-PROTOFILES=$(find $PWD/cognite/seismic/protos -name '*.proto' -printf "protos/cognite/seismic/protos/%P ")
+PROTOFILES=$(find $PWD/cognite/seismic/protos -name '*.proto' | sed "s~$PWD/cognite/seismic/protos~protos/cognite/seismic/protos~")
 
 # Protocol buffer files describing the v0 API, in the process of being phased out
 # Ideally this should be determined by just recursing through the imports in query_service.proto
@@ -42,11 +42,16 @@ $DOCKER_COMMAND $PROTOFILES --doc_opt=markdown,all.md
 $DOCKER_COMMAND $API_PROTOFILES --doc_opt=markdown,docs.md
 $DOCKER_COMMAND $V0_PROTOFILES --doc_opt=markdown,v0.md
 $DOCKER_COMMAND $V1_PROTOFILES --doc_opt=markdown,v1.md
+$DOCKER_COMMAND $V0_PROTOFILES --doc_opt=json,v0.json
+$DOCKER_COMMAND $V1_PROTOFILES --doc_opt=json,v1.json
 
 # Copy markdown docs to output dir, but patch in a preamble first
 for mdfile in dockerout/*.md; do
     cat markdown_preamble.md $mdfile > docs/docs/$(basename $mdfile)
 done
+
+# Copy json docs to output dir
+cp dockerout/*json docs/docs/.
 
 touch docs/docs/.nojekyll # Don't use Jekyll, we just publish the md files directly
 

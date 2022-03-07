@@ -277,3 +277,8 @@ enum IngestionSource {
     FILE_SOURCE = 1;
     TRACE_WRITER = 2;  // TraceWriter
 }
+
+enum Dimensions {
+    TWO_DEE = 0;
+    THREE_DEE = 1;
+}
