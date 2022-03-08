@@ -135,4 +135,9 @@ service SeismicAPI {
      * returned.
      */
     rpc SearchFiles(SearchFilesRequest) returns (stream SourceSegyFile) {}
+
+    /**
+     * Retrieves ingestion job statuses, filtered by the specified criteria.
+     */
+    rpc SearchJobStatus(SearchJobStatusRequest) returns (stream JobStatusResponse) {}
 }

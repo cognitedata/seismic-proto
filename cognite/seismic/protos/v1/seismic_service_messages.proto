@@ -5,6 +5,7 @@ syntax = "proto3";
 package com.cognite.seismic.v1;
 
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
 import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 import "cognite/seismic/protos/types.proto";
 
@@ -226,4 +227,42 @@ message SegYSeismicResponse {
 // Used to search files by id, extid, extid substring, name, name substring
 message SearchFilesRequest {
     SearchSpec spec = 1;
+}
+
+message SearchJobStatusRequest {
+    message Filter {
+        message Id {
+            oneof id {
+                string job_id = 1;
+                string file_uuid = 2;
+            }
+        }
+
+        oneof filter {
+            Id id = 1;
+            JobStatus status = 2;
+            string target_storage_tier_name = 3;
+            google.protobuf.Timestamp started_before = 4;
+            google.protobuf.Timestamp started_after = 5;
+            google.protobuf.Timestamp updated_before = 6;
+            google.protobuf.Timestamp updated_after = 7;
+        }
+    }
+
+    Filter filter = 1;
+}
+
+message JobStatusResponse {
+    string job_id = 1;
+    string file_uuid = 2;
+    JobStatus status = 3;
+    google.protobuf.Timestamp started_at = 4;
+    google.protobuf.Timestamp updated_at = 5;
+    google.protobuf.StringValue target_storage_tier_name = 6;
+    repeated IngestionLog logs = 7;
+}
+
+message IngestionLog {
+    google.protobuf.Timestamp timestamp = 1;
+    string log_line = 2;
 }
