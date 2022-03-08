@@ -46,7 +46,7 @@ message SourceSegyFile {
     ExternalId external_id = 3;
     string name = 4;
     map<string, string> metadata = 5;
-    SegyOverrides header_offsets = 6;
+    SegyOverrides segy_overrides = 6;
 }
 
 // Metadata related to interpreting SEG-Y files.
