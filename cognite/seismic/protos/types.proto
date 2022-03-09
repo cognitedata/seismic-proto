@@ -279,6 +279,8 @@ enum IngestionSource {
 }
 
 enum Dimensions {
+    INVALID_ZERO = 0; // Not used
+    ONE_DEE = 1; // Not implemented
     TWO_DEE = 2;
     THREE_DEE = 3;
 }
