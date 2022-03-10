@@ -134,7 +134,7 @@ service SeismicAPI {
      * Returns a stream of file objects, terminating all files matching the search criteria have been
      * returned.
      */
-    rpc SearchFiles(SearchFilesRequest) returns (stream File) {}
+    rpc SearchFiles(SearchFilesRequest) returns (stream SourceSegyFile) {}
 
     /**
      * Retrieves ingestion job statuses, filtered by the specified criteria.
