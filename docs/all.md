@@ -66,10 +66,13 @@ sidebarDepth: 2
     - [OptionalMap.DataEntry](#com-cognite-seismic-v1-OptionalMap-DataEntry)
     - [Partition](#com-cognite-seismic-v1-Partition)
     - [SearchSpec](#com-cognite-seismic-v1-SearchSpec)
+    - [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides)
     - [Seismic](#com-cognite-seismic-v1-Seismic)
     - [Seismic.MetadataEntry](#com-cognite-seismic-v1-Seismic-MetadataEntry)
     - [SeismicStore](#com-cognite-seismic-v1-SeismicStore)
     - [SeismicStore.MetadataEntry](#com-cognite-seismic-v1-SeismicStore-MetadataEntry)
+    - [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile)
+    - [SourceSegyFile.MetadataEntry](#com-cognite-seismic-v1-SourceSegyFile-MetadataEntry)
     - [Survey](#com-cognite-seismic-v1-Survey)
     - [Survey.MetadataEntry](#com-cognite-seismic-v1-Survey-MetadataEntry)
     - [TextHeader](#com-cognite-seismic-v1-TextHeader)
@@ -1151,6 +1154,25 @@ An exact string match is required |
 
 
 
+<a name="com-cognite-seismic-v1-SegyOverrides"></a>
+
+### SegyOverrides
+Metadata related to interpreting SEG-Y files.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
+| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
+| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
+| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
+| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  | [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header. Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100. Negative values and values greater than 1 are not permitted. To remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN. The next ingestion processing of a file will then use the source group scalar values found in trace headers. |
+
+
+
+
+
+
 <a name="com-cognite-seismic-v1-Seismic"></a>
 
 ### Seismic
@@ -1224,6 +1246,42 @@ Represents a seismic store.
 <a name="com-cognite-seismic-v1-SeismicStore-MetadataEntry"></a>
 
 ### SeismicStore.MetadataEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-SourceSegyFile"></a>
+
+### SourceSegyFile
+File or dataset or cube derived from a single SEG-Y file
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| uuid | [string](#string) |  |  |
+| id | [int64](#int64) |  |  |
+| external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  |  |
+| name | [string](#string) |  |  |
+| metadata | [SourceSegyFile.MetadataEntry](#com-cognite-seismic-v1-SourceSegyFile-MetadataEntry) | repeated |  |
+| segy_overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-SourceSegyFile-MetadataEntry"></a>
+
+### SourceSegyFile.MetadataEntry
 
 
 
@@ -1983,7 +2041,7 @@ In the case of Surveys, the &#34;name&#34; should be input into the external_ids
 | GetSegYFile | [SegYSeismicRequest](#com-cognite-seismic-v1-SegYSeismicRequest) | [SegYSeismicResponse](#com-cognite-seismic-v1-SegYSeismicResponse) stream | Fetch seismic data in SEG-Y format. The stream of responses each contain a byte array that must be written sequentially to a file to produce a SEG-Y file. The ordering of traces in the output is unspecified.
 
 The request object can be used to specify whether the file should contain the whole set of traces in the source dataset or a subset of the traces (ie. a cropped file). See SegYSeismicRequest for more information. Returns a stream of SegYSeismicResponse objects, each containing a fragment of a SEG-Y data stream. |
-| SearchFiles | [SearchFilesRequest](#com-cognite-seismic-v1-SearchFilesRequest) | [.com.cognite.seismic.File](#com-cognite-seismic-File) stream | Retrieves File objects describing the seismic files registered with the tenant. Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved to a subset of the files in the tenant. See SearchFilesRequest for more information. Returns a stream of file objects, terminating all files matching the search criteria have been returned. |
+| SearchFiles | [SearchFilesRequest](#com-cognite-seismic-v1-SearchFilesRequest) | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) stream | Retrieves File objects describing the seismic files registered with the tenant. Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved to a subset of the files in the tenant. See SearchFilesRequest for more information. Returns a stream of file objects, terminating all files matching the search criteria have been returned. |
 | SearchJobStatus | [SearchJobStatusRequest](#com-cognite-seismic-v1-SearchJobStatusRequest) | [JobStatusResponse](#com-cognite-seismic-v1-JobStatusResponse) stream | Retrieves ingestion job statuses, filtered by the specified criteria. |
 
  

@@ -389,6 +389,10 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.SegyOverrides"><span class="badge">M</span>SegyOverrides</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.Seismic"><span class="badge">M</span>Seismic</a>
                 </li>
               
@@ -402,6 +406,14 @@
               
                 <li>
                   <a href="#com.cognite.seismic.v1.SeismicStore.MetadataEntry"><span class="badge">M</span>SeismicStore.MetadataEntry</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.SourceSegyFile"><span class="badge">M</span>SourceSegyFile</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.SourceSegyFile.MetadataEntry"><span class="badge">M</span>SourceSegyFile.MetadataEntry</a>
                 </li>
               
                 <li>
@@ -756,7 +768,7 @@ data stream.</p></td>
               <tr>
                 <td>SearchFiles</td>
                 <td><a href="#com.cognite.seismic.v1.SearchFilesRequest">SearchFilesRequest</a></td>
-                <td><a href="#com.cognite.seismic.File">.com.cognite.seismic.File</a> stream</td>
+                <td><a href="#com.cognite.seismic.v1.SourceSegyFile">SourceSegyFile</a> stream</td>
                 <td><p>Retrieves File objects describing the seismic files registered with the tenant.
 Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved
 to a subset of the files in the tenant. See SearchFilesRequest for more information.
@@ -2804,6 +2816,63 @@ An exact string match is required </p></td>
 
         
       
+        <h3 id="com.cognite.seismic.v1.SegyOverrides">SegyOverrides</h3>
+        <p>Metadata related to interpreting SEG-Y files.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>inline_offset</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification </p></td>
+                </tr>
+              
+                <tr>
+                  <td>crossline_offset</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification </p></td>
+                </tr>
+              
+                <tr>
+                  <td>cdp_x_offset</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification </p></td>
+                </tr>
+              
+                <tr>
+                  <td>cdp_y_offset</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification </p></td>
+                </tr>
+              
+                <tr>
+                  <td>source_group_scalar_override</td>
+                  <td><a href="#google.protobuf.FloatValue">google.protobuf.FloatValue</a></td>
+                  <td></td>
+                  <td><p>[optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header.
+Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header
+field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100.
+Negative values and values greater than 1 are not permitted.
+To remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN.
+The next ingestion processing of a file will then use the source group scalar values found in trace headers. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="com.cognite.seismic.v1.Seismic">Seismic</h3>
         <p>A cutout of a seismic store</p>
 
@@ -3053,6 +3122,96 @@ While support for multiple storage backends per store is planned, this is not cu
         
       
         <h3 id="com.cognite.seismic.v1.SeismicStore.MetadataEntry">SeismicStore.MetadataEntry</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.SourceSegyFile">SourceSegyFile</h3>
+        <p>File or dataset or cube derived from a single SEG-Y file</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>uuid</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>external_id</td>
+                  <td><a href="#com.cognite.seismic.ExternalId">com.cognite.seismic.ExternalId</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>metadata</td>
+                  <td><a href="#com.cognite.seismic.v1.SourceSegyFile.MetadataEntry">SourceSegyFile.MetadataEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>segy_overrides</td>
+                  <td><a href="#com.cognite.seismic.v1.SegyOverrides">SegyOverrides</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.SourceSegyFile.MetadataEntry">SourceSegyFile.MetadataEntry</h3>
         <p></p>
 
         

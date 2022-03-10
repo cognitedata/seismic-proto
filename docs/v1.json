@@ -229,9 +229,9 @@
               "requestLongType": "SearchFilesRequest",
               "requestFullType": "com.cognite.seismic.v1.SearchFilesRequest",
               "requestStreaming": false,
-              "responseType": "File",
-              "responseLongType": ".com.cognite.seismic.File",
-              "responseFullType": "com.cognite.seismic.File",
+              "responseType": "SourceSegyFile",
+              "responseLongType": "SourceSegyFile",
+              "responseFullType": "com.cognite.seismic.v1.SourceSegyFile",
               "responseStreaming": true
             },
             {
@@ -2958,6 +2958,78 @@
           ]
         },
         {
+          "name": "SegyOverrides",
+          "longName": "SegyOverrides",
+          "fullName": "com.cognite.seismic.v1.SegyOverrides",
+          "description": "Metadata related to interpreting SEG-Y files.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "inline_offset",
+              "description": "Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crossline_offset",
+              "description": "Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "cdp_x_offset",
+              "description": "X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "cdp_y_offset",
+              "description": "Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "source_group_scalar_override",
+              "description": "[optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header.\nNote that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header\nfield in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100.\nNegative values and values greater than 1 are not permitted.\nTo remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN.\nThe next ingestion processing of a file will then use the source group scalar values found in trace headers.",
+              "label": "",
+              "type": "FloatValue",
+              "longType": "google.protobuf.FloatValue",
+              "fullType": "google.protobuf.FloatValue",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "Seismic",
           "longName": "Seismic",
           "fullName": "com.cognite.seismic.v1.Seismic",
@@ -3333,6 +3405,126 @@
           "name": "MetadataEntry",
           "longName": "SeismicStore.MetadataEntry",
           "fullName": "com.cognite.seismic.v1.SeismicStore.MetadataEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SourceSegyFile",
+          "longName": "SourceSegyFile",
+          "fullName": "com.cognite.seismic.v1.SourceSegyFile",
+          "description": "File or dataset or cube derived from a single SEG-Y file",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "uuid",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "id",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "",
+              "label": "",
+              "type": "ExternalId",
+              "longType": "com.cognite.seismic.ExternalId",
+              "fullType": "com.cognite.seismic.ExternalId",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "",
+              "label": "repeated",
+              "type": "MetadataEntry",
+              "longType": "SourceSegyFile.MetadataEntry",
+              "fullType": "com.cognite.seismic.v1.SourceSegyFile.MetadataEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "segy_overrides",
+              "description": "",
+              "label": "",
+              "type": "SegyOverrides",
+              "longType": "SegyOverrides",
+              "fullType": "com.cognite.seismic.v1.SegyOverrides",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MetadataEntry",
+          "longName": "SourceSegyFile.MetadataEntry",
+          "fullName": "com.cognite.seismic.v1.SourceSegyFile.MetadataEntry",
           "description": "",
           "hasExtensions": false,
           "hasFields": true,
