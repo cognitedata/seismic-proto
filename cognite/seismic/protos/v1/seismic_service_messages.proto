@@ -203,6 +203,12 @@ message GeometryBasedVolume {
     LineDescriptor z_range = 3;
 }
 
+message VolumeBoundsResponse {
+    int32 total_size = 1;
+    int32 num_traces = 2;
+    LineBasedVolume bounds = 3;
+}
+
 message SegYSeismicRequest {
     oneof identifier {
         Identifier seismic = 1;
