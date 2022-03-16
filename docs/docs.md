@@ -1212,7 +1212,8 @@ File or dataset or cube derived from a single SEG-Y file
 | uuid | [string](#string) |  |  |
 | id | [int64](#int64) |  |  |
 | external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  |  |
-| name | [string](#string) |  |  |
+| name | [string](#string) |  | The name of the file |
+| cloud_storage_path | [string](#string) |  | The cloud storage path for the file, excluding the file name |
 | metadata | [SourceSegyFile.MetadataEntry](#com-cognite-seismic-v1-SourceSegyFile-MetadataEntry) | repeated |  |
 | segy_overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  |  |
 

@@ -3485,7 +3485,19 @@
             },
             {
               "name": "name",
-              "description": "",
+              "description": "The name of the file",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "cloud_storage_path",
+              "description": "The cloud storage path for the file, excluding the file name",
               "label": "",
               "type": "string",
               "longType": "string",
