@@ -204,7 +204,7 @@ message GeometryBasedVolume {
 }
 
 message VolumeBoundsResponse {
-    int32 total_size_kilobytes = 1;
+    int32 total_size_bytes = 1;
     int32 num_traces = 2;
     LineBasedVolume bounds = 3;
 }
