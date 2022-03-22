@@ -249,7 +249,7 @@ message SearchJobStatusRequest {
         }
     }
 
-    Filter filter = 1;
+    repeated Filter filter = 1;
 }
 
 message JobStatusResponse {
