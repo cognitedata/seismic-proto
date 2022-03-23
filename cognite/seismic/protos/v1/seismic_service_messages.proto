@@ -230,28 +230,16 @@ message SearchFilesRequest {
 }
 
 message SearchJobStatusRequest {
-    message Filter {
-        message Id {
-            oneof id {
-                string job_id = 1;
-                string file_uuid = 2;
-            }
-        }
-
-        oneof filter {
-            Id id = 1;
-            JobStatus status = 2;
-            string target_storage_tier_name = 3;
-            google.protobuf.Timestamp started_before = 4;
-            google.protobuf.Timestamp started_after = 5;
-            google.protobuf.Timestamp updated_before = 6;
-            google.protobuf.Timestamp updated_after = 7;
-        }
+    oneof id {
+        string job_id = 1;
+        string file_uuid = 2;
     }
-
-    // Used to remove jobs from the returned stream that do not satisfy *all* of the given constraints.
-    // Note that only one of each filter variant may be applied. For example, attempting to find jobs that passed *or* failed will be invalid.
-    repeated Filter filters = 1;
+    JobStatus status = 3;
+    google.protobuf.StringValue target_storage_tier_name = 4;
+    google.protobuf.Timestamp started_before = 5;
+    google.protobuf.Timestamp started_after = 6;
+    google.protobuf.Timestamp updated_before = 7;
+    google.protobuf.Timestamp updated_after = 8;
 }
 
 message JobStatusResponse {
