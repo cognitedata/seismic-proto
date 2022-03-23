@@ -250,7 +250,7 @@ message SearchJobStatusRequest {
     }
 
     // Used to remove jobs from the returned stream that do not satisfy *all* of the given constraints.
-    // Note that only one of each filter variant may be applied. For example, attempting to jobs that passed *or* failed will be invalid.
+    // Note that only one of each filter variant may be applied. For example, attempting to find jobs that passed *or* failed will be invalid.
     repeated Filter filters = 1;
 }
 
