@@ -5,6 +5,7 @@ syntax = "proto3";
 package com.cognite.seismic.v1;
 
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
 import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 import "cognite/seismic/protos/types.proto";
 
@@ -234,7 +235,7 @@ message RegisterFileRequest {
     string name = 3;                   // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
     map<string, string> metadata = 4;  // [optional]
     CRS crs = 5;                       // [required] Official name of the CRS used. Example: "EPSG:23031"
-    HeaderOffsets header_offsets = 6;  // Byte offsets for headers
+    SegyOverrides header_offsets = 6;  // Byte offsets for headers
     ExternalId external_id = 7;        // [optional] An external identifier - matches service contract field
     Dimensions dimensions = 8;         // [required] File data dimensionality, either 2D or 3D
 }
@@ -293,4 +294,32 @@ message IngestFileRequest {
 
 message IngestFileResponse {
     string job_id = 1;
+}
+
+message SearchJobStatusRequest {
+    oneof id {
+        string job_id = 1;
+        string file_uuid = 2;
+    }
+    JobStatus status = 3;
+    google.protobuf.StringValue target_storage_tier_name = 4;
+    google.protobuf.Timestamp started_before = 5;
+    google.protobuf.Timestamp started_after = 6;
+    google.protobuf.Timestamp updated_before = 7;
+    google.protobuf.Timestamp updated_after = 8;
+}
+
+message JobStatusResponse {
+    string job_id = 1;
+    string file_uuid = 2;
+    JobStatus status = 3;
+    google.protobuf.Timestamp started_at = 4;
+    google.protobuf.Timestamp updated_at = 5;
+    google.protobuf.StringValue target_storage_tier_name = 6;
+    repeated IngestionLog logs = 7;
+}
+
+message IngestionLog {
+    google.protobuf.Timestamp timestamp = 1;
+    string log_line = 2;
 }

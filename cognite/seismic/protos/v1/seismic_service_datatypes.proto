@@ -40,18 +40,18 @@ message OptionalMap {
 }
 
 // File or dataset or cube derived from a single SEG-Y file
-message CloudStorageFile {
+message SourceSegyFile {
     string uuid = 1;
     int64 id = 2;
     ExternalId external_id = 3;
-    string name = 4;
+    string name = 4; // The name of the file
+    string cloud_storage_path = 7; // The cloud storage path for the file, excluding the file name
     map<string, string> metadata = 5;
-    HeaderOffsets header_offsets = 6;
-    Dimensions dimensions = 7;
+    SegyOverrides segy_overrides = 6;
 }
 
 // Metadata related to interpreting SEG-Y files.
-message HeaderOffsets {
+message SegyOverrides {
     google.protobuf.Int32Value inline_offset = 1; // Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value crossline_offset = 2; // Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value cdp_x_offset = 3; // X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification

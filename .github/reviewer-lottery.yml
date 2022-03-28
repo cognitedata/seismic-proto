@@ -1,0 +1,10 @@
+groups:
+  - name: seismologists
+    reviewers: 1
+    internal_reviewers: 1
+    usernames:
+      - amorken
+      - audunska
+      - skairunner
+      - BenChand
+      - mr-celo
