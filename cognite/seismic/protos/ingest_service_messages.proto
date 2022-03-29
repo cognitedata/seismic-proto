@@ -15,10 +15,10 @@ import "google/protobuf/wrappers.proto";
     {"name": "surveyname", "metadata": {"location": "underwater"}, "external_id": "surveyname-external" }
 **/
 message RegisterSurveyRequest {
-    string name = 1;                  // [required]
-    map<string, string> metadata = 2; // [optional]
-    ExternalId external_id = 3;       // [optional]
-    CRS crs = 4;                   // [optional] new CRS used by all members
+    string name = 1;                                  // [required]
+    map<string, string> metadata = 2;                 // [optional]
+    ExternalId external_id = 3;                       // [optional]
+    CRS crs = 4;                                      // [optional] new CRS used by all members
     SurveyGridTransformation grid_transformation = 5; // [optional] Affine transformation from grid bins to coordinates
     CustomSurveyCoverage custom_coverage = 6;
 }
@@ -49,6 +49,9 @@ message RegisterFileRequest {
     google.protobuf.Int32Value crossline_offset = 8;                // [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value cdp_x_offset = 9;                    // [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value cdp_y_offset = 10;                   // [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_offset = 15;                     // [optional] Ensemble (CDP) position in trace headers. Defaults to 21 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value energy_source_point_offset = 16;     // [optional] Energy source point position in trace headers. Defaults to 17 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value poststack_2d_offset = 17;            // [optional] Shotpoint for 2D poststack position in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
     ExternalId external_id = 11;                                    // [optional] An external identifier - matches service contract field
     /**
     [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header.
@@ -59,6 +62,7 @@ message RegisterFileRequest {
     **/
     google.protobuf.FloatValue source_group_scalar_override = 12;
     Dimensions dimensions = 13;                                     // [required] File data dimensionality, either 2D or 3D
+    repeated TraceHeaderField trace_header_key = 14;                // [required for 2D seismics] The trace header fields that will be used as keys for indexing.
 }
 
 message RegisterFileResponse {

@@ -283,3 +283,11 @@ enum Dimensions {
     TWO_DEE = 2;
     THREE_DEE = 3;
 }
+
+enum TraceHeaderField {
+    ENERGY_SOURCE_POINT = 0;
+    CDP = 1;
+    POST_STACK_2D_SHOTPOINT = 2;
+    INLINE = 3;
+    CROSSLINE = 4;
+}
