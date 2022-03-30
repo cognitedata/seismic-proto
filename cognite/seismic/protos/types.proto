@@ -285,9 +285,10 @@ enum Dimensions {
 }
 
 enum TraceHeaderField {
-    ENERGY_SOURCE_POINT = 0;
-    CDP = 1;
-    POST_STACK_2D_SHOTPOINT = 2;
+    UNSPECIFIED = 0;
+    ENERGY_SOURCE_POINT = 1;
+    CDP = 2;
     INLINE = 3;
     CROSSLINE = 4;
+    POST_STACK_2D_SHOTPOINT = 5;
 }
