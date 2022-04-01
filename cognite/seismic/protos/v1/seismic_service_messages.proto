@@ -204,9 +204,9 @@ message GeometryBasedVolume {
 }
 
 message VolumeBoundsResponse {
-    int32 total_size_bytes = 1;
-    int32 num_traces = 2;
-    LineBasedVolume bounds = 3;
+    int32 trace_size_bytes = 1; // The size in bytes of one Trace message
+    int32 num_traces = 2;       // The number of traces returned
+    LineBasedVolume bounds = 3; // Upper and lower bounds and step sizes in each direction for the returned traces.
 }
 
 message SegYSeismicRequest {
