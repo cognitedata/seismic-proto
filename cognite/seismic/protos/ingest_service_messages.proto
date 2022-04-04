@@ -61,7 +61,7 @@ message RegisterFileRequest {
     Dimensions dimensions = 13;                                     // [required] File data dimensionality, either 2D or 3D
     google.protobuf.Int32Value cdp_offset = 14;                     // [optional] Ensemble (CDP) position in trace headers. Defaults to 21 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value energy_source_point_offset = 15;     // [optional] Energy source point position in trace headers. Defaults to 17 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value poststack_2d_shotpoint_offset = 16;  // [optional] Shotpoint for 2D poststack position in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value shotpoint_offset = 16;               // [optional] Shotpoint for position in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
     repeated TraceHeaderField trace_header_fields = 17;             // [required for 2D seismics] The trace header fields that will be used as keys for indexing.
 }
 
@@ -219,7 +219,7 @@ message EditFileRequest {
     google.protobuf.FloatValue source_group_scalar_override = 11;
     google.protobuf.Int32Value cdp_offset = 12;                     // [optional] Ensemble (CDP) position in trace headers. Defaults to 21 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value energy_source_point_offset = 13;     // [optional] Energy source point position in trace headers. Defaults to 17 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value poststack_2d_shotpoint_offset = 14;  // [optional] Shotpoint for 2D poststack position in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value shotpoint_offset = 14;               // [optional] Shotpoint position in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
 }
 
 message EditFileResponse {
@@ -233,7 +233,7 @@ message EditFileResponse {
     google.protobuf.FloatValue source_group_scalar_override = 8;    // [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header
     google.protobuf.Int32Value cdp_offset = 9;                      // [optional] Ensemble (CDP) position in trace headers. Defaults to 21 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value energy_source_point_offset = 10;     // [optional] Energy source point position in trace headers. Defaults to 17 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value poststack_2d_shotpoint_offset = 11; // [optional] Shotpoint for 2D poststack position in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value shotpoint_offset = 11;               // [optional] Shotpoint position in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
 }
 
 // -----

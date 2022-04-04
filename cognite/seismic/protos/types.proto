@@ -290,5 +290,5 @@ enum TraceHeaderField {
     CDP = 2;
     INLINE = 3;
     CROSSLINE = 4;
-    POST_STACK_2D_SHOTPOINT = 5;
+    SHOTPOINT = 5;
 }

@@ -58,7 +58,7 @@ message SegyOverrides {
     google.protobuf.Int32Value cdp_y_offset = 4;                   // Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value cdp_offset = 6;                     // Ensemble (CDP) position in trace headers. Defaults to 21 as per the SEG-Y rev1 specification
     google.protobuf.Int32Value energy_source_point_offset = 7;     // Energy source point position in trace headers. Defaults to 17 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value poststack_2d_shotpoint_offset = 8;  // Shotpoint for 2D poststack position in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value shotpoint_offset = 8;               // Shotpoint position in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
 
     /**
     [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header.
