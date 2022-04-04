@@ -48,6 +48,21 @@ service SeismicAPI {
     rpc DeleteSurvey(DeleteSurveyRequest) returns (DeleteSurveyResponse) {}
 
     /**
+     * Registers a new file in a (previously registered) survey as source for ingestion.
+     */
+    rpc RegisterSourceSegyFile (RegisterSourceSegyFileRequest) returns (RegisterSourceSegyFileResponse) {}
+
+    /**
+     * Edits a registered source file.
+     */
+    rpc EditSourceSegyFile (EditSourceSegyFileRequest) returns (EditSourceSegyFileResponse) {}
+
+    /**
+     * Unregisters a file previously registered as source for ingestion.
+     */
+    rpc UnregisterSourceSegyFile (UnregisterSourceSegyFileRequest) returns (UnregisterSourceSegyFileResponse) {}
+
+    /**
      * Create new Seismics and assign them to partitions.
      * Seismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one
      * if e.g. the definition or the seismic store must be changed

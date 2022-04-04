@@ -73,6 +73,51 @@ message DeleteSurveyResponse {
 }
 
 /**
+    Source Files
+**/
+
+message RegisterSourceSegyFileRequest {
+    Identifier survey = 1;                              // [required] The survey this source file belongs to
+    string path = 2;                                    // [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                                    // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
+    ExternalId external_id = 4;                         // [optional] An external identifier - matches service contract field
+    map<string, string> metadata = 5;                   // [optional] Any custom-defined metadata
+    CRS crs = 6;                                        // [required] Official name of the CRS used. Example: "EPSG:23031"
+    google.protobuf.BoolValue is_temporary = 7;         // [optional] Tells whether file is temporary (writeable) or not. False by default
+    SegyOverrides overrides = 8;                        // [optional] Overrides for the source file
+    Dimensions dimensions = 9;                          // [required] File data dimensionality, either 2D or 3D
+    repeated TraceHeaderField trace_header_fields = 10; // [optional] The trace header fields that will be used as keys for indexing.
+}
+
+message RegisterSourceSegyFileResponse {
+    SourceSegyFile file = 1;
+}
+
+message EditSourceSegyFileRequest {
+    Identifier file = 1;                                // [required] The registered source file to edit.
+    string path = 2;                                    // [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                                    // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
+    ExternalId external_id = 4;                         // [optional] An external identifier - matches service contract field
+    map<string, string> metadata = 5;                   // [optional] Any custom-defined metadata
+    CRS crs = 6;                                        // [required] Official name of the CRS used. Example: "EPSG:23031"
+    SegyOverrides overrides = 7;                        // [optional] Overrides for the source file
+    repeated TraceHeaderField trace_header_fields = 8;  // [optional] The trace header fields that will be used as keys for indexing.
+}
+
+message EditSourceSegyFileResponse {
+    SourceSegyFile file = 1;
+}
+
+message UnregisterSourceSegyFileRequest {
+    Identifier file = 1;                                // [required] The file unregister
+    bool keep_registered = 2;                           // [optional] Delete contents of file (undo the ingestion), but keep the file registered. Defaults to false
+}
+
+message UnregisterSourceSegyFileResponse {
+    int64 survey = 1;                                   // The survey the source file belong to
+}
+
+/**
     Seismics
 **/
 
