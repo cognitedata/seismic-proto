@@ -203,6 +203,15 @@ message GeometryBasedVolume {
     LineDescriptor z_range = 3;
 }
 
+message VolumeBoundsResponse {
+    int32 trace_size_bytes = 1; // The size in bytes of one Trace message
+    int32 num_traces = 2;       // The number of traces returned
+    string crs = 3;             // CRS of the returned trace coordinates
+    // Upper and lower bounds and step sizes in each direction for the returned traces.
+    // Null if the result is empty. The iline and xline fields will be null for a line-like geometry.
+    LineBasedVolume bounds = 4;
+}
+
 message SegYSeismicRequest {
     oneof identifier {
         Identifier seismic = 1;
