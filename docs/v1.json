@@ -211,6 +211,18 @@
               "responseStreaming": true
             },
             {
+              "name": "GetVolumeBounds",
+              "description": "",
+              "requestType": "VolumeRequest",
+              "requestLongType": "VolumeRequest",
+              "requestFullType": "com.cognite.seismic.v1.VolumeRequest",
+              "requestStreaming": false,
+              "responseType": "VolumeBoundsResponse",
+              "responseLongType": "VolumeBoundsResponse",
+              "responseFullType": "com.cognite.seismic.v1.VolumeBoundsResponse",
+              "responseStreaming": false
+            },
+            {
               "name": "GetSegYFile",
               "description": "Fetch seismic data in SEG-Y format.\nThe stream of responses each contain a byte array that must be written sequentially to a\nfile to produce a SEG-Y file. The ordering of traces in the output is unspecified.\n\nThe request object can be used to specify whether the file should contain the whole set\nof traces in the source dataset or a subset of the traces (ie. a cropped file). See\nSegYSeismicRequest for more information.\nReturns a stream of SegYSeismicResponse objects, each containing a fragment of a SEG-Y\ndata stream.",
               "requestType": "SegYSeismicRequest",
@@ -1874,6 +1886,66 @@
               "type": "bytes",
               "longType": "bytes",
               "fullType": "bytes",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "VolumeBoundsResponse",
+          "longName": "VolumeBoundsResponse",
+          "fullName": "com.cognite.seismic.v1.VolumeBoundsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "trace_size_bytes",
+              "description": "The size in bytes of one Trace message",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "num_traces",
+              "description": "The number of traces returned",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crs",
+              "description": "CRS of the returned trace coordinates",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "bounds",
+              "description": "Upper and lower bounds and step sizes in each direction for the returned traces.\nNull if the result is empty. The iline and xline fields will be null for a line-like geometry.",
+              "label": "",
+              "type": "LineBasedVolume",
+              "longType": "LineBasedVolume",
+              "fullType": "com.cognite.seismic.v1.LineBasedVolume",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",

@@ -306,6 +306,10 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.VolumeBoundsResponse"><span class="badge">M</span>VolumeBoundsResponse</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.VolumeRequest"><span class="badge">M</span>VolumeRequest</a>
                 </li>
               
@@ -740,6 +744,13 @@ and create a new one.</p></td>
                 <td><a href="#com.cognite.seismic.v1.VolumeRequest">VolumeRequest</a></td>
                 <td><a href="#com.cognite.seismic.Trace">.com.cognite.seismic.Trace</a> stream</td>
                 <td><p>Request a volume of traces by range of inlines, crosslines and time</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetVolumeBounds</td>
+                <td><a href="#com.cognite.seismic.v1.VolumeRequest">VolumeRequest</a></td>
+                <td><a href="#com.cognite.seismic.v1.VolumeBoundsResponse">VolumeBoundsResponse</a></td>
+                <td><p></p></td>
               </tr>
             
               <tr>
@@ -2006,6 +2017,52 @@ If no coverage source is provided, but the coverage parameters are provided, the
                   <td><a href="#bytes">bytes</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.VolumeBoundsResponse">VolumeBoundsResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>trace_size_bytes</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>The size in bytes of one Trace message </p></td>
+                </tr>
+              
+                <tr>
+                  <td>num_traces</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>The number of traces returned </p></td>
+                </tr>
+              
+                <tr>
+                  <td>crs</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>CRS of the returned trace coordinates </p></td>
+                </tr>
+              
+                <tr>
+                  <td>bounds</td>
+                  <td><a href="#com.cognite.seismic.v1.LineBasedVolume">LineBasedVolume</a></td>
+                  <td></td>
+                  <td><p>Upper and lower bounds and step sizes in each direction for the returned traces.
+Null if the result is empty. The iline and xline fields will be null for a line-like geometry. </p></td>
                 </tr>
               
             </tbody>

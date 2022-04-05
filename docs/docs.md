@@ -39,6 +39,7 @@ sidebarDepth: 2
     - [SearchSurveysRequest](#com-cognite-seismic-v1-SearchSurveysRequest)
     - [SegYSeismicRequest](#com-cognite-seismic-v1-SegYSeismicRequest)
     - [SegYSeismicResponse](#com-cognite-seismic-v1-SegYSeismicResponse)
+    - [VolumeBoundsResponse](#com-cognite-seismic-v1-VolumeBoundsResponse)
     - [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest)
   
 - [cognite/seismic/protos/v1/seismic_service_datatypes.proto](#cognite_seismic_protos_v1_seismic_service_datatypes-proto)
@@ -236,6 +237,7 @@ In the case of Surveys, the &#34;name&#34; should be input into the external_ids
 | EditPartition | [EditPartitionRequest](#com-cognite-seismic-v1-EditPartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Edit partitions. The only modifiable field is the name |
 | DeletePartition | [DeletePartitionRequest](#com-cognite-seismic-v1-DeletePartitionRequest) | [DeletePartitionResponse](#com-cognite-seismic-v1-DeletePartitionResponse) | Delete the specified partition, and return whether it was successfully deleted. |
 | GetVolume | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Request a volume of traces by range of inlines, crosslines and time |
+| GetVolumeBounds | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [VolumeBoundsResponse](#com-cognite-seismic-v1-VolumeBoundsResponse) |  |
 | GetSegYFile | [SegYSeismicRequest](#com-cognite-seismic-v1-SegYSeismicRequest) | [SegYSeismicResponse](#com-cognite-seismic-v1-SegYSeismicResponse) stream | Fetch seismic data in SEG-Y format. The stream of responses each contain a byte array that must be written sequentially to a file to produce a SEG-Y file. The ordering of traces in the output is unspecified.
 
 The request object can be used to specify whether the file should contain the whole set of traces in the source dataset or a subset of the traces (ie. a cropped file). See SegYSeismicRequest for more information. Returns a stream of SegYSeismicResponse objects, each containing a fragment of a SEG-Y data stream. |
@@ -746,6 +748,24 @@ Used to search files by id, extid, extid substring, name, name substring
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | content | [bytes](#bytes) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-VolumeBoundsResponse"></a>
+
+### VolumeBoundsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| trace_size_bytes | [int32](#int32) |  | The size in bytes of one Trace message |
+| num_traces | [int32](#int32) |  | The number of traces returned |
+| crs | [string](#string) |  | CRS of the returned trace coordinates |
+| bounds | [LineBasedVolume](#com-cognite-seismic-v1-LineBasedVolume) |  | Upper and lower bounds and step sizes in each direction for the returned traces. Null if the result is empty. The iline and xline fields will be null for a line-like geometry. |
 
 
 
