@@ -139,6 +139,8 @@ service SeismicAPI {
 
     rpc GetVolumeBounds(VolumeRequest) returns (VolumeBoundsResponse) {}
 
+    rpc StreamTraces(StreamTracesRequest) returns (stream com.cognite.seismic.Trace) {}
+
     /**
      * Fetch seismic data in SEG-Y format.
      * The stream of responses each contain a byte array that must be written sequentially to a

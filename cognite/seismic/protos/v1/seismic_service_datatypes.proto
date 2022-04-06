@@ -300,3 +300,49 @@ enum TraceHeaderField {
     CROSSLINE = 4;
     SHOTPOINT = 5;
 }
+
+message GeometryFilter {
+    Geometry geometry = 1;
+    InterpolationMethod interpolation_method = 2; // Only used for linear geometries
+}
+
+message Seismic2dExtent {
+    TraceHeaderField trace_key = 1; // Must be an applicable field for 2D
+    LineDescriptor trace_range = 2; // Range of header values to use
+}
+
+message Seismic3dExtent {
+    oneof type {
+        Seismic3dRects rects = 1;
+        Seismic3dDef def = 2;
+    }
+}
+
+message Seismic3dRects {
+    repeated Seismic3dRect rects = 1;
+}
+
+message Seismic3dRect {
+    LineDescriptor inline_range = 1;
+    LineDescriptor xline_range = 2;
+}
+
+message Seismic3dDef {
+    TraceHeaderField major_direction = 1; // Must be inline or crossline
+    map<int32, LineDefs> lines = 3;
+}
+
+message LineDefs {
+    repeated LineDef line_defs = 1;
+}
+
+message LineDef {
+    oneof line_def {
+        IndexList list = 1;
+        LineDescriptor range = 2;
+    }
+}
+
+message IndexList {
+    repeated int32 indices = 1;
+}
