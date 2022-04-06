@@ -1928,6 +1928,18 @@
               "defaultValue": ""
             },
             {
+              "name": "sample_count",
+              "description": "The number of samples per trace",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
               "name": "crs",
               "description": "CRS of the returned trace coordinates",
               "label": "",

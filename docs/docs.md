@@ -764,6 +764,7 @@ Used to search files by id, extid, extid substring, name, name substring
 | ----- | ---- | ----- | ----------- |
 | trace_size_bytes | [int32](#int32) |  | The size in bytes of one Trace message |
 | num_traces | [int32](#int32) |  | The number of traces returned |
+| sample_count | [int32](#int32) |  | The number of samples per trace |
 | crs | [string](#string) |  | CRS of the returned trace coordinates |
 | bounds | [LineBasedVolume](#com-cognite-seismic-v1-LineBasedVolume) |  | Upper and lower bounds and step sizes in each direction for the returned traces. Null if the result is empty. The iline and xline fields will be null for a line-like geometry. |
 
