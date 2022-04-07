@@ -83,10 +83,9 @@ message RegisterSourceSegyFileRequest {
     ExternalId external_id = 4;                         // [optional] An external identifier - matches service contract field
     map<string, string> metadata = 5;                   // [optional] Any custom-defined metadata
     CRS crs = 6;                                        // [required] Official name of the CRS used. Example: "EPSG:23031"
-    google.protobuf.BoolValue is_temporary = 7;         // [optional] Tells whether file is temporary (writeable) or not. False by default
-    SegyOverrides overrides = 8;                        // [optional] Overrides for the source file
-    Dimensions dimensions = 9;                          // [required] File data dimensionality, either 2D or 3D
-    repeated TraceHeaderField trace_header_fields = 10; // [optional] The trace header fields that will be used as keys for indexing.
+    SegyOverrides overrides = 7;                        // [optional] Overrides for the source file
+    Dimensions dimensions = 8;                          // [required] File data dimensionality, either 2D or 3D
+    repeated TraceHeaderField trace_header_fields = 9;  // [optional] The trace header fields that will be used as keys for indexing.
 }
 
 message RegisterSourceSegyFileResponse {
@@ -110,7 +109,6 @@ message EditSourceSegyFileResponse {
 
 message UnregisterSourceSegyFileRequest {
     Identifier file = 1;                                // [required] The file unregister
-    bool keep_registered = 2;                           // [optional] Delete contents of file (undo the ingestion), but keep the file registered. Defaults to false
 }
 
 message UnregisterSourceSegyFileResponse {
