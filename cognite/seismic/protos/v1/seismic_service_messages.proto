@@ -94,13 +94,14 @@ message RegisterSourceSegyFileResponse {
 
 message EditSourceSegyFileRequest {
     Identifier file = 1;                                // [required] The registered source file to edit
-    string path = 2;                                    // [required] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
-    string name = 3;                                    // [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
+    string path = 2;                                    // [optional] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/"
+    string name = 3;                                    // [optional] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests
     ExternalId external_id = 4;                         // [optional] An external identifier - matches service contract field
     map<string, string> metadata = 5;                   // [optional] Any custom-defined metadata
-    CRS crs = 6;                                        // [required] Official name of the CRS used. Example: "EPSG:23031"
+    CRS crs = 6;                                        // [optional] Official name of the CRS used. Example: "EPSG:23031"
     SegyOverrides overrides = 7;                        // [optional] Overrides for the source file
     repeated TraceHeaderField trace_header_fields = 8;  // [optional] The trace header fields that will be used as keys for indexing
+    Dimensions dimensions = 9;                          // [optional] File data dimensionality, either 2D or 3D
 }
 
 message EditSourceSegyFileResponse {
