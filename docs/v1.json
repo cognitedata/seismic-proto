@@ -1068,8 +1068,8 @@
               "description": "[optional] The trace header fields that will be used as keys for indexing",
               "label": "repeated",
               "type": "TraceHeaderField",
-              "longType": "com.cognite.seismic.TraceHeaderField",
-              "fullType": "com.cognite.seismic.TraceHeaderField",
+              "longType": "TraceHeaderField",
+              "fullType": "com.cognite.seismic.v1.TraceHeaderField",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -1080,8 +1080,8 @@
               "description": "[optional] File data dimensionality, either 2D or 3D",
               "label": "",
               "type": "Dimensions",
-              "longType": "com.cognite.seismic.Dimensions",
-              "fullType": "com.cognite.seismic.Dimensions",
+              "longType": "Dimensions",
+              "fullType": "com.cognite.seismic.v1.Dimensions",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -1512,8 +1512,8 @@
               "description": "[optional] The trace header fields that will be used as keys for indexing",
               "label": "repeated",
               "type": "TraceHeaderField",
-              "longType": "com.cognite.seismic.TraceHeaderField",
-              "fullType": "com.cognite.seismic.TraceHeaderField",
+              "longType": "TraceHeaderField",
+              "fullType": "com.cognite.seismic.v1.TraceHeaderField",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -1524,8 +1524,8 @@
               "description": "[required] File data dimensionality, either 2D or 3D",
               "label": "",
               "type": "Dimensions",
-              "longType": "com.cognite.seismic.Dimensions",
-              "fullType": "com.cognite.seismic.Dimensions",
+              "longType": "Dimensions",
+              "fullType": "com.cognite.seismic.v1.Dimensions",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -2475,13 +2475,36 @@
           ]
         },
         {
+          "name": "Dimensions",
+          "longName": "Dimensions",
+          "fullName": "com.cognite.seismic.v1.Dimensions",
+          "description": "",
+          "values": [
+            {
+              "name": "UNSPECIFIED_DIMENSION",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "TWO_DEE",
+              "number": "2",
+              "description": ""
+            },
+            {
+              "name": "THREE_DEE",
+              "number": "3",
+              "description": ""
+            }
+          ]
+        },
+        {
           "name": "SurveyCoverageSource",
           "longName": "SurveyCoverageSource",
           "fullName": "com.cognite.seismic.v1.SurveyCoverageSource",
           "description": "",
           "values": [
             {
-              "name": "UNSPECIFIED",
+              "name": "UNSPECIFIED_SURVEY_COVERAGE_SOURCE",
               "number": "0",
               "description": "Used as the default when a specific source isn't requested by the user."
             },
@@ -2494,6 +2517,44 @@
               "name": "CALCULATED",
               "number": "2",
               "description": "Requesting or returning calculated coverage"
+            }
+          ]
+        },
+        {
+          "name": "TraceHeaderField",
+          "longName": "TraceHeaderField",
+          "fullName": "com.cognite.seismic.v1.TraceHeaderField",
+          "description": "",
+          "values": [
+            {
+              "name": "UNSPECIFIED_TRACE_HEADER_FIELD",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "ENERGY_SOURCE_POINT",
+              "number": "1",
+              "description": ""
+            },
+            {
+              "name": "CDP",
+              "number": "2",
+              "description": ""
+            },
+            {
+              "name": "INLINE",
+              "number": "3",
+              "description": ""
+            },
+            {
+              "name": "CROSSLINE",
+              "number": "4",
+              "description": ""
+            },
+            {
+              "name": "SHOTPOINT",
+              "number": "5",
+              "description": ""
             }
           ]
         }
@@ -4015,8 +4076,8 @@
               "description": "The trace header fields that will be used as keys for indexing.",
               "label": "repeated",
               "type": "TraceHeaderField",
-              "longType": "com.cognite.seismic.TraceHeaderField",
-              "fullType": "com.cognite.seismic.TraceHeaderField",
+              "longType": "TraceHeaderField",
+              "fullType": "com.cognite.seismic.v1.TraceHeaderField",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -4337,29 +4398,6 @@
       "hasServices": false,
       "enums": [
         {
-          "name": "Dimensions",
-          "longName": "Dimensions",
-          "fullName": "com.cognite.seismic.Dimensions",
-          "description": "",
-          "values": [
-            {
-              "name": "UNSPECIFIED_DIMENSION",
-              "number": "0",
-              "description": ""
-            },
-            {
-              "name": "TWO_DEE",
-              "number": "2",
-              "description": ""
-            },
-            {
-              "name": "THREE_DEE",
-              "number": "3",
-              "description": ""
-            }
-          ]
-        },
-        {
           "name": "FileStep",
           "longName": "FileStep",
           "fullName": "com.cognite.seismic.FileStep",
@@ -4504,44 +4542,6 @@
             },
             {
               "name": "TIMEOUT",
-              "number": "5",
-              "description": ""
-            }
-          ]
-        },
-        {
-          "name": "TraceHeaderField",
-          "longName": "TraceHeaderField",
-          "fullName": "com.cognite.seismic.TraceHeaderField",
-          "description": "",
-          "values": [
-            {
-              "name": "UNSPECIFIED_TRACE_HEADER_FIELD",
-              "number": "0",
-              "description": ""
-            },
-            {
-              "name": "ENERGY_SOURCE_POINT",
-              "number": "1",
-              "description": ""
-            },
-            {
-              "name": "CDP",
-              "number": "2",
-              "description": ""
-            },
-            {
-              "name": "INLINE",
-              "number": "3",
-              "description": ""
-            },
-            {
-              "name": "CROSSLINE",
-              "number": "4",
-              "description": ""
-            },
-            {
-              "name": "SHOTPOINT",
               "number": "5",
               "description": ""
             }

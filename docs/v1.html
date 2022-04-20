@@ -470,7 +470,15 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.Dimensions"><span class="badge">E</span>Dimensions</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.SurveyCoverageSource"><span class="badge">E</span>SurveyCoverageSource</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.TraceHeaderField"><span class="badge">E</span>TraceHeaderField</a>
                 </li>
               
               
@@ -597,10 +605,6 @@
               
               
                 <li>
-                  <a href="#com.cognite.seismic.Dimensions"><span class="badge">E</span>Dimensions</a>
-                </li>
-              
-                <li>
                   <a href="#com.cognite.seismic.FileStep"><span class="badge">E</span>FileStep</a>
                 </li>
               
@@ -618,10 +622,6 @@
               
                 <li>
                   <a href="#com.cognite.seismic.JobStatus"><span class="badge">E</span>JobStatus</a>
-                </li>
-              
-                <li>
-                  <a href="#com.cognite.seismic.TraceHeaderField"><span class="badge">E</span>TraceHeaderField</a>
                 </li>
               
               
@@ -1459,14 +1459,14 @@ returned.</p></td>
               
                 <tr>
                   <td>key_fields</td>
-                  <td><a href="#com.cognite.seismic.TraceHeaderField">com.cognite.seismic.TraceHeaderField</a></td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
                   <td>repeated</td>
                   <td><p>[optional] The trace header fields that will be used as keys for indexing </p></td>
                 </tr>
               
                 <tr>
                   <td>dimensions</td>
-                  <td><a href="#com.cognite.seismic.Dimensions">com.cognite.seismic.Dimensions</a></td>
+                  <td><a href="#com.cognite.seismic.v1.Dimensions">Dimensions</a></td>
                   <td></td>
                   <td><p>[optional] File data dimensionality, either 2D or 3D </p></td>
                 </tr>
@@ -1788,14 +1788,14 @@ returned.</p></td>
               
                 <tr>
                   <td>key_fields</td>
-                  <td><a href="#com.cognite.seismic.TraceHeaderField">com.cognite.seismic.TraceHeaderField</a></td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
                   <td>repeated</td>
                   <td><p>[optional] The trace header fields that will be used as keys for indexing </p></td>
                 </tr>
               
                 <tr>
                   <td>dimensions</td>
-                  <td><a href="#com.cognite.seismic.Dimensions">com.cognite.seismic.Dimensions</a></td>
+                  <td><a href="#com.cognite.seismic.v1.Dimensions">Dimensions</a></td>
                   <td></td>
                   <td><p>[required] File data dimensionality, either 2D or 3D </p></td>
                 </tr>
@@ -3594,7 +3594,7 @@ While support for multiple storage backends per store is planned, this is not cu
               
                 <tr>
                   <td>trace_header_fields</td>
-                  <td><a href="#com.cognite.seismic.TraceHeaderField">com.cognite.seismic.TraceHeaderField</a></td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
                   <td>repeated</td>
                   <td><p>The trace header fields that will be used as keys for indexing. </p></td>
                 </tr>
@@ -3871,6 +3871,35 @@ or by specifying three or more corners of the grid as a list of DoubleTraceCoord
           </tbody>
         </table>
       
+        <h3 id="com.cognite.seismic.v1.Dimensions">Dimensions</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>UNSPECIFIED_DIMENSION</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>TWO_DEE</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>THREE_DEE</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="com.cognite.seismic.v1.SurveyCoverageSource">SurveyCoverageSource</h3>
         <p></p>
         <table class="enum-table">
@@ -3880,7 +3909,7 @@ or by specifying three or more corners of the grid as a list of DoubleTraceCoord
           <tbody>
             
               <tr>
-                <td>UNSPECIFIED</td>
+                <td>UNSPECIFIED_SURVEY_COVERAGE_SOURCE</td>
                 <td>0</td>
                 <td><p>Used as the default when a specific source isn&#39;t requested by the user.</p></td>
               </tr>
@@ -3895,6 +3924,53 @@ or by specifying three or more corners of the grid as a list of DoubleTraceCoord
                 <td>CALCULATED</td>
                 <td>2</td>
                 <td><p>Requesting or returning calculated coverage</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>UNSPECIFIED_TRACE_HEADER_FIELD</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>ENERGY_SOURCE_POINT</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>CDP</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>INLINE</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>CROSSLINE</td>
+                <td>4</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>SHOTPOINT</td>
+                <td>5</td>
+                <td><p></p></td>
               </tr>
             
           </tbody>
@@ -4868,35 +4944,6 @@ is computed from the seismicstores in the survey </p></td>
       
 
       
-        <h3 id="com.cognite.seismic.Dimensions">Dimensions</h3>
-        <p></p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>UNSPECIFIED_DIMENSION</td>
-                <td>0</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>TWO_DEE</td>
-                <td>2</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>THREE_DEE</td>
-                <td>3</td>
-                <td><p></p></td>
-              </tr>
-            
-          </tbody>
-        </table>
-      
         <h3 id="com.cognite.seismic.FileStep">FileStep</h3>
         <p></p>
         <table class="enum-table">
@@ -5079,53 +5126,6 @@ AKA EPSG code 1049</p></td>
             
               <tr>
                 <td>TIMEOUT</td>
-                <td>5</td>
-                <td><p></p></td>
-              </tr>
-            
-          </tbody>
-        </table>
-      
-        <h3 id="com.cognite.seismic.TraceHeaderField">TraceHeaderField</h3>
-        <p></p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>UNSPECIFIED_TRACE_HEADER_FIELD</td>
-                <td>0</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>ENERGY_SOURCE_POINT</td>
-                <td>1</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>CDP</td>
-                <td>2</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>INLINE</td>
-                <td>3</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>CROSSLINE</td>
-                <td>4</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>SHOTPOINT</td>
                 <td>5</td>
                 <td><p></p></td>
               </tr>

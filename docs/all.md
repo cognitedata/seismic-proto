@@ -119,7 +119,9 @@ sidebarDepth: 2
     - [VolumeDef](#com-cognite-seismic-v1-VolumeDef)
   
     - [CoverageSpec.Format](#com-cognite-seismic-v1-CoverageSpec-Format)
+    - [Dimensions](#com-cognite-seismic-v1-Dimensions)
     - [SurveyCoverageSource](#com-cognite-seismic-v1-SurveyCoverageSource)
+    - [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField)
   
 - [cognite/seismic/protos/v1/seismic_service.proto](#cognite_seismic_protos_v1_seismic_service-proto)
     - [SeismicAPI](#com-cognite-seismic-v1-SeismicAPI)
@@ -194,13 +196,11 @@ sidebarDepth: 2
     - [TraceCorners](#com-cognite-seismic-TraceCorners)
     - [Wkt](#com-cognite-seismic-Wkt)
   
-    - [Dimensions](#com-cognite-seismic-Dimensions)
     - [FileStep](#com-cognite-seismic-FileStep)
     - [Handedness](#com-cognite-seismic-Handedness)
     - [IngestionSource](#com-cognite-seismic-IngestionSource)
     - [InterpolationMethod](#com-cognite-seismic-InterpolationMethod)
     - [JobStatus](#com-cognite-seismic-JobStatus)
-    - [TraceHeaderField](#com-cognite-seismic-TraceHeaderField)
   
 - [cognite/seismic/protos/persisted_trace.proto](#cognite_seismic_protos_persisted_trace-proto)
     - [PersistedTrace](#com-cognite-seismic-PersistedTrace)
@@ -2029,7 +2029,7 @@ File or dataset or cube derived from a single SEG-Y file
 | cloud_storage_path | [string](#string) |  | The cloud storage path for the file, excluding the file name |
 | metadata | [SourceSegyFile.MetadataEntry](#com-cognite-seismic-v1-SourceSegyFile-MetadataEntry) | repeated |  |
 | segy_overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  |  |
-| trace_header_fields | [com.cognite.seismic.TraceHeaderField](#com-cognite-seismic-TraceHeaderField) | repeated | The trace header fields that will be used as keys for indexing. |
+| trace_header_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that will be used as keys for indexing. |
 
 
 
@@ -2162,6 +2162,19 @@ For more information refer to &lt;a href=&#34;https://cognite-seismic-sdk.readth
 
 
 
+<a name="com-cognite-seismic-v1-Dimensions"></a>
+
+### Dimensions
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNSPECIFIED_DIMENSION | 0 |  |
+| TWO_DEE | 2 |  |
+| THREE_DEE | 3 |  |
+
+
+
 <a name="com-cognite-seismic-v1-SurveyCoverageSource"></a>
 
 ### SurveyCoverageSource
@@ -2169,9 +2182,25 @@ For more information refer to &lt;a href=&#34;https://cognite-seismic-sdk.readth
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| UNSPECIFIED | 0 | Used as the default when a specific source isn&#39;t requested by the user. |
+| UNSPECIFIED_SURVEY_COVERAGE_SOURCE | 0 | Used as the default when a specific source isn&#39;t requested by the user. |
 | CUSTOM | 1 | Requesting or returning custom coverage |
 | CALCULATED | 2 | Requesting or returning calculated coverage |
+
+
+
+<a name="com-cognite-seismic-v1-TraceHeaderField"></a>
+
+### TraceHeaderField
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNSPECIFIED_TRACE_HEADER_FIELD | 0 |  |
+| ENERGY_SOURCE_POINT | 1 |  |
+| CDP | 2 |  |
+| INLINE | 3 |  |
+| CROSSLINE | 4 |  |
+| SHOTPOINT | 5 |  |
 
 
  
@@ -2521,8 +2550,8 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 | metadata | [EditSourceSegyFileRequest.MetadataEntry](#com-cognite-seismic-v1-EditSourceSegyFileRequest-MetadataEntry) | repeated | [optional] Any custom-defined metadata |
 | crs | [com.cognite.seismic.CRS](#com-cognite-seismic-CRS) |  | [optional] Official name of the CRS used. Example: &#34;EPSG:23031&#34; |
 | overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  | [optional] Overrides for the source file |
-| key_fields | [com.cognite.seismic.TraceHeaderField](#com-cognite-seismic-TraceHeaderField) | repeated | [optional] The trace header fields that will be used as keys for indexing |
-| dimensions | [com.cognite.seismic.Dimensions](#com-cognite-seismic-Dimensions) |  | [optional] File data dimensionality, either 2D or 3D |
+| key_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | [optional] The trace header fields that will be used as keys for indexing |
+| dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | [optional] File data dimensionality, either 2D or 3D |
 
 
 
@@ -2649,8 +2678,8 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 | metadata | [RegisterSourceSegyFileRequest.MetadataEntry](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest-MetadataEntry) | repeated | [optional] Any custom-defined metadata |
 | crs | [com.cognite.seismic.CRS](#com-cognite-seismic-CRS) |  | [required] Official name of the CRS used. Example: &#34;EPSG:23031&#34; |
 | overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  | [optional] Overrides for the source file |
-| key_fields | [com.cognite.seismic.TraceHeaderField](#com-cognite-seismic-TraceHeaderField) | repeated | [optional] The trace header fields that will be used as keys for indexing |
-| dimensions | [com.cognite.seismic.Dimensions](#com-cognite-seismic-Dimensions) |  | [required] File data dimensionality, either 2D or 3D |
+| key_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | [optional] The trace header fields that will be used as keys for indexing |
+| dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | [required] File data dimensionality, either 2D or 3D |
 
 
 
@@ -3412,19 +3441,6 @@ Well-known text representation of geometry (&lt;a href=&#34;http://www.opengeosp
  
 
 
-<a name="com-cognite-seismic-Dimensions"></a>
-
-### Dimensions
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNSPECIFIED_DIMENSION | 0 |  |
-| TWO_DEE | 2 |  |
-| THREE_DEE | 3 |  |
-
-
-
 <a name="com-cognite-seismic-FileStep"></a>
 
 ### FileStep
@@ -3494,22 +3510,6 @@ Well-known text representation of geometry (&lt;a href=&#34;http://www.opengeosp
 | SUCCESS | 3 |  |
 | FAILED | 4 |  |
 | TIMEOUT | 5 |  |
-
-
-
-<a name="com-cognite-seismic-TraceHeaderField"></a>
-
-### TraceHeaderField
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNSPECIFIED_TRACE_HEADER_FIELD | 0 |  |
-| ENERGY_SOURCE_POINT | 1 |  |
-| CDP | 2 |  |
-| INLINE | 3 |  |
-| CROSSLINE | 4 |  |
-| SHOTPOINT | 5 |  |
 
 
  
