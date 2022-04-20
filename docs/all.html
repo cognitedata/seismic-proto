@@ -730,6 +730,18 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.EditSourceSegyFileRequest"><span class="badge">M</span>EditSourceSegyFileRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.EditSourceSegyFileRequest.MetadataEntry"><span class="badge">M</span>EditSourceSegyFileRequest.MetadataEntry</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.EditSourceSegyFileResponse"><span class="badge">M</span>EditSourceSegyFileResponse</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.EditSurveyRequest"><span class="badge">M</span>EditSurveyRequest</a>
                 </li>
               
@@ -743,6 +755,18 @@
               
                 <li>
                   <a href="#com.cognite.seismic.v1.JobStatusResponse"><span class="badge">M</span>JobStatusResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.RegisterSourceSegyFileRequest"><span class="badge">M</span>RegisterSourceSegyFileRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.RegisterSourceSegyFileRequest.MetadataEntry"><span class="badge">M</span>RegisterSourceSegyFileRequest.MetadataEntry</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.RegisterSourceSegyFileResponse"><span class="badge">M</span>RegisterSourceSegyFileResponse</a>
                 </li>
               
                 <li>
@@ -779,6 +803,14 @@
               
                 <li>
                   <a href="#com.cognite.seismic.v1.SegYSeismicResponse"><span class="badge">M</span>SegYSeismicResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.UnregisterSourceSegyFileRequest"><span class="badge">M</span>UnregisterSourceSegyFileRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.UnregisterSourceSegyFileResponse"><span class="badge">M</span>UnregisterSourceSegyFileResponse</a>
                 </li>
               
                 <li>
@@ -935,6 +967,10 @@
               
                 <li>
                   <a href="#com.cognite.seismic.JobStatus"><span class="badge">E</span>JobStatus</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.TraceHeaderField"><span class="badge">E</span>TraceHeaderField</a>
                 </li>
               
               
@@ -4871,28 +4907,49 @@ An exact string match is required </p></td>
                   <td>inline_offset</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p>Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification </p></td>
+                  <td><p>Position of the inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification </p></td>
                 </tr>
               
                 <tr>
                   <td>crossline_offset</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p>Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification </p></td>
+                  <td><p>Position of the crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification </p></td>
                 </tr>
               
                 <tr>
                   <td>cdp_x_offset</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p>X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification </p></td>
+                  <td><p>Position of the X coordinate of ensemble (CDP) in trace headers. Defaults to 181 as per the SEG-Y rev1 specification </p></td>
                 </tr>
               
                 <tr>
                   <td>cdp_y_offset</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p>Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification </p></td>
+                  <td><p>Position of the Y coordinate of ensemble (CDP) in trace headers. Defaults to 185 as per the SEG-Y rev1 specification </p></td>
+                </tr>
+              
+                <tr>
+                  <td>cdp_number_offset</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>Position of the ensemble (CDP) number in trace headers. Defaults to 21 as per the SEG-Y rev1 specification </p></td>
+                </tr>
+              
+                <tr>
+                  <td>energy_source_point_offset</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>Position of the energy source point in trace headers. Defaults to 17 as per the SEG-Y rev1 specification </p></td>
+                </tr>
+              
+                <tr>
+                  <td>shotpoint_offset</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>Position of the shotpoint field in trace headers. Defaults to 197 as per the SEG-Y rev1 specification </p></td>
                 </tr>
               
                 <tr>
@@ -5250,6 +5307,13 @@ While support for multiple storage backends per store is planned, this is not cu
                   <td><a href="#com.cognite.seismic.v1.SegyOverrides">SegyOverrides</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>trace_header_fields</td>
+                  <td><a href="#com.cognite.seismic.TraceHeaderField">com.cognite.seismic.TraceHeaderField</a></td>
+                  <td>repeated</td>
+                  <td><p>The trace header fields that will be used as keys for indexing. </p></td>
                 </tr>
               
             </tbody>
@@ -5613,6 +5677,35 @@ Can optionally search surveys based on both/either of two criteria:
                 <td><p>Deletes a specified survey. Must have ALL scope and Write capabilities.
 
 In the case of Surveys, the &#34;name&#34; should be input into the external_ids field of the Identifier.</p></td>
+              </tr>
+            
+              <tr>
+                <td>RegisterSourceSegyFile</td>
+                <td><a href="#com.cognite.seismic.v1.RegisterSourceSegyFileRequest">RegisterSourceSegyFileRequest</a></td>
+                <td><a href="#com.cognite.seismic.v1.RegisterSourceSegyFileResponse">RegisterSourceSegyFileResponse</a></td>
+                <td><p>Registers a new file in a (previously registered) survey as source for ingestion.</p></td>
+              </tr>
+            
+              <tr>
+                <td>EditSourceSegyFile</td>
+                <td><a href="#com.cognite.seismic.v1.EditSourceSegyFileRequest">EditSourceSegyFileRequest</a></td>
+                <td><a href="#com.cognite.seismic.v1.EditSourceSegyFileResponse">EditSourceSegyFileResponse</a></td>
+                <td><p>Edits a registered source file.
+
+Before editing, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated
+with the source file must be deleted.
+This request will fail if the above criteira are not met.</p></td>
+              </tr>
+            
+              <tr>
+                <td>UnregisterSourceSegyFile</td>
+                <td><a href="#com.cognite.seismic.v1.UnregisterSourceSegyFileRequest">UnregisterSourceSegyFileRequest</a></td>
+                <td><a href="#com.cognite.seismic.v1.UnregisterSourceSegyFileResponse">UnregisterSourceSegyFileResponse</a></td>
+                <td><p>Unregisters a file previously registered as source for ingestion.
+
+Before unregistering, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated
+with the source file must be deleted.
+This request will fail if the above criteira are not met.</p></td>
               </tr>
             
               <tr>
@@ -6300,6 +6393,134 @@ returned.</p></td>
 
         
       
+        <h3 id="com.cognite.seismic.v1.EditSourceSegyFileRequest">EditSourceSegyFileRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>file</td>
+                  <td><a href="#com.cognite.seismic.v1.Identifier">Identifier</a></td>
+                  <td></td>
+                  <td><p>[required] The registered source file to edit </p></td>
+                </tr>
+              
+                <tr>
+                  <td>path</td>
+                  <td><a href="#google.protobuf.StringValue">google.protobuf.StringValue</a></td>
+                  <td></td>
+                  <td><p>[optional] Path including protocol, bucket, directory structure, and file name. Example: &#34;gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>external_id</td>
+                  <td><a href="#com.cognite.seismic.ExternalId">com.cognite.seismic.ExternalId</a></td>
+                  <td></td>
+                  <td><p>[optional] An external identifier - matches service contract field </p></td>
+                </tr>
+              
+                <tr>
+                  <td>metadata</td>
+                  <td><a href="#com.cognite.seismic.v1.EditSourceSegyFileRequest.MetadataEntry">EditSourceSegyFileRequest.MetadataEntry</a></td>
+                  <td>repeated</td>
+                  <td><p>[optional] Any custom-defined metadata </p></td>
+                </tr>
+              
+                <tr>
+                  <td>crs</td>
+                  <td><a href="#com.cognite.seismic.CRS">com.cognite.seismic.CRS</a></td>
+                  <td></td>
+                  <td><p>[optional] Official name of the CRS used. Example: &#34;EPSG:23031&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>overrides</td>
+                  <td><a href="#com.cognite.seismic.v1.SegyOverrides">SegyOverrides</a></td>
+                  <td></td>
+                  <td><p>[optional] Overrides for the source file </p></td>
+                </tr>
+              
+                <tr>
+                  <td>key_fields</td>
+                  <td><a href="#com.cognite.seismic.TraceHeaderField">com.cognite.seismic.TraceHeaderField</a></td>
+                  <td>repeated</td>
+                  <td><p>[optional] The trace header fields that will be used as keys for indexing </p></td>
+                </tr>
+              
+                <tr>
+                  <td>dimensions</td>
+                  <td><a href="#com.cognite.seismic.Dimensions">com.cognite.seismic.Dimensions</a></td>
+                  <td></td>
+                  <td><p>[optional] File data dimensionality, either 2D or 3D </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.EditSourceSegyFileRequest.MetadataEntry">EditSourceSegyFileRequest.MetadataEntry</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.EditSourceSegyFileResponse">EditSourceSegyFileResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>file</td>
+                  <td><a href="#com.cognite.seismic.v1.SourceSegyFile">SourceSegyFile</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="com.cognite.seismic.v1.EditSurveyRequest">EditSurveyRequest</h3>
         <p></p>
 
@@ -6491,6 +6712,134 @@ returned.</p></td>
                   <td>logs</td>
                   <td><a href="#com.cognite.seismic.v1.IngestionLog">IngestionLog</a></td>
                   <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.RegisterSourceSegyFileRequest">RegisterSourceSegyFileRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>survey</td>
+                  <td><a href="#com.cognite.seismic.v1.Identifier">Identifier</a></td>
+                  <td></td>
+                  <td><p>[required] The survey this source file belongs to </p></td>
+                </tr>
+              
+                <tr>
+                  <td>path</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>[required] Path including protocol, bucket, directory structure, and file name. Example: &#34;gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>external_id</td>
+                  <td><a href="#com.cognite.seismic.ExternalId">com.cognite.seismic.ExternalId</a></td>
+                  <td></td>
+                  <td><p>[optional] An external identifier - matches service contract field </p></td>
+                </tr>
+              
+                <tr>
+                  <td>metadata</td>
+                  <td><a href="#com.cognite.seismic.v1.RegisterSourceSegyFileRequest.MetadataEntry">RegisterSourceSegyFileRequest.MetadataEntry</a></td>
+                  <td>repeated</td>
+                  <td><p>[optional] Any custom-defined metadata </p></td>
+                </tr>
+              
+                <tr>
+                  <td>crs</td>
+                  <td><a href="#com.cognite.seismic.CRS">com.cognite.seismic.CRS</a></td>
+                  <td></td>
+                  <td><p>[required] Official name of the CRS used. Example: &#34;EPSG:23031&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>overrides</td>
+                  <td><a href="#com.cognite.seismic.v1.SegyOverrides">SegyOverrides</a></td>
+                  <td></td>
+                  <td><p>[optional] Overrides for the source file </p></td>
+                </tr>
+              
+                <tr>
+                  <td>key_fields</td>
+                  <td><a href="#com.cognite.seismic.TraceHeaderField">com.cognite.seismic.TraceHeaderField</a></td>
+                  <td>repeated</td>
+                  <td><p>[optional] The trace header fields that will be used as keys for indexing </p></td>
+                </tr>
+              
+                <tr>
+                  <td>dimensions</td>
+                  <td><a href="#com.cognite.seismic.Dimensions">com.cognite.seismic.Dimensions</a></td>
+                  <td></td>
+                  <td><p>[required] File data dimensionality, either 2D or 3D </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.RegisterSourceSegyFileRequest.MetadataEntry">RegisterSourceSegyFileRequest.MetadataEntry</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.RegisterSourceSegyFileResponse">RegisterSourceSegyFileResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>file</td>
+                  <td><a href="#com.cognite.seismic.v1.SourceSegyFile">SourceSegyFile</a></td>
+                  <td></td>
                   <td><p> </p></td>
                 </tr>
               
@@ -6983,6 +7332,37 @@ If no coverage source is provided, but the coverage parameters are provided, the
           </table>
 
           
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.UnregisterSourceSegyFileRequest">UnregisterSourceSegyFileRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>file</td>
+                  <td><a href="#com.cognite.seismic.v1.Identifier">Identifier</a></td>
+                  <td></td>
+                  <td><p>[required] The file to unregister </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.UnregisterSourceSegyFileResponse">UnregisterSourceSegyFileResponse</h3>
+        <p></p>
+
+        
 
         
       
@@ -8070,7 +8450,7 @@ is computed from the seismicstores in the survey </p></td>
           <tbody>
             
               <tr>
-                <td>UNSPECIFIED</td>
+                <td>UNSPECIFIED_DIMENSION</td>
                 <td>0</td>
                 <td><p></p></td>
               </tr>
@@ -8272,6 +8652,53 @@ AKA EPSG code 1049</p></td>
             
               <tr>
                 <td>TIMEOUT</td>
+                <td>5</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="com.cognite.seismic.TraceHeaderField">TraceHeaderField</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>UNSPECIFIED_TRACE_HEADER_FIELD</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>ENERGY_SOURCE_POINT</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>CDP</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>INLINE</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>CROSSLINE</td>
+                <td>4</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>SHOTPOINT</td>
                 <td>5</td>
                 <td><p></p></td>
               </tr>

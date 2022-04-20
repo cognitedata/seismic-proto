@@ -67,6 +67,42 @@
               "responseStreaming": false
             },
             {
+              "name": "RegisterSourceSegyFile",
+              "description": "Registers a new file in a (previously registered) survey as source for ingestion.",
+              "requestType": "RegisterSourceSegyFileRequest",
+              "requestLongType": "RegisterSourceSegyFileRequest",
+              "requestFullType": "com.cognite.seismic.v1.RegisterSourceSegyFileRequest",
+              "requestStreaming": false,
+              "responseType": "RegisterSourceSegyFileResponse",
+              "responseLongType": "RegisterSourceSegyFileResponse",
+              "responseFullType": "com.cognite.seismic.v1.RegisterSourceSegyFileResponse",
+              "responseStreaming": false
+            },
+            {
+              "name": "EditSourceSegyFile",
+              "description": "Edits a registered source file.\n\nBefore editing, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated\nwith the source file must be deleted.\nThis request will fail if the above criteira are not met.",
+              "requestType": "EditSourceSegyFileRequest",
+              "requestLongType": "EditSourceSegyFileRequest",
+              "requestFullType": "com.cognite.seismic.v1.EditSourceSegyFileRequest",
+              "requestStreaming": false,
+              "responseType": "EditSourceSegyFileResponse",
+              "responseLongType": "EditSourceSegyFileResponse",
+              "responseFullType": "com.cognite.seismic.v1.EditSourceSegyFileResponse",
+              "responseStreaming": false
+            },
+            {
+              "name": "UnregisterSourceSegyFile",
+              "description": "Unregisters a file previously registered as source for ingestion.\n\nBefore unregistering, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated\nwith the source file must be deleted.\nThis request will fail if the above criteira are not met.",
+              "requestType": "UnregisterSourceSegyFileRequest",
+              "requestLongType": "UnregisterSourceSegyFileRequest",
+              "requestFullType": "com.cognite.seismic.v1.UnregisterSourceSegyFileRequest",
+              "requestStreaming": false,
+              "responseType": "UnregisterSourceSegyFileResponse",
+              "responseLongType": "UnregisterSourceSegyFileResponse",
+              "responseFullType": "com.cognite.seismic.v1.UnregisterSourceSegyFileResponse",
+              "responseStreaming": false
+            },
+            {
               "name": "CreateSeismic",
               "description": "Create new Seismics and assign them to partitions.\nSeismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one\nif e.g. the definition or the seismic store must be changed",
               "requestType": "CreateSeismicRequest",
@@ -946,6 +982,174 @@
           ]
         },
         {
+          "name": "EditSourceSegyFileRequest",
+          "longName": "EditSourceSegyFileRequest",
+          "fullName": "com.cognite.seismic.v1.EditSourceSegyFileRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "file",
+              "description": "[required] The registered source file to edit",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "path",
+              "description": "[optional] Path including protocol, bucket, directory structure, and file name. Example: \"gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy\"",
+              "label": "",
+              "type": "StringValue",
+              "longType": "google.protobuf.StringValue",
+              "fullType": "google.protobuf.StringValue",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "[optional] An external identifier - matches service contract field",
+              "label": "",
+              "type": "ExternalId",
+              "longType": "com.cognite.seismic.ExternalId",
+              "fullType": "com.cognite.seismic.ExternalId",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "[optional] Any custom-defined metadata",
+              "label": "repeated",
+              "type": "MetadataEntry",
+              "longType": "EditSourceSegyFileRequest.MetadataEntry",
+              "fullType": "com.cognite.seismic.v1.EditSourceSegyFileRequest.MetadataEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crs",
+              "description": "[optional] Official name of the CRS used. Example: \"EPSG:23031\"",
+              "label": "",
+              "type": "CRS",
+              "longType": "com.cognite.seismic.CRS",
+              "fullType": "com.cognite.seismic.CRS",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "overrides",
+              "description": "[optional] Overrides for the source file",
+              "label": "",
+              "type": "SegyOverrides",
+              "longType": "SegyOverrides",
+              "fullType": "com.cognite.seismic.v1.SegyOverrides",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "key_fields",
+              "description": "[optional] The trace header fields that will be used as keys for indexing",
+              "label": "repeated",
+              "type": "TraceHeaderField",
+              "longType": "com.cognite.seismic.TraceHeaderField",
+              "fullType": "com.cognite.seismic.TraceHeaderField",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "dimensions",
+              "description": "[optional] File data dimensionality, either 2D or 3D",
+              "label": "",
+              "type": "Dimensions",
+              "longType": "com.cognite.seismic.Dimensions",
+              "fullType": "com.cognite.seismic.Dimensions",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MetadataEntry",
+          "longName": "EditSourceSegyFileRequest.MetadataEntry",
+          "fullName": "com.cognite.seismic.v1.EditSourceSegyFileRequest.MetadataEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "EditSourceSegyFileResponse",
+          "longName": "EditSourceSegyFileResponse",
+          "fullName": "com.cognite.seismic.v1.EditSourceSegyFileResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "file",
+              "description": "",
+              "label": "",
+              "type": "SourceSegyFile",
+              "longType": "SourceSegyFile",
+              "fullType": "com.cognite.seismic.v1.SourceSegyFile",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "EditSurveyRequest",
           "longName": "EditSurveyRequest",
           "fullName": "com.cognite.seismic.v1.EditSurveyRequest",
@@ -1214,6 +1418,174 @@
               "type": "IngestionLog",
               "longType": "IngestionLog",
               "fullType": "com.cognite.seismic.v1.IngestionLog",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "RegisterSourceSegyFileRequest",
+          "longName": "RegisterSourceSegyFileRequest",
+          "fullName": "com.cognite.seismic.v1.RegisterSourceSegyFileRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "survey",
+              "description": "[required] The survey this source file belongs to",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "path",
+              "description": "[required] Path including protocol, bucket, directory structure, and file name. Example: \"gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy\"",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "external_id",
+              "description": "[optional] An external identifier - matches service contract field",
+              "label": "",
+              "type": "ExternalId",
+              "longType": "com.cognite.seismic.ExternalId",
+              "fullType": "com.cognite.seismic.ExternalId",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "[optional] Any custom-defined metadata",
+              "label": "repeated",
+              "type": "MetadataEntry",
+              "longType": "RegisterSourceSegyFileRequest.MetadataEntry",
+              "fullType": "com.cognite.seismic.v1.RegisterSourceSegyFileRequest.MetadataEntry",
+              "ismap": true,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "crs",
+              "description": "[required] Official name of the CRS used. Example: \"EPSG:23031\"",
+              "label": "",
+              "type": "CRS",
+              "longType": "com.cognite.seismic.CRS",
+              "fullType": "com.cognite.seismic.CRS",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "overrides",
+              "description": "[optional] Overrides for the source file",
+              "label": "",
+              "type": "SegyOverrides",
+              "longType": "SegyOverrides",
+              "fullType": "com.cognite.seismic.v1.SegyOverrides",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "key_fields",
+              "description": "[optional] The trace header fields that will be used as keys for indexing",
+              "label": "repeated",
+              "type": "TraceHeaderField",
+              "longType": "com.cognite.seismic.TraceHeaderField",
+              "fullType": "com.cognite.seismic.TraceHeaderField",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "dimensions",
+              "description": "[required] File data dimensionality, either 2D or 3D",
+              "label": "",
+              "type": "Dimensions",
+              "longType": "com.cognite.seismic.Dimensions",
+              "fullType": "com.cognite.seismic.Dimensions",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MetadataEntry",
+          "longName": "RegisterSourceSegyFileRequest.MetadataEntry",
+          "fullName": "com.cognite.seismic.v1.RegisterSourceSegyFileRequest.MetadataEntry",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "key",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "value",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "RegisterSourceSegyFileResponse",
+          "longName": "RegisterSourceSegyFileResponse",
+          "fullName": "com.cognite.seismic.v1.RegisterSourceSegyFileResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "file",
+              "description": "",
+              "label": "",
+              "type": "SourceSegyFile",
+              "longType": "SourceSegyFile",
+              "fullType": "com.cognite.seismic.v1.SourceSegyFile",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -1892,6 +2264,41 @@
               "defaultValue": ""
             }
           ]
+        },
+        {
+          "name": "UnregisterSourceSegyFileRequest",
+          "longName": "UnregisterSourceSegyFileRequest",
+          "fullName": "com.cognite.seismic.v1.UnregisterSourceSegyFileRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "file",
+              "description": "[required] The file to unregister",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "UnregisterSourceSegyFileResponse",
+          "longName": "UnregisterSourceSegyFileResponse",
+          "fullName": "com.cognite.seismic.v1.UnregisterSourceSegyFileResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": false,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": []
         },
         {
           "name": "VolumeBoundsResponse",
@@ -3005,7 +3412,7 @@
           "fields": [
             {
               "name": "inline_offset",
-              "description": "Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification",
+              "description": "Position of the inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -3017,7 +3424,7 @@
             },
             {
               "name": "crossline_offset",
-              "description": "Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification",
+              "description": "Position of the crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -3029,7 +3436,7 @@
             },
             {
               "name": "cdp_x_offset",
-              "description": "X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification",
+              "description": "Position of the X coordinate of ensemble (CDP) in trace headers. Defaults to 181 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -3041,7 +3448,43 @@
             },
             {
               "name": "cdp_y_offset",
-              "description": "Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification",
+              "description": "Position of the Y coordinate of ensemble (CDP) in trace headers. Defaults to 185 as per the SEG-Y rev1 specification",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "cdp_number_offset",
+              "description": "Position of the ensemble (CDP) number in trace headers. Defaults to 21 as per the SEG-Y rev1 specification",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "energy_source_point_offset",
+              "description": "Position of the energy source point in trace headers. Defaults to 17 as per the SEG-Y rev1 specification",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "shotpoint_offset",
+              "description": "Position of the shotpoint field in trace headers. Defaults to 197 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -3566,6 +4009,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "trace_header_fields",
+              "description": "The trace header fields that will be used as keys for indexing.",
+              "label": "repeated",
+              "type": "TraceHeaderField",
+              "longType": "com.cognite.seismic.TraceHeaderField",
+              "fullType": "com.cognite.seismic.TraceHeaderField",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -3888,7 +4343,7 @@
           "description": "",
           "values": [
             {
-              "name": "UNSPECIFIED",
+              "name": "UNSPECIFIED_DIMENSION",
               "number": "0",
               "description": ""
             },
@@ -4049,6 +4504,44 @@
             },
             {
               "name": "TIMEOUT",
+              "number": "5",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TraceHeaderField",
+          "longName": "TraceHeaderField",
+          "fullName": "com.cognite.seismic.TraceHeaderField",
+          "description": "",
+          "values": [
+            {
+              "name": "UNSPECIFIED_TRACE_HEADER_FIELD",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "ENERGY_SOURCE_POINT",
+              "number": "1",
+              "description": ""
+            },
+            {
+              "name": "CDP",
+              "number": "2",
+              "description": ""
+            },
+            {
+              "name": "INLINE",
+              "number": "3",
+              "description": ""
+            },
+            {
+              "name": "CROSSLINE",
+              "number": "4",
+              "description": ""
+            },
+            {
+              "name": "SHOTPOINT",
               "number": "5",
               "description": ""
             }

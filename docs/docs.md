@@ -26,10 +26,16 @@ sidebarDepth: 2
     - [EditPartitionRequest](#com-cognite-seismic-v1-EditPartitionRequest)
     - [EditSeismicRequest](#com-cognite-seismic-v1-EditSeismicRequest)
     - [EditSeismicStoreRequest](#com-cognite-seismic-v1-EditSeismicStoreRequest)
+    - [EditSourceSegyFileRequest](#com-cognite-seismic-v1-EditSourceSegyFileRequest)
+    - [EditSourceSegyFileRequest.MetadataEntry](#com-cognite-seismic-v1-EditSourceSegyFileRequest-MetadataEntry)
+    - [EditSourceSegyFileResponse](#com-cognite-seismic-v1-EditSourceSegyFileResponse)
     - [EditSurveyRequest](#com-cognite-seismic-v1-EditSurveyRequest)
     - [GeometryBasedVolume](#com-cognite-seismic-v1-GeometryBasedVolume)
     - [IngestionLog](#com-cognite-seismic-v1-IngestionLog)
     - [JobStatusResponse](#com-cognite-seismic-v1-JobStatusResponse)
+    - [RegisterSourceSegyFileRequest](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest)
+    - [RegisterSourceSegyFileRequest.MetadataEntry](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest-MetadataEntry)
+    - [RegisterSourceSegyFileResponse](#com-cognite-seismic-v1-RegisterSourceSegyFileResponse)
     - [SearchFilesRequest](#com-cognite-seismic-v1-SearchFilesRequest)
     - [SearchJobStatusRequest](#com-cognite-seismic-v1-SearchJobStatusRequest)
     - [SearchPartitionsRequest](#com-cognite-seismic-v1-SearchPartitionsRequest)
@@ -39,6 +45,8 @@ sidebarDepth: 2
     - [SearchSurveysRequest](#com-cognite-seismic-v1-SearchSurveysRequest)
     - [SegYSeismicRequest](#com-cognite-seismic-v1-SegYSeismicRequest)
     - [SegYSeismicResponse](#com-cognite-seismic-v1-SegYSeismicResponse)
+    - [UnregisterSourceSegyFileRequest](#com-cognite-seismic-v1-UnregisterSourceSegyFileRequest)
+    - [UnregisterSourceSegyFileResponse](#com-cognite-seismic-v1-UnregisterSourceSegyFileResponse)
     - [VolumeBoundsResponse](#com-cognite-seismic-v1-VolumeBoundsResponse)
     - [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest)
   
@@ -110,6 +118,7 @@ sidebarDepth: 2
     - [IngestionSource](#com-cognite-seismic-IngestionSource)
     - [InterpolationMethod](#com-cognite-seismic-InterpolationMethod)
     - [JobStatus](#com-cognite-seismic-JobStatus)
+    - [TraceHeaderField](#com-cognite-seismic-TraceHeaderField)
   
 - [cognite/seismic/protos/query_service.proto](#cognite_seismic_protos_query_service-proto)
     - [Query](#com-cognite-seismic-Query)
@@ -225,6 +234,13 @@ Can optionally search surveys based on both/either of two criteria: Coverage pol
 | DeleteSurvey | [DeleteSurveyRequest](#com-cognite-seismic-v1-DeleteSurveyRequest) | [DeleteSurveyResponse](#com-cognite-seismic-v1-DeleteSurveyResponse) | Deletes a specified survey. Must have ALL scope and Write capabilities.
 
 In the case of Surveys, the &#34;name&#34; should be input into the external_ids field of the Identifier. |
+| RegisterSourceSegyFile | [RegisterSourceSegyFileRequest](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest) | [RegisterSourceSegyFileResponse](#com-cognite-seismic-v1-RegisterSourceSegyFileResponse) | Registers a new file in a (previously registered) survey as source for ingestion. |
+| EditSourceSegyFile | [EditSourceSegyFileRequest](#com-cognite-seismic-v1-EditSourceSegyFileRequest) | [EditSourceSegyFileResponse](#com-cognite-seismic-v1-EditSourceSegyFileResponse) | Edits a registered source file.
+
+Before editing, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated with the source file must be deleted. This request will fail if the above criteira are not met. |
+| UnregisterSourceSegyFile | [UnregisterSourceSegyFileRequest](#com-cognite-seismic-v1-UnregisterSourceSegyFileRequest) | [UnregisterSourceSegyFileResponse](#com-cognite-seismic-v1-UnregisterSourceSegyFileResponse) | Unregisters a file previously registered as source for ingestion.
+
+Before unregistering, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated with the source file must be deleted. This request will fail if the above criteira are not met. |
 | CreateSeismic | [CreateSeismicRequest](#com-cognite-seismic-v1-CreateSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Create new Seismics and assign them to partitions. Seismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one if e.g. the definition or the seismic store must be changed |
 | SearchSeismics | [SearchSeismicsRequest](#com-cognite-seismic-v1-SearchSeismicsRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) stream | Returns Seismic metadata given its id. Can optionally retrieve seismic store &amp; partition info if user has the right scope. Use GetVolume to retrieve traces. |
 | EditSeismic | [EditSeismicRequest](#com-cognite-seismic-v1-EditSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Edit the specified seismic. Seismic object names and metadata can be changed. The cutout definition, however, cannot be changed. To modify the definition or the owning partition, delete the seismic object and create a new one. |
@@ -506,6 +522,59 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 
 
+<a name="com-cognite-seismic-v1-EditSourceSegyFileRequest"></a>
+
+### EditSourceSegyFileRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The registered source file to edit |
+| path | [google.protobuf.StringValue](#google-protobuf-StringValue) |  | [optional] Path including protocol, bucket, directory structure, and file name. Example: &#34;gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy&#34; |
+| external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] An external identifier - matches service contract field |
+| metadata | [EditSourceSegyFileRequest.MetadataEntry](#com-cognite-seismic-v1-EditSourceSegyFileRequest-MetadataEntry) | repeated | [optional] Any custom-defined metadata |
+| crs | [com.cognite.seismic.CRS](#com-cognite-seismic-CRS) |  | [optional] Official name of the CRS used. Example: &#34;EPSG:23031&#34; |
+| overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  | [optional] Overrides for the source file |
+| key_fields | [com.cognite.seismic.TraceHeaderField](#com-cognite-seismic-TraceHeaderField) | repeated | [optional] The trace header fields that will be used as keys for indexing |
+| dimensions | [com.cognite.seismic.Dimensions](#com-cognite-seismic-Dimensions) |  | [optional] File data dimensionality, either 2D or 3D |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-EditSourceSegyFileRequest-MetadataEntry"></a>
+
+### EditSourceSegyFileRequest.MetadataEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-EditSourceSegyFileResponse"></a>
+
+### EditSourceSegyFileResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) |  |  |
+
+
+
+
+
+
 <a name="com-cognite-seismic-v1-EditSurveyRequest"></a>
 
 ### EditSurveyRequest
@@ -575,6 +644,59 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 | updated_at | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
 | target_storage_tier_name | [google.protobuf.StringValue](#google-protobuf-StringValue) |  |  |
 | logs | [IngestionLog](#com-cognite-seismic-v1-IngestionLog) | repeated |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-RegisterSourceSegyFileRequest"></a>
+
+### RegisterSourceSegyFileRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| survey | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The survey this source file belongs to |
+| path | [string](#string) |  | [required] Path including protocol, bucket, directory structure, and file name. Example: &#34;gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy&#34; |
+| external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] An external identifier - matches service contract field |
+| metadata | [RegisterSourceSegyFileRequest.MetadataEntry](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest-MetadataEntry) | repeated | [optional] Any custom-defined metadata |
+| crs | [com.cognite.seismic.CRS](#com-cognite-seismic-CRS) |  | [required] Official name of the CRS used. Example: &#34;EPSG:23031&#34; |
+| overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  | [optional] Overrides for the source file |
+| key_fields | [com.cognite.seismic.TraceHeaderField](#com-cognite-seismic-TraceHeaderField) | repeated | [optional] The trace header fields that will be used as keys for indexing |
+| dimensions | [com.cognite.seismic.Dimensions](#com-cognite-seismic-Dimensions) |  | [required] File data dimensionality, either 2D or 3D |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-RegisterSourceSegyFileRequest-MetadataEntry"></a>
+
+### RegisterSourceSegyFileRequest.MetadataEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-RegisterSourceSegyFileResponse"></a>
+
+### RegisterSourceSegyFileResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) |  |  |
 
 
 
@@ -748,6 +870,31 @@ Used to search files by id, extid, extid substring, name, name substring
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | content | [bytes](#bytes) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-UnregisterSourceSegyFileRequest"></a>
+
+### UnregisterSourceSegyFileRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The file to unregister |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-UnregisterSourceSegyFileResponse"></a>
+
+### UnregisterSourceSegyFileResponse
+
 
 
 
@@ -1093,10 +1240,13 @@ Metadata related to interpreting SEG-Y files.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
-| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
-| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
-| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
+| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
+| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
+| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the X coordinate of ensemble (CDP) in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
+| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the Y coordinate of ensemble (CDP) in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
+| cdp_number_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the ensemble (CDP) number in trace headers. Defaults to 21 as per the SEG-Y rev1 specification |
+| energy_source_point_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the energy source point in trace headers. Defaults to 17 as per the SEG-Y rev1 specification |
+| shotpoint_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the shotpoint field in trace headers. Defaults to 197 as per the SEG-Y rev1 specification |
 | source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  | [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header. Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100. Negative values and values greater than 1 are not permitted. To remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN. The next ingestion processing of a file will then use the source group scalar values found in trace headers. |
 
 
@@ -1205,6 +1355,7 @@ File or dataset or cube derived from a single SEG-Y file
 | cloud_storage_path | [string](#string) |  | The cloud storage path for the file, excluding the file name |
 | metadata | [SourceSegyFile.MetadataEntry](#com-cognite-seismic-v1-SourceSegyFile-MetadataEntry) | repeated |  |
 | segy_overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  |  |
+| trace_header_fields | [com.cognite.seismic.TraceHeaderField](#com-cognite-seismic-TraceHeaderField) | repeated | The trace header fields that will be used as keys for indexing. |
 
 
 
@@ -1843,7 +1994,7 @@ Well-known text representation of geometry (&lt;a href=&#34;http://www.opengeosp
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| UNSPECIFIED | 0 |  |
+| UNSPECIFIED_DIMENSION | 0 |  |
 | TWO_DEE | 2 |  |
 | THREE_DEE | 3 |  |
 
@@ -1918,6 +2069,22 @@ Well-known text representation of geometry (&lt;a href=&#34;http://www.opengeosp
 | SUCCESS | 3 |  |
 | FAILED | 4 |  |
 | TIMEOUT | 5 |  |
+
+
+
+<a name="com-cognite-seismic-TraceHeaderField"></a>
+
+### TraceHeaderField
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNSPECIFIED_TRACE_HEADER_FIELD | 0 |  |
+| ENERGY_SOURCE_POINT | 1 |  |
+| CDP | 2 |  |
+| INLINE | 3 |  |
+| CROSSLINE | 4 |  |
+| SHOTPOINT | 5 |  |
 
 
  

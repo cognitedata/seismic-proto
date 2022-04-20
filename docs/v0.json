@@ -3964,7 +3964,7 @@
           "description": "",
           "values": [
             {
-              "name": "UNSPECIFIED",
+              "name": "UNSPECIFIED_DIMENSION",
               "number": "0",
               "description": ""
             },
@@ -4125,6 +4125,44 @@
             },
             {
               "name": "TIMEOUT",
+              "number": "5",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TraceHeaderField",
+          "longName": "TraceHeaderField",
+          "fullName": "com.cognite.seismic.TraceHeaderField",
+          "description": "",
+          "values": [
+            {
+              "name": "UNSPECIFIED_TRACE_HEADER_FIELD",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "ENERGY_SOURCE_POINT",
+              "number": "1",
+              "description": ""
+            },
+            {
+              "name": "CDP",
+              "number": "2",
+              "description": ""
+            },
+            {
+              "name": "INLINE",
+              "number": "3",
+              "description": ""
+            },
+            {
+              "name": "CROSSLINE",
+              "number": "4",
+              "description": ""
+            },
+            {
+              "name": "SHOTPOINT",
               "number": "5",
               "description": ""
             }
