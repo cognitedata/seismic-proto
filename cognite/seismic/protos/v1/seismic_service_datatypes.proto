@@ -48,14 +48,18 @@ message SourceSegyFile {
     string cloud_storage_path = 7; // The cloud storage path for the file, excluding the file name
     map<string, string> metadata = 5;
     SegyOverrides segy_overrides = 6;
+    repeated TraceHeaderField trace_header_fields = 8; // The trace header fields that will be used as keys for indexing.
 }
 
 // Metadata related to interpreting SEG-Y files.
 message SegyOverrides {
-    google.protobuf.Int32Value inline_offset = 1; // Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value crossline_offset = 2; // Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_x_offset = 3; // X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_y_offset = 4; // Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value inline_offset = 1;                  // Position of the inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value crossline_offset = 2;               // Position of the crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_x_offset = 3;                   // Position of the X coordinate of ensemble (CDP) in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_y_offset = 4;                   // Position of the Y coordinate of ensemble (CDP) in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value cdp_number_offset = 6;              // Position of the ensemble (CDP) number in trace headers. Defaults to 21 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value energy_source_point_offset = 7;     // Position of the energy source point in trace headers. Defaults to 17 as per the SEG-Y rev1 specification
+    google.protobuf.Int32Value shotpoint_offset = 8;               // Position of the shotpoint field in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
 
     /**
     [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header.

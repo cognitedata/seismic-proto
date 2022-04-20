@@ -11,7 +11,7 @@ import "cognite/seismic/protos/types.proto";
 
 // ---
 
-// Iteration: 8 <- increment this number when you modify this file
+// Iteration: 9 <- increment this number when you modify this file
 // (╯°□°)╯︵ ┻━┻
 
 /**
@@ -71,6 +71,46 @@ message DeleteSurveyRequest {
 message DeleteSurveyResponse {
     bool success = 1;
 }
+
+/**
+    Source Files
+**/
+
+message RegisterSourceSegyFileRequest {
+    Identifier survey = 1;                     // [required] The survey this source file belongs to
+    string path = 2;                           // [required] Path including protocol, bucket, directory structure, and file name. Example: "gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
+    ExternalId external_id = 3;                // [optional] An external identifier - matches service contract field
+    map<string, string> metadata = 4;          // [optional] Any custom-defined metadata
+    CRS crs = 5;                               // [required] Official name of the CRS used. Example: "EPSG:23031"
+    SegyOverrides overrides = 6;               // [optional] Overrides for the source file
+    repeated TraceHeaderField key_fields = 7;  // [optional] The trace header fields that will be used as keys for indexing
+    Dimensions dimensions = 8;                 // [required] File data dimensionality, either 2D or 3D
+}
+
+message RegisterSourceSegyFileResponse {
+    SourceSegyFile file = 1;
+}
+
+message EditSourceSegyFileRequest {
+    Identifier file = 1;                       // [required] The registered source file to edit
+    google.protobuf.StringValue path = 2;      // [optional] Path including protocol, bucket, directory structure, and file name. Example: "gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
+    ExternalId external_id = 3;                // [optional] An external identifier - matches service contract field
+    map<string, string> metadata = 4;          // [optional] Any custom-defined metadata
+    CRS crs = 5;                               // [optional] Official name of the CRS used. Example: "EPSG:23031"
+    SegyOverrides overrides = 6;               // [optional] Overrides for the source file
+    repeated TraceHeaderField key_fields = 7;  // [optional] The trace header fields that will be used as keys for indexing
+    Dimensions dimensions = 8;                 // [optional] File data dimensionality, either 2D or 3D
+}
+
+message EditSourceSegyFileResponse {
+    SourceSegyFile file = 1;
+}
+
+message UnregisterSourceSegyFileRequest {
+    Identifier file = 1;                       // [required] The file to unregister
+}
+
+message UnregisterSourceSegyFileResponse {}
 
 /**
     Seismics
