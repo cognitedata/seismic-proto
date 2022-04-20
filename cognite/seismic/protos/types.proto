@@ -277,18 +277,3 @@ enum IngestionSource {
     FILE_SOURCE = 1;
     TRACE_WRITER = 2;  // TraceWriter
 }
-
-enum Dimensions {
-    UNSPECIFIED_DIMENSION = 0;
-    TWO_DEE = 2;
-    THREE_DEE = 3;
-}
-
-enum TraceHeaderField {
-    UNSPECIFIED_TRACE_HEADER_FIELD = 0;
-    ENERGY_SOURCE_POINT = 1;
-    CDP = 2;
-    INLINE = 3;
-    CROSSLINE = 4;
-    SHOTPOINT = 5;
-}
