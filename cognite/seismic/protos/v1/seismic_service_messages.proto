@@ -82,7 +82,7 @@ message RegisterSourceSegyFileRequest {
     ExternalId external_id = 3;                // [optional] An external identifier - matches service contract field
     map<string, string> metadata = 4;          // [optional] Any custom-defined metadata
     CRS crs = 5;                               // [required] Official name of the CRS used. Example: "EPSG:23031"
-    SegyOverrides overrides = 6;               // [optional] Overrides for the source file
+    SegyOverrides segy_overrides = 6;          // [optional] Overrides for the source file
     repeated TraceHeaderField key_fields = 7;  // [optional] The trace header fields that will be used as keys for indexing
     Dimensions dimensions = 8;                 // [required] File data dimensionality, either 2D or 3D
 }
@@ -97,7 +97,7 @@ message EditSourceSegyFileRequest {
     ExternalId external_id = 3;                // [optional] An external identifier - matches service contract field
     map<string, string> metadata = 4;          // [optional] Any custom-defined metadata
     CRS crs = 5;                               // [optional] Official name of the CRS used. Example: "EPSG:23031"
-    SegyOverrides overrides = 6;               // [optional] Overrides for the source file
+    SegyOverrides segy_overrides = 6;          // [optional] Overrides for the source file
     repeated TraceHeaderField key_fields = 7;  // [optional] The trace header fields that will be used as keys for indexing
     Dimensions dimensions = 8;                 // [optional] File data dimensionality, either 2D or 3D
 }
