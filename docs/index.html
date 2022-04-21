@@ -1755,7 +1755,7 @@ returned.</p></td>
                 </tr>
               
                 <tr>
-                  <td>overrides</td>
+                  <td>segy_overrides</td>
                   <td><a href="#com.cognite.seismic.v1.SegyOverrides">SegyOverrides</a></td>
                   <td></td>
                   <td><p>[optional] Overrides for the source file </p></td>
@@ -2084,7 +2084,7 @@ returned.</p></td>
                 </tr>
               
                 <tr>
-                  <td>overrides</td>
+                  <td>segy_overrides</td>
                   <td><a href="#com.cognite.seismic.v1.SegyOverrides">SegyOverrides</a></td>
                   <td></td>
                   <td><p>[optional] Overrides for the source file </p></td>
@@ -3897,10 +3897,17 @@ While support for multiple storage backends per store is planned, this is not cu
                 </tr>
               
                 <tr>
-                  <td>trace_header_fields</td>
+                  <td>key_fields</td>
                   <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
                   <td>repeated</td>
                   <td><p>The trace header fields that will be used as keys for indexing. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>dimensions</td>
+                  <td><a href="#com.cognite.seismic.v1.Dimensions">Dimensions</a></td>
+                  <td></td>
+                  <td><p>File data dimensionality, either 2D or 3D </p></td>
                 </tr>
               
             </tbody>

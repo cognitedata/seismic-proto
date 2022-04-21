@@ -1052,7 +1052,7 @@
               "defaultValue": ""
             },
             {
-              "name": "overrides",
+              "name": "segy_overrides",
               "description": "[optional] Overrides for the source file",
               "label": "",
               "type": "SegyOverrides",
@@ -1496,7 +1496,7 @@
               "defaultValue": ""
             },
             {
-              "name": "overrides",
+              "name": "segy_overrides",
               "description": "[optional] Overrides for the source file",
               "label": "",
               "type": "SegyOverrides",
@@ -4072,12 +4072,24 @@
               "defaultValue": ""
             },
             {
-              "name": "trace_header_fields",
+              "name": "key_fields",
               "description": "The trace header fields that will be used as keys for indexing.",
               "label": "repeated",
               "type": "TraceHeaderField",
               "longType": "TraceHeaderField",
               "fullType": "com.cognite.seismic.v1.TraceHeaderField",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "dimensions",
+              "description": "File data dimensionality, either 2D or 3D",
+              "label": "",
+              "type": "Dimensions",
+              "longType": "Dimensions",
+              "fullType": "com.cognite.seismic.v1.Dimensions",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
