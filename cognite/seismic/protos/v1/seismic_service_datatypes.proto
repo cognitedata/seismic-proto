@@ -329,20 +329,9 @@ message Seismic3dRect {
 
 message Seismic3dDef {
     TraceHeaderField major_direction = 1; // Must be inline or crossline
-    map<int32, LineDefs> lines = 3;
+    map<int32, MinorLines> lines = 3;
 }
 
-message LineDefs {
-    repeated LineDef line_defs = 1;
-}
-
-message LineDef {
-    oneof line_def {
-        IndexList list = 1;
-        LineDescriptor range = 2;
-    }
-}
-
-message IndexList {
-    repeated int32 indices = 1;
+message MinorLines {
+    repeated LineDescriptor ranges = 1;
 }
