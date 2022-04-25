@@ -328,7 +328,8 @@ message Seismic3dRect {
 }
 
 message Seismic3dDef {
-    TraceHeaderField major_direction = 1; // Must be inline or crossline
+    TraceHeaderField major_header = 1; // Must be inline or crossline
+    TraceHeaderField minor_header = 2; // Must be inline or crossline, and different from major_header
     map<int32, MinorLines> lines = 3;
 }
 
