@@ -145,10 +145,12 @@ message SearchSeismicsRequest {
     bool include_binary_header = 5;
     bool include_line_range = 6;
     bool include_volume_definition = 7;  // If true, include the volume definition blob
-    bool include_seismic_store = 8; // If true, include info on the backing seismicstore. Must be data manager.
-    bool include_partition = 9; // If true, include info on the partition. Must be data manager.\
-    bool include_coverage = 10; // Deprecated. Use `coverage` instead.
-    CoverageSpec coverage = 11; // If specified, requests coverage as well.
+    bool include_cutout = 12;            // If true, include the cutout specification the seismicstore was created with
+    bool include_extent = 13;            // If true, include a description of the included traces
+    bool include_seismic_store = 8;      // If true, include info on the backing seismicstore. Must be data manager.
+    bool include_partition = 9;          // If true, include info on the partition. Must be data manager.\
+    bool include_coverage = 10;          // Deprecated. Use `coverage` instead.
+    CoverageSpec coverage = 11;          // If specified, requests coverage as well.
 }
 
 message EditSeismicRequest {
