@@ -271,6 +271,18 @@ message StreamTracesRequest {
     LineDescriptor z_range = 6;
 }
 
+message StreamTracesBoundsResponse {
+    int32 trace_size_bytes = 1;     // The size in bytes of one Trace message
+    int32 num_traces = 2;           // The number of traces returned
+    int32 sample_count = 3;         // The number of samples per trace
+    string crs = 4;                 // CRS of the returned trace coordinates
+    LineDescriptor z_range = 5;     // The actual range of z values returned
+    oneof bounds {
+        LineRange three_dee_bounds = 6;    // Will be null for a line-like geometry
+        Seismic2dRange two_dee_bounds = 7;
+    }
+}
+
 message SegYSeismicRequest {
     oneof identifier {
         Identifier seismic = 1;

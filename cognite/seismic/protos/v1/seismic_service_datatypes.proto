@@ -330,6 +330,11 @@ message Seismic2dExtent {
     repeated LineDescriptor trace_ranges = 2; // Range of header values to use
 }
 
+message Seismic2dRange {
+    TraceHeaderField trace_key = 1; // Must be an applicable field for 2D
+    LineDescriptor trace_range = 2;
+}
+
 message Seismic3dExtent {
     oneof type {
         Seismic3dRects rects = 1;
