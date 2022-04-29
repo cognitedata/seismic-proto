@@ -141,7 +141,7 @@ service SeismicAPI {
 
     rpc StreamTraces(StreamTracesRequest) returns (stream com.cognite.seismic.Trace) {}
 
-    rpc StreamTracesBounds(StreamTracesRequest) returns (VolumeBoundsResponse) {}
+    rpc GetTraceBounds(StreamTracesRequest) returns (TraceBounds) {}
 
     /**
      * Fetch seismic data in SEG-Y format.

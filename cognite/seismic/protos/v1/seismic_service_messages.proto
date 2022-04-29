@@ -271,7 +271,7 @@ message StreamTracesRequest {
     LineDescriptor z_range = 6;
 }
 
-message StreamTracesBoundsResponse {
+message TraceBounds {
     int32 trace_size_bytes = 1;     // The size in bytes of one Trace message
     int32 num_traces = 2;           // The number of traces returned
     int32 sample_count = 3;         // The number of samples per trace
