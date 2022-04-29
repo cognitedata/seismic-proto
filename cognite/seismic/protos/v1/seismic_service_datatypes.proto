@@ -322,7 +322,7 @@ enum TraceHeaderField {
 
 message GeometryFilter {
     Geometry geometry = 1;
-    InterpolationMethod interpolation_method = 2; // Only used for linear geometries
+    InterpolationMethod interpolation_method = 2; // Only used for linear geometries in 3D
 }
 
 message Seismic2dExtent {

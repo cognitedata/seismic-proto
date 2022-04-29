@@ -268,7 +268,7 @@ message StreamTracesRequest {
         Seismic3dExtent three_dee_extent = 4; // only valid if the queried object is 3D
         GeometryFilter geometry = 5;
     }
-    LineDescriptor depth_range = 6;
+    LineDescriptor z_range = 6;
 }
 
 message SegYSeismicRequest {
