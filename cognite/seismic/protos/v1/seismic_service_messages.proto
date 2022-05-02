@@ -269,6 +269,7 @@ message StreamTracesRequest {
         GeometryFilter geometry = 5;
     }
     LineDescriptor z_range = 6;
+    bool include_trace_header = 7;
 }
 
 message TraceBounds {
