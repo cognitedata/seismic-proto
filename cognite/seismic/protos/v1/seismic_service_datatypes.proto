@@ -163,7 +163,7 @@ message VolumeDef {
 }
 
 /**
-Used to identify zero or one objects that may have an external id 
+Used to identify zero or one objects that may have an external id
 **/
 message Identifier {
     oneof handle {
