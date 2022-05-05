@@ -115,13 +115,10 @@ message UnregisterSourceSegyFileResponse {}
 message IngestSourceSegyFileRequest {
     Identifier file = 1;                       // [required] The file to queue for ingestiong
     /**
-        [optional. Will be required at some later time]
-        Target storage tier for this file. If empty a bigtable-based storage will be used.
+        [required]
+        Target storage tier for this file.
 
         A storage tier is a defined facility for storing the trace data associated with a seismic volume.
-        The default storage facility is based on Cloud Bigtable, but it is also possible to leave trace data stored
-        in SEG-Y files in Cloud Storage, only retaining a compact index of file data in fast storage to facilitate
-        retrieval of data from Cloud Storage in a performant manner.
 
         [Accepted values]
         Accepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage
