@@ -280,7 +280,7 @@ message TraceBounds {
     string crs = 4;                 // CRS of the returned trace coordinates
     LineDescriptor z_range = 5;     // The actual range of z values returned
     oneof bounds {
-        LineRange three_dee_bounds = 6;    // Will be null for a line-like geometry
+        cognite.seismic.v1.LineRange three_dee_bounds = 6; // Will be null for a line-like geometry
         Seismic2dRange two_dee_bounds = 7;
     }
 }
