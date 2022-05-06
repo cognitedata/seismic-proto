@@ -330,6 +330,14 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.StreamTracesRequest"><span class="badge">M</span>StreamTracesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.TraceBounds"><span class="badge">M</span>TraceBounds</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.UnregisterSourceSegyFileRequest"><span class="badge">M</span>UnregisterSourceSegyFileRequest</a>
                 </li>
               
@@ -373,6 +381,10 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.GeometryFilter"><span class="badge">M</span>GeometryFilter</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.Identifier"><span class="badge">M</span>Identifier</a>
                 </li>
               
@@ -401,6 +413,10 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.MinorLines"><span class="badge">M</span>MinorLines</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.OptionalMap"><span class="badge">M</span>OptionalMap</a>
                 </li>
               
@@ -426,6 +442,42 @@
               
                 <li>
                   <a href="#com.cognite.seismic.v1.Seismic.MetadataEntry"><span class="badge">M</span>Seismic.MetadataEntry</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.Seismic2dExtent"><span class="badge">M</span>Seismic2dExtent</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.Seismic2dRange"><span class="badge">M</span>Seismic2dRange</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.Seismic3dDef"><span class="badge">M</span>Seismic3dDef</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.Seismic3dDef.LinesEntry"><span class="badge">M</span>Seismic3dDef.LinesEntry</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.Seismic3dExtent"><span class="badge">M</span>Seismic3dExtent</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.Seismic3dRect"><span class="badge">M</span>Seismic3dRect</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.Seismic3dRects"><span class="badge">M</span>Seismic3dRects</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.SeismicCutout"><span class="badge">M</span>SeismicCutout</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.SeismicExtent"><span class="badge">M</span>SeismicExtent</a>
                 </li>
               
                 <li>
@@ -1123,6 +1175,20 @@ and create a new one.</p></td>
               </tr>
             
               <tr>
+                <td>StreamTraces</td>
+                <td><a href="#com.cognite.seismic.v1.StreamTracesRequest">StreamTracesRequest</a></td>
+                <td><a href="#com.cognite.seismic.Trace">.com.cognite.seismic.Trace</a> stream</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>GetTraceBounds</td>
+                <td><a href="#com.cognite.seismic.v1.StreamTracesRequest">StreamTracesRequest</a></td>
+                <td><a href="#com.cognite.seismic.v1.TraceBounds">TraceBounds</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
                 <td>GetSegYFile</td>
                 <td><a href="#com.cognite.seismic.v1.SegYSeismicRequest">SegYSeismicRequest</a></td>
                 <td><a href="#com.cognite.seismic.v1.SegYSeismicResponse">SegYSeismicResponse</a> stream</td>
@@ -1255,6 +1321,20 @@ returned.</p></td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
                   <td><p>If true, will create a seismic with an empty cutout </p></td>
+                </tr>
+              
+                <tr>
+                  <td>two_dee_extent</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic2dExtent">Seismic2dExtent</a></td>
+                  <td></td>
+                  <td><p>only valid if the seismic is 2D </p></td>
+                </tr>
+              
+                <tr>
+                  <td>three_dee_extent</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic3dExtent">Seismic3dExtent</a></td>
+                  <td></td>
+                  <td><p>only valid if the seismic is 3D </p></td>
                 </tr>
               
                 <tr>
@@ -2333,6 +2413,13 @@ returned.</p></td>
                 </tr>
               
                 <tr>
+                  <td>include_extent</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>If true, include a description of the traces contained in the seismicstore </p></td>
+                </tr>
+              
+                <tr>
                   <td>include_headers</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
@@ -2417,6 +2504,20 @@ returned.</p></td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
                   <td><p>If true, include the volume definition blob </p></td>
+                </tr>
+              
+                <tr>
+                  <td>include_cutout</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>If true, include the cutout specification the seismicstore was created with </p></td>
+                </tr>
+              
+                <tr>
+                  <td>include_extent</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>If true, include a description of the included traces </p></td>
                 </tr>
               
                 <tr>
@@ -2647,6 +2748,138 @@ If no coverage source is provided, but the coverage parameters are provided, the
                 <tr>
                   <td>content</td>
                   <td><a href="#bytes">bytes</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.StreamTracesRequest">StreamTracesRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>seismic</td>
+                  <td><a href="#com.cognite.seismic.v1.Identifier">Identifier</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>seismic_store_id</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p>Need to be a data manager or tenant user, not 3rd party, to access by tracestore </p></td>
+                </tr>
+              
+                <tr>
+                  <td>two_dee_extent</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic2dExtent">Seismic2dExtent</a></td>
+                  <td></td>
+                  <td><p>only valid if the queried object is 2D </p></td>
+                </tr>
+              
+                <tr>
+                  <td>three_dee_extent</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic3dExtent">Seismic3dExtent</a></td>
+                  <td></td>
+                  <td><p>only valid if the queried object is 3D </p></td>
+                </tr>
+              
+                <tr>
+                  <td>geometry</td>
+                  <td><a href="#com.cognite.seismic.v1.GeometryFilter">GeometryFilter</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>z_range</td>
+                  <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>include_trace_header</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.TraceBounds">TraceBounds</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>trace_size_bytes</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>The size in bytes of one Trace message </p></td>
+                </tr>
+              
+                <tr>
+                  <td>num_traces</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>The number of traces returned </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sample_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>The number of samples per trace </p></td>
+                </tr>
+              
+                <tr>
+                  <td>crs</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>CRS of the returned trace coordinates </p></td>
+                </tr>
+              
+                <tr>
+                  <td>z_range</td>
+                  <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
+                  <td></td>
+                  <td><p>The actual range of z values returned </p></td>
+                </tr>
+              
+                <tr>
+                  <td>three_dee_bounds</td>
+                  <td><a href="#com.cognite.seismic.v1.LineRange">LineRange</a></td>
+                  <td></td>
+                  <td><p>Will be null for a line-like geometry </p></td>
+                </tr>
+              
+                <tr>
+                  <td>two_dee_bounds</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic2dRange">Seismic2dRange</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3100,6 +3333,37 @@ Null if the result is empty. The iline and xline fields will be null for a line-
 
         
       
+        <h3 id="com.cognite.seismic.v1.GeometryFilter">GeometryFilter</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>geometry</td>
+                  <td><a href="#com.cognite.seismic.Geometry">com.cognite.seismic.Geometry</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>interpolation_method</td>
+                  <td><a href="#com.cognite.seismic.InterpolationMethod">com.cognite.seismic.InterpolationMethod</a></td>
+                  <td></td>
+                  <td><p>Only used for linear geometries in 3D </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="com.cognite.seismic.v1.Identifier">Identifier</h3>
         <p>Used to identify zero or one objects that may have an external id</p>
 
@@ -3299,6 +3563,30 @@ Null if the result is empty. The iline and xline fields will be null for a line-
                 <tr>
                   <td>filters</td>
                   <td><a href="#com.cognite.seismic.v1.Filter">Filter</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.MinorLines">MinorLines</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>ranges</td>
+                  <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
                   <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
@@ -3639,6 +3927,20 @@ The next ingestion processing of a file will then use the source group scalar va
                 </tr>
               
                 <tr>
+                  <td>cutout</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicCutout">SeismicCutout</a></td>
+                  <td></td>
+                  <td><p>The cutout the seismic object was created with </p></td>
+                </tr>
+              
+                <tr>
+                  <td>extent</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicExtent">SeismicExtent</a></td>
+                  <td></td>
+                  <td><p>A description of the traces contained in the seismic </p></td>
+                </tr>
+              
+                <tr>
                   <td>partition_id</td>
                   <td><a href="#int64">int64</a></td>
                   <td></td>
@@ -3700,6 +4002,292 @@ The next ingestion processing of a file will then use the source group scalar va
                 <tr>
                   <td>value</td>
                   <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.Seismic2dExtent">Seismic2dExtent</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>trace_key</td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
+                  <td></td>
+                  <td><p>Must be an applicable field for 2D </p></td>
+                </tr>
+              
+                <tr>
+                  <td>trace_ranges</td>
+                  <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
+                  <td>repeated</td>
+                  <td><p>Range of header values to use </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.Seismic2dRange">Seismic2dRange</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>trace_key</td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
+                  <td></td>
+                  <td><p>Must be an applicable field for 2D </p></td>
+                </tr>
+              
+                <tr>
+                  <td>trace_range</td>
+                  <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.Seismic3dDef">Seismic3dDef</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>major_header</td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
+                  <td></td>
+                  <td><p>Must be inline or crossline </p></td>
+                </tr>
+              
+                <tr>
+                  <td>minor_header</td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
+                  <td></td>
+                  <td><p>Must be inline or crossline, and different from major_header </p></td>
+                </tr>
+              
+                <tr>
+                  <td>lines</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic3dDef.LinesEntry">Seismic3dDef.LinesEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.Seismic3dDef.LinesEntry">Seismic3dDef.LinesEntry</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>key</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value</td>
+                  <td><a href="#com.cognite.seismic.v1.MinorLines">MinorLines</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.Seismic3dExtent">Seismic3dExtent</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>rects</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic3dRects">Seismic3dRects</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>def</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic3dDef">Seismic3dDef</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.Seismic3dRect">Seismic3dRect</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>inline_range</td>
+                  <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>xline_range</td>
+                  <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.Seismic3dRects">Seismic3dRects</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>rects</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic3dRect">Seismic3dRect</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.SeismicCutout">SeismicCutout</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>two_dee_extent</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic2dExtent">Seismic2dExtent</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>three_dee_extent</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic3dExtent">Seismic3dExtent</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>geometry</td>
+                  <td><a href="#com.cognite.seismic.Geometry">com.cognite.seismic.Geometry</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.SeismicExtent">SeismicExtent</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>two_dee_extent</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic2dExtent">Seismic2dExtent</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>three_dee_extent</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic3dExtent">Seismic3dExtent</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3775,6 +4363,13 @@ The next ingestion processing of a file will then use the source group scalar va
                   <td><a href="#com.cognite.seismic.v1.VolumeDef">VolumeDef</a></td>
                   <td></td>
                   <td><p>Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines </p></td>
+                </tr>
+              
+                <tr>
+                  <td>extent</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicExtent">SeismicExtent</a></td>
+                  <td></td>
+                  <td><p>Description of the traces contained in the seismicstore. </p></td>
                 </tr>
               
                 <tr>
