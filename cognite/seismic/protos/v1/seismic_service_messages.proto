@@ -177,7 +177,7 @@ message SearchSeismicStoresRequest {
     }
     bool include_file_info = 2;  // If true, include File information in the response
     bool include_volume_definitions = 3; // If true, includes inline/crossline volume definitions for store
-    // If true, include a description of the included traces, using the specified header
+    // If specified, include a description of the included traces, using the specified header
     // as the trace key (for 2d) or the major direction (for 3d)
     TraceHeaderField include_extent = 9;
     bool include_headers = 5; // if true, include text and binary headers in the response
