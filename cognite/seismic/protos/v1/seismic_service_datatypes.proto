@@ -140,7 +140,8 @@ message SeismicStore {
     string survey_id = 3; //The survey this seismic store belongs to.
     IngestionSource ingestion_source = 4; // The source of the seismicstore. It indicates how the file was ingested
     map<string, string> metadata = 5; //Any custom-defined metadata
-    File ingested_file = 6; // If present, the file this SeismicStore was ingested from
+    File ingested_file = 6; // Same as `ingested_source_file`. This field is deprecated and will be removed in the future.
+    SourceSegyFile ingested_source_file = 14; // If present, the file this SeismicStore was ingested from.
     VolumeDef inline_volume_def = 7; // Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines.
     VolumeDef crossline_volume_def = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
     SeismicExtent extent = 13; // Description of the traces contained in the seismicstore.
