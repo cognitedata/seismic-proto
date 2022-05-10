@@ -31,6 +31,8 @@ sidebarDepth: 2
     - [EditSourceSegyFileResponse](#com-cognite-seismic-v1-EditSourceSegyFileResponse)
     - [EditSurveyRequest](#com-cognite-seismic-v1-EditSurveyRequest)
     - [GeometryBasedVolume](#com-cognite-seismic-v1-GeometryBasedVolume)
+    - [IngestSourceSegyFileRequest](#com-cognite-seismic-v1-IngestSourceSegyFileRequest)
+    - [IngestSourceSegyFileResponse](#com-cognite-seismic-v1-IngestSourceSegyFileResponse)
     - [IngestionLog](#com-cognite-seismic-v1-IngestionLog)
     - [JobStatusResponse](#com-cognite-seismic-v1-JobStatusResponse)
     - [RegisterSourceSegyFileRequest](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest)
@@ -254,6 +256,7 @@ Before editing, there must be no ingestion jobs running for the source file and,
 | UnregisterSourceSegyFile | [UnregisterSourceSegyFileRequest](#com-cognite-seismic-v1-UnregisterSourceSegyFileRequest) | [UnregisterSourceSegyFileResponse](#com-cognite-seismic-v1-UnregisterSourceSegyFileResponse) | Unregisters a file previously registered as source for ingestion.
 
 Before unregistering, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated with the source file must be deleted. This request will fail if the above criteira are not met. |
+| IngestSourceSegyFile | [IngestSourceSegyFileRequest](#com-cognite-seismic-v1-IngestSourceSegyFileRequest) | [IngestSourceSegyFileResponse](#com-cognite-seismic-v1-IngestSourceSegyFileResponse) | Requests queueing of a registered file for ingestion. |
 | CreateSeismic | [CreateSeismicRequest](#com-cognite-seismic-v1-CreateSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Create new Seismics and assign them to partitions. Seismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one if e.g. the definition or the seismic store must be changed |
 | SearchSeismics | [SearchSeismicsRequest](#com-cognite-seismic-v1-SearchSeismicsRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) stream | Returns Seismic metadata given its id. Can optionally retrieve seismic store &amp; partition info if user has the right scope. Use GetVolume to retrieve traces. |
 | EditSeismic | [EditSeismicRequest](#com-cognite-seismic-v1-EditSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Edit the specified seismic. Seismic object names and metadata can be changed. The cutout definition, however, cannot be changed. To modify the definition or the owning partition, delete the seismic object and create a new one. |
@@ -624,6 +627,43 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 | geometry | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  |  |
 | interpolation_method | [com.cognite.seismic.InterpolationMethod](#com-cognite-seismic-InterpolationMethod) |  | Required if the geometry describes a line, otherwise ignored |
 | z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-IngestSourceSegyFileRequest"></a>
+
+### IngestSourceSegyFileRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The file to queue for ingestiong |
+| target_storage_tier_name | [string](#string) |  | [required] Target storage tier for this file.
+
+A storage tier is a defined facility for storing the trace data associated with a seismic volume.
+
+[Accepted values] Accepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage cost, retrieval performance, numeric precision and sampling.
+
+Note that currently only one storage tier per trace store is supported, so ingesting an already ingested file will result in the file&#39;s data being removed from the previously active storage tier. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-IngestSourceSegyFileResponse"></a>
+
+### IngestSourceSegyFileResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| job_id | [string](#string) |  |  |
 
 
 

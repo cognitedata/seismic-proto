@@ -714,6 +714,14 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.IngestSourceSegyFileRequest"><span class="badge">M</span>IngestSourceSegyFileRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.IngestSourceSegyFileResponse"><span class="badge">M</span>IngestSourceSegyFileResponse</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.IngestionLog"><span class="badge">M</span>IngestionLog</a>
                 </li>
               
@@ -3544,6 +3552,13 @@ This request will fail if the above criteira are not met.</p></td>
               </tr>
             
               <tr>
+                <td>IngestSourceSegyFile</td>
+                <td><a href="#com.cognite.seismic.v1.IngestSourceSegyFileRequest">IngestSourceSegyFileRequest</a></td>
+                <td><a href="#com.cognite.seismic.v1.IngestSourceSegyFileResponse">IngestSourceSegyFileResponse</a></td>
+                <td><p>Requests queueing of a registered file for ingestion.</p></td>
+              </tr>
+            
+              <tr>
                 <td>CreateSeismic</td>
                 <td><a href="#com.cognite.seismic.v1.CreateSeismicRequest">CreateSeismicRequest</a></td>
                 <td><a href="#com.cognite.seismic.v1.Seismic">Seismic</a></td>
@@ -6337,6 +6352,71 @@ or by specifying three or more corners of the grid as a list of DoubleTraceCoord
                 <tr>
                   <td>z_range</td>
                   <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.IngestSourceSegyFileRequest">IngestSourceSegyFileRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>file</td>
+                  <td><a href="#com.cognite.seismic.v1.Identifier">Identifier</a></td>
+                  <td></td>
+                  <td><p>[required] The file to queue for ingestiong </p></td>
+                </tr>
+              
+                <tr>
+                  <td>target_storage_tier_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>[required]
+Target storage tier for this file.
+
+A storage tier is a defined facility for storing the trace data associated with a seismic volume.
+
+[Accepted values]
+Accepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage
+cost, retrieval performance, numeric precision and sampling.
+
+Note that currently only one storage tier per trace store is supported, so ingesting an already ingested file
+will result in the file&#39;s data being removed from the previously active storage tier. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.IngestSourceSegyFileResponse">IngestSourceSegyFileResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>job_id</td>
+                  <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>

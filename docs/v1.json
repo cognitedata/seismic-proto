@@ -103,6 +103,18 @@
               "responseStreaming": false
             },
             {
+              "name": "IngestSourceSegyFile",
+              "description": "Requests queueing of a registered file for ingestion.",
+              "requestType": "IngestSourceSegyFileRequest",
+              "requestLongType": "IngestSourceSegyFileRequest",
+              "requestFullType": "com.cognite.seismic.v1.IngestSourceSegyFileRequest",
+              "requestStreaming": false,
+              "responseType": "IngestSourceSegyFileResponse",
+              "responseLongType": "IngestSourceSegyFileResponse",
+              "responseFullType": "com.cognite.seismic.v1.IngestSourceSegyFileResponse",
+              "responseStreaming": false
+            },
+            {
               "name": "CreateSeismic",
               "description": "Create new Seismics and assign them to partitions.\nSeismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one\nif e.g. the definition or the seismic store must be changed",
               "requestType": "CreateSeismicRequest",
@@ -1334,6 +1346,66 @@
               "type": "LineDescriptor",
               "longType": "com.cognite.seismic.LineDescriptor",
               "fullType": "com.cognite.seismic.LineDescriptor",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "IngestSourceSegyFileRequest",
+          "longName": "IngestSourceSegyFileRequest",
+          "fullName": "com.cognite.seismic.v1.IngestSourceSegyFileRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "file",
+              "description": "[required] The file to queue for ingestiong",
+              "label": "",
+              "type": "Identifier",
+              "longType": "Identifier",
+              "fullType": "com.cognite.seismic.v1.Identifier",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "target_storage_tier_name",
+              "description": "[required]\nTarget storage tier for this file.\n\nA storage tier is a defined facility for storing the trace data associated with a seismic volume.\n\n[Accepted values]\nAccepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage\ncost, retrieval performance, numeric precision and sampling.\n\nNote that currently only one storage tier per trace store is supported, so ingesting an already ingested file\nwill result in the file's data being removed from the previously active storage tier.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "IngestSourceSegyFileResponse",
+          "longName": "IngestSourceSegyFileResponse",
+          "fullName": "com.cognite.seismic.v1.IngestSourceSegyFileResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "job_id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
