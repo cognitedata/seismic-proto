@@ -112,6 +112,28 @@ message UnregisterSourceSegyFileRequest {
 
 message UnregisterSourceSegyFileResponse {}
 
+message IngestSourceSegyFileRequest {
+    Identifier file = 1;                       // [required] The file to queue for ingestiong
+    /**
+        [required]
+        Target storage tier for this file.
+
+        A storage tier is a defined facility for storing the trace data associated with a seismic volume.
+
+        [Accepted values]
+        Accepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage
+        cost, retrieval performance, numeric precision and sampling.
+
+        Note that currently only one storage tier per trace store is supported, so ingesting an already ingested file
+        will result in the file's data being removed from the previously active storage tier.
+    **/
+    string target_storage_tier_name = 2;
+}
+
+message IngestSourceSegyFileResponse {
+    string job_id = 1;
+}
+
 /**
     Seismics
 **/
