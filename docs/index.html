@@ -4428,7 +4428,14 @@ The next ingestion processing of a file will then use the source group scalar va
                   <td>ingested_file</td>
                   <td><a href="#com.cognite.seismic.File">com.cognite.seismic.File</a></td>
                   <td></td>
-                  <td><p>If present, the file this SeismicStore was ingested from </p></td>
+                  <td><p>Same as `ingested_source_file`. This field is deprecated and will be removed in the future. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>ingested_source_file</td>
+                  <td><a href="#com.cognite.seismic.v1.SourceSegyFile">SourceSegyFile</a></td>
+                  <td></td>
+                  <td><p>If present, the file this SeismicStore was ingested from. </p></td>
                 </tr>
               
                 <tr>

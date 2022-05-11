@@ -1927,7 +1927,8 @@ Represents a seismic store.
 | survey_id | [string](#string) |  | The survey this seismic store belongs to. |
 | ingestion_source | [com.cognite.seismic.IngestionSource](#com-cognite-seismic-IngestionSource) |  | The source of the seismicstore. It indicates how the file was ingested |
 | metadata | [SeismicStore.MetadataEntry](#com-cognite-seismic-v1-SeismicStore-MetadataEntry) | repeated | Any custom-defined metadata |
-| ingested_file | [com.cognite.seismic.File](#com-cognite-seismic-File) |  | If present, the file this SeismicStore was ingested from |
+| ingested_file | [com.cognite.seismic.File](#com-cognite-seismic-File) |  | Same as `ingested_source_file`. This field is deprecated and will be removed in the future. |
+| ingested_source_file | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) |  | If present, the file this SeismicStore was ingested from. |
 | inline_volume_def | [VolumeDef](#com-cognite-seismic-v1-VolumeDef) |  | Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines. |
 | crossline_volume_def | [VolumeDef](#com-cognite-seismic-v1-VolumeDef) |  | Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines |
 | extent | [SeismicExtent](#com-cognite-seismic-v1-SeismicExtent) |  | Description of the traces contained in the seismicstore. |
