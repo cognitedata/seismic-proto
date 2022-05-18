@@ -303,7 +303,7 @@ message TraceBounds {
     LineDescriptor z_range = 5;     // The actual range of z values returned
     oneof bounds {
         cognite.seismic.v1.LineRange three_dee_bounds = 6; // Will be null for a line-like geometry
-        Seismic2dRange two_dee_bounds = 7;
+        TwoDeeRange two_dee_bounds = 7;
     }
 }
 
