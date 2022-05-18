@@ -108,7 +108,7 @@ message Survey {
     LineRange line_range = 8; // The minimum and maximum extents of the seismic's grid, described in inlines and crosslines.
     VolumeDef volume_def = 9; // The VolumeDef describing the seismic
     SeismicCutout cutout = 15; // The cutout the seismic object was created with
-    SeismicExtent extent = 16; // A description of the traces contained in the seismic
+    Extent extent = 16; // A description of the traces contained in the seismic
     int64 partition_id = 10; //The id of the partition the seismic belongs to
     int64 seismicstore_id = 11;  // The id of the seismicstore the seismic is derived from. It is present only if agent has READ access and ALL scope  
     Geometry coverage = 12; //The coverage geometry for the seismic.
@@ -118,18 +118,11 @@ message Survey {
 
 message SeismicCutout {
     oneof cutout {
-        Seismic2dExtent two_dee_extent = 1;
-        Seismic3dExtent three_dee_extent = 2;
+        TwoDeeExtent two_dee_extent = 1;
+        ThreeDeeExtent three_dee_extent = 2;
         Geometry geometry = 3;
     }
 };
-
-message SeismicExtent {
-    oneof extent {
-        Seismic2dExtent two_dee_extent = 1;
-        Seismic3dExtent three_dee_extent = 2;
-    }
-}
 
 /**
 Represents a seismic store.
@@ -144,7 +137,7 @@ message SeismicStore {
     SourceSegyFile ingested_source_file = 14; // If present, the file this SeismicStore was ingested from.
     VolumeDef inline_volume_def = 7; // Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines.
     VolumeDef crossline_volume_def = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
-    SeismicExtent extent = 13; // Description of the traces contained in the seismicstore.
+    Extent extent = 13; // Description of the traces contained in the seismicstore.
     TextHeader text_header = 9; //If present, the text header for this seismic store
     BinaryHeader binary_header = 10; //If present, the binary header for this seismic store
     // Tenant specific name for the storage facility the trace data are stored in. If empty, it is stored in an unspecified trace store.
@@ -326,33 +319,40 @@ message GeometryFilter {
     InterpolationMethod interpolation_method = 2; // Only used for linear geometries in 3D
 }
 
-message Seismic2dExtent {
+message Extent {
+    oneof extent {
+        TwoDeeExtent two_dee_extent = 1;
+        ThreeDeeExtent three_dee_extent = 2;
+    }
+}
+
+message TwoDeeExtent {
     TraceHeaderField trace_key = 1; // Must be an applicable field for 2D
     repeated LineDescriptor trace_ranges = 2; // Range of header values to use
 }
 
-message Seismic2dRange {
+message TwoDeeRange {
     TraceHeaderField trace_key = 1; // Must be an applicable field for 2D
     LineDescriptor trace_range = 2;
 }
 
-message Seismic3dExtent {
+message ThreeDeeExtent {
     oneof type {
-        Seismic3dRects rects = 1;
-        Seismic3dDef def = 2;
+        ThreeDeeRects rects = 1;
+        ThreeDeeDef def = 2;
     }
 }
 
-message Seismic3dRects {
-    repeated Seismic3dRect rects = 1;
+message ThreeDeeRects {
+    repeated ThreeDeeRect rects = 1;
 }
 
-message Seismic3dRect {
+message ThreeDeeRect {
     LineDescriptor inline_range = 1;
     LineDescriptor xline_range = 2;
 }
 
-message Seismic3dDef {
+message ThreeDeeDef {
     TraceHeaderField major_header = 1; // Must be inline or crossline
     TraceHeaderField minor_header = 2; // Must be inline or crossline, and different from major_header
     map<int32, MinorLines> lines = 3;
