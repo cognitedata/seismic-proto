@@ -316,12 +316,9 @@ message SegYSeismicRequest {
     // Deprecated. Use filter instead.
     oneof query {
         Geometry polygon = 3;
-        LineBasedRectangle lines = 4;
-    }
-    oneof filter {
-        Seismic2dExtent two_dee_extent = 5;   // only valid if the queried object is 2D
-        Seismic3dExtent three_dee_extent = 6; // only valid if the queried object is 3D
-        GeometryFilter geometry = 7;
+        LineBasedRectangle lines = 4;         // Only valid if the queried object is 3D. Deprecated. Use three_dee_extent instead.
+        Seismic2dExtent two_dee_extent = 5;   // Only valid if the queried object is 2D
+        Seismic3dExtent three_dee_extent = 6; // Only valid if the queried object is 3D
     }
 }
 
