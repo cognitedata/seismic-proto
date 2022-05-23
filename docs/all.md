@@ -2179,9 +2179,11 @@ Used to search files by id, extid, extid substring, name, name substring
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | seismic | [Identifier](#com-cognite-seismic-v1-Identifier) |  |  |
-| seismic_store_id | [int64](#int64) |  |  |
+| seismic_store_id | [int64](#int64) |  | Need to be a data manager or tenant user, not 3rd party, to access by seismic store |
 | polygon | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  |  |
-| lines | [com.cognite.seismic.LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  |  |
+| lines | [com.cognite.seismic.LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  | Only valid if the queried object is 3D. Deprecated. Use three_dee_extent instead. |
+| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Only valid if the queried object is 2D |
+| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Only valid if the queried object is 3D |
 
 
 
