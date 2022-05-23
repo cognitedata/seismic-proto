@@ -87,11 +87,14 @@ message SurveyGridTransformation {
     This is not valid for traces that are synthetically generated from interpolation.
  **/
 message Trace {
-    bytes trace_header = 1;
-    google.protobuf.Int32Value iline = 2; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
-    google.protobuf.Int32Value xline = 3; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. 
-    repeated float trace = 4;                // The underlying array of floats representing samples
-    Coordinate coordinate = 5;
+    bytes trace_header = 1;                             // The binary SEGY trace header, if requested.
+    google.protobuf.Int32Value iline = 2;               // The inline number. Only populated for 3D seismics.
+    google.protobuf.Int32Value xline = 3;               // The xline number. Only populated for 3D seismics.
+    google.protobuf.Int32Value cdp = 6;                 // The cdp number. Only populated for 2D seismics indexed by cdp.
+    google.protobuf.Int32Value shotpoint = 7;           // The cdp number. Only populated for 2D seismics indexed by shotpoint.
+    google.protobuf.Int32Value energy_source_point = 8; // The cdp number. Only populated for 2D seismics indexed by energy source point.
+    repeated float trace = 4;                           // The underlying array of floats representing samples
+    Coordinate coordinate = 5;                          // The CDP X and Y coordinates of the trace.
 }
 
 /**
