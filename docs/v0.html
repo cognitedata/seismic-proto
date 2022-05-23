@@ -4545,21 +4545,42 @@ is computed from the seismicstores in the survey </p></td>
                   <td>trace_header</td>
                   <td><a href="#bytes">bytes</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The binary SEGY trace header, if requested. </p></td>
                 </tr>
               
                 <tr>
                   <td>iline</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p>The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. </p></td>
+                  <td><p>The inline number. Only populated for 3D seismics. </p></td>
                 </tr>
               
                 <tr>
                   <td>xline</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p>The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. </p></td>
+                  <td><p>The xline number. Only populated for 3D seismics. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>cdp</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>The cdp number. Only populated for 2D seismics indexed by cdp. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>shotpoint</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>The cdp number. Only populated for 2D seismics indexed by shotpoint. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>energy_source_point</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>The cdp number. Only populated for 2D seismics indexed by energy source point. </p></td>
                 </tr>
               
                 <tr>
@@ -4573,7 +4594,7 @@ is computed from the seismicstores in the survey </p></td>
                   <td>coordinate</td>
                   <td><a href="#com.cognite.seismic.Coordinate">Coordinate</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The CDP X and Y coordinates of the trace. </p></td>
                 </tr>
               
             </tbody>

@@ -6444,7 +6444,7 @@
           "fields": [
             {
               "name": "trace_header",
-              "description": "",
+              "description": "The binary SEGY trace header, if requested.",
               "label": "",
               "type": "bytes",
               "longType": "bytes",
@@ -6456,7 +6456,7 @@
             },
             {
               "name": "iline",
-              "description": "The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired.",
+              "description": "The inline number. Only populated for 3D seismics.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -6468,7 +6468,43 @@
             },
             {
               "name": "xline",
-              "description": "The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.",
+              "description": "The xline number. Only populated for 3D seismics.",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "cdp",
+              "description": "The cdp number. Only populated for 2D seismics indexed by cdp.",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "shotpoint",
+              "description": "The cdp number. Only populated for 2D seismics indexed by shotpoint.",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "energy_source_point",
+              "description": "The cdp number. Only populated for 2D seismics indexed by energy source point.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -6492,7 +6528,7 @@
             },
             {
               "name": "coordinate",
-              "description": "",
+              "description": "The CDP X and Y coordinates of the trace.",
               "label": "",
               "type": "Coordinate",
               "longType": "Coordinate",
