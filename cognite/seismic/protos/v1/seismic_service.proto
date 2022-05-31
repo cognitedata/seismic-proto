@@ -71,6 +71,11 @@ service SeismicAPI {
     rpc UnregisterSourceSegyFile (UnregisterSourceSegyFileRequest) returns (UnregisterSourceSegyFileResponse) {}
 
     /**
+     * Requests queueing of a registered file for ingestion.
+     */
+    rpc IngestSourceSegyFile (IngestSourceSegyFileRequest) returns (IngestSourceSegyFileResponse) {}
+
+    /**
      * Create new Seismics and assign them to partitions.
      * Seismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one
      * if e.g. the definition or the seismic store must be changed
