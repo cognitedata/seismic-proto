@@ -114,6 +114,12 @@ message Survey {
     Geometry coverage = 12; //The coverage geometry for the seismic.
     bool created_empty = 13; // If true, this seismic was created with the 'empty' volume option and thus will have no trace data available
     int64 trace_count = 14;  // Provides an estimate of the number of traces contained within the seismic.
+    // The trace header fields that have been registered as keys for indexing.
+    // This will always match the trace header fields registered for the underlying seismic store.
+    repeated TraceHeaderField trace_header_fields = 17;
+    // The underlying file's data dimensionality, either 2D or 3D
+    // This will always match the dimensionality for the underlying seismic store.
+    Dimensions dimensions = 18;
 }
 
 message SeismicCutout {
@@ -151,6 +157,8 @@ message SeismicStore {
     // While support for multiple storage backends per store is planned, this is not currently offered.
     repeated string storage_tier_name = 11;
     Geometry coverage = 12; //If present, the coverage geometry for this seismic store
+    repeated TraceHeaderField trace_header_fields = 15; // The trace header fields that have been registered as keys for indexing.
+    Dimensions dimensions = 16; // The underlying file's data dimensionality, either 2D or 3D
 }
 
 /**
