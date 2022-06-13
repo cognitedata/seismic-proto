@@ -1414,6 +1414,8 @@ A cutout of a seismic store
 | coverage | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | The coverage geometry for the seismic. |
 | created_empty | [bool](#bool) |  | If true, this seismic was created with the &#39;empty&#39; volume option and thus will have no trace data available |
 | trace_count | [int64](#int64) |  | Provides an estimate of the number of traces contained within the seismic. |
+| trace_header_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that have been registered as keys for indexing. This will always match the trace header fields registered for the underlying seismic store. |
+| dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | The underlying file&#39;s data dimensionality, either 2D or 3D This will always match the dimensionality for the underlying seismic store. |
 
 
 
@@ -1603,6 +1605,8 @@ Represents a seismic store.
 | binary_header | [BinaryHeader](#com-cognite-seismic-v1-BinaryHeader) |  | If present, the binary header for this seismic store |
 | storage_tier_name | [string](#string) | repeated | Tenant specific name for the storage facility the trace data are stored in. If empty, it is stored in an unspecified trace store. While support for multiple storage backends per store is planned, this is not currently offered. |
 | coverage | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | If present, the coverage geometry for this seismic store |
+| trace_header_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that have been registered as keys for indexing. |
+| dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | The underlying file&#39;s data dimensionality, either 2D or 3D |
 
 
 

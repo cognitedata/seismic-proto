@@ -4069,6 +4069,22 @@ The next ingestion processing of a file will then use the source group scalar va
                   <td><p>Provides an estimate of the number of traces contained within the seismic. </p></td>
                 </tr>
               
+                <tr>
+                  <td>trace_header_fields</td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
+                  <td>repeated</td>
+                  <td><p>The trace header fields that have been registered as keys for indexing.
+This will always match the trace header fields registered for the underlying seismic store. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>dimensions</td>
+                  <td><a href="#com.cognite.seismic.v1.Dimensions">Dimensions</a></td>
+                  <td></td>
+                  <td><p>The underlying file&#39;s data dimensionality, either 2D or 3D
+This will always match the dimensionality for the underlying seismic store. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -4500,6 +4516,20 @@ While support for multiple storage backends per store is planned, this is not cu
                   <td><a href="#com.cognite.seismic.Geometry">com.cognite.seismic.Geometry</a></td>
                   <td></td>
                   <td><p>If present, the coverage geometry for this seismic store </p></td>
+                </tr>
+              
+                <tr>
+                  <td>trace_header_fields</td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
+                  <td>repeated</td>
+                  <td><p>The trace header fields that have been registered as keys for indexing. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>dimensions</td>
+                  <td><a href="#com.cognite.seismic.v1.Dimensions">Dimensions</a></td>
+                  <td></td>
+                  <td><p>The underlying file&#39;s data dimensionality, either 2D or 3D </p></td>
                 </tr>
               
             </tbody>

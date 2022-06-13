@@ -4214,6 +4214,30 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "trace_header_fields",
+              "description": "The trace header fields that have been registered as keys for indexing.\nThis will always match the trace header fields registered for the underlying seismic store.",
+              "label": "repeated",
+              "type": "TraceHeaderField",
+              "longType": "TraceHeaderField",
+              "fullType": "com.cognite.seismic.v1.TraceHeaderField",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "dimensions",
+              "description": "The underlying file's data dimensionality, either 2D or 3D\nThis will always match the dimensionality for the underlying seismic store.",
+              "label": "",
+              "type": "Dimensions",
+              "longType": "Dimensions",
+              "fullType": "com.cognite.seismic.v1.Dimensions",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -4762,6 +4786,30 @@
               "type": "Geometry",
               "longType": "com.cognite.seismic.Geometry",
               "fullType": "com.cognite.seismic.Geometry",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "trace_header_fields",
+              "description": "The trace header fields that have been registered as keys for indexing.",
+              "label": "repeated",
+              "type": "TraceHeaderField",
+              "longType": "TraceHeaderField",
+              "fullType": "com.cognite.seismic.v1.TraceHeaderField",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "dimensions",
+              "description": "The underlying file's data dimensionality, either 2D or 3D",
+              "label": "",
+              "type": "Dimensions",
+              "longType": "Dimensions",
+              "fullType": "com.cognite.seismic.v1.Dimensions",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
