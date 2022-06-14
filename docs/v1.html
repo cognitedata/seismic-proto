@@ -2196,6 +2196,16 @@ will result in the file&#39;s data being removed from the previously active stor
                 </tr>
               
                 <tr>
+                  <td>extent_key</td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
+                  <td></td>
+                  <td><p>If specified, indicates which trace header the extent should be indexed by (if a 2d header), or
+which should be the major direction (if a 3d header). Leaving this unspecified with
+`include_extent=true` means the server chooses a key header for each seismicstore.
+Any seismicstores not indexed by the given header will have its extent field left as null. </p></td>
+                </tr>
+              
+                <tr>
                   <td>include_headers</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
@@ -2294,6 +2304,16 @@ will result in the file&#39;s data being removed from the previously active stor
                   <td><a href="#bool">bool</a></td>
                   <td></td>
                   <td><p>If true, include a description of the included traces </p></td>
+                </tr>
+              
+                <tr>
+                  <td>extent_key</td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
+                  <td></td>
+                  <td><p>If specified, indicates which trace header the extent should be indexed by (if a 2d header), or
+which should be the major direction (if a 3d header). Leaving this unspecified with
+`include_extent=true` means the server chooses the native key header for each seismic.
+Any seismic not indexed by the given header will have its extent field left as null. </p></td>
                 </tr>
               
                 <tr>

@@ -3106,6 +3106,7 @@ Used to search files by id, extid, extid substring, name, name substring
 | include_file_info | [bool](#bool) |  | If true, include File information in the response |
 | include_volume_definitions | [bool](#bool) |  | If true, includes inline/crossline volume definitions for store |
 | include_extent | [bool](#bool) |  | If true, include a description of the traces contained in the seismicstore |
+| extent_key | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | If specified, indicates which trace header the extent should be indexed by (if a 2d header), or which should be the major direction (if a 3d header). Leaving this unspecified with `include_extent=true` means the server chooses a key header for each seismicstore. Any seismicstores not indexed by the given header will have its extent field left as null. |
 | include_headers | [bool](#bool) |  | if true, include text and binary headers in the response |
 | include_coverage | [bool](#bool) |  | Deprecated. Use `coverage` instead. |
 | coverage | [CoverageSpec](#com-cognite-seismic-v1-CoverageSpec) |  | If specified, include coverage |
@@ -3132,6 +3133,7 @@ Used to search files by id, extid, extid substring, name, name substring
 | include_volume_definition | [bool](#bool) |  | If true, include the volume definition blob |
 | include_cutout | [bool](#bool) |  | If true, include the cutout specification the seismicstore was created with |
 | include_extent | [bool](#bool) |  | If true, include a description of the included traces |
+| extent_key | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | If specified, indicates which trace header the extent should be indexed by (if a 2d header), or which should be the major direction (if a 3d header). Leaving this unspecified with `include_extent=true` means the server chooses the native key header for each seismic. Any seismic not indexed by the given header will have its extent field left as null. |
 | include_seismic_store | [bool](#bool) |  | If true, include info on the backing seismicstore. Must be data manager. |
 | include_partition | [bool](#bool) |  | If true, include info on the partition. Must be data manager.\ |
 | include_coverage | [bool](#bool) |  | Deprecated. Use `coverage` instead. |

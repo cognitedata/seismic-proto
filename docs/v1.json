@@ -1952,6 +1952,18 @@
               "defaultValue": ""
             },
             {
+              "name": "extent_key",
+              "description": "If specified, indicates which trace header the extent should be indexed by (if a 2d header), or\nwhich should be the major direction (if a 3d header). Leaving this unspecified with\n`include_extent=true` means the server chooses a key header for each seismicstore.\nAny seismicstores not indexed by the given header will have its extent field left as null.",
+              "label": "",
+              "type": "TraceHeaderField",
+              "longType": "TraceHeaderField",
+              "fullType": "com.cognite.seismic.v1.TraceHeaderField",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
               "name": "include_headers",
               "description": "if true, include text and binary headers in the response",
               "label": "",
@@ -2102,6 +2114,18 @@
               "type": "bool",
               "longType": "bool",
               "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "extent_key",
+              "description": "If specified, indicates which trace header the extent should be indexed by (if a 2d header), or\nwhich should be the major direction (if a 3d header). Leaving this unspecified with\n`include_extent=true` means the server chooses the native key header for each seismic.\nAny seismic not indexed by the given header will have its extent field left as null.",
+              "label": "",
+              "type": "TraceHeaderField",
+              "longType": "TraceHeaderField",
+              "fullType": "com.cognite.seismic.v1.TraceHeaderField",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
