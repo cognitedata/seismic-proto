@@ -2,9 +2,6 @@ syntax = "proto3";
 
 package com.cognite.seismic.experimental;
 
-import "cognite/seismic/protos/ingest_service_messages.proto";
-import "cognite/seismic/protos/experimental/experimental_service_messages.proto";
-
 /**
 A service for experimental features.
 Should only be enabled on greenfield.
