@@ -166,8 +166,8 @@ message SearchSeismicsRequest {
     bool include_text_header = 4;
     bool include_binary_header = 5;
     bool include_line_range = 6;
-    bool include_volume_definition = 7;  // If true, include the volume definition blob
-    bool include_cutout = 12;            // If true, include the cutout specification the seismicstore was created with
+    bool include_volume_definition = 7;  // If true, include the volume definition
+    bool include_cutout = 12;            // If true, include the cutout specification the seismic was created with
     bool include_extent = 13;            // If true, include a description of the included traces
     // If specified, indicates which trace header the extent should be indexed by (if a 2d header), or
     // which should be the major direction (if a 3d header). Leaving this unspecified with
