@@ -143,7 +143,7 @@ message CreateSeismicRequest {
     string external_id = 2;  // not optional
     Identifier partition = 3;
     int64 seismic_store_id = 4;
-    // Defines the portion of the tracestore volume to limit the new seismic to 
+    // Defines the portion of the tracestore volume to limit the new seismic to
     oneof volume {
         VolumeDef volume_def = 5;  // Define the volume as VolumeDef format
         Geometry geometry = 7;  // Defines the volume as WKT or GeoJson
@@ -169,6 +169,11 @@ message SearchSeismicsRequest {
     bool include_volume_definition = 7;  // If true, include the volume definition
     bool include_cutout = 12;            // If true, include the cutout specification the seismic was created with
     bool include_extent = 13;            // If true, include a description of the included traces
+    // If specified, indicates which trace header the extent should be indexed by (if a 2d header), or
+    // which should be the major direction (if a 3d header). Leaving this unspecified with
+    // `include_extent=true` means the server chooses the native key header for each seismic.
+    // Any seismic not indexed by the given header will have its extent field left as null.
+    TraceHeaderField extent_key = 14;
     bool include_seismic_store = 8;      // If true, include info on the backing seismicstore. Must be data manager.
     bool include_partition = 9;          // If true, include info on the partition. Must be data manager.\
     bool include_coverage = 10;          // Deprecated. Use `coverage` instead.
@@ -200,6 +205,11 @@ message SearchSeismicStoresRequest {
     bool include_file_info = 2;  // If true, include File information in the response
     bool include_volume_definitions = 3; // If true, includes inline/crossline volume definitions for store
     bool include_extent = 9; // If true, include a description of the traces contained in the seismicstore
+    // If specified, indicates which trace header the extent should be indexed by (if a 2d header), or
+    // which should be the major direction (if a 3d header). Leaving this unspecified with
+    // `include_extent=true` means the server chooses a key header for each seismicstore.
+    // Any seismicstores not indexed by the given header will have its extent field left as null.
+    TraceHeaderField extent_key = 10;
     bool include_headers = 5; // if true, include text and binary headers in the response
     bool include_coverage = 4; // Deprecated. Use `coverage` instead.
     CoverageSpec coverage = 7; // If specified, include coverage
