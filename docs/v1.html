@@ -2289,14 +2289,14 @@ Any seismicstores not indexed by the given header will have its extent field lef
                   <td>include_volume_definition</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
-                  <td><p>If true, include the volume definition blob </p></td>
+                  <td><p>If true, include the volume definition </p></td>
                 </tr>
               
                 <tr>
                   <td>include_cutout</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
-                  <td><p>If true, include the cutout specification the seismicstore was created with </p></td>
+                  <td><p>If true, include the cutout specification the seismic was created with </p></td>
                 </tr>
               
                 <tr>
@@ -3775,7 +3775,7 @@ The next ingestion processing of a file will then use the source group scalar va
                   <td>created_empty</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
-                  <td><p>If true, this seismic was created with the &#39;empty&#39; volume option and thus will have no trace data available </p></td>
+                  <td><p>If true, this seismic was created empty (deprecated) </p></td>
                 </tr>
               
                 <tr>
@@ -4070,21 +4070,28 @@ This will always match the dimensionality for the underlying seismic store. </p>
                   <td>two_dee_extent</td>
                   <td><a href="#com.cognite.seismic.v1.Seismic2dExtent">Seismic2dExtent</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Indicates that the seismic was requested with this 2D extent </p></td>
                 </tr>
               
                 <tr>
                   <td>three_dee_extent</td>
                   <td><a href="#com.cognite.seismic.v1.Seismic3dExtent">Seismic3dExtent</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Indicates that the seismic was requested with this 3D extent (or an equivalent VolumeDef) </p></td>
                 </tr>
               
                 <tr>
                   <td>geometry</td>
                   <td><a href="#com.cognite.seismic.Geometry">com.cognite.seismic.Geometry</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Indicates that the seismic was requested with this geometry </p></td>
+                </tr>
+              
+                <tr>
+                  <td>empty</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>Indicates that the seismic was created empty </p></td>
                 </tr>
               
             </tbody>

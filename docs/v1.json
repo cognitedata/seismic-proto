@@ -2085,7 +2085,7 @@
             },
             {
               "name": "include_volume_definition",
-              "description": "If true, include the volume definition blob",
+              "description": "If true, include the volume definition",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2097,7 +2097,7 @@
             },
             {
               "name": "include_cutout",
-              "description": "If true, include the cutout specification the seismicstore was created with",
+              "description": "If true, include the cutout specification the seismic was created with",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -4217,7 +4217,7 @@
             },
             {
               "name": "created_empty",
-              "description": "If true, this seismic was created with the 'empty' volume option and thus will have no trace data available",
+              "description": "If true, this seismic was created empty (deprecated)",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -4565,7 +4565,7 @@
           "fields": [
             {
               "name": "two_dee_extent",
-              "description": "",
+              "description": "Indicates that the seismic was requested with this 2D extent",
               "label": "",
               "type": "Seismic2dExtent",
               "longType": "Seismic2dExtent",
@@ -4577,7 +4577,7 @@
             },
             {
               "name": "three_dee_extent",
-              "description": "",
+              "description": "Indicates that the seismic was requested with this 3D extent (or an equivalent VolumeDef)",
               "label": "",
               "type": "Seismic3dExtent",
               "longType": "Seismic3dExtent",
@@ -4589,11 +4589,23 @@
             },
             {
               "name": "geometry",
-              "description": "",
+              "description": "Indicates that the seismic was requested with this geometry",
               "label": "",
               "type": "Geometry",
               "longType": "com.cognite.seismic.Geometry",
               "fullType": "com.cognite.seismic.Geometry",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "cutout",
+              "defaultValue": ""
+            },
+            {
+              "name": "empty",
+              "description": "Indicates that the seismic was created empty",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
               "ismap": false,
               "isoneof": true,
               "oneofdecl": "cutout",
