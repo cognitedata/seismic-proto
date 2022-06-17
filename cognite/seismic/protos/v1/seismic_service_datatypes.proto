@@ -127,7 +127,7 @@ message SeismicCutout {
         Seismic2dExtent two_dee_extent = 1; // Indicates that the seismic was requested with this 2D extent
         Seismic3dExtent three_dee_extent = 2; // Indicates that the seismic was requested with this 3D extent (or an equivalent VolumeDef)
         Geometry geometry = 3; // Indicates that the seismic was requested with this geometry
-        google.protobuf.Empty empty = 4; // Indicates that the seismic was created empty
+        bool empty = 4; // Indicates that the seismic was created empty
     }
 };
 
