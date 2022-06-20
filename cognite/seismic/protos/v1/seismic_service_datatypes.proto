@@ -128,6 +128,7 @@ message SeismicCutout {
         Seismic3dExtent three_dee_extent = 2; // Indicates that the seismic was requested with this 3D extent (or an equivalent VolumeDef)
         Geometry geometry = 3; // Indicates that the seismic was requested with this geometry
         bool empty = 4; // Indicates that the seismic was created empty
+        bool full = 5; // Indicates that the seismic was created to cover the entire seismicstore
     }
 };
 
