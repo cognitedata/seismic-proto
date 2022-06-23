@@ -105,7 +105,7 @@ message Survey {
     map<string, string> metadata = 5; //Any custom-defined metadata
     TextHeader text_header = 6; //The text header that corresponds to the seismic
     BinaryHeader binary_header = 7; //The binary header that corresponds to the seismic
-    LineRange line_range = 8; // The minimum and maximum extents of the seismic's grid, described in inlines and crosslines.
+    LineRange line_range = 8; // Deprecated: Use the GetTraceBounds API call instead
     VolumeDef volume_def = 9; // The VolumeDef describing the seismic
     SeismicCutout cutout = 15; // The cutout the seismic object was created with
     SeismicExtent extent = 16; // A description of the traces contained in the seismic
