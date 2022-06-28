@@ -2023,7 +2023,7 @@ will result in the file&#39;s data being removed from the previously active stor
         
       
         <h3 id="com.cognite.seismic.v1.SearchFilesRequest">SearchFilesRequest</h3>
-        <p>Used to search files by id, extid, extid substring, name, name substring</p>
+        <p>Used to search files by a given file/seismic-store/survey search specification</p>
 
         
           <table class="field-table">
@@ -2036,7 +2036,21 @@ will result in the file&#39;s data being removed from the previously active stor
                   <td>spec</td>
                   <td><a href="#com.cognite.seismic.v1.SearchSpec">SearchSpec</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Find files using a file search specification </p></td>
+                </tr>
+              
+                <tr>
+                  <td>seismic_store</td>
+                  <td><a href="#com.cognite.seismic.v1.SearchSpec">SearchSpec</a></td>
+                  <td></td>
+                  <td><p>Find files using a seismic store search specification </p></td>
+                </tr>
+              
+                <tr>
+                  <td>survey</td>
+                  <td><a href="#com.cognite.seismic.v1.SearchSpec">SearchSpec</a></td>
+                  <td></td>
+                  <td><p>Find files using a survey search specification </p></td>
                 </tr>
               
             </tbody>

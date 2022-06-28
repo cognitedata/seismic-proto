@@ -763,12 +763,14 @@ Note that currently only one storage tier per trace store is supported, so inges
 <a name="com-cognite-seismic-v1-SearchFilesRequest"></a>
 
 ### SearchFilesRequest
-Used to search files by id, extid, extid substring, name, name substring
+Used to search files by a given file/seismic-store/survey search specification
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| spec | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  |  |
+| spec | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Find files using a file search specification |
+| seismic_store | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Find files using a seismic store search specification |
+| survey | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Find files using a survey search specification |
 
 
 
