@@ -1733,6 +1733,7 @@ File or dataset or cube derived from a single SEG-Y file
 | segy_overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  |  |
 | key_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that will be used as keys for indexing. |
 | dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | File data dimensionality, either 2D or 3D |
+| crs | [string](#string) |  | The coordinate reference system used by this file |
 
 
 
