@@ -320,7 +320,7 @@ message TraceBounds {
 message TwoDeeBounds {
     // A range bounding the trace header values of the returned traces,
     // using the trace key specified in the extent (if any)
-    Seismic2dRange bounds = 1;
+    Seismic2dRange requested_bounds = 1;
     LineDescriptor cdp_bounds = 2;  // A range bounding the CDP numbers of the returned traces
 }
 
