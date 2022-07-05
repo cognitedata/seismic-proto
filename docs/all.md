@@ -145,6 +145,7 @@ sidebarDepth: 2
     - [SegYSeismicResponse](#com-cognite-seismic-v1-SegYSeismicResponse)
     - [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest)
     - [TraceBounds](#com-cognite-seismic-v1-TraceBounds)
+    - [TwoDeeBounds](#com-cognite-seismic-v1-TwoDeeBounds)
     - [UnregisterSourceSegyFileRequest](#com-cognite-seismic-v1-UnregisterSourceSegyFileRequest)
     - [UnregisterSourceSegyFileResponse](#com-cognite-seismic-v1-UnregisterSourceSegyFileResponse)
     - [VolumeBoundsResponse](#com-cognite-seismic-v1-VolumeBoundsResponse)
@@ -2611,7 +2612,23 @@ Used to search files by a given file/seismic-store/survey search specification
 | crs | [string](#string) |  | CRS of the returned trace coordinates |
 | z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | The actual range of z values returned |
 | three_dee_bounds | [LineRange](#com-cognite-seismic-v1-LineRange) |  | Will be null for a line-like geometry |
-| two_dee_bounds | [Seismic2dRange](#com-cognite-seismic-v1-Seismic2dRange) |  |  |
+| two_dee_bounds | [TwoDeeBounds](#com-cognite-seismic-v1-TwoDeeBounds) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-TwoDeeBounds"></a>
+
+### TwoDeeBounds
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| requested_bounds | [Seismic2dRange](#com-cognite-seismic-v1-Seismic2dRange) |  | A range bounding the trace header values of the returned traces, using the trace key specified in the extent (if any), or CDP if no extent was specified |
+| cdp_bounds | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | A range bounding the CDP numbers of the returned traces |
 
 
 

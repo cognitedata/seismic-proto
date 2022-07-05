@@ -2687,12 +2687,48 @@
               "name": "two_dee_bounds",
               "description": "",
               "label": "",
+              "type": "TwoDeeBounds",
+              "longType": "TwoDeeBounds",
+              "fullType": "com.cognite.seismic.v1.TwoDeeBounds",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "bounds",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "TwoDeeBounds",
+          "longName": "TwoDeeBounds",
+          "fullName": "com.cognite.seismic.v1.TwoDeeBounds",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "requested_bounds",
+              "description": "A range bounding the trace header values of the returned traces,\nusing the trace key specified in the extent (if any), or CDP if no extent was specified",
+              "label": "",
               "type": "Seismic2dRange",
               "longType": "Seismic2dRange",
               "fullType": "com.cognite.seismic.v1.Seismic2dRange",
               "ismap": false,
-              "isoneof": true,
-              "oneofdecl": "bounds",
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "cdp_bounds",
+              "description": "A range bounding the CDP numbers of the returned traces",
+              "label": "",
+              "type": "LineDescriptor",
+              "longType": "com.cognite.seismic.LineDescriptor",
+              "fullType": "com.cognite.seismic.LineDescriptor",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
               "defaultValue": ""
             }
           ]

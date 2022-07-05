@@ -741,6 +741,10 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.TwoDeeBounds"><span class="badge">M</span>TwoDeeBounds</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.UnregisterSourceSegyFileRequest"><span class="badge">M</span>UnregisterSourceSegyFileRequest</a>
                 </li>
               
@@ -6777,9 +6781,41 @@ If no coverage source is provided, but the coverage parameters are provided, the
               
                 <tr>
                   <td>two_dee_bounds</td>
-                  <td><a href="#com.cognite.seismic.v1.Seismic2dRange">Seismic2dRange</a></td>
+                  <td><a href="#com.cognite.seismic.v1.TwoDeeBounds">TwoDeeBounds</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.TwoDeeBounds">TwoDeeBounds</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>requested_bounds</td>
+                  <td><a href="#com.cognite.seismic.v1.Seismic2dRange">Seismic2dRange</a></td>
+                  <td></td>
+                  <td><p>A range bounding the trace header values of the returned traces,
+using the trace key specified in the extent (if any), or CDP if no extent was specified </p></td>
+                </tr>
+              
+                <tr>
+                  <td>cdp_bounds</td>
+                  <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
+                  <td></td>
+                  <td><p>A range bounding the CDP numbers of the returned traces </p></td>
                 </tr>
               
             </tbody>
