@@ -163,6 +163,7 @@ message SeismicStore {
     Geometry coverage = 12; //If present, the coverage geometry for this seismic store
     repeated TraceHeaderField trace_header_fields = 15; // The trace header fields that have been registered as keys for indexing.
     Dimensions dimensions = 16; // The underlying file's data dimensionality, either 2D or 3D
+    string crs = 18; // The coordinate reference system used by this seismicstore
 }
 
 /**
