@@ -4922,6 +4922,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "crs",
+              "description": "The coordinate reference system used by this seismicstore",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -5086,6 +5098,18 @@
               "type": "string",
               "longType": "string",
               "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "survey_id",
+              "description": "The integer id of the survey this file is contained in",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",

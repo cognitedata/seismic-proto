@@ -1695,6 +1695,7 @@ Represents a seismic store.
 | coverage | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | If present, the coverage geometry for this seismic store |
 | trace_header_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that have been registered as keys for indexing. |
 | dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | The underlying file&#39;s data dimensionality, either 2D or 3D |
+| crs | [string](#string) |  | The coordinate reference system used by this seismicstore |
 
 
 
@@ -1735,6 +1736,7 @@ File or dataset or cube derived from a single SEG-Y file
 | key_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that will be used as keys for indexing. |
 | dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | File data dimensionality, either 2D or 3D |
 | crs | [string](#string) |  | The coordinate reference system used by this file |
+| survey_id | [int64](#int64) |  | The integer id of the survey this file is contained in |
 
 
 
