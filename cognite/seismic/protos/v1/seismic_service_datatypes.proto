@@ -51,6 +51,7 @@ message SourceSegyFile {
     repeated TraceHeaderField key_fields = 8; // The trace header fields that will be used as keys for indexing.
     Dimensions dimensions = 9; // File data dimensionality, either 2D or 3D
     string crs = 10; // The coordinate reference system used by this file
+    int64 survey_id = 11; // The integer id of the survey this file is contained in
 }
 
 // Metadata related to interpreting SEG-Y files.
