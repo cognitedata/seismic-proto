@@ -1616,7 +1616,8 @@ Represents a seismic store.
 | ----- | ---- | ----- | ----------- |
 | id | [int64](#int64) |  | The unique internal id of the seismic store |
 | name | [string](#string) |  | The unique name of the seismic store. Will become non-unique in the future, and `external_id` will become the unique identifier. |
-| survey_id | [string](#string) |  | The survey this seismic store belongs to. |
+| survey_id | [string](#string) |  | The survey this seismic store belongs to, in the old uuid format. |
+| survey_id_int | [int64](#int64) |  | The survey this seismic store belongs to. |
 | ingestion_source | [com.cognite.seismic.IngestionSource](#com-cognite-seismic-IngestionSource) |  | The source of the seismicstore. It indicates how the file was ingested |
 | metadata | [SeismicStore.MetadataEntry](#com-cognite-seismic-v1-SeismicStore-MetadataEntry) | repeated | Any custom-defined metadata |
 | ingested_file | [com.cognite.seismic.File](#com-cognite-seismic-File) |  | Same as `ingested_source_file`. This field is deprecated and will be removed in the future. |
