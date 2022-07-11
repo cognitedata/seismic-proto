@@ -221,6 +221,7 @@ message SearchSpec {
         string name = 4;  // An exact string match is required
         string name_substring = 5;  // Searches for names having this substring.
         MetadataFilter metadata = 7;  // Filters by metadata. Currently only supported by Surveys.
+        Geometry geometry = 8; // Filters by intersection with a geometry. Currently only supported by Surveys.
     }
 }
 
