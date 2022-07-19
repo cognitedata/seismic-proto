@@ -360,6 +360,7 @@ message SearchJobStatusRequest {
     oneof id {
         string job_id = 1;
         string file_uuid = 2;
+        int64 file_id = 9;
     }
     JobStatus status = 3;
     google.protobuf.StringValue target_storage_tier_name = 4;
@@ -377,6 +378,7 @@ message JobStatusResponse {
     google.protobuf.Timestamp updated_at = 5;
     google.protobuf.StringValue target_storage_tier_name = 6;
     repeated IngestionLog logs = 7;
+    int64 file_id = 8;
 }
 
 message IngestionLog {
