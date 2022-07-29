@@ -1738,6 +1738,7 @@ Used to search files by a given file/seismic-store/survey search specification
 | survey | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  |  |
 | seismic | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  |  |
 | partition | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Can only search on partitions you can see. |
+| seismic_store | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Must be a data manager to search by seismic store. |
 | include_text_header | [bool](#bool) |  |  |
 | include_binary_header | [bool](#bool) |  |  |
 | include_line_range | [bool](#bool) |  |  |

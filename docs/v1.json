@@ -2096,6 +2096,18 @@
               "defaultValue": ""
             },
             {
+              "name": "seismic_store",
+              "description": "Must be a data manager to search by seismic store.",
+              "label": "",
+              "type": "SearchSpec",
+              "longType": "SearchSpec",
+              "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
               "name": "include_text_header",
               "description": "",
               "label": "",
