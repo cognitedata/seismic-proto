@@ -162,6 +162,7 @@ message SearchSeismicsRequest {
         SearchSpec survey = 1;
         SearchSpec seismic = 2;
         SearchSpec partition = 3;  // Can only search on partitions you can see.
+        SearchSpec seismic_store = 15;  // Must be a data manager to search by seismic store.
     }
     bool include_text_header = 4;
     bool include_binary_header = 5;
@@ -360,6 +361,7 @@ message SearchJobStatusRequest {
     oneof id {
         string job_id = 1;
         string file_uuid = 2;
+        int64 file_id = 9;
     }
     JobStatus status = 3;
     google.protobuf.StringValue target_storage_tier_name = 4;
@@ -377,6 +379,7 @@ message JobStatusResponse {
     google.protobuf.Timestamp updated_at = 5;
     google.protobuf.StringValue target_storage_tier_name = 6;
     repeated IngestionLog logs = 7;
+    int64 file_id = 8;
 }
 
 message IngestionLog {
