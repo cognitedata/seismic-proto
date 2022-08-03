@@ -4022,6 +4022,18 @@
               "isoneof": true,
               "oneofdecl": "findby",
               "defaultValue": ""
+            },
+            {
+              "name": "geometry",
+              "description": "Filters by intersection with a geometry. Currently only supported by Surveys.",
+              "label": "",
+              "type": "Geometry",
+              "longType": "com.cognite.seismic.Geometry",
+              "fullType": "com.cognite.seismic.Geometry",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
             }
           ]
         },
