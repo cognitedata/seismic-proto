@@ -40,6 +40,12 @@ message OptionalMap {
     map<string, string> data = 1;
 }
 
+enum SeismicDataType {
+    UNSPECIFIED_DATA_TYPE = 0;
+    POSTSTACK = 1;
+    PRESTACK_DEPTH_MIGRATED = 2;
+}
+
 // File or dataset or cube derived from a single SEG-Y file
 message SourceSegyFile {
     string uuid = 1;
@@ -54,6 +60,7 @@ message SourceSegyFile {
     string crs = 10; // The coordinate reference system used by this file
     int64 survey_id = 11; // The integer id of the survey this file is contained in
     google.protobuf.Timestamp last_modified = 12;  // The last time this object was created or edited.
+    SeismicDataType seismic_data_type = 13; // Whether this file contains pre-stack or post-stack data.
 }
 
 // Metadata related to interpreting SEG-Y files.
@@ -128,6 +135,7 @@ message Survey {
     // This will always match the dimensionality for the underlying seismic store.
     Dimensions dimensions = 18;
     google.protobuf.Timestamp last_modified = 19;  // The last time this object was created or edited.
+    SeismicDataType seismic_data_type = 20; // Whether this seismic object contains pre-stack or post-stack data.
 }
 
 message SeismicCutout {
@@ -172,6 +180,7 @@ message SeismicStore {
     Dimensions dimensions = 16; // The underlying file's data dimensionality, either 2D or 3D
     string crs = 18; // The coordinate reference system used by this seismicstore
     google.protobuf.Timestamp last_modified = 19;  // The last time this object was created or edited.
+    SeismicDataType seismic_data_type = 20; // Whether this seismic store contains pre-stack or post-stack data.
 }
 
 /**
