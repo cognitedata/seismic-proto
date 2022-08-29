@@ -108,6 +108,12 @@ service SeismicAPI {
     rpc SearchSeismicStores (SearchSeismicStoresRequest) returns (stream SeismicStore) {}
 
     /**
+    * Inspect the seismicstore resulting from a possibly failed ingestion. Useful for 
+    * debugging failed ingestions.
+    */
+    rpc InspectIngestion (InspectIngestionRequest) returns (SeismicStore) {}
+
+    /**
      * Set the name of a seismic store object.
      **/
     rpc EditSeismicStore (EditSeismicStoreRequest) returns (SeismicStore) {}
