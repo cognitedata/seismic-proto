@@ -220,8 +220,12 @@ message InspectIngestionRequest {
     oneof identifier {
         int64 seismic_store_id = 1;
         int64 file_id = 2;
+        string job_id = 3;
     }
-    bool allow_unpublished = 3;
+}
+
+message InspectIngestionResponse {
+    SeismicStore seismic_store = 1;
 }
 
 message EditSeismicStoreRequest {

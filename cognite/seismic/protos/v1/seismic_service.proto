@@ -111,7 +111,7 @@ service SeismicAPI {
     * Inspect the seismicstore resulting from a possibly failed ingestion. Useful for 
     * debugging failed ingestions.
     */
-    rpc InspectIngestion (InspectIngestionRequest) returns (SeismicStore) {}
+    rpc InspectIngestion (InspectIngestionRequest) returns (InspectIngestionResponse) {}
 
     /**
      * Set the name of a seismic store object.
