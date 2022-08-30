@@ -216,6 +216,18 @@ message SearchSeismicStoresRequest {
     CoverageSpec coverage = 7; // If specified, include coverage
 }
 
+message InspectIngestionRequest {
+    oneof identifier {
+        int64 seismic_store_id = 1;
+        int64 file_id = 2;
+        string job_id = 3;
+    }
+}
+
+message InspectIngestionResponse {
+    SeismicStore seismic_store = 1;
+}
+
 message EditSeismicStoreRequest {
     int64 seismic_store_id = 1; // Deprecated. Use `identifier` instead.
     google.protobuf.StringValue name = 2; // If not null will change the seismic store name
