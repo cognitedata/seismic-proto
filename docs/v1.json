@@ -175,6 +175,18 @@
               "responseStreaming": true
             },
             {
+              "name": "InspectIngestion",
+              "description": "Inspect the seismicstore resulting from a possibly failed ingestion. Useful for \ndebugging failed ingestions.",
+              "requestType": "InspectIngestionRequest",
+              "requestLongType": "InspectIngestionRequest",
+              "requestFullType": "com.cognite.seismic.v1.InspectIngestionRequest",
+              "requestStreaming": false,
+              "responseType": "InspectIngestionResponse",
+              "responseLongType": "InspectIngestionResponse",
+              "responseFullType": "com.cognite.seismic.v1.InspectIngestionResponse",
+              "responseStreaming": false
+            },
+            {
               "name": "EditSeismicStore",
               "description": "Set the name of a seismic store object.",
               "requestType": "EditSeismicStoreRequest",
@@ -1442,6 +1454,78 @@
               "type": "string",
               "longType": "string",
               "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "InspectIngestionRequest",
+          "longName": "InspectIngestionRequest",
+          "fullName": "com.cognite.seismic.v1.InspectIngestionRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "seismic_store_id",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "identifier",
+              "defaultValue": ""
+            },
+            {
+              "name": "file_id",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "identifier",
+              "defaultValue": ""
+            },
+            {
+              "name": "job_id",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "identifier",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "InspectIngestionResponse",
+          "longName": "InspectIngestionResponse",
+          "fullName": "com.cognite.seismic.v1.InspectIngestionResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "seismic_store",
+              "description": "",
+              "label": "",
+              "type": "SeismicStore",
+              "longType": "SeismicStore",
+              "fullType": "com.cognite.seismic.v1.SeismicStore",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",

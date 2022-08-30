@@ -34,6 +34,8 @@ sidebarDepth: 2
     - [IngestSourceSegyFileRequest](#com-cognite-seismic-v1-IngestSourceSegyFileRequest)
     - [IngestSourceSegyFileResponse](#com-cognite-seismic-v1-IngestSourceSegyFileResponse)
     - [IngestionLog](#com-cognite-seismic-v1-IngestionLog)
+    - [InspectIngestionRequest](#com-cognite-seismic-v1-InspectIngestionRequest)
+    - [InspectIngestionResponse](#com-cognite-seismic-v1-InspectIngestionResponse)
     - [JobStatusResponse](#com-cognite-seismic-v1-JobStatusResponse)
     - [RegisterSourceSegyFileRequest](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest)
     - [RegisterSourceSegyFileRequest.MetadataEntry](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest-MetadataEntry)
@@ -263,6 +265,7 @@ Before unregistering, there must be no ingestion jobs running for the source fil
 | EditSeismic | [EditSeismicRequest](#com-cognite-seismic-v1-EditSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Edit the specified seismic. Seismic object names and metadata can be changed. The cutout definition, however, cannot be changed. To modify the definition or the owning partition, delete the seismic object and create a new one. |
 | DeleteSeismic | [DeleteSeismicRequest](#com-cognite-seismic-v1-DeleteSeismicRequest) | [DeleteSeismicResponse](#com-cognite-seismic-v1-DeleteSeismicResponse) | Delete seismic objects. |
 | SearchSeismicStores | [SearchSeismicStoresRequest](#com-cognite-seismic-v1-SearchSeismicStoresRequest) | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) stream | Search and retrieve seismic stores. Can only retrieve seismic stores you own. |
+| InspectIngestion | [InspectIngestionRequest](#com-cognite-seismic-v1-InspectIngestionRequest) | [InspectIngestionResponse](#com-cognite-seismic-v1-InspectIngestionResponse) | Inspect the seismicstore resulting from a possibly failed ingestion. Useful for debugging failed ingestions. |
 | EditSeismicStore | [EditSeismicStoreRequest](#com-cognite-seismic-v1-EditSeismicStoreRequest) | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) | Set the name of a seismic store object. |
 | DeleteSeismicStore | [DeleteSeismicStoreRequest](#com-cognite-seismic-v1-DeleteSeismicStoreRequest) | [DeleteSeismicStoreResponse](#com-cognite-seismic-v1-DeleteSeismicStoreResponse) | Delete a seismic store. If any seismics still reference the specified seismic store, the request will fail. |
 | CreatePartition | [CreatePartitionRequest](#com-cognite-seismic-v1-CreatePartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Create a data partition, optionally setting a name. |
@@ -681,6 +684,38 @@ Note that currently only one storage tier per trace store is supported, so inges
 | ----- | ---- | ----- | ----------- |
 | timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
 | log_line | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-InspectIngestionRequest"></a>
+
+### InspectIngestionRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| seismic_store_id | [int64](#int64) |  |  |
+| file_id | [int64](#int64) |  |  |
+| job_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-InspectIngestionResponse"></a>
+
+### InspectIngestionResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| seismic_store | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) |  |  |
 
 
 

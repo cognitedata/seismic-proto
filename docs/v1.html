@@ -286,6 +286,14 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.InspectIngestionRequest"><span class="badge">M</span>InspectIngestionRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.InspectIngestionResponse"><span class="badge">M</span>InspectIngestionResponse</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.JobStatusResponse"><span class="badge">M</span>JobStatusResponse</a>
                 </li>
               
@@ -831,6 +839,14 @@ and create a new one.</p></td>
                 <td><a href="#com.cognite.seismic.v1.SearchSeismicStoresRequest">SearchSeismicStoresRequest</a></td>
                 <td><a href="#com.cognite.seismic.v1.SeismicStore">SeismicStore</a> stream</td>
                 <td><p>Search and retrieve seismic stores. Can only retrieve seismic stores you own.</p></td>
+              </tr>
+            
+              <tr>
+                <td>InspectIngestion</td>
+                <td><a href="#com.cognite.seismic.v1.InspectIngestionRequest">InspectIngestionRequest</a></td>
+                <td><a href="#com.cognite.seismic.v1.InspectIngestionResponse">InspectIngestionResponse</a></td>
+                <td><p>Inspect the seismicstore resulting from a possibly failed ingestion. Useful for 
+debugging failed ingestions.</p></td>
               </tr>
             
               <tr>
@@ -1821,6 +1837,68 @@ will result in the file&#39;s data being removed from the previously active stor
                 <tr>
                   <td>log_line</td>
                   <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.InspectIngestionRequest">InspectIngestionRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>seismic_store_id</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>file_id</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>job_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.InspectIngestionResponse">InspectIngestionResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>seismic_store</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicStore">SeismicStore</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
