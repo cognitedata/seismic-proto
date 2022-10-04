@@ -1565,6 +1565,8 @@ For more information refer to &lt;a href=&#34;https://cognite-seismic-sdk.readth
 | INLINE | 3 |  |
 | CROSSLINE | 4 |  |
 | SHOTPOINT | 5 |  |
+| CDP_TRACE | 6 | bytes 25-28 of standard trace header: trace number within ensemble |
+| OFFSET | 7 | bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group. |
 
 
  

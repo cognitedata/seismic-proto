@@ -3143,6 +3143,16 @@
               "name": "SHOTPOINT",
               "number": "5",
               "description": ""
+            },
+            {
+              "name": "CDP_TRACE",
+              "number": "6",
+              "description": "bytes 25-28 of standard trace header: trace number within ensemble"
+            },
+            {
+              "name": "OFFSET",
+              "number": "7",
+              "description": "bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group."
             }
           ]
         }
