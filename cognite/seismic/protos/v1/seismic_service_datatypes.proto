@@ -334,8 +334,8 @@ enum TraceHeaderField {
     INLINE = 3;
     CROSSLINE = 4;
     SHOTPOINT = 5;
-    TRACE_NUMBER_WITHIN_ENSEMBLE = 6; // bytes 25-28 of Standard Trace Header.
-    DISTANCE_FROM_SOURCE = 7;  // bytes 37-40. Distance from center of source point to the center of receiver group.
+    CDP_TRACE = 6; // bytes 25-28 of Standard Trace Header, aka trace number within ensemble
+    OFFSET = 7;  // bytes 37-40. Distance from center of source point to the center of receiver group.
 }
 
 message GeometryFilter {
