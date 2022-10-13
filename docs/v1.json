@@ -2598,6 +2598,18 @@
               "isoneof": true,
               "oneofdecl": "query",
               "defaultValue": ""
+            },
+            {
+              "name": "skip_message_count",
+              "description": "Skip the first n chunks of the download. Useful for resuming aborted downloads. Default: 0.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },

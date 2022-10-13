@@ -961,6 +961,7 @@ Used to search files by a given file/seismic-store/survey search specification
 | lines | [com.cognite.seismic.LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  | Only valid if the queried object is 3D. Deprecated. Use three_dee_extent instead. |
 | two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Only valid if the queried object is 2D |
 | three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Only valid if the queried object is 3D |
+| skip_message_count | [int32](#int32) |  | Skip the first n chunks of the download. Useful for resuming aborted downloads. Default: 0. |
 
 
 
