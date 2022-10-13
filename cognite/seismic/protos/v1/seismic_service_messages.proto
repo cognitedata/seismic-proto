@@ -349,6 +349,7 @@ message SegYSeismicRequest {
         Seismic3dExtent three_dee_extent = 6; // Only valid if the queried object is 3D
     }
     int32 skip_message_count = 7; // Skip the first n chunks of the download. Useful for resuming aborted downloads. Default: 0.
+    string etag = 8; // Entity tag from a previous download request. Useful for making sure we are resuming the same entity.
 }
 
 message SegYSeismicResponse {
