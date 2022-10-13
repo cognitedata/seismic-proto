@@ -275,7 +275,6 @@ message TextHeader {
     string file_id = 1; // DEPRECATED: This field will always be empty
     string header = 2; // The text content of the header
     string raw_header = 3; // The raw bytes of a header as a string
-    google.protobuf.Timestamp last_edited = 14;  // The last time this object was created or edited.
 }
 /**
 A representation of binary headers used to create or edit exiting headers. BinaryHeader FIELDS contains the list of valid fields. to set after the object is constructed.
@@ -308,7 +307,6 @@ message BinaryHeader {
     int32 impulse_signal_polarity = 25;
     int32 vibratory_polarity_code = 26;
     bytes raw_header = 27;
-    google.protobuf.Timestamp last_edited = 28;  // The last time this object was created or edited.
 }
 
 
