@@ -277,7 +277,7 @@ message TextHeader {
     string raw_header = 3; // The raw bytes of a header as a string
 }
 /**
-A representation of binary headers used to create or edit exiting headers. BinaryHeader FIELDS contains the list of valid fields. to set after the object is constructed.
+A representation of binary headers used to create or edit existing headers. BinaryHeader FIELDS contains the list of valid fields. to set after the object is constructed.
 **/
 message BinaryHeader {
     string file_id = 1; // DEPRECATED: This field will always be empty
