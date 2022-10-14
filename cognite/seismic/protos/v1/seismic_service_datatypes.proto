@@ -6,6 +6,7 @@ package com.cognite.seismic.v1;
 
 import "cognite/seismic/protos/types.proto";
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
 
 message Coordinate {
     //The x value of the coordinate
@@ -52,6 +53,7 @@ message SourceSegyFile {
     Dimensions dimensions = 9; // File data dimensionality, either 2D or 3D
     string crs = 10; // The coordinate reference system used by this file
     int64 survey_id = 11; // The integer id of the survey this file is contained in
+    google.protobuf.Timestamp last_modified = 12;  // The last time this object was created or edited.
 }
 
 // Metadata related to interpreting SEG-Y files.
@@ -96,6 +98,7 @@ message Survey {
     // or by specifying three or more corners of the grid as a list of DoubleTraceCoordinates. This transformation must be valid for all members of this survey.
     SurveyGridTransformation grid_transformation = 6;
     CustomSurveyCoverage custom_coverage = 7; // User-provided coverage override
+    google.protobuf.Timestamp last_modified = 9;  // The last time this object was created or edited.
 }
 
 /**
@@ -124,6 +127,7 @@ message Survey {
     // The underlying file's data dimensionality, either 2D or 3D
     // This will always match the dimensionality for the underlying seismic store.
     Dimensions dimensions = 18;
+    google.protobuf.Timestamp last_modified = 19;  // The last time this object was created or edited.
 }
 
 message SeismicCutout {
@@ -167,6 +171,7 @@ message SeismicStore {
     repeated TraceHeaderField trace_header_fields = 15; // The trace header fields that have been registered as keys for indexing.
     Dimensions dimensions = 16; // The underlying file's data dimensionality, either 2D or 3D
     string crs = 18; // The coordinate reference system used by this seismicstore
+    google.protobuf.Timestamp last_modified = 19;  // The last time this object was created or edited.
 }
 
 /**
@@ -182,6 +187,7 @@ message Partition {
     repeated Seismic seismics = 4;  // DEPRECATED: This field will always be empty. Use seismic search by partition instead.
     //The list of ids of seismics that belong to this partition
     repeated int64 seismic_ids = 5;
+    google.protobuf.Timestamp last_modified = 6;  // The last time this object was created or edited.
 }
 
 /**
