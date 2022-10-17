@@ -348,6 +348,7 @@ message SegYSeismicRequest {
         Seismic2dExtent two_dee_extent = 5;   // Only valid if the queried object is 2D
         Seismic3dExtent three_dee_extent = 6; // Only valid if the queried object is 3D
     }
+    int32 skip_message_count = 7; // Skip the first n chunks of the download. Useful for resuming aborted downloads. Default: 0.
 }
 
 message SegYSeismicResponse {
