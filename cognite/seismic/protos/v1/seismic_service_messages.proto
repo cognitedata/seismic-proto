@@ -259,7 +259,7 @@ message CreatePartitionRequest {
 }
 
 message SearchPartitionsRequest {
-    oneof searchspec {
+    oneof search_spec {
         SearchSpec partitions = 1;
         LastModifiedFilter last_modified = 2; // Search for partitions by last modified.
     }
