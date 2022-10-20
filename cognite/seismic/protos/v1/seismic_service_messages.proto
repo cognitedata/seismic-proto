@@ -164,6 +164,7 @@ message SearchSeismicsRequest {
         SearchSpec seismic = 2;
         SearchSpec partition = 3;  // Can only search on partitions you can see.
         SearchSpec seismic_store = 15;  // Must be a data manager to search by seismic store.
+        LastModifiedFilter last_modified = 16; // Search for seismics by last modified
     }
     bool include_text_header = 4;
     bool include_binary_header = 5;
@@ -180,7 +181,6 @@ message SearchSeismicsRequest {
     bool include_partition = 9;          // If true, include info on the partition. Must be data manager.\
     bool include_coverage = 10;          // Deprecated. Use `coverage` instead.
     CoverageSpec coverage = 11;          // If specified, requests coverage as well.
-    LastModifiedFilter last_modified = 16; // If set, will further filter returned objects by last modified.
 }
 
 message EditSeismicRequest {
@@ -204,6 +204,7 @@ message SearchSeismicStoresRequest {
         SearchSpec seismic_store = 1;
         SearchSpec survey = 6;
         SearchSpec file = 8;
+        LastModifiedFilter last_modified = 11; // Will return seismic stores by last modified.
     }
     bool include_file_info = 2;  // If true, include File information in the response
     bool include_volume_definitions = 3; // If true, includes inline/crossline volume definitions for store
@@ -216,7 +217,6 @@ message SearchSeismicStoresRequest {
     bool include_headers = 5; // if true, include text and binary headers in the response
     bool include_coverage = 4; // Deprecated. Use `coverage` instead.
     CoverageSpec coverage = 7; // If specified, include coverage
-    LastModifiedFilter last_modified = 11; // If set, will further filter returned objects by last modified.
 }
 
 message InspectIngestionRequest {
@@ -259,8 +259,10 @@ message CreatePartitionRequest {
 }
 
 message SearchPartitionsRequest {
-    SearchSpec partitions = 1;
-    LastModifiedFilter last_modified = 2; // If set, will further filter returned objects by last modified.
+    oneof searchspec {
+        SearchSpec partitions = 1;
+        LastModifiedFilter last_modified = 2; // Search for partitions by last modified.
+    }
 }
 
 message EditPartitionRequest {
@@ -371,8 +373,8 @@ message SearchFilesRequest {
         SearchSpec spec = 1;            // Find files using a file search specification
         SearchSpec seismic_store = 2;   // Find files using a seismic store search specification
         SearchSpec survey = 3;          // Find files using a survey search specification
+        LastModifiedFilter last_modified = 4; // Filter files by last modified.
     }
-    LastModifiedFilter last_modified = 4; // If set, will further filter returned objects by last modified.
 }
 
 message SearchJobStatusRequest {
