@@ -81,7 +81,7 @@ The original SEG-Y binary headers can be fetched from [`com.cognite.seismic.v1.S
 #### v1:
 ```
 {
-  "seismic_store": {
+  "file": {
     "name": "some_name"
   },
   "include_headers": true
@@ -94,8 +94,8 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 #### v1:
 ```
 {
-  "seismic": {
-    "id": 1234
+  "seismic_store": {
+    "name": "some_name"
   },
   "include_binary_header": true
 }
@@ -129,8 +129,8 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 #### v1:
 ```
 {
-  "seismic": {
-    "id": 1234
+  "seismic_store": {
+    "name": "some_name"
   },
   "include_text_header": true
 }
@@ -152,7 +152,7 @@ Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.c
 #### v1:
 ```
 {
-  "seismic_store": {
+  "file": {
     "name": "some_name"
   },
   "coverage": {
@@ -167,8 +167,8 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 #### v1:
 ```
 {
-  "seismic": {
-    "id": 1234
+  "seismic_store": {
+    "name": "some_name"
   },
   "coverage": {
     "format": 0
@@ -177,14 +177,35 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 ```
 
 ## com.cognite.seismic.Query.GetFileLineRange
-The line range can be fetched from a [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) through [`com.cognite.seismic.v1.SeismicService.SearchSeismics`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries)
+Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) with [`include_extent`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) set to `true`.
+
+### Payload example
+#### v0:
+```
+{
+  "file": {
+    "name": "some_name"
+  }
+}
+```
+#### v1:
+```
+{
+  "file": {
+    "name": "some_name"
+  },
+  "include_extent": true
+}
+```
+
+Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) objects also have the line range. They can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismics`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
 
 ### Payload example
 #### v1:
 ```
 {
   "seismic": {
-    "id": 1234
+    "id": "1234"
   },
   "include_line_range": true
 }
@@ -201,21 +222,33 @@ See [`com.cognite.seismic.Query.GetFileLineRange`](##com.cognite.seismic.Query.G
 See [`com.cognite.seismic.Query.GetFileLineRange`](##com.cognite.seismic.Query.GetFileLineRange)
 
 ## com.cognite.seismic.Query.GetTraceByCoordinates
-To get the closest trace to a given coordinate, [`com.cognite.seismic.v1.SeismicService.GetVolume`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) can be used specifying the [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#volumerequest) with [`interpolation_method`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.GeometryBasedVolume) set to [`NEAREST_TRACE`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.InterpolationMethod), and a [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.Geometry) containing the coordinate of interest.
+To get the closest trace to a given coordinate, [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) can be used specifying the [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) with [`interpolation_method`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.GeometryFilter) set to [`NEAREST_TRACE`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.InterpolationMethod), and a [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.Geometry) containing the coordinate of interest.
 
 ### Payload example
+#### v0:
+```
+{
+  "file": {
+    "name": "some_name",
+  },
+  "coordinates": {
+    "x": 10,
+    "y": 20
+  }
+}
+```
 #### v1:
 ```
 {
   "seismic": {
-    "id": 1234
+    "id": "1234"
   },
   "geometry": {
     "geometry": {
-      "crs": "EPSG:4326",
-      "wkt": "POINT(10 20)"
-    },
-    "interpolation_method": 0
+      "wkt": {
+        "geometry": "POINT(10 20)"
+      }
+    }
   }
 }
 ```
@@ -226,7 +259,7 @@ To get the closest trace to a given coordinate, [`com.cognite.seismic.v1.Seismic
 See [`com.cognite.seismic.Query.GetVolume`](##com.cognite.seismic.Query.GetVolume)
 
 ## com.cognite.seismic.Query.GetSliceByGeometry
-Use [`com.cognite.seismic.v1.SeismicService.GetVolume`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.Geometry).
+Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest).
 
 See [`com.cognite.seismic.Query.GetTraceByCoordinates`](##com.cognite.seismic.Query.GetTraceByCoordinates).
 
@@ -236,7 +269,7 @@ See [`com.cognite.seismic.Query.GetTraceByCoordinates`](##com.cognite.seismic.Qu
 See [`com.cognite.seismic.Query.GetVolume`](##com.cognite.seismic.Query.GetVolume)
 
 ## com.cognite.seismic.Query.GetCubeByGeometry
-Use [`com.cognite.seismic.v1.SeismicService.GetVolume`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.Geometry).
+Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest).
 
 See [`com.cognite.seismic.Query.GetTraceByCoordinates`](##com.cognite.seismic.Query.GetTraceByCoordinates).
 
@@ -244,56 +277,75 @@ See [`com.cognite.seismic.Query.GetTraceByCoordinates`](##com.cognite.seismic.Qu
 Use [com.cognite.seismic.v1.SeismicService.GetSegYFile](com.cognite.seismic.v1.SeismicService.GetSegYFile) instead.
 
 ## com.cognite.seismic.Query.GetSlabByLines
-Use [`com.cognite.seismic.v1.SeismicService.GetVolume`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the [`volume`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#volumerequest) with the desired [`iline`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.LineBasedVolume) and [`xline`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.LineBasedVolume), and the [`z`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.LineBasedVolume) range of the slab.
+Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the [`three_dee_extent`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) containing a [`rect`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic3dExtent) with the desired [`inline_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic3dRect) and [`xline_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic3dRect), and the [`z_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) range of the slab.
 
 #### v1:
 ```
 {
   "seismic": {
-    "id": 1234
+    "id": "1234"
   },
-  "volume": {
-    "iline": {
-      "min": 2,
-      "max": 22,
-      "step": 4
+  "three_dee_extent": {
+    "rects": {
+      "rects": {
+        "inline_range": {
+          "min": 2,
+          "max": 22,
+          "step": 4
+        },
+        "xline_range": {
+          "min": 1,
+          "max": 5
+        }
+      }
     },
-    "xline": {
-      "min": 1,
-      "max": 5
-    },
-    "z": {
-      "min": 100,
-      "max": 200
-    }
   },
-
+  "z_range": {
+    "min": 100,
+    "max": 200
+  },
 }
 ```
 
 ## com.cognite.seismic.Query.GetTimeSliceByGeometry
-Use [`com.cognite.seismic.v1.SeismicService.GetVolume`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#volumerequest) with a [`z_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.GeometryBasedVolume) contaning the depth of interest, and a [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.Geometry) desired.
+Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) with a [`z_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) contaning the depth of interest, and a [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.GeometryFilter) desired.
 
 See [`com.cognite.seismic.Query.GetSliceByGeometry`](##com.cognite.seismic.Query.GetSliceByGeometry).
 
+### Payload example
+#### v0:
+```
+{
+  "file": {
+    "name": "some_file"
+  },
+  "geometry": {
+    "wkt": {
+      "geometry": "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))"
+    }
+  },
+  "z": 20
+}
+```
 #### v1:
 ```
 {
   "seismic": {
-    "id": 1234
+    "id": "1234"
   },
   "geometry": {
     "geometry": {
-      "crs": "EPSG:4326",
-      "wkt": "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))"
-    },
-    "z_range": {
-      "min": 100,
-      "max": 100
+      "wkt": {
+        "geometry": "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))"
+      }
     }
+  },
+  "z_range": {
+    "min": 20,
+    "max": 20
   }
 }
 ```
 
 ## com.cognite.seismic.Query.GetVolume
-Use [com.cognite.seismic.v1.SeismicService.GetVolume](com.cognite.seismic.v1.SeismicService.GetVolume) instead.
+Use [com.cognite.seismic.v1.SeismicService.StreamTraces](com.cognite.seismic.v1.SeismicService.StreamTraces) instead.
