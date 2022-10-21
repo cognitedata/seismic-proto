@@ -277,35 +277,9 @@ See [`com.cognite.seismic.Query.GetTraceByCoordinates`](##com.cognite.seismic.Qu
 Use [com.cognite.seismic.v1.SeismicService.GetSegYFile](com.cognite.seismic.v1.SeismicService.GetSegYFile) instead.
 
 ## com.cognite.seismic.Query.GetSlabByLines
-Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the [`three_dee_extent`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) containing a [`rect`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic3dExtent) with the desired [`inline_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic3dRect) and [`xline_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic3dRect), and the [`z_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) range of the slab.
+**Deprecated**
 
-#### v1:
-```
-{
-  "seismic": {
-    "id": "1234"
-  },
-  "three_dee_extent": {
-    "rects": {
-      "rects": {
-        "inline_range": {
-          "min": 2,
-          "max": 22,
-          "step": 4
-        },
-        "xline_range": {
-          "min": 1,
-          "max": 5
-        }
-      }
-    },
-  },
-  "z_range": {
-    "min": 100,
-    "max": 200
-  },
-}
-```
+See [`com.cognite.seismic.Query.GetTimeSliceByGeometry`](##com.cognite.seismic.Query.GetTimeSliceByGeometry).
 
 ## com.cognite.seismic.Query.GetTimeSliceByGeometry
 Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) with a [`z_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) contaning the depth of interest, and a [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.GeometryFilter) desired.
