@@ -1,5 +1,13 @@
 # Migration guide from v0 Query Service to v1 Seismic Service
-Documentation for the v1 is avaialble at [https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/)
+This document aims to help with the migration from v0 to v1 by either providing translations for each method of the v0 API or by suggesting alternatives for methods that don't have a direct translation or are deprecated. Some concepts, however, have changed in this new interface and first it is worth pointing them out.
+
+The v1 API introduces the [`SeismicStore`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.SeismicStore) object which represents an ingested SEG-Y file. Though, these SeismicStores are not directly accessible as part of an entitlement. For that, the v1 API introduced the [`Seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) object which is a cut-out of a SeismicStore and composes an entitlement. As such, queries no longer reference files directly and instead either the Seismic or the SeismicStore objects are used.
+
+Another notable difference is the aggregation of metadata queries such as **Search**, **Get**, or **List**, into a single generic **Search** query that accepts a search specification. For example, a search specification containing an identifier or unique name will produce th the same outcome of a **Get**. Whereas an empty spcification will behave similarly to a **List**.
+
+Lastly, many of the trace access endpoints were collapsed into the single, more versatile [`com.cognite.seismic.v1.SeismicService.StreamTraces`](com.cognite.seismic.v1.SeismicService.StreamTraces). Akin to the **Search** aggregation aforementioned, the parameters to the query can be tweaked to produce comparable results to the multiple methods it replaces.
+
+Documentation for the v1 is avaialble at [https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/).
 
 ## com.cognite.seismic.Query.GetSurvey
 Use [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
