@@ -170,7 +170,7 @@ com.cognite.seismic.v1.SeismicService/SearchSeismicStores
     "name": "some_name"
   },
   "coverage": {
-    "format": 0
+    "format": 0 // 0 indicates wkt, 1 indicates geojson
   }
 }
 ```
@@ -268,7 +268,8 @@ com.cognite.seismic.v1.SeismicService/StreamTraces
       "wkt": {
         "geometry": "POINT(10 20)"
       }
-    }
+    },
+    "interpolation_method": 0 // 0 indicates NEAREST_TRACE, 1 indicates INVERSE_DISTANCE_WEIGHTING
   }
 }
 ```
