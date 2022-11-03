@@ -276,7 +276,7 @@ com.cognite.seismic.v1.SeismicService/StreamTraces
 ## com.cognite.seismic.Query.GetSliceByLine
 **Deprecated**
 
-See [`com.cognite.seismic.Query.GetVolume`](##com.cognite.seismic.Query.GetVolume)
+Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](com.cognite.seismic.v1.SeismicService.StreamTraces) instead.
 
 ## com.cognite.seismic.Query.GetSliceByGeometry
 Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest).
@@ -286,7 +286,7 @@ See [`com.cognite.seismic.Query.GetTraceByCoordinates`](##com.cognite.seismic.Qu
 ## com.cognite.seismic.Query.GetCubeByLines
 **Deprecated**
 
-See [`com.cognite.seismic.Query.GetVolume`](##com.cognite.seismic.Query.GetVolume)
+Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](com.cognite.seismic.v1.SeismicService.StreamTraces) instead.
 
 ## com.cognite.seismic.Query.GetCubeByGeometry
 Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest).
@@ -294,7 +294,7 @@ Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.
 See [`com.cognite.seismic.Query.GetTraceByCoordinates`](##com.cognite.seismic.Query.GetTraceByCoordinates).
 
 ## com.cognite.seismic.Query.GetSegYFile
-Use [com.cognite.seismic.v1.SeismicService.GetSegYFile](com.cognite.seismic.v1.SeismicService.GetSegYFile) instead.
+Use [`com.cognite.seismic.v1.SeismicService.GetSegYFile`](com.cognite.seismic.v1.SeismicService.GetSegYFile) instead.
 
 ## com.cognite.seismic.Query.GetSlabByLines
 **Deprecated**
@@ -344,4 +344,4 @@ com.cognite.seismic.v1.SeismicService/StreamTraces
 ```
 
 ## com.cognite.seismic.Query.GetVolume
-Use [com.cognite.seismic.v1.SeismicService.StreamTraces](com.cognite.seismic.v1.SeismicService.StreamTraces) instead.
+Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](com.cognite.seismic.v1.SeismicService.StreamTraces) instead.
