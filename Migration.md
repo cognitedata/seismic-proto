@@ -7,6 +7,7 @@ Use [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite
 ### Payload example
 #### v0:
 ```
+com.cognite.seismic.Query/GetSurvey
 {
   "survey": {
     "name": "some_name"
@@ -15,6 +16,7 @@ Use [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite
 ```
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchSurveys
 {
   "surveys": {
     "name": "some_name"
@@ -28,12 +30,14 @@ Use [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite
 ### Payload example
 #### v0:
 ```
+com.cognite.seismic.Query/ListSurveys
 {
   "include_metadata": true
 }
 ```
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchSurveys
 {
   "include_metadata": true
 }
@@ -51,6 +55,7 @@ Use [`com.cognite.seismic.v1.SeismicService.SearchFiles`](https://docs.cognite.c
 ### Payload example
 #### v0:
 ```
+com.cognite.seismic.Query/GetFile
 {
   "file": {
     "name": "some_name"
@@ -59,6 +64,7 @@ Use [`com.cognite.seismic.v1.SeismicService.SearchFiles`](https://docs.cognite.c
 ```
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchFiles
 {
   "spec": {
     "name": "some_name"
@@ -72,6 +78,7 @@ The original SEG-Y binary headers can be fetched from [`com.cognite.seismic.v1.S
 ### Payload example
 #### v0:
 ```
+com.cognite.seismic.Query/GetBinaryHeader
 {
   "file": {
     "name": "some_name"
@@ -80,6 +87,7 @@ The original SEG-Y binary headers can be fetched from [`com.cognite.seismic.v1.S
 ```
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchSeismicStores
 {
   "file": {
     "name": "some_name"
@@ -93,6 +101,7 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 ### Payload example
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchSeismics
 {
   "seismic_store": {
     "name": "some_name"
@@ -107,6 +116,7 @@ The original SEG-Y text headers can be fetched from [`com.cognite.seismic.v1.Sei
 ### Payload example
 #### v0:
 ```
+com.cognite.seismic.Query/GetTextHeader
 {
   "file": {
     "name": "some_name"
@@ -115,6 +125,7 @@ The original SEG-Y text headers can be fetched from [`com.cognite.seismic.v1.Sei
 ```
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchSeismicStores
 {
   "seismic_store": {
     "name": "some_name"
@@ -128,6 +139,7 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 ### Payload example
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchSeismics
 {
   "seismic_store": {
     "name": "some_name"
@@ -142,6 +154,7 @@ Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.c
 ### Payload example
 #### v0:
 ```
+com.cognite.seismic.Query/GetFileDataCoverage
 {
   "file": {
     "name": "some_name"
@@ -151,6 +164,7 @@ Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.c
 ```
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchSeismicStores
 {
   "file": {
     "name": "some_name"
@@ -166,6 +180,7 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 ### Payload example
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchSeismics
 {
   "seismic_store": {
     "name": "some_name"
@@ -182,6 +197,7 @@ Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.c
 ### Payload example
 #### v0:
 ```
+com.cognite.seismic.Query/GetFileLineRange
 {
   "file": {
     "name": "some_name"
@@ -190,6 +206,7 @@ Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.c
 ```
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchSeismicStores
 {
   "file": {
     "name": "some_name"
@@ -203,6 +220,7 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 ### Payload example
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/SearchSeismics
 {
   "seismic": {
     "id": "1234"
@@ -227,6 +245,7 @@ To get the closest trace to a given coordinate, [`com.cognite.seismic.v1.Seismic
 ### Payload example
 #### v0:
 ```
+com.cognite.seismic.Query/GetTraceByCoordinates
 {
   "file": {
     "name": "some_name",
@@ -239,6 +258,7 @@ To get the closest trace to a given coordinate, [`com.cognite.seismic.v1.Seismic
 ```
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/StreamTraces
 {
   "seismic": {
     "id": "1234"
@@ -289,6 +309,7 @@ See [`com.cognite.seismic.Query.GetSliceByGeometry`](##com.cognite.seismic.Query
 ### Payload example
 #### v0:
 ```
+com.cognite.seismic.Query/GetTimeSliceByGeometry
 {
   "file": {
     "name": "some_file"
@@ -303,6 +324,7 @@ See [`com.cognite.seismic.Query.GetSliceByGeometry`](##com.cognite.seismic.Query
 ```
 #### v1:
 ```
+com.cognite.seismic.v1.SeismicService/StreamTraces
 {
   "seismic": {
     "id": "1234"
