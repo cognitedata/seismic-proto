@@ -16,7 +16,7 @@ com.cognite.seismic.Query/GetSurvey
 ```
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchSurveys
+com.cognite.seismic.v1.SeismicAPI/SearchSurveys
 {
   "surveys": {
     "name": "some_name"
@@ -37,7 +37,7 @@ com.cognite.seismic.Query/ListSurveys
 ```
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchSurveys
+com.cognite.seismic.v1.SeismicAPI/SearchSurveys
 {
   "include_metadata": true
 }
@@ -64,7 +64,7 @@ com.cognite.seismic.Query/GetFile
 ```
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchFiles
+com.cognite.seismic.v1.SeismicAPI/SearchFiles
 {
   "spec": {
     "name": "some_name"
@@ -87,7 +87,7 @@ com.cognite.seismic.Query/GetBinaryHeader
 ```
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchSeismicStores
+com.cognite.seismic.v1.SeismicAPI/SearchSeismicStores
 {
   "file": {
     "name": "some_name"
@@ -101,7 +101,7 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 ### Payload example
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchSeismics
+com.cognite.seismic.v1.SeismicAPI/SearchSeismics
 {
   "seismic_store": {
     "name": "some_name"
@@ -125,7 +125,7 @@ com.cognite.seismic.Query/GetTextHeader
 ```
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchSeismicStores
+com.cognite.seismic.v1.SeismicAPI/SearchSeismicStores
 {
   "seismic_store": {
     "name": "some_name"
@@ -139,7 +139,7 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 ### Payload example
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchSeismics
+com.cognite.seismic.v1.SeismicAPI/SearchSeismics
 {
   "seismic_store": {
     "name": "some_name"
@@ -164,7 +164,7 @@ com.cognite.seismic.Query/GetFileDataCoverage
 ```
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchSeismicStores
+com.cognite.seismic.v1.SeismicAPI/SearchSeismicStores
 {
   "file": {
     "name": "some_name"
@@ -180,7 +180,7 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 ### Payload example
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchSeismics
+com.cognite.seismic.v1.SeismicAPI/SearchSeismics
 {
   "seismic_store": {
     "name": "some_name"
@@ -192,7 +192,9 @@ com.cognite.seismic.v1.SeismicService/SearchSeismics
 ```
 
 ## com.cognite.seismic.Query.GetFileLineRange
-Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) with [`include_extent`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) set to `true`.
+Use [`com.cognite.seismic.v1.SeismicService.GetTraceBounds`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
+
+Note that on v1, the query is in terms of [`Seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) or [`SeismicStore`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.SeismicStore) objects. In the example below, it will be assumed that the SeismicStore ID is know for the ingested file of interest.
 
 ### Payload example
 #### v0:
@@ -206,7 +208,28 @@ com.cognite.seismic.Query/GetFileLineRange
 ```
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchSeismicStores
+com.cognite.seismic.v1.SeismicAPI/GetTraceBounds
+{
+  "seismic_store_id": 1234
+}
+```
+
+## com.cognite.seismic.Query.GetCrosslinesByInline
+Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) with [`include_extent`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) set to `true`. This returns all lines, from which the *inline* of interest can be looked-up.
+
+### Payload example
+#### v0:
+```
+com.cognite.seismic.Query/GetFileLineRange
+{
+  "file": {
+    "name": "some_name"
+  }
+}
+```
+#### v1:
+```
+com.cognite.seismic.v1.SeismicAPI/SearchSeismicStores
 {
   "file": {
     "name": "some_name"
@@ -220,7 +243,7 @@ Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1
 ### Payload example
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/SearchSeismics
+com.cognite.seismic.v1.SeismicAPI/SearchSeismics
 {
   "seismic": {
     "id": "1234"
@@ -229,15 +252,9 @@ com.cognite.seismic.v1.SeismicService/SearchSeismics
 }
 ```
 
-## com.cognite.seismic.Query.GetCrosslinesByInline
-**Deprecated**
-
-See [`com.cognite.seismic.Query.GetFileLineRange`](##com.cognite.seismic.Query.GetFileLineRange)
-
 ## com.cognite.seismic.Query.GetInlinesByCrossline
-**Deprecated**
 
-See [`com.cognite.seismic.Query.GetFileLineRange`](##com.cognite.seismic.Query.GetFileLineRange)
+See [`com.cognite.seismic.Query.GetCrosslinesByInline`](##com.cognite.seismic.Query.GetCrosslinesByInline)
 
 ## com.cognite.seismic.Query.GetTraceByCoordinates
 To get the closest trace to a given coordinate, [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) can be used specifying the [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) with [`interpolation_method`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.GeometryFilter) set to [`NEAREST_TRACE`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.InterpolationMethod), and a [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.Geometry) containing the coordinate of interest.
@@ -258,7 +275,7 @@ com.cognite.seismic.Query/GetTraceByCoordinates
 ```
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/StreamTraces
+com.cognite.seismic.v1.SeismicAPI/StreamTraces
 {
   "seismic": {
     "id": "1234"
@@ -325,7 +342,7 @@ com.cognite.seismic.Query/GetTimeSliceByGeometry
 ```
 #### v1:
 ```
-com.cognite.seismic.v1.SeismicService/StreamTraces
+com.cognite.seismic.v1.SeismicAPI/StreamTraces
 {
   "seismic": {
     "id": "1234"
