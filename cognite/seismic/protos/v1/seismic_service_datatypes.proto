@@ -309,7 +309,6 @@ message BinaryHeader {
     bytes raw_header = 27;
 }
 
-
 message TraceExtent {
     int32 xline = 1;
     int32 iline = 2;
@@ -385,4 +384,11 @@ message Seismic3dDef {
 
 message MinorLines {
     repeated LineDescriptor ranges = 1;
+}
+
+// Specifies a last modified timestamp range to search.
+// Returned objects will satisfy all arguments that are not null.
+message LastModifiedFilter {
+    google.protobuf.Timestamp before = 1; // All returned objects will have a last_modified before this timestamp.
+    google.protobuf.Timestamp after = 2; // All returned objects will have a last_modified after this timestamp.
 }

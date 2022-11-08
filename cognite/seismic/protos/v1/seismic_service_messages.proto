@@ -44,6 +44,7 @@ message SearchSurveysRequest {
     // Note that this is independent from the custom coverage returned as part of the survey.
     // If no coverage source is provided, but the coverage parameters are provided, the coverage geometry will be fetched from the custom coverage if one has been provided, and the calculated coverage in other cases.
     SurveyCoverageSource coverage_source = 8;
+    LastModifiedFilter last_modified = 10; // If set, will further filter returned objects by last modified.
 }
 
 message SearchSurveyResponse {
@@ -163,6 +164,7 @@ message SearchSeismicsRequest {
         SearchSpec seismic = 2;
         SearchSpec partition = 3;  // Can only search on partitions you can see.
         SearchSpec seismic_store = 15;  // Must be a data manager to search by seismic store.
+        LastModifiedFilter last_modified = 16; // Search for seismics by last modified
     }
     bool include_text_header = 4;
     bool include_binary_header = 5;
@@ -202,6 +204,7 @@ message SearchSeismicStoresRequest {
         SearchSpec seismic_store = 1;
         SearchSpec survey = 6;
         SearchSpec file = 8;
+        LastModifiedFilter last_modified = 11; // Will return seismic stores by last modified.
     }
     bool include_file_info = 2;  // If true, include File information in the response
     bool include_volume_definitions = 3; // If true, includes inline/crossline volume definitions for store
@@ -256,7 +259,10 @@ message CreatePartitionRequest {
 }
 
 message SearchPartitionsRequest {
-    SearchSpec partitions = 1;
+    oneof findby {
+        SearchSpec partitions = 1;
+        LastModifiedFilter last_modified = 2; // Search for partitions by last modified.
+    }
 }
 
 message EditPartitionRequest {
@@ -367,6 +373,7 @@ message SearchFilesRequest {
         SearchSpec spec = 1;            // Find files using a file search specification
         SearchSpec seismic_store = 2;   // Find files using a seismic store search specification
         SearchSpec survey = 3;          // Find files using a survey search specification
+        LastModifiedFilter last_modified = 4; // Filter files by last modified.
     }
 }
 
