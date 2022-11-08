@@ -7,7 +7,7 @@ Another notable difference is the aggregation of metadata queries such as **Sear
 
 Lastly, many of the trace access endpoints were collapsed into the single, more versatile [`com.cognite.seismic.v1.SeismicService.StreamTraces`](com.cognite.seismic.v1.SeismicService.StreamTraces). Akin to the **Search** aggregation aforementioned, the parameters to the query can be tweaked to produce comparable results to the multiple methods it replaces.
 
-Documentation for the v1 is avaialble at [https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/).
+Documentation for the v1 is available at [https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/).
 
 ## com.cognite.seismic.Query.GetSurvey
 Use [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
