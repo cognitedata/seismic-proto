@@ -901,6 +901,10 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.LastModifiedFilter"><span class="badge">M</span>LastModifiedFilter</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.LineBasedExtent"><span class="badge">M</span>LineBasedExtent</a>
                 </li>
               
@@ -6817,6 +6821,13 @@ will result in the file&#39;s data being removed from the previously active stor
                   <td><p>Find files using a survey search specification </p></td>
                 </tr>
               
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#com.cognite.seismic.v1.LastModifiedFilter">LastModifiedFilter</a></td>
+                  <td></td>
+                  <td><p>Filter files by last modified. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -6921,6 +6932,13 @@ will result in the file&#39;s data being removed from the previously active stor
                   <td><p> </p></td>
                 </tr>
               
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#com.cognite.seismic.v1.LastModifiedFilter">LastModifiedFilter</a></td>
+                  <td></td>
+                  <td><p>Search for partitions by last modified. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -6957,6 +6975,13 @@ will result in the file&#39;s data being removed from the previously active stor
                   <td><a href="#com.cognite.seismic.v1.SearchSpec">SearchSpec</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#com.cognite.seismic.v1.LastModifiedFilter">LastModifiedFilter</a></td>
+                  <td></td>
+                  <td><p>Will return seismic stores by last modified. </p></td>
                 </tr>
               
                 <tr>
@@ -7054,6 +7079,13 @@ Any seismicstores not indexed by the given header will have its extent field lef
                   <td><a href="#com.cognite.seismic.v1.SearchSpec">SearchSpec</a></td>
                   <td></td>
                   <td><p>Must be a data manager to search by seismic store. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#com.cognite.seismic.v1.LastModifiedFilter">LastModifiedFilter</a></td>
+                  <td></td>
+                  <td><p>Search for seismics by last modified </p></td>
                 </tr>
               
                 <tr>
@@ -7269,6 +7301,13 @@ Any seismic not indexed by the given header will have its extent field left as n
 If this field is specified, the coverage parameters in the include_coverage field must also be set.
 Note that this is independent from the custom coverage returned as part of the survey.
 If no coverage source is provided, but the coverage parameters are provided, the coverage geometry will be fetched from the custom coverage if one has been provided, and the calculated coverage in other cases. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#com.cognite.seismic.v1.LastModifiedFilter">LastModifiedFilter</a></td>
+                  <td></td>
+                  <td><p>If set, will further filter returned objects by last modified. </p></td>
                 </tr>
               
             </tbody>
@@ -8058,6 +8097,37 @@ Null if the result is empty. The iline and xline fields will be null for a line-
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.LastModifiedFilter">LastModifiedFilter</h3>
+        <p>Specifies a last modified timestamp range to search.</p><p>Returned objects will satisfy all arguments that are not null.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>before</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p>All returned objects will have a last_modified before this timestamp. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>after</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p>All returned objects will have a last_modified after this timestamp. </p></td>
                 </tr>
               
             </tbody>

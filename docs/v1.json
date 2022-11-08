@@ -1854,6 +1854,18 @@
               "isoneof": true,
               "oneofdecl": "findby",
               "defaultValue": ""
+            },
+            {
+              "name": "last_modified",
+              "description": "Filter files by last modified.",
+              "label": "",
+              "type": "LastModifiedFilter",
+              "longType": "LastModifiedFilter",
+              "fullType": "com.cognite.seismic.v1.LastModifiedFilter",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
             }
           ]
         },
@@ -1984,7 +1996,7 @@
           "description": "",
           "hasExtensions": false,
           "hasFields": true,
-          "hasOneofs": false,
+          "hasOneofs": true,
           "extensions": [],
           "fields": [
             {
@@ -1995,8 +2007,20 @@
               "longType": "SearchSpec",
               "fullType": "com.cognite.seismic.v1.SearchSpec",
               "ismap": false,
-              "isoneof": false,
-              "oneofdecl": "",
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "last_modified",
+              "description": "Search for partitions by last modified.",
+              "label": "",
+              "type": "LastModifiedFilter",
+              "longType": "LastModifiedFilter",
+              "fullType": "com.cognite.seismic.v1.LastModifiedFilter",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
               "defaultValue": ""
             }
           ]
@@ -2042,6 +2066,18 @@
               "type": "SearchSpec",
               "longType": "SearchSpec",
               "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "last_modified",
+              "description": "Will return seismic stores by last modified.",
+              "label": "",
+              "type": "LastModifiedFilter",
+              "longType": "LastModifiedFilter",
+              "fullType": "com.cognite.seismic.v1.LastModifiedFilter",
               "ismap": false,
               "isoneof": true,
               "oneofdecl": "findby",
@@ -2186,6 +2222,18 @@
               "type": "SearchSpec",
               "longType": "SearchSpec",
               "fullType": "com.cognite.seismic.v1.SearchSpec",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "findby",
+              "defaultValue": ""
+            },
+            {
+              "name": "last_modified",
+              "description": "Search for seismics by last modified",
+              "label": "",
+              "type": "LastModifiedFilter",
+              "longType": "LastModifiedFilter",
+              "fullType": "com.cognite.seismic.v1.LastModifiedFilter",
               "ismap": false,
               "isoneof": true,
               "oneofdecl": "findby",
@@ -2510,6 +2558,18 @@
               "type": "SurveyCoverageSource",
               "longType": "SurveyCoverageSource",
               "fullType": "com.cognite.seismic.v1.SurveyCoverageSource",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "last_modified",
+              "description": "If set, will further filter returned objects by last modified.",
+              "label": "",
+              "type": "LastModifiedFilter",
+              "longType": "LastModifiedFilter",
+              "fullType": "com.cognite.seismic.v1.LastModifiedFilter",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -3704,6 +3764,42 @@
               "type": "string",
               "longType": "string",
               "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "LastModifiedFilter",
+          "longName": "LastModifiedFilter",
+          "fullName": "com.cognite.seismic.v1.LastModifiedFilter",
+          "description": "Specifies a last modified timestamp range to search.\nReturned objects will satisfy all arguments that are not null.",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "before",
+              "description": "All returned objects will have a last_modified before this timestamp.",
+              "label": "",
+              "type": "Timestamp",
+              "longType": "google.protobuf.Timestamp",
+              "fullType": "google.protobuf.Timestamp",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "after",
+              "description": "All returned objects will have a last_modified after this timestamp.",
+              "label": "",
+              "type": "Timestamp",
+              "longType": "google.protobuf.Timestamp",
+              "fullType": "google.protobuf.Timestamp",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
