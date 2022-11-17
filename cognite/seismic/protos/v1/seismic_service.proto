@@ -145,13 +145,28 @@ service SeismicAPI {
 
     /**
      * Request a volume of traces by range of inlines, crosslines and time
+     * Deprecated - use StreamTraces instead.
      */
     rpc GetVolume(VolumeRequest) returns (stream com.cognite.seismic.Trace) {}
 
+    /**
+     * Return information about what a GetVolume request would return, including bounding boxes of
+     * trace header values, and estimated total size.
+     * Deprecated - use GetTraceBounds instead.
+     */
     rpc GetVolumeBounds(VolumeRequest) returns (VolumeBoundsResponse) {}
 
+    /**
+     * Request a set of seismic traces by ranges of trace headers such as inline, crossline (for 3d)
+     * or cdp or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices.
+     * See StreamTracesRequest for more information.
+     */
     rpc StreamTraces(StreamTracesRequest) returns (stream com.cognite.seismic.Trace) {}
 
+    /**
+     * Return information about what a StreamTraces request would return, including bounding boxes of
+     * trace header values, and estimated total size.
+     */
     rpc GetTraceBounds(StreamTracesRequest) returns (TraceBounds) {}
 
     /**
