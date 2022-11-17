@@ -5574,28 +5574,34 @@ debugging failed ingestions.</p></td>
                 <td>GetVolume</td>
                 <td><a href="#com.cognite.seismic.v1.VolumeRequest">VolumeRequest</a></td>
                 <td><a href="#com.cognite.seismic.Trace">.com.cognite.seismic.Trace</a> stream</td>
-                <td><p>Request a volume of traces by range of inlines, crosslines and time</p></td>
+                <td><p>Request a volume of traces by range of inlines, crosslines and time
+Deprecated - use StreamTraces instead.</p></td>
               </tr>
             
               <tr>
                 <td>GetVolumeBounds</td>
                 <td><a href="#com.cognite.seismic.v1.VolumeRequest">VolumeRequest</a></td>
                 <td><a href="#com.cognite.seismic.v1.VolumeBoundsResponse">VolumeBoundsResponse</a></td>
-                <td><p></p></td>
+                <td><p>Return information about what a GetVolume request would return, including bounding boxes of
+trace header values, and estimated total size.
+Deprecated - use GetTraceBounds instead.</p></td>
               </tr>
             
               <tr>
                 <td>StreamTraces</td>
                 <td><a href="#com.cognite.seismic.v1.StreamTracesRequest">StreamTracesRequest</a></td>
                 <td><a href="#com.cognite.seismic.Trace">.com.cognite.seismic.Trace</a> stream</td>
-                <td><p></p></td>
+                <td><p>Request a set of seismic traces by ranges of trace headers such as inline, crossline (for 3d)
+or cdp or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices.
+See StreamTracesRequest for more information.</p></td>
               </tr>
             
               <tr>
                 <td>GetTraceBounds</td>
                 <td><a href="#com.cognite.seismic.v1.StreamTracesRequest">StreamTracesRequest</a></td>
                 <td><a href="#com.cognite.seismic.v1.TraceBounds">TraceBounds</a></td>
-                <td><p></p></td>
+                <td><p>Return information about what a StreamTraces request would return, including bounding boxes of
+trace header values, and estimated total size.</p></td>
               </tr>
             
               <tr>
@@ -7421,49 +7427,50 @@ If no coverage source is provided, but the coverage parameters are provided, the
                   <td>seismic</td>
                   <td><a href="#com.cognite.seismic.v1.Identifier">Identifier</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The identifier of the Seismic object to stream traces from </p></td>
                 </tr>
               
                 <tr>
                   <td>seismic_store_id</td>
                   <td><a href="#int64">int64</a></td>
                   <td></td>
-                  <td><p>Need to be a data manager or tenant user, not 3rd party, to access by tracestore </p></td>
+                  <td><p>The id of the Seismicstore to stream traces from. Only accessible by data managers. </p></td>
                 </tr>
               
                 <tr>
                   <td>two_dee_extent</td>
                   <td><a href="#com.cognite.seismic.v1.Seismic2dExtent">Seismic2dExtent</a></td>
                   <td></td>
-                  <td><p>only valid if the queried object is 2D </p></td>
+                  <td><p>Filter traces by 2D header ranges. Only valid if the queried object is 2D </p></td>
                 </tr>
               
                 <tr>
                   <td>three_dee_extent</td>
                   <td><a href="#com.cognite.seismic.v1.Seismic3dExtent">Seismic3dExtent</a></td>
                   <td></td>
-                  <td><p>only valid if the queried object is 3D </p></td>
+                  <td><p>Filter traces by 3D header ranges. Only valid if the queried object is 3D </p></td>
                 </tr>
               
                 <tr>
                   <td>geometry</td>
                   <td><a href="#com.cognite.seismic.v1.GeometryFilter">GeometryFilter</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Filter traces by geometry. If the geometry is a polygon, select traces contained in the geometry.
+If the geometry is a line or a linestring, interpolate traces onto the line. </p></td>
                 </tr>
               
                 <tr>
                   <td>z_range</td>
                   <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Select which depth indices to return as part of the traces. </p></td>
                 </tr>
               
                 <tr>
                   <td>include_trace_header</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Whether to include the binary trace header in the streamed traces. </p></td>
                 </tr>
               
             </tbody>
@@ -7522,14 +7529,14 @@ If no coverage source is provided, but the coverage parameters are provided, the
                   <td>three_dee_bounds</td>
                   <td><a href="#com.cognite.seismic.v1.LineRange">LineRange</a></td>
                   <td></td>
-                  <td><p>Will be null for a line-like geometry </p></td>
+                  <td><p>Three-dimensional bounds for the case when the seismic object is 3D </p></td>
                 </tr>
               
                 <tr>
                   <td>two_dee_bounds</td>
                   <td><a href="#com.cognite.seismic.v1.TwoDeeBounds">TwoDeeBounds</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Two-dimensional bounds for the case when the seismic object is 2D </p></td>
                 </tr>
               
             </tbody>

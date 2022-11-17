@@ -273,10 +273,10 @@ Before unregistering, there must be no ingestion jobs running for the source fil
 | SearchPartitions | [SearchPartitionsRequest](#com-cognite-seismic-v1-SearchPartitionsRequest) | [Partition](#com-cognite-seismic-v1-Partition) stream | Returns the partition(s) specified, with the same search options as the other search endpoints. |
 | EditPartition | [EditPartitionRequest](#com-cognite-seismic-v1-EditPartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Edit partitions. The only modifiable field is the name |
 | DeletePartition | [DeletePartitionRequest](#com-cognite-seismic-v1-DeletePartitionRequest) | [DeletePartitionResponse](#com-cognite-seismic-v1-DeletePartitionResponse) | Delete the specified partition, and return whether it was successfully deleted. |
-| GetVolume | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Request a volume of traces by range of inlines, crosslines and time |
-| GetVolumeBounds | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [VolumeBoundsResponse](#com-cognite-seismic-v1-VolumeBoundsResponse) |  |
-| StreamTraces | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream |  |
-| GetTraceBounds | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [TraceBounds](#com-cognite-seismic-v1-TraceBounds) |  |
+| GetVolume | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Request a volume of traces by range of inlines, crosslines and time Deprecated - use StreamTraces instead. |
+| GetVolumeBounds | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [VolumeBoundsResponse](#com-cognite-seismic-v1-VolumeBoundsResponse) | Return information about what a GetVolume request would return, including bounding boxes of trace header values, and estimated total size. Deprecated - use GetTraceBounds instead. |
+| StreamTraces | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Request a set of seismic traces by ranges of trace headers such as inline, crossline (for 3d) or cdp or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices. See StreamTracesRequest for more information. |
+| GetTraceBounds | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [TraceBounds](#com-cognite-seismic-v1-TraceBounds) | Return information about what a StreamTraces request would return, including bounding boxes of trace header values, and estimated total size. |
 | GetSegYFile | [SegYSeismicRequest](#com-cognite-seismic-v1-SegYSeismicRequest) | [SegYSeismicResponse](#com-cognite-seismic-v1-SegYSeismicResponse) stream | Fetch seismic data in SEG-Y format. The stream of responses each contain a byte array that must be written sequentially to a file to produce a SEG-Y file. The ordering of traces in the output is unspecified.
 
 The request object can be used to specify whether the file should contain the whole set of traces in the source dataset or a subset of the traces (ie. a cropped file). See SegYSeismicRequest for more information. Returns a stream of SegYSeismicResponse objects, each containing a fragment of a SEG-Y data stream. |
@@ -997,13 +997,13 @@ Used to search files by a given file/seismic-store/survey search specification
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| seismic | [Identifier](#com-cognite-seismic-v1-Identifier) |  |  |
-| seismic_store_id | [int64](#int64) |  | Need to be a data manager or tenant user, not 3rd party, to access by tracestore |
-| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | only valid if the queried object is 2D |
-| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | only valid if the queried object is 3D |
-| geometry | [GeometryFilter](#com-cognite-seismic-v1-GeometryFilter) |  |  |
-| z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
-| include_trace_header | [bool](#bool) |  |  |
+| seismic | [Identifier](#com-cognite-seismic-v1-Identifier) |  | The identifier of the Seismic object to stream traces from |
+| seismic_store_id | [int64](#int64) |  | The id of the Seismicstore to stream traces from. Only accessible by data managers. |
+| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Filter traces by 2D header ranges. Only valid if the queried object is 2D |
+| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Filter traces by 3D header ranges. Only valid if the queried object is 3D |
+| geometry | [GeometryFilter](#com-cognite-seismic-v1-GeometryFilter) |  | Filter traces by geometry. If the geometry is a polygon, select traces contained in the geometry. If the geometry is a line or a linestring, interpolate traces onto the line. |
+| z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | Select which depth indices to return as part of the traces. |
+| include_trace_header | [bool](#bool) |  | Whether to include the binary trace header in the streamed traces. |
 
 
 
@@ -1023,8 +1023,8 @@ Used to search files by a given file/seismic-store/survey search specification
 | sample_count | [int32](#int32) |  | The number of samples per trace |
 | crs | [string](#string) |  | CRS of the returned trace coordinates |
 | z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | The actual range of z values returned |
-| three_dee_bounds | [LineRange](#com-cognite-seismic-v1-LineRange) |  | Will be null for a line-like geometry |
-| two_dee_bounds | [TwoDeeBounds](#com-cognite-seismic-v1-TwoDeeBounds) |  |  |
+| three_dee_bounds | [LineRange](#com-cognite-seismic-v1-LineRange) |  | Three-dimensional bounds for the case when the seismic object is 3D |
+| two_dee_bounds | [TwoDeeBounds](#com-cognite-seismic-v1-TwoDeeBounds) |  | Two-dimensional bounds for the case when the seismic object is 2D |
 
 
 

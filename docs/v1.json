@@ -260,7 +260,7 @@
             },
             {
               "name": "GetVolume",
-              "description": "Request a volume of traces by range of inlines, crosslines and time",
+              "description": "Request a volume of traces by range of inlines, crosslines and time\nDeprecated - use StreamTraces instead.",
               "requestType": "VolumeRequest",
               "requestLongType": "VolumeRequest",
               "requestFullType": "com.cognite.seismic.v1.VolumeRequest",
@@ -272,7 +272,7 @@
             },
             {
               "name": "GetVolumeBounds",
-              "description": "",
+              "description": "Return information about what a GetVolume request would return, including bounding boxes of\ntrace header values, and estimated total size.\nDeprecated - use GetTraceBounds instead.",
               "requestType": "VolumeRequest",
               "requestLongType": "VolumeRequest",
               "requestFullType": "com.cognite.seismic.v1.VolumeRequest",
@@ -284,7 +284,7 @@
             },
             {
               "name": "StreamTraces",
-              "description": "",
+              "description": "Request a set of seismic traces by ranges of trace headers such as inline, crossline (for 3d)\nor cdp or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices.\nSee StreamTracesRequest for more information.",
               "requestType": "StreamTracesRequest",
               "requestLongType": "StreamTracesRequest",
               "requestFullType": "com.cognite.seismic.v1.StreamTracesRequest",
@@ -296,7 +296,7 @@
             },
             {
               "name": "GetTraceBounds",
-              "description": "",
+              "description": "Return information about what a StreamTraces request would return, including bounding boxes of\ntrace header values, and estimated total size.",
               "requestType": "StreamTracesRequest",
               "requestLongType": "StreamTracesRequest",
               "requestFullType": "com.cognite.seismic.v1.StreamTracesRequest",
@@ -2709,7 +2709,7 @@
           "fields": [
             {
               "name": "seismic",
-              "description": "",
+              "description": "The identifier of the Seismic object to stream traces from",
               "label": "",
               "type": "Identifier",
               "longType": "Identifier",
@@ -2721,7 +2721,7 @@
             },
             {
               "name": "seismic_store_id",
-              "description": "Need to be a data manager or tenant user, not 3rd party, to access by tracestore",
+              "description": "The id of the Seismicstore to stream traces from. Only accessible by data managers.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -2733,7 +2733,7 @@
             },
             {
               "name": "two_dee_extent",
-              "description": "only valid if the queried object is 2D",
+              "description": "Filter traces by 2D header ranges. Only valid if the queried object is 2D",
               "label": "",
               "type": "Seismic2dExtent",
               "longType": "Seismic2dExtent",
@@ -2745,7 +2745,7 @@
             },
             {
               "name": "three_dee_extent",
-              "description": "only valid if the queried object is 3D",
+              "description": "Filter traces by 3D header ranges. Only valid if the queried object is 3D",
               "label": "",
               "type": "Seismic3dExtent",
               "longType": "Seismic3dExtent",
@@ -2757,7 +2757,7 @@
             },
             {
               "name": "geometry",
-              "description": "",
+              "description": "Filter traces by geometry. If the geometry is a polygon, select traces contained in the geometry.\nIf the geometry is a line or a linestring, interpolate traces onto the line.",
               "label": "",
               "type": "GeometryFilter",
               "longType": "GeometryFilter",
@@ -2769,7 +2769,7 @@
             },
             {
               "name": "z_range",
-              "description": "",
+              "description": "Select which depth indices to return as part of the traces.",
               "label": "",
               "type": "LineDescriptor",
               "longType": "com.cognite.seismic.LineDescriptor",
@@ -2781,7 +2781,7 @@
             },
             {
               "name": "include_trace_header",
-              "description": "",
+              "description": "Whether to include the binary trace header in the streamed traces.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2865,7 +2865,7 @@
             },
             {
               "name": "three_dee_bounds",
-              "description": "Will be null for a line-like geometry",
+              "description": "Three-dimensional bounds for the case when the seismic object is 3D",
               "label": "",
               "type": "LineRange",
               "longType": "LineRange",
@@ -2877,7 +2877,7 @@
             },
             {
               "name": "two_dee_bounds",
-              "description": "",
+              "description": "Two-dimensional bounds for the case when the seismic object is 2D",
               "label": "",
               "type": "TwoDeeBounds",
               "longType": "TwoDeeBounds",
