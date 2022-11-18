@@ -3,14 +3,14 @@ This document aims to help with the migration from v0 to v1 by either providing 
 
 The v1 API introduces the [`SeismicStore`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.SeismicStore) object which represents an ingested SEG-Y file. Though, these SeismicStores are not directly accessible as part of an entitlement. For that, the v1 API introduced the [`Seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) object which is a cut-out of a SeismicStore and composes an entitlement. As such, queries no longer reference files directly and instead either the Seismic or the SeismicStore objects are used.
 
-Another notable difference is the aggregation of metadata queries such as **Search**, **Get**, or **List**, into a single generic **Search** query that accepts a search specification. For example, a search specification containing an identifier or unique name will produce th the same outcome of a **Get**. Whereas an empty spcification will behave similarly to a **List**.
+Another notable difference is the aggregation of metadata queries such as **Search**, **Get**, or **List**, into a single generic **Search** query that accepts a search specification. For example, a search specification containing an identifier or unique name will produce the same outcome of a **Get**. Whereas an empty spcification will behave similarly to a **List**.
 
-Lastly, many of the trace access endpoints were collapsed into the single, more versatile [`com.cognite.seismic.v1.SeismicService.StreamTraces`](com.cognite.seismic.v1.SeismicService.StreamTraces). Akin to the **Search** aggregation aforementioned, the parameters to the query can be tweaked to produce comparable results to the multiple methods it replaces.
+Lastly, many of the trace access endpoints were collapsed into the single, more versatile [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest). Akin to the **Search** aggregation aforementioned, the parameters to the query can be tweaked to produce comparable results to the multiple methods it replaces.
 
 Documentation for the v1 is available at [https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/).
 
 ## com.cognite.seismic.Query.GetSurvey
-Use [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
+Use [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi).
 
 ### Payload example
 #### v0:
@@ -33,7 +33,7 @@ com.cognite.seismic.v1.SeismicAPI/SearchSurveys
 ```
 
 ## com.cognite.seismic.Query.ListSurveys
-Use [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) without specifying a [`surveys`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchsurveysrequest) search spec.
+Use [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) without specifying a [`surveys`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchsurveysrequest) search spec.
 
 ### Payload example
 #### v0:
@@ -52,13 +52,13 @@ com.cognite.seismic.v1.SeismicAPI/SearchSurveys
 ```
 
 ## com.cognite.seismic.Query.ListFiles
-Use [`com.cognite.seismic.v1.SeismicService.SearchFiles`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) without specifying a [`spec`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchfilesrequest) search spec.
+Use [`com.cognite.seismic.v1.SeismicService.SearchFiles`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) without specifying a [`spec`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchfilesrequest) search spec.
 
 ## com.cognite.seismic.Query.SearchSurveys
-See [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
+See [`com.cognite.seismic.v1.SeismicService.SearchSurveys`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi).
 
 ## com.cognite.seismic.Query.GetFile
-Use [`com.cognite.seismic.v1.SeismicService.SearchFiles`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) using a [`spec`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchfilesrequest) containing the [`identifier`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.SearchSpec) for the file.
+Use [`com.cognite.seismic.v1.SeismicService.SearchFiles`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) using a [`spec`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchfilesrequest) containing the [`identifier`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.SearchSpec) for the file.
 
 ### Payload example
 #### v0:
@@ -81,7 +81,7 @@ com.cognite.seismic.v1.SeismicAPI/SearchFiles
 ```
 
 ## com.cognite.seismic.Query.GetBinaryHeader
-The original SEG-Y binary headers can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) by setting [`include_headers`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) to `true`.
+The original SEG-Y binary headers can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) by setting [`include_headers`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) to `true`.
 
 ### Payload example
 #### v0:
@@ -104,7 +104,7 @@ com.cognite.seismic.v1.SeismicAPI/SearchSeismicStores
 }
 ```
 
-Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) objects also have binary headers. By default they are inherited from the original file, but may be overridden by the data managers. They can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismics`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
+Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) objects also have binary headers. By default they are inherited from the original file, but may be overridden by the data managers. They can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismics`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi).
 
 ### Payload example
 #### v1:
@@ -119,7 +119,7 @@ com.cognite.seismic.v1.SeismicAPI/SearchSeismics
 ```
 
 ## com.cognite.seismic.Query.GetTextHeader
-The original SEG-Y text headers can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) by setting [`include_headers`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) to `true`.
+The original SEG-Y text headers can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) by setting [`include_headers`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) to `true`.
 
 ### Payload example
 #### v0:
@@ -142,7 +142,7 @@ com.cognite.seismic.v1.SeismicAPI/SearchSeismicStores
 }
 ```
 
-Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) objects also have text headers. By default they are inherited from the original file, but may be overridden by the data managers. They can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismics`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
+Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) objects also have text headers. By default they are inherited from the original file, but may be overridden by the data managers. They can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismics`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi).
 
 ### Payload example
 #### v1:
@@ -157,7 +157,7 @@ com.cognite.seismic.v1.SeismicAPI/SearchSeismics
 ```
 
 ## com.cognite.seismic.Query.GetFileDataCoverage
-Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) specifying [`coverage`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) with the [`format`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.CoverageSpec) desired.
+Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) specifying [`coverage`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) with the [`format`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.CoverageSpec) desired.
 
 ### Payload example
 #### v0:
@@ -183,7 +183,7 @@ com.cognite.seismic.v1.SeismicAPI/SearchSeismicStores
 }
 ```
 
-Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) objects also have coverage. They can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismics`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
+Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) objects also have coverage. They can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismics`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi).
 
 ### Payload example
 #### v1:
@@ -200,7 +200,7 @@ com.cognite.seismic.v1.SeismicAPI/SearchSeismics
 ```
 
 ## com.cognite.seismic.Query.GetFileLineRange
-Use [`com.cognite.seismic.v1.SeismicService.GetTraceBounds`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
+Use [`com.cognite.seismic.v1.SeismicService.GetTraceBounds`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi).
 
 Note that on v1, the query is in terms of [`Seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) or [`SeismicStore`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.SeismicStore) objects. In the example below, it will be assumed that the SeismicStore ID is know for the ingested file of interest.
 
@@ -223,7 +223,7 @@ com.cognite.seismic.v1.SeismicAPI/GetTraceBounds
 ```
 
 ## com.cognite.seismic.Query.GetCrosslinesByInline
-Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) with [`include_extent`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) set to `true`. This returns all lines, from which the *inline* of interest can be looked-up.
+Use [`com.cognite.seismic.v1.SeismicService.SearchSeismicStores`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) with [`include_extent`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#searchseismicstoresrequest) set to `true`. This returns all lines, from which the *inline* of interest can be looked-up.
 
 ### Payload example
 #### v0:
@@ -246,7 +246,7 @@ com.cognite.seismic.v1.SeismicAPI/SearchSeismicStores
 }
 ```
 
-Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) objects also have the line range. They can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismics`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries).
+Additionally, [`seismic`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.Seismic) objects also have the line range. They can be fetched from [`com.cognite.seismic.v1.SeismicService.SearchSeismics`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi).
 
 ### Payload example
 #### v1:
@@ -262,10 +262,10 @@ com.cognite.seismic.v1.SeismicAPI/SearchSeismics
 
 ## com.cognite.seismic.Query.GetInlinesByCrossline
 
-See [`com.cognite.seismic.Query.GetCrosslinesByInline`](##com.cognite.seismic.Query.GetCrosslinesByInline)
+See [`com.cognite.seismic.Query.GetCrosslinesByInline`](#comcogniteseismicQueryGetCrosslinesByInline)
 
 ## com.cognite.seismic.Query.GetTraceByCoordinates
-To get the closest trace to a given coordinate, [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) can be used specifying the [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) with [`interpolation_method`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.GeometryFilter) set to [`NEAREST_TRACE`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.InterpolationMethod), and a [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.Geometry) containing the coordinate of interest.
+To get the closest trace to a given coordinate, [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) can be used specifying the [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) with [`interpolation_method`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.GeometryFilter) set to [`NEAREST_TRACE`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.InterpolationMethod), and a [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.Geometry) containing the coordinate of interest.
 
 ### Payload example
 #### v0:
@@ -305,9 +305,9 @@ com.cognite.seismic.v1.SeismicAPI/StreamTraces
 Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](com.cognite.seismic.v1.SeismicService.StreamTraces) instead.
 
 ## com.cognite.seismic.Query.GetSliceByGeometry
-Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest).
+Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest).
 
-See [`com.cognite.seismic.Query.GetTraceByCoordinates`](##com.cognite.seismic.Query.GetTraceByCoordinates).
+See [`com.cognite.seismic.Query.GetTraceByCoordinates`](#comcogniteseismicQueryGetTraceByCoordinates).
 
 ## com.cognite.seismic.Query.GetCubeByLines
 **Deprecated**
@@ -315,9 +315,9 @@ See [`com.cognite.seismic.Query.GetTraceByCoordinates`](##com.cognite.seismic.Qu
 Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](com.cognite.seismic.v1.SeismicService.StreamTraces) instead.
 
 ## com.cognite.seismic.Query.GetCubeByGeometry
-Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest).
+Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest).
 
-See [`com.cognite.seismic.Query.GetTraceByCoordinates`](##com.cognite.seismic.Query.GetTraceByCoordinates).
+See [`com.cognite.seismic.Query.GetTraceByCoordinates`](#comcogniteseismicQueryGetTraceByCoordinates).
 
 ## com.cognite.seismic.Query.GetSegYFile
 Use [`com.cognite.seismic.v1.SeismicService.GetSegYFile`](com.cognite.seismic.v1.SeismicService.GetSegYFile) instead.
@@ -325,12 +325,12 @@ Use [`com.cognite.seismic.v1.SeismicService.GetSegYFile`](com.cognite.seismic.v1
 ## com.cognite.seismic.Query.GetSlabByLines
 **Deprecated**
 
-See [`com.cognite.seismic.Query.GetTimeSliceByGeometry`](##com.cognite.seismic.Query.GetTimeSliceByGeometry).
+See [`com.cognite.seismic.Query.GetTimeSliceByGeometry`](#comcogniteseismicQueryGetTimeSliceByGeometry).
 
 ## com.cognite.seismic.Query.GetTimeSliceByGeometry
-Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#metadata-queries) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) with a [`z_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) contaning the depth of interest, and a [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.GeometryFilter) desired.
+Use [`com.cognite.seismic.v1.SeismicService.StreamTraces`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#seismicapi) passing in the desired [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) with a [`z_range`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#streamtracesrequest) contaning the depth of interest, and a [`geometry`](https://docs.cognite.com/dev/guides/sdk/seismic/api/v1/#com.cognite.seismic.v1.GeometryFilter) desired.
 
-See [`com.cognite.seismic.Query.GetSliceByGeometry`](##com.cognite.seismic.Query.GetSliceByGeometry).
+See [`com.cognite.seismic.Query.GetSliceByGeometry`](#comcogniteseismicQueryGetSliceByGeometry).
 
 ### Payload example
 #### v0:
