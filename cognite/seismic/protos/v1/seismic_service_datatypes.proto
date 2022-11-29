@@ -46,7 +46,7 @@ message SourceSegyFile {
     int64 id = 2;
     ExternalId external_id = 3;
     string name = 4; // The name of the file
-    string cloud_storage_path = 7; // The cloud storage path for the file, excluding the file name
+    string cloud_storage_path = 7; // The full cloud storage path for the file, usually in format gs://path/to/file/some_name.sgy
     map<string, string> metadata = 5;
     SegyOverrides segy_overrides = 6;
     repeated TraceHeaderField key_fields = 8; // The trace header fields that will be used as keys for indexing.
