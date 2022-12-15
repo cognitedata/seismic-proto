@@ -386,6 +386,17 @@ message MinorLines {
     repeated LineDescriptor ranges = 1;
 }
 
+message SeismicTraceGroupExtent {
+    oneof type {
+        SeismicTraceGroupLines lines = 1;
+    }
+}
+
+message SeismicTraceGroupLines {
+    TraceHeaderField group_header = 1; // The trace header to differentiate between prestack-migrated duplicate major/minor traces
+    repeated LineDescriptor lines = 2;
+}
+
 // Specifies a last modified timestamp range to search.
 // Returned objects will satisfy all arguments that are not null.
 message LastModifiedFilter {

@@ -156,6 +156,10 @@ message CreateSeismicRequest {
     TextHeader text_header = 8;  // Optionally set a custom text header
     BinaryHeader binary_header = 9;  // Optionally set a custom binary header
     bool copy_metadata = 11;  // If true, copy the metadata from the source seismic store.
+    oneof psm_trace_group_cutout {
+        bool empty = 14;  // If true, will create a prestack-migrated seismic with an empty trace group cutout
+        SeismicTraceGroupExtent trace_group_extent = 15; // Valid if the seismic is 2D or 3D
+    }
 }
 
 message SearchSeismicsRequest {
