@@ -387,14 +387,14 @@ message MinorLines {
 }
 
 message SeismicTraceGroupExtent {
+    TraceHeaderField group_header = 1; // The trace header to differentiate between prestack-migrated duplicate major/minor traces
     oneof type {
-        SeismicTraceGroupLines lines = 1;
+        SeismicTraceGroupLines lines = 2;
     }
 }
 
 message SeismicTraceGroupLines {
-    TraceHeaderField group_header = 1; // The trace header to differentiate between prestack-migrated duplicate major/minor traces
-    repeated LineDescriptor lines = 2;
+    repeated LineDescriptor lines = 1;
 }
 
 // Specifies a last modified timestamp range to search.
