@@ -387,7 +387,7 @@ message MinorLines {
 }
 
 message SeismicTraceGroupExtent {
-    TraceHeaderField group_header = 1; // The trace header to differentiate between prestack-migrated duplicate major/minor traces
+    TraceHeaderField group_header = 1; // The trace header to differentiate between prestack migrated traces in the same bin
     oneof type {
         SeismicTraceGroupLines lines = 2;
     }
