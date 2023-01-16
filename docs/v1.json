@@ -4479,7 +4479,7 @@
             },
             {
               "name": "line_range",
-              "description": "The minimum and maximum extents of the seismic's grid, described in inlines and crosslines.",
+              "description": "Deprecated: Use the GetTraceBounds API call instead",
               "label": "",
               "type": "LineRange",
               "longType": "LineRange",
