@@ -1734,7 +1734,7 @@ File or dataset or cube derived from a single SEG-Y file
 | id | [int64](#int64) |  |  |
 | external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  |  |
 | name | [string](#string) |  | The name of the file |
-| cloud_storage_path | [string](#string) |  | The cloud storage path for the file, excluding the file name |
+| cloud_storage_path | [string](#string) |  | Cloud storage path including protocol, bucket, directory structure, and file name. Usually in format gs://path/to/file/some_name.sgy |
 | metadata | [SourceSegyFile.MetadataEntry](#com-cognite-seismic-v1-SourceSegyFile-MetadataEntry) | repeated |  |
 | segy_overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  |  |
 | key_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that will be used as keys for indexing. |
