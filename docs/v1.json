@@ -558,6 +558,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "trace_group_extent",
+              "description": "Valid if the seismic is 2D or 3D",
+              "label": "",
+              "type": "SeismicTraceGroupExtent",
+              "longType": "SeismicTraceGroupExtent",
+              "fullType": "com.cognite.seismic.v1.SeismicTraceGroupExtent",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "psm_trace_group_cutout",
+              "defaultValue": ""
             }
           ]
         },
@@ -5288,6 +5300,66 @@
               "type": "string",
               "longType": "string",
               "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SeismicTraceGroupExtent",
+          "longName": "SeismicTraceGroupExtent",
+          "fullName": "com.cognite.seismic.v1.SeismicTraceGroupExtent",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "group_header",
+              "description": "The trace header to differentiate between prestack migrated traces in the same bin",
+              "label": "",
+              "type": "TraceHeaderField",
+              "longType": "TraceHeaderField",
+              "fullType": "com.cognite.seismic.v1.TraceHeaderField",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "lines",
+              "description": "",
+              "label": "",
+              "type": "SeismicTraceGroupLines",
+              "longType": "SeismicTraceGroupLines",
+              "fullType": "com.cognite.seismic.v1.SeismicTraceGroupLines",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "type",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "SeismicTraceGroupLines",
+          "longName": "SeismicTraceGroupLines",
+          "fullName": "com.cognite.seismic.v1.SeismicTraceGroupLines",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "lines",
+              "description": "",
+              "label": "repeated",
+              "type": "LineDescriptor",
+              "longType": "com.cognite.seismic.LineDescriptor",
+              "fullType": "com.cognite.seismic.LineDescriptor",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",

@@ -152,6 +152,8 @@ sidebarDepth: 2
     - [SeismicExtent](#com-cognite-seismic-v1-SeismicExtent)
     - [SeismicStore](#com-cognite-seismic-v1-SeismicStore)
     - [SeismicStore.MetadataEntry](#com-cognite-seismic-v1-SeismicStore-MetadataEntry)
+    - [SeismicTraceGroupExtent](#com-cognite-seismic-v1-SeismicTraceGroupExtent)
+    - [SeismicTraceGroupLines](#com-cognite-seismic-v1-SeismicTraceGroupLines)
     - [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile)
     - [SourceSegyFile.MetadataEntry](#com-cognite-seismic-v1-SourceSegyFile-MetadataEntry)
     - [Survey](#com-cognite-seismic-v1-Survey)
@@ -2738,6 +2740,37 @@ Represents a seismic store.
 
 
 
+<a name="com-cognite-seismic-v1-SeismicTraceGroupExtent"></a>
+
+### SeismicTraceGroupExtent
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| group_header | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | The trace header to differentiate between prestack migrated traces in the same bin |
+| lines | [SeismicTraceGroupLines](#com-cognite-seismic-v1-SeismicTraceGroupLines) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-SeismicTraceGroupLines"></a>
+
+### SeismicTraceGroupLines
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| lines | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) | repeated |  |
+
+
+
+
+
+
 <a name="com-cognite-seismic-v1-SourceSegyFile"></a>
 
 ### SourceSegyFile
@@ -3057,6 +3090,7 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 | text_header | [TextHeader](#com-cognite-seismic-v1-TextHeader) |  | Optionally set a custom text header |
 | binary_header | [BinaryHeader](#com-cognite-seismic-v1-BinaryHeader) |  | Optionally set a custom binary header |
 | copy_metadata | [bool](#bool) |  | If true, copy the metadata from the source seismic store. |
+| trace_group_extent | [SeismicTraceGroupExtent](#com-cognite-seismic-v1-SeismicTraceGroupExtent) |  | Valid if the seismic is 2D or 3D |
 
 
 

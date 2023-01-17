@@ -769,6 +769,14 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.SeismicTraceGroupExtent"><span class="badge">M</span>SeismicTraceGroupExtent</a>
+                </li>
+              
+                <li>
+                  <a href="#com.cognite.seismic.v1.SeismicTraceGroupLines"><span class="badge">M</span>SeismicTraceGroupLines</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.SourceSegyFile"><span class="badge">M</span>SourceSegyFile</a>
                 </li>
               
@@ -6904,6 +6912,61 @@ While support for multiple storage backends per store is planned, this is not cu
 
         
       
+        <h3 id="com.cognite.seismic.v1.SeismicTraceGroupExtent">SeismicTraceGroupExtent</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>group_header</td>
+                  <td><a href="#com.cognite.seismic.v1.TraceHeaderField">TraceHeaderField</a></td>
+                  <td></td>
+                  <td><p>The trace header to differentiate between prestack migrated traces in the same bin </p></td>
+                </tr>
+              
+                <tr>
+                  <td>lines</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicTraceGroupLines">SeismicTraceGroupLines</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="com.cognite.seismic.v1.SeismicTraceGroupLines">SeismicTraceGroupLines</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>lines</td>
+                  <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="com.cognite.seismic.v1.SourceSegyFile">SourceSegyFile</h3>
         <p>File or dataset or cube derived from a single SEG-Y file</p>
 
@@ -7793,6 +7856,13 @@ returned.</p></td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
                   <td><p>If true, copy the metadata from the source seismic store. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>trace_group_extent</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicTraceGroupExtent">SeismicTraceGroupExtent</a></td>
+                  <td></td>
+                  <td><p>Valid if the seismic is 2D or 3D </p></td>
                 </tr>
               
             </tbody>
