@@ -102,6 +102,7 @@ message EditSourceSegyFileRequest {
     SegyOverrides segy_overrides = 6;          // [optional] Overrides for the source file
     repeated TraceHeaderField key_fields = 7;  // [optional] The trace header fields that will be used as keys for indexing
     Dimensions dimensions = 8;                 // [optional] File data dimensionality, either 2D or 3D
+    SeismicDataType seismic_data_type = 9;     // [required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack
 }
 
 message EditSourceSegyFileResponse {
