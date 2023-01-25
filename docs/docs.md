@@ -102,6 +102,7 @@ sidebarDepth: 2
   
     - [CoverageSpec.Format](#com-cognite-seismic-v1-CoverageSpec-Format)
     - [Dimensions](#com-cognite-seismic-v1-Dimensions)
+    - [SeismicDataType](#com-cognite-seismic-v1-SeismicDataType)
     - [SurveyCoverageSource](#com-cognite-seismic-v1-SurveyCoverageSource)
     - [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField)
   
@@ -566,6 +567,7 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 | segy_overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  | [optional] Overrides for the source file |
 | key_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | [optional] The trace header fields that will be used as keys for indexing |
 | dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | [optional] File data dimensionality, either 2D or 3D |
+| seismic_data_type | [SeismicDataType](#com-cognite-seismic-v1-SeismicDataType) |  | [required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack |
 
 
 
@@ -764,6 +766,7 @@ Note that currently only one storage tier per trace store is supported, so inges
 | segy_overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  | [optional] Overrides for the source file |
 | key_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | [optional] The trace header fields that will be used as keys for indexing |
 | dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | [required] File data dimensionality, either 2D or 3D |
+| seismic_data_type | [SeismicDataType](#com-cognite-seismic-v1-SeismicDataType) |  | [required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack |
 
 
 
@@ -971,6 +974,7 @@ Used to search files by a given file/seismic-store/survey search specification
 | two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Only valid if the queried object is 2D |
 | three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Only valid if the queried object is 3D |
 | skip_message_count | [int32](#int32) |  | Skip the first n chunks of the download. Useful for resuming aborted downloads. Default: 0. |
+| trace_group_filter | [SeismicTraceGroupExtent](#com-cognite-seismic-v1-SeismicTraceGroupExtent) |  | Select which traces to return within each ensemble. Only if the queried object is pre-stack. |
 
 
 
@@ -1007,6 +1011,7 @@ Used to search files by a given file/seismic-store/survey search specification
 | geometry | [GeometryFilter](#com-cognite-seismic-v1-GeometryFilter) |  | Filter traces by geometry. If the geometry is a polygon, select traces contained in the geometry. If the geometry is a line or a linestring, interpolate traces onto the line. |
 | z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | Select which depth indices to return as part of the traces. |
 | include_trace_header | [bool](#bool) |  | Whether to include the binary trace header in the streamed traces. |
+| trace_group_filter | [SeismicTraceGroupExtent](#com-cognite-seismic-v1-SeismicTraceGroupExtent) |  | Select which traces to return within each ensemble. Only valid if the queried object is pre-stack. |
 
 
 
@@ -1028,6 +1033,7 @@ Used to search files by a given file/seismic-store/survey search specification
 | z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | The actual range of z values returned |
 | three_dee_bounds | [LineRange](#com-cognite-seismic-v1-LineRange) |  | Three-dimensional bounds for the case when the seismic object is 3D |
 | two_dee_bounds | [TwoDeeBounds](#com-cognite-seismic-v1-TwoDeeBounds) |  | Two-dimensional bounds for the case when the seismic object is 2D |
+| cdp_trace_bounds | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | Will be null for post-stack data |
 
 
 
@@ -1507,6 +1513,7 @@ A cutout of a seismic store
 | trace_header_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that have been registered as keys for indexing. This will always match the trace header fields registered for the underlying seismic store. |
 | dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | The underlying file&#39;s data dimensionality, either 2D or 3D This will always match the dimensionality for the underlying seismic store. |
 | last_modified | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The last time this object was created or edited. |
+| seismic_data_type | [SeismicDataType](#com-cognite-seismic-v1-SeismicDataType) |  | Whether this seismic object contains pre-stack or post-stack data. |
 
 
 
@@ -1703,6 +1710,7 @@ Represents a seismic store.
 | dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | The underlying file&#39;s data dimensionality, either 2D or 3D |
 | crs | [string](#string) |  | The coordinate reference system used by this seismicstore |
 | last_modified | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The last time this object was created or edited. |
+| seismic_data_type | [SeismicDataType](#com-cognite-seismic-v1-SeismicDataType) |  | Whether this seismic store contains pre-stack or post-stack data. |
 
 
 
@@ -1776,6 +1784,7 @@ File or dataset or cube derived from a single SEG-Y file
 | crs | [string](#string) |  | The coordinate reference system used by this file |
 | survey_id | [int64](#int64) |  | The integer id of the survey this file is contained in |
 | last_modified | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The last time this object was created or edited. |
+| seismic_data_type | [SeismicDataType](#com-cognite-seismic-v1-SeismicDataType) |  | Whether this file contains pre-stack or post-stack data. |
 
 
 
@@ -1919,6 +1928,19 @@ For more information refer to &lt;a href=&#34;https://cognite-seismic-sdk.readth
 | UNSPECIFIED_DIMENSION | 0 |  |
 | TWO_DEE | 2 |  |
 | THREE_DEE | 3 |  |
+
+
+
+<a name="com-cognite-seismic-v1-SeismicDataType"></a>
+
+### SeismicDataType
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNSPECIFIED_DATA_TYPE | 0 |  |
+| POSTSTACK | 1 |  |
+| PRESTACK_DEPTH_MIGRATED | 2 |  |
 
 
 
@@ -2400,8 +2422,10 @@ This is not valid for traces that are synthetically generated from interpolation
 | iline | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The inline number. Only populated for 3D seismics. |
 | xline | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The xline number. Only populated for 3D seismics. |
 | cdp | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The cdp number. Only populated for 2D seismics indexed by cdp. |
-| shotpoint | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The cdp number. Only populated for 2D seismics indexed by shotpoint. |
-| energy_source_point | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The cdp number. Only populated for 2D seismics indexed by energy source point. |
+| shotpoint | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The shotpoint number. Only populated for 2D seismics indexed by shotpoint. |
+| energy_source_point | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The energy source point number. Only populated for 2D seismics indexed by energy source point. |
+| cdp_trace | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The cdp trace number. Only populated for prestack-migrated seismics indexed by cdp_trace. |
+| offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The offset number. Only populated for prestack-migrated seismics indexed by offset. |
 | trace | [float](#float) | repeated | The underlying array of floats representing samples |
 | coordinate | [Coordinate](#com-cognite-seismic-Coordinate) |  | The CDP X and Y coordinates of the trace. |
 

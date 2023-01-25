@@ -1170,6 +1170,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "seismic_data_type",
+              "description": "[required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack",
+              "label": "",
+              "type": "SeismicDataType",
+              "longType": "SeismicDataType",
+              "fullType": "com.cognite.seismic.v1.SeismicDataType",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -1754,6 +1766,18 @@
               "type": "Dimensions",
               "longType": "Dimensions",
               "fullType": "com.cognite.seismic.v1.Dimensions",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismic_data_type",
+              "description": "[required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack",
+              "label": "",
+              "type": "SeismicDataType",
+              "longType": "SeismicDataType",
+              "fullType": "com.cognite.seismic.v1.SeismicDataType",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -2682,6 +2706,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "trace_group_filter",
+              "description": "Select which traces to return within each ensemble. Only if the queried object is pre-stack.",
+              "label": "",
+              "type": "SeismicTraceGroupExtent",
+              "longType": "SeismicTraceGroupExtent",
+              "fullType": "com.cognite.seismic.v1.SeismicTraceGroupExtent",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -2802,6 +2838,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "trace_group_filter",
+              "description": "Select which traces to return within each ensemble. Only valid if the queried object is pre-stack.",
+              "label": "",
+              "type": "SeismicTraceGroupExtent",
+              "longType": "SeismicTraceGroupExtent",
+              "fullType": "com.cognite.seismic.v1.SeismicTraceGroupExtent",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -2897,6 +2945,18 @@
               "ismap": false,
               "isoneof": true,
               "oneofdecl": "bounds",
+              "defaultValue": ""
+            },
+            {
+              "name": "cdp_trace_bounds",
+              "description": "Will be null for post-stack data",
+              "label": "",
+              "type": "LineDescriptor",
+              "longType": "com.cognite.seismic.LineDescriptor",
+              "fullType": "com.cognite.seismic.LineDescriptor",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
               "defaultValue": ""
             }
           ]
@@ -3165,6 +3225,29 @@
             {
               "name": "THREE_DEE",
               "number": "3",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SeismicDataType",
+          "longName": "SeismicDataType",
+          "fullName": "com.cognite.seismic.v1.SeismicDataType",
+          "description": "",
+          "values": [
+            {
+              "name": "UNSPECIFIED_DATA_TYPE",
+              "number": "0",
+              "description": ""
+            },
+            {
+              "name": "POSTSTACK",
+              "number": "1",
+              "description": ""
+            },
+            {
+              "name": "PRESTACK_DEPTH_MIGRATED",
+              "number": "2",
               "description": ""
             }
           ]
@@ -4632,6 +4715,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "seismic_data_type",
+              "description": "Whether this seismic object contains pre-stack or post-stack data.",
+              "label": "",
+              "type": "SeismicDataType",
+              "longType": "SeismicDataType",
+              "fullType": "com.cognite.seismic.v1.SeismicDataType",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -5268,6 +5363,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "seismic_data_type",
+              "description": "Whether this seismic store contains pre-stack or post-stack data.",
+              "label": "",
+              "type": "SeismicDataType",
+              "longType": "SeismicDataType",
+              "fullType": "com.cognite.seismic.v1.SeismicDataType",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -5516,6 +5623,18 @@
               "type": "Timestamp",
               "longType": "google.protobuf.Timestamp",
               "fullType": "google.protobuf.Timestamp",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "seismic_data_type",
+              "description": "Whether this file contains pre-stack or post-stack data.",
+              "label": "",
+              "type": "SeismicDataType",
+              "longType": "SeismicDataType",
+              "fullType": "com.cognite.seismic.v1.SeismicDataType",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -7126,7 +7245,7 @@
             },
             {
               "name": "shotpoint",
-              "description": "The cdp number. Only populated for 2D seismics indexed by shotpoint.",
+              "description": "The shotpoint number. Only populated for 2D seismics indexed by shotpoint.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -7138,7 +7257,31 @@
             },
             {
               "name": "energy_source_point",
-              "description": "The cdp number. Only populated for 2D seismics indexed by energy source point.",
+              "description": "The energy source point number. Only populated for 2D seismics indexed by energy source point.",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "cdp_trace",
+              "description": "The cdp trace number. Only populated for prestack-migrated seismics indexed by cdp_trace.",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "offset",
+              "description": "The offset number. Only populated for prestack-migrated seismics indexed by offset.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",

@@ -558,6 +558,10 @@
                 </li>
               
                 <li>
+                  <a href="#com.cognite.seismic.v1.SeismicDataType"><span class="badge">E</span>SeismicDataType</a>
+                </li>
+              
+                <li>
                   <a href="#com.cognite.seismic.v1.SurveyCoverageSource"><span class="badge">E</span>SurveyCoverageSource</a>
                 </li>
               
@@ -1915,6 +1919,13 @@ returned.</p></td>
                   <td><p>[optional] File data dimensionality, either 2D or 3D </p></td>
                 </tr>
               
+                <tr>
+                  <td>seismic_data_type</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicDataType">SeismicDataType</a></td>
+                  <td></td>
+                  <td><p>[required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -2376,6 +2387,13 @@ will result in the file&#39;s data being removed from the previously active stor
                   <td><a href="#com.cognite.seismic.v1.Dimensions">Dimensions</a></td>
                   <td></td>
                   <td><p>[required] File data dimensionality, either 2D or 3D </p></td>
+                </tr>
+              
+                <tr>
+                  <td>seismic_data_type</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicDataType">SeismicDataType</a></td>
+                  <td></td>
+                  <td><p>[required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack </p></td>
                 </tr>
               
             </tbody>
@@ -3026,6 +3044,13 @@ If no coverage source is provided, but the coverage parameters are provided, the
                   <td><p>Skip the first n chunks of the download. Useful for resuming aborted downloads. Default: 0. </p></td>
                 </tr>
               
+                <tr>
+                  <td>trace_group_filter</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicTraceGroupExtent">SeismicTraceGroupExtent</a></td>
+                  <td></td>
+                  <td><p>Select which traces to return within each ensemble. Only if the queried object is pre-stack. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -3117,6 +3142,13 @@ If the geometry is a line or a linestring, interpolate traces onto the line. </p
                   <td><p>Whether to include the binary trace header in the streamed traces. </p></td>
                 </tr>
               
+                <tr>
+                  <td>trace_group_filter</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicTraceGroupExtent">SeismicTraceGroupExtent</a></td>
+                  <td></td>
+                  <td><p>Select which traces to return within each ensemble. Only valid if the queried object is pre-stack. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -3181,6 +3213,13 @@ If the geometry is a line or a linestring, interpolate traces onto the line. </p
                   <td><a href="#com.cognite.seismic.v1.TwoDeeBounds">TwoDeeBounds</a></td>
                   <td></td>
                   <td><p>Two-dimensional bounds for the case when the seismic object is 2D </p></td>
+                </tr>
+              
+                <tr>
+                  <td>cdp_trace_bounds</td>
+                  <td><a href="#com.cognite.seismic.LineDescriptor">com.cognite.seismic.LineDescriptor</a></td>
+                  <td></td>
+                  <td><p>Will be null for post-stack data </p></td>
                 </tr>
               
             </tbody>
@@ -4388,6 +4427,13 @@ This will always match the dimensionality for the underlying seismic store. </p>
                   <td><p>The last time this object was created or edited. </p></td>
                 </tr>
               
+                <tr>
+                  <td>seismic_data_type</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicDataType">SeismicDataType</a></td>
+                  <td></td>
+                  <td><p>Whether this seismic object contains pre-stack or post-stack data. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -4870,6 +4916,13 @@ While support for multiple storage backends per store is planned, this is not cu
                   <td><p>The last time this object was created or edited. </p></td>
                 </tr>
               
+                <tr>
+                  <td>seismic_data_type</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicDataType">SeismicDataType</a></td>
+                  <td></td>
+                  <td><p>Whether this seismic store contains pre-stack or post-stack data. </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -5055,6 +5108,13 @@ While support for multiple storage backends per store is planned, this is not cu
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td></td>
                   <td><p>The last time this object was created or edited. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>seismic_data_type</td>
+                  <td><a href="#com.cognite.seismic.v1.SeismicDataType">SeismicDataType</a></td>
+                  <td></td>
+                  <td><p>Whether this file contains pre-stack or post-stack data. </p></td>
                 </tr>
               
             </tbody>
@@ -5359,6 +5419,35 @@ or by specifying three or more corners of the grid as a list of DoubleTraceCoord
               <tr>
                 <td>THREE_DEE</td>
                 <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="com.cognite.seismic.v1.SeismicDataType">SeismicDataType</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>UNSPECIFIED_DATA_TYPE</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>POSTSTACK</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>PRESTACK_DEPTH_MIGRATED</td>
+                <td>2</td>
                 <td><p></p></td>
               </tr>
             
@@ -6361,14 +6450,28 @@ is computed from the seismicstores in the survey </p></td>
                   <td>shotpoint</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p>The cdp number. Only populated for 2D seismics indexed by shotpoint. </p></td>
+                  <td><p>The shotpoint number. Only populated for 2D seismics indexed by shotpoint. </p></td>
                 </tr>
               
                 <tr>
                   <td>energy_source_point</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p>The cdp number. Only populated for 2D seismics indexed by energy source point. </p></td>
+                  <td><p>The energy source point number. Only populated for 2D seismics indexed by energy source point. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>cdp_trace</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>The cdp trace number. Only populated for prestack-migrated seismics indexed by cdp_trace. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>offset</td>
+                  <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
+                  <td></td>
+                  <td><p>The offset number. Only populated for prestack-migrated seismics indexed by offset. </p></td>
                 </tr>
               
                 <tr>

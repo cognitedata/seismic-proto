@@ -5236,7 +5236,7 @@
             },
             {
               "name": "shotpoint",
-              "description": "The cdp number. Only populated for 2D seismics indexed by shotpoint.",
+              "description": "The shotpoint number. Only populated for 2D seismics indexed by shotpoint.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -5248,7 +5248,31 @@
             },
             {
               "name": "energy_source_point",
-              "description": "The cdp number. Only populated for 2D seismics indexed by energy source point.",
+              "description": "The energy source point number. Only populated for 2D seismics indexed by energy source point.",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "cdp_trace",
+              "description": "The cdp trace number. Only populated for prestack-migrated seismics indexed by cdp_trace.",
+              "label": "",
+              "type": "Int32Value",
+              "longType": "google.protobuf.Int32Value",
+              "fullType": "google.protobuf.Int32Value",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "offset",
+              "description": "The offset number. Only populated for prestack-migrated seismics indexed by offset.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
