@@ -86,6 +86,7 @@ message RegisterSourceSegyFileRequest {
     SegyOverrides segy_overrides = 6;          // [optional] Overrides for the source file
     repeated TraceHeaderField key_fields = 7;  // [optional] The trace header fields that will be used as keys for indexing
     Dimensions dimensions = 8;                 // [required] File data dimensionality, either 2D or 3D
+    SeismicDataType seismic_data_type = 9;     // [required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack
 }
 
 message RegisterSourceSegyFileResponse {
@@ -101,6 +102,7 @@ message EditSourceSegyFileRequest {
     SegyOverrides segy_overrides = 6;          // [optional] Overrides for the source file
     repeated TraceHeaderField key_fields = 7;  // [optional] The trace header fields that will be used as keys for indexing
     Dimensions dimensions = 8;                 // [optional] File data dimensionality, either 2D or 3D
+    SeismicDataType seismic_data_type = 9;     // [required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack
 }
 
 message EditSourceSegyFileResponse {
@@ -327,6 +329,7 @@ message StreamTracesRequest {
     }
     LineDescriptor z_range = 6;               // Select which depth indices to return as part of the traces.
     bool include_trace_header = 7;            // Whether to include the binary trace header in the streamed traces.
+    SeismicTraceGroupExtent trace_group_filter = 8; // Select which traces to return within each ensemble. Only valid if the queried object is pre-stack.
 }
 
 message TraceBounds {
@@ -343,6 +346,7 @@ message TraceBounds {
         // Two-dimensional bounds for the case when the seismic object is 2D
         TwoDeeBounds two_dee_bounds = 7;
     }
+    LineDescriptor cdp_trace_bounds = 8; // Will be null for post-stack data
 }
 
 message TwoDeeBounds {
@@ -364,6 +368,7 @@ message SegYSeismicRequest {
         Seismic3dExtent three_dee_extent = 6; // Only valid if the queried object is 3D
     }
     int32 skip_message_count = 7; // Skip the first n chunks of the download. Useful for resuming aborted downloads. Default: 0.
+    SeismicTraceGroupExtent trace_group_filter = 8; // Select which traces to return within each ensemble. Only if the queried object is pre-stack.
 }
 
 message SegYSeismicResponse {

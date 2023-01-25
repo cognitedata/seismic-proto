@@ -91,8 +91,10 @@ message Trace {
     google.protobuf.Int32Value iline = 2;               // The inline number. Only populated for 3D seismics.
     google.protobuf.Int32Value xline = 3;               // The xline number. Only populated for 3D seismics.
     google.protobuf.Int32Value cdp = 6;                 // The cdp number. Only populated for 2D seismics indexed by cdp.
-    google.protobuf.Int32Value shotpoint = 7;           // The cdp number. Only populated for 2D seismics indexed by shotpoint.
-    google.protobuf.Int32Value energy_source_point = 8; // The cdp number. Only populated for 2D seismics indexed by energy source point.
+    google.protobuf.Int32Value shotpoint = 7;           // The shotpoint number. Only populated for 2D seismics indexed by shotpoint.
+    google.protobuf.Int32Value energy_source_point = 8; // The energy source point number. Only populated for 2D seismics indexed by energy source point.
+    google.protobuf.Int32Value cdp_trace = 9;           // The cdp trace number. Only populated for prestack-migrated seismics indexed by cdp_trace.
+    google.protobuf.Int32Value offset = 10;             // The offset number. Only populated for prestack-migrated seismics indexed by offset.
     repeated float trace = 4;                           // The underlying array of floats representing samples
     Coordinate coordinate = 5;                          // The CDP X and Y coordinates of the trace.
 }
