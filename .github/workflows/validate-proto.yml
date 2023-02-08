@@ -3,7 +3,7 @@ on: [push]
 jobs:
   checkout_compile_lint:
     runs-on: ubuntu-latest
-    container: uber/prototool:1.4.0
+    container: uber/prototool:1.10.0
     name: Compile and lint protobuf files
     steps:
       - name: Checkout
