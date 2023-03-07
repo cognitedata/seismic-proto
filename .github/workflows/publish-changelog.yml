@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - master
+      - celo/1258/changelog
+    paths:
+      - CHANGELOG.md
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: 'Publish Changelog'
+    steps:
+      - name: Checkout docs
+        uses: actions/checkout@v3
+        with:
+          repository: cognitedata/doc.cognitedata.com
+
+      - name: Checkout proto
+        uses: actions/checkout@v3
+        with:
+          path: seismic-proto
+
+      - name: Commit changes
+        run: |
+          cp seismic-proto/CHANGELOG.md docs/dev/seismic_changelog.md
+          git add docs/dev/seismic_changelog.md
+          git commit -m 'Bring in updates from seismic-proto changelog'
+
+      - name: Create pull request
+        uses: repo-sync/pull-request@v2
+        with:
+          pr_title: 'Sync changes from seismic CHANGELOG'
+          pr_body: '**Automated PR:**  Bring in updates to CHANGELOG.md from the [seismic-proto](https://github.com/cognitedata/seismic-proto/blob/master/CHANGELOG.md) repository'
+          destination_branch: master
+          # destination_repository: mr-celo/doc.cognitedata.com
+          destination_repository: cognitedata/hackathon-subsurface-ducks-in-a-row
