@@ -18,28 +18,30 @@ service SeismicAPI {
     /**
      * Creates a Survey object in the data model. A Survey object represents a grouping of seismic data
      * in the same area and normally shares acquisition and most processing parameters.
+     * 
      * Capabilities: Requires Seismic:WRITE capability to the CDF tenant.
      */
     rpc CreateSurvey (CreateSurveyRequest) returns (Survey) {}
 
     /**
-     * Lists all surveys accessible to the client. Optionally, it includes a list of Seismic and SeismicStore object ids associated with the surveys.
+     * Lists all surveys accessible to the client.
+     * You can also choose to receive a list of Seismic and SeismicStore object ids associated with the surveys.
      *
-     * Can optionally search surveys based on both/either of two criteria:
+     * The returned filters can also be limited to those that satisfy one or both of these criteria:
      *   - Coverage polygon of files in the survey are within an area delimited by a specified polygon.
      *   - Filters on metadata of both the survey and the file.
      */
     rpc SearchSurveys (SearchSurveysRequest) returns (stream SearchSurveyResponse) {}
 
     /**
-     * Modifes the metadata for a survey.
+     * Modifies the metadata for a survey.
      */
     rpc EditSurvey (EditSurveyRequest) returns (Survey) {}
 
     /**
      * Deletes a specified survey. Must have Seismic:ALL scope and Write capability.
      *
-     * In the case of Surveys, the "name" should be input into the external_ids field of the Identifier.
+     * A Survey can be specified by using the "name" field as the "external_id".
      */
     rpc DeleteSurvey(DeleteSurveyRequest) returns (DeleteSurveyResponse) {}
 
@@ -51,8 +53,8 @@ service SeismicAPI {
     /**
      * Edits a registered source file.
      *
-     * Before editing, there must be no ingestion jobs running for the source file, and if already ingested, any SeismicStore associated
-     * with the source file must be deleted.
+     * Before editing, there must be no ingestion jobs running for the source file.
+     * The SeismicStore associated with the source file must also be deleted if it was successfully created.
      * This request will fail if the above criteira aren't met.
      */
     rpc EditSourceSegyFile (EditSourceSegyFileRequest) returns (EditSourceSegyFileResponse) {}
@@ -60,8 +62,8 @@ service SeismicAPI {
     /**
      * Unregisters a file previously registered as the source for ingestion.
      *
-     * Before unregistering, there must be no ingestion jobs running for the source file, and if already ingested, any SeismicStore associated
-     * with the source file must be deleted.
+     * Before unregistering, there must be no ingestion jobs running for the source file.
+     * The SeismicStore associated with the source file must also be deleted if it was successfully created.
      * This request will fail if the above criteira aren't met.
      */
     rpc UnregisterSourceSegyFile (UnregisterSourceSegyFileRequest) returns (UnregisterSourceSegyFileResponse) {}
@@ -73,23 +75,21 @@ service SeismicAPI {
 
     /**
      * Creates new Seismics and assign them to partitions.
-     * Seismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one
-     * if, for example, the definition or the seismic store must be changed.
+     * Seismic objects are mostly immutable aside from their name and metadata.
+     * A Seismic object must be deleted and recreated in order to change properties such as the cutout or the source seismic store.
      */
     rpc CreateSeismic (CreateSeismicRequest) returns (Seismic) {}
 
     /**
-     * Returns Seismic metadata given its id.
-     * Can optionally retrieve seismic store & partition info if user has the right scope.
-     * Use GetVolume to retrieve traces.
+     * Returns metadata for a Seismic object.
+     * Can optionally retrieve seismic store & partition info if user has appropriate scope and capability.
      */
     rpc SearchSeismics (SearchSeismicsRequest) returns (stream Seismic) {}
 
     /**
      * Edits the specified seismic. Seismic object names and metadata can be changed.
-     * The cutout definition, however, can't be changed.
-     * To modify the definition or the owning partition, delete the seismic object
-     * and create a new one.
+     * Other properties such as the cutout, owning partition, or source seismic store can't be changed..
+     * The seismic object must be deleted and recreated in order to modify these immutable properties.
      */
     rpc EditSeismic (EditSeismicRequest) returns (Seismic) {}
 
@@ -115,7 +115,7 @@ service SeismicAPI {
     rpc EditSeismicStore (EditSeismicStoreRequest) returns (SeismicStore) {}
 
     /**
-     * Deletes a seismic store. If any seismics still reference the specified seismic store, the request will fail.
+     * Deletes a seismic store. If any seismic objects still reference the specified seismic store, the request will fail.
      */
     rpc DeleteSeismicStore (DeleteSeismicStoreRequest) returns (DeleteSeismicStoreResponse) {}
 
@@ -149,7 +149,7 @@ service SeismicAPI {
     /**
      * Return information about what a GetVolume request would return, including bounding boxes of
      * trace header values, and estimated total size.
-     * **Deprecated** - use GetTraceBounds instead.
+     * **Deprecated** - use `GetTraceBounds` instead.
      */
     rpc GetVolumeBounds(VolumeRequest) returns (VolumeBoundsResponse) {}
 
@@ -168,13 +168,13 @@ service SeismicAPI {
 
     /**
      * Fetches seismic data in SEG-Y format.
-     * The stream of responses each containing a byte array that must be written sequentially to a
-     * file to produce a SEG-Y file. The ordering of traces in the output is unspecified.
+     * Each response in the stream contains a byte array that must be written, in order, to a file-like object
+     * to produce a valid SEG-Y file. The ordering of traces in the resulting SEG-Y file is undefined.
 
      * The request object can be used to specify whether the file should contain the whole set
      * of traces in the source dataset or a subset of the traces (for example, a cropped file). See
-     * SegYSeismicRequest for more information.
-     * Returns a stream of SegYSeismicResponse objects, each containing a fragment of a SEG-Y
+     * [`SegYSeismicRequest`](#segyseismicrequest) for more information.
+     * Returns a stream of `SegYSeismicResponse` objects, each containing a fragment of a SEG-Y
      * data stream.
      */
     rpc GetSegYFile (SegYSeismicRequest) returns (stream SegYSeismicResponse) {}
