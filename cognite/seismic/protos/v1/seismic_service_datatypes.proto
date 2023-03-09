@@ -119,8 +119,8 @@ message Survey {
     map<string, string> metadata = 5; //Any custom-defined metadata
     TextHeader text_header = 6; //The text header that corresponds to the seismic
     BinaryHeader binary_header = 7; //The binary header that corresponds to the seismic
-    LineRange line_range = 8; // Deprecated: Use the GetTraceBounds API call instead
-    VolumeDef volume_def = 9; // The VolumeDef describing the seismic
+    LineRange line_range = 8; // **Deprecated**: Use the GetTraceBounds API call instead.
+    VolumeDef volume_def = 9; // **Deprecated**: The VolumeDef describing the seismic. Use extents instead.
     SeismicCutout cutout = 15; // The cutout the seismic object was created with
     SeismicExtent extent = 16; // A description of the traces contained in the seismic
     int64 partition_id = 10; //The id of the partition the seismic belongs to
@@ -167,8 +167,8 @@ message SeismicStore {
     map<string, string> metadata = 5; //Any custom-defined metadata
     File ingested_file = 6; // Same as `ingested_source_file`. This field is deprecated and will be removed in the future.
     SourceSegyFile ingested_source_file = 14; // If present, the file this SeismicStore was ingested from.
-    VolumeDef inline_volume_def = 7; // Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines.
-    VolumeDef crossline_volume_def = 8; // Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines
+    VolumeDef inline_volume_def = 7;    // **Deprecated**: Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines. Use extents instead.
+    VolumeDef crossline_volume_def = 8; // **Deprecated**: Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines. Use extents instead.
     SeismicExtent extent = 13; // Description of the traces contained in the seismicstore.
     TextHeader text_header = 9; //If present, the text header for this seismic store
     BinaryHeader binary_header = 10; //If present, the binary header for this seismic store
@@ -200,7 +200,7 @@ message Partition {
 }
 
 /**
-VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.
+**Deprecated**: VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.
 
 The grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line. 
 For example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.

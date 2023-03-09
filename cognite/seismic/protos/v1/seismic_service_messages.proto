@@ -106,7 +106,7 @@ message EditSourceSegyFileRequest {
 }
 
 message EditSourceSegyFileResponse {
-    SourceSegyFile file = 1;
+    SourceSegyFile file = 1;  // The result of the edit.
 }
 
 message UnregisterSourceSegyFileRequest {
@@ -148,7 +148,7 @@ message CreateSeismicRequest {
     int64 seismic_store_id = 4;
     // [required] Defines the portion of the tracestore volume to limit the new seismic to
     oneof volume {
-        VolumeDef volume_def = 5;  // Defines the volume as VolumeDef format
+        VolumeDef volume_def = 5;  // **Deprecated**: Defines the volume as VolumeDef format. Use `two_dee_extent` or `three_dee_extent`.
         Geometry geometry = 7;     // Defines the volume as WKT or GeoJson
         bool empty = 10;           // Will create a seismic with an empty cutout if true
         Seismic2dExtent two_dee_extent = 12;   // Defines the volume as an extent. Only valid if the seismic is 2D
@@ -172,21 +172,21 @@ message SearchSeismicsRequest {
         SearchSpec seismic_store = 15;  // Searches for seismics by their seismic store. Requires ALL scope.
         LastModifiedFilter last_modified = 16; // Searches for seismics by last modified
     }
-    bool include_text_header = 4;
-    bool include_binary_header = 5;
-    bool include_line_range = 6;
-    bool include_volume_definition = 7;  // If true, include the volume definition
-    bool include_cutout = 12;            // If true, include the cutout specification the seismic was created with
-    bool include_extent = 13;            // If true, include a description of the included traces
-    // If specified, indicates which trace header the extent should be indexed by (if a 2d header), or
+    bool include_text_header = 4;        // [optional] Whether to include the text header. Defaults to false.
+    bool include_binary_header = 5;      // [optional] Whether to include the binary header. Defaults to false.
+    bool include_line_range = 6;         // [optional] Whether to include the line range. Defaults to false.
+    bool include_volume_definition = 7;  // **Deprecated**. Whether to include the volume definition. Use `include_extent` instead. Defaults to false.
+    bool include_cutout = 12;            // [optional] Whether to include the cutout specification the seismic was created with. Defaults to false.
+    bool include_extent = 13;            // [optional] Whether to include a description of the included traces. Defaults to false.
+    // [optional] If specified, indicates which trace header the extent should be indexed by (if a 2d header), or
     // which should be the major direction (if a 3d header). Leaving this unspecified with
     // `include_extent=true` means the server chooses the native key header for each seismic.
     // Any seismic not indexed by the given header will have its extent field left as null.
     TraceHeaderField extent_key = 14;
-    bool include_seismic_store = 8;      // If true, include info on the backing seismicstore. Must be data manager.
-    bool include_partition = 9;          // If true, include info on the partition. Must be data manager.\
-    bool include_coverage = 10;          // **Deprecated**. Use `coverage` instead.
-    CoverageSpec coverage = 11;          // If specified, requests coverage as well.
+    bool include_seismic_store = 8;      // [optional] Whether to include info on the backing seismicstore. Requires ALL scope. Defaults to false.
+    bool include_partition = 9;          // [optional] Whether to include info on the partition. Requires ALL scope. Defaults to false.
+    bool include_coverage = 10;          // **Deprecated**. Use `coverage` instead. Defaults to false.
+    CoverageSpec coverage = 11;          // [optional] If specified, includes coverage as the specified CRS and format.
 }
 
 message EditSeismicRequest {
@@ -214,7 +214,7 @@ message SearchSeismicStoresRequest {
         LastModifiedFilter last_modified = 11; // Will return seismic stores by last modified.
     }
     bool include_file_info = 2;          // [optional] Whether to include File information in the response. Defaults to false.
-    bool include_volume_definitions = 3; // [optional] Whether to include inline/crossline volume definitions in the response. Defaults to false.
+    bool include_volume_definitions = 3; // **Deprecated**: Whether to include inline/crossline volume definitions in the response. Use `include_extent` instead. Defaults to false.
     bool include_extent = 9; // [optional] Whether to include a description of the traces contained in the seismicstore. Defaults to false.
     // [optional] If specified:
     // - for 2D headers, indicates which trace header the extent should be indexed by, or
