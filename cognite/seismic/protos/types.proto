@@ -12,12 +12,12 @@ import "google/protobuf/wrappers.proto";
 // Common response types
 
 /**
-    Basic type representing (x,y) coordinate in the given CRS
+    Basic type representing (x,y) coordinate in the given coordinate reference system (CRS).
 **/
 message Coordinate {
-    string crs = 1; // The Coordinate Reference System of the coordinate. Generally should be an EPSG code including the EPSG: prefix, for example `EPSG:23031`
-    float x = 2; // The x value of the coordinate
-    float y = 3; // The y value of the coordinate
+    string crs = 1; // The CRS of the coordinate. Must be a full EPSG code, for example `EPSG:23031`.
+    float x = 2;    // The x value of the coordinate
+    float y = 3;    // The y value of the coordinate
 }
 
 
@@ -123,7 +123,7 @@ message SurfacePoint {
 
 // Common request types
 
-// A survey represents a collection of files in the same area
+// **Deprecated**. A survey represents a collection of files in the same area
 message Survey {
     string id = 1; // Survey ID
     string name = 2; // Survey name
@@ -134,7 +134,7 @@ message Survey {
     CustomSurveyCoverage custom_coverage = 7;
 }
 
-// File or dataset or cube derived from a single SEG-Y file
+// **Deprecated**. File or dataset or cube derived from a single SEG-Y file
 message File {
     string id = 1;
     string name = 2;
@@ -143,12 +143,13 @@ message File {
     ExternalId external_id = 5;
 }
 
+// **Deprecated**.
 message Project {
     string id = 1;
     string alias = 2;
 }
 
-// Specify either id or name to find a file or survey.
+// **Deprecated**. Specify either id or name to find a file or survey.
 message Identifier {
     oneof findby {
         string id = 1;
@@ -156,17 +157,21 @@ message Identifier {
     }
 }
 
+// An external ID.
 message ExternalId {
     string external_id = 1;
 }
 
+// Describes a series of points.
+// The first point is `min``, the next point is `min+step`, the point after that is `min+step*2``, and so on.
+// None of the points will be greater than `max`.
 message LineDescriptor {
-    google.protobuf.Int32Value min = 1;
-    google.protobuf.Int32Value max = 2;
-    google.protobuf.Int32Value step = 3;
+    google.protobuf.Int32Value min = 1;  // [required] The first element of the line.
+    google.protobuf.Int32Value max = 2;  // [required] The maximum value of a point on the line
+    google.protobuf.Int32Value step = 3; // [optional] The 'step' of the line.
 }
 
-// Specify either inline OR crossline
+// Specifies an inline or a crossline
 message LineSelect {
     oneof direction {
         int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
@@ -183,7 +188,7 @@ message LineRange {
 // Parameters for requesting coverage of survey
 message CoverageParameters {
     CRS crs = 1;                 // [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the survey's original CRS
-    bool in_wkt = 2;             // set this to true to return in WKT format. Otherwise, response will be in geojson format by default
+    bool in_wkt = 2;             // [optional] Whether to use WKT format in the response. Defaults to false, returning GeoJSON.
 }
 
 // -----
@@ -191,7 +196,7 @@ message CoverageParameters {
 // Common geometry types
 
 message CRS {
-    string crs = 1;
+    string crs = 1;  // A coordinate reference system specified as a full EPSG code, for example "EPSG:4326".
 }
 
 // Well-known text representation of geometry (<a href="http://www.opengeospatial.org/standards/sfa">WKT</a>)
@@ -212,21 +217,23 @@ message GeoJson {
 
 // Geometry can be specified using either wkt or geoJSON. CRS is always required.
 message Geometry {
-    CRS crs = 1;           // required
+    CRS crs = 1;           // [required] The CRS of the geometry.
+    // [required] The actual geometry.
     oneof format {
-        Wkt wkt = 2;
-        GeoJson geo = 3;
+        Wkt wkt = 2;     // A wkt format geometry.
+        GeoJson geo = 3; // A GeoJSON format geometry.
     }
 }
 
-// Customer-provided custom coverage for surveys
+// Customer-provided custom coverage for surveys.
 message CustomSurveyCoverage {
     message NoCustomCoverage { };
+    // [required] The custom coverage to use.
     oneof custom {
         // Overrides survey coverage with the provided custom coverage geometry
         Geometry custom_coverage = 1;
-        // Specifies that no custom coverage is provided, so survey coverage
-        // is computed from the seismicstores in the survey
+        // No custom coverage is provided. Survey coverage
+        // will be computed from the seismicstores contained in the survey.
         NoCustomCoverage no_custom_coverage = 2;
     }
 }
@@ -252,12 +259,12 @@ message PositionQuery {
 // Enums
 
 enum JobStatus {
-    NONE = 0;
-    QUEUED = 1;
-    IN_PROGRESS = 2;
-    SUCCESS = 3;
-    FAILED = 4;
-    TIMEOUT = 5;
+    NONE = 0;        // Default value for the enum.
+    QUEUED = 1;      // The job is in the queue but has not been worked on.
+    IN_PROGRESS = 2; // The job is being processed.
+    SUCCESS = 3;     // The job has terminated correctly.
+    FAILED = 4;      // The job has failed.
+    TIMEOUT = 5;     // The job took too long and has timed out. No more work will be done on the job.
 }
 
 enum FileStep {
