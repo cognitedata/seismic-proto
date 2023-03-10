@@ -126,7 +126,7 @@ message Survey {
     int64 partition_id = 10;    // The id of the partition the seismic belongs to.
     int64 seismicstore_id = 11; // The id of the seismicstore the seismic is derived from. It is present only if you have READ access and ALL scope.
     Geometry coverage = 12;     // The coverage geometry for the seismic.
-    bool created_empty = 13;    // **Deprecated**. Whether this seismic was created empty.
+    bool created_empty = 13;    // **Deprecated**. Whether this seismic was created empty. Use the `cutout` field instead.
     int64 trace_count = 14;     // An estimate of the number of traces contained within the seismic.
     // The trace header fields that have been registered as keys for indexing.
     // This will always match the trace header fields registered for the underlying seismic store.
@@ -341,13 +341,13 @@ enum Dimensions {
 // Enumeration of possible trace header fields used for indexing seismic objects.
 enum TraceHeaderField {
     UNSPECIFIED_TRACE_HEADER_FIELD = 0;
-    ENERGY_SOURCE_POINT = 1;
-    CDP = 2;
-    INLINE = 3;
-    CROSSLINE = 4;
-    SHOTPOINT = 5;
-    CDP_TRACE = 6; // bytes 25-28 of standard trace header: trace number within ensemble
-    OFFSET = 7;  // bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group.
+    ENERGY_SOURCE_POINT = 1; // Valid for 2d seismic objects
+    CDP = 2;                 // Valid for 2d and 3d seismic objects
+    INLINE = 3;              // Valid for 3d seismic objects
+    CROSSLINE = 4;           // Valid for 3d seismic objects
+    SHOTPOINT = 5;           // Valid for 2d seismic objects
+    CDP_TRACE = 6;           // Valid for pre-stack seismic objects. Corresponds to bytes 25-28 of standard trace header: trace number within ensemble
+    OFFSET = 7;              // Valid for pre-stack seismic objects. Corresponds to bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group.
 }
 
 message GeometryFilter {
