@@ -342,7 +342,7 @@ enum Dimensions {
 enum TraceHeaderField {
     UNSPECIFIED_TRACE_HEADER_FIELD = 0;
     ENERGY_SOURCE_POINT = 1; // Valid for 2d seismic objects
-    CDP = 2;                 // Valid for 2d and 3d seismic objects
+    CDP = 2;                 // Valid for 2d seismic objects
     INLINE = 3;              // Valid for 3d seismic objects
     CROSSLINE = 4;           // Valid for 3d seismic objects
     SHOTPOINT = 5;           // Valid for 2d seismic objects
