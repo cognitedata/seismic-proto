@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Authenticate with GCP
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_ACCOUNT_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Remove previous local docs
+        run: rm -rf docs
+
+      - name: Build docs
+        run: ./build-docs.sh
+
+      - name: Publish to GCS
+        run: |
+          gsutil rm -r gs://cognite-seismic-api-docs/proto || true
+          gsutil cp -r docs/docs gs://cognite-seismic-api-docs/proto
+          gsutil cp CHANGELOG.md gs://cognite-seismic-api-docs/proto/CHANGELOG.md
