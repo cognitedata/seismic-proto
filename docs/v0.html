@@ -3691,7 +3691,7 @@ Negative values, 0 and values greater than 1 are not permitted when registering 
                   <td>crs</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>A coordinate reference system specified as a full EPSG code, for example &#34;EPSG:4326&#34;. </p></td>
                 </tr>
               
             </tbody>
@@ -3702,7 +3702,7 @@ Negative values, 0 and values greater than 1 are not permitted when registering 
         
       
         <h3 id="com.cognite.seismic.Coordinate">Coordinate</h3>
-        <p>Basic type representing (x,y) coordinate in the given CRS</p>
+        <p>Basic type representing (x,y) coordinate in the given coordinate reference system (CRS).</p>
 
         
           <table class="field-table">
@@ -3715,7 +3715,7 @@ Negative values, 0 and values greater than 1 are not permitted when registering 
                   <td>crs</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>The Coordinate Reference System of the coordinate. Generally should be an EPSG code including the EPSG: prefix, for example `EPSG:23031` </p></td>
+                  <td><p>The CRS of the coordinate. Must be a full EPSG code, for example `EPSG:23031`. </p></td>
                 </tr>
               
                 <tr>
@@ -3740,7 +3740,7 @@ Negative values, 0 and values greater than 1 are not permitted when registering 
         
       
         <h3 id="com.cognite.seismic.CoverageParameters">CoverageParameters</h3>
-        <p>Parameters for requesting coverage of survey</p>
+        <p>Deprecated**: use [`CoverageSpec`](#coveragespec) instead. Parameters for requesting coverage of survey</p>
 
         
           <table class="field-table">
@@ -3760,7 +3760,7 @@ Negative values, 0 and values greater than 1 are not permitted when registering 
                   <td>in_wkt</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
-                  <td><p>set this to true to return in WKT format. Otherwise, response will be in geojson format by default </p></td>
+                  <td><p>[optional] Whether to use WKT format in the response. Defaults to false, returning GeoJSON. </p></td>
                 </tr>
               
             </tbody>
@@ -3771,7 +3771,7 @@ Negative values, 0 and values greater than 1 are not permitted when registering 
         
       
         <h3 id="com.cognite.seismic.CustomSurveyCoverage">CustomSurveyCoverage</h3>
-        <p>Customer-provided custom coverage for surveys</p>
+        <p>Customer-provided custom coverage for surveys.</p>
 
         
           <table class="field-table">
@@ -3791,8 +3791,8 @@ Negative values, 0 and values greater than 1 are not permitted when registering 
                   <td>no_custom_coverage</td>
                   <td><a href="#com.cognite.seismic.CustomSurveyCoverage.NoCustomCoverage">CustomSurveyCoverage.NoCustomCoverage</a></td>
                   <td></td>
-                  <td><p>Specifies that no custom coverage is provided, so survey coverage
-is computed from the seismicstores in the survey </p></td>
+                  <td><p>No custom coverage is provided. Survey coverage
+will be computed from the seismicstores contained in the survey. </p></td>
                 </tr>
               
             </tbody>
@@ -3862,7 +3862,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.ExternalId">ExternalId</h3>
-        <p></p>
+        <p>An external ID.</p>
 
         
           <table class="field-table">
@@ -3886,7 +3886,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.File">File</h3>
-        <p>File or dataset or cube derived from a single SEG-Y file</p>
+        <p>Deprecated**. File or dataset or cube derived from a single SEG-Y file</p>
 
         
           <table class="field-table">
@@ -4006,21 +4006,21 @@ is computed from the seismicstores in the survey </p></td>
                   <td>crs</td>
                   <td><a href="#com.cognite.seismic.CRS">CRS</a></td>
                   <td></td>
-                  <td><p>required </p></td>
+                  <td><p>[required] The CRS of the geometry. </p></td>
                 </tr>
               
                 <tr>
                   <td>wkt</td>
                   <td><a href="#com.cognite.seismic.Wkt">Wkt</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>A wkt format geometry. </p></td>
                 </tr>
               
                 <tr>
                   <td>geo</td>
                   <td><a href="#com.cognite.seismic.GeoJson">GeoJson</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>A GeoJSON format geometry. </p></td>
                 </tr>
               
             </tbody>
@@ -4031,7 +4031,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.Identifier">Identifier</h3>
-        <p>Specify either id or name to find a file or survey.</p>
+        <p>Deprecated**. Specify either id or name to find a file or survey.</p>
 
         
           <table class="field-table">
@@ -4062,7 +4062,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.LineBasedRectangle">LineBasedRectangle</h3>
-        <p>Range of inline and crossline indices defining a 2D region</p>
+        <p>Deprecated**. Range of inline and crossline indices defining a 2D region</p>
 
         
           <table class="field-table">
@@ -4093,7 +4093,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.LineDescriptor">LineDescriptor</h3>
-        <p></p>
+        <p>Describes a series of points.</p><p>The first point is `min`, the next point is `min+step`, the point after that is `min+step*2`, and so on.</p><p>None of the points will be greater than `max`.</p>
 
         
           <table class="field-table">
@@ -4106,21 +4106,21 @@ is computed from the seismicstores in the survey </p></td>
                   <td>min</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>[optional] The first element of the line. Defaults to the minimum value, depending on context. </p></td>
                 </tr>
               
                 <tr>
                   <td>max</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>[optional] The maximum value of a point on the line. Defaults to the maximum value, depending on context. </p></td>
                 </tr>
               
                 <tr>
                   <td>step</td>
                   <td><a href="#google.protobuf.Int32Value">google.protobuf.Int32Value</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>[optional] The &#39;step&#39; of the line. Defaults to 1. </p></td>
                 </tr>
               
             </tbody>
@@ -4162,7 +4162,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.LineSelect">LineSelect</h3>
-        <p>Specify either inline OR crossline</p>
+        <p>Deprecated**. Specifies an inline or a crossline</p>
 
         
           <table class="field-table">
@@ -4259,7 +4259,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.PositionQuery">PositionQuery</h3>
-        <p>Point defined by its inline and crossline indices</p>
+        <p>Deprecated**. Point defined by its inline and crossline indices</p>
 
         
           <table class="field-table">
@@ -4290,7 +4290,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.Project">Project</h3>
-        <p></p>
+        <p>Deprecated**.</p>
 
         
           <table class="field-table">
@@ -4321,7 +4321,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.SlabTrace">SlabTrace</h3>
-        <p>Wrapper over Trace type that additionally provide information about the range of z values</p><p>included in the trace.</p>
+        <p>Deprecated**. Wrapper over Trace type that additionally provide information about the range of z values</p><p>included in the trace.</p>
 
         
           <table class="field-table">
@@ -4359,7 +4359,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.SurfacePoint">SurfacePoint</h3>
-        <p>Basic type to represent a point in a surface defined by a horizontal grid</p><p>Used in horizontal slice queries</p>
+        <p>Deprecated**. Basic type to represent a point in a surface defined by a horizontal grid</p><p>Used in horizontal slice queries</p>
 
         
           <table class="field-table">
@@ -4397,7 +4397,7 @@ is computed from the seismicstores in the survey </p></td>
         
       
         <h3 id="com.cognite.seismic.Survey">Survey</h3>
-        <p>A survey represents a collection of files in the same area</p>
+        <p>Deprecated**. A survey represents a collection of files in the same area</p>
 
         
           <table class="field-table">
@@ -4669,7 +4669,7 @@ is computed from the seismicstores in the survey </p></td>
 
       
         <h3 id="com.cognite.seismic.FileStep">FileStep</h3>
-        <p></p>
+        <p>Deprecated**.</p>
         <table class="enum-table">
           <thead>
             <tr><td>Name</td><td>Number</td><td>Description</td></tr>
@@ -4821,37 +4821,37 @@ AKA EPSG code 1049</p></td>
               <tr>
                 <td>NONE</td>
                 <td>0</td>
-                <td><p></p></td>
+                <td><p>Default value for the enum.</p></td>
               </tr>
             
               <tr>
                 <td>QUEUED</td>
                 <td>1</td>
-                <td><p></p></td>
+                <td><p>The job is in the queue but has not been worked on.</p></td>
               </tr>
             
               <tr>
                 <td>IN_PROGRESS</td>
                 <td>2</td>
-                <td><p></p></td>
+                <td><p>The job is being processed.</p></td>
               </tr>
             
               <tr>
                 <td>SUCCESS</td>
                 <td>3</td>
-                <td><p></p></td>
+                <td><p>The job has terminated correctly.</p></td>
               </tr>
             
               <tr>
                 <td>FAILED</td>
                 <td>4</td>
-                <td><p></p></td>
+                <td><p>The job has failed.</p></td>
               </tr>
             
               <tr>
                 <td>TIMEOUT</td>
                 <td>5</td>
-                <td><p></p></td>
+                <td><p>The job took too long and has timed out. No more work will be done on the job.</p></td>
               </tr>
             
           </tbody>

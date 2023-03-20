@@ -69,7 +69,6 @@ sidebarDepth: 2
     - [LineBasedExtent](#com-cognite-seismic-v1-LineBasedExtent)
     - [LineBasedVolume](#com-cognite-seismic-v1-LineBasedVolume)
     - [LineRange](#com-cognite-seismic-v1-LineRange)
-    - [LineSelect](#com-cognite-seismic-v1-LineSelect)
     - [MetadataFilter](#com-cognite-seismic-v1-MetadataFilter)
     - [MinorLines](#com-cognite-seismic-v1-MinorLines)
     - [OptionalMap](#com-cognite-seismic-v1-OptionalMap)
@@ -235,55 +234,55 @@ sidebarDepth: 2
 <a name="com-cognite-seismic-v1-SeismicAPI"></a>
 
 ### SeismicAPI
-Service for querying data and metadata from seismic tracestore in Cognite Data Fusion (CDF) seismic datastore.
+This is the main service for managing and querying metadata and seismic traces from Cognite Data Fusion (CDF). [`Survey`](#com.cognite.seismic.v1.survey) and [`Partition`](#com.cognite.seismic.v1.partition) objects are primarily metadata-focused, and all seismic traces are queried via references to [`SeismicStore`](#com.cognite.seismic.v1.seismicstore) or [`Seismic`](#com.cognite.seismic.v1.seismic) objects.
 
-Queries are done primarily on cubes, with some management endpoints for tracestores &amp; partitions.
-
-Queries are divided in:
-  Metadata: General information and headers for surveys and files
-  Trace: Retrieve traces, be it by geometry, line or volume
-  Artificial sampling: Get the (calculated/interpolated) values of properties in the file/tracestore given arbitrary positions
-
-Metadata queries
+Queries are divided into these broad categories:
+- **Management**: Creating, editing and deleting Cognite Data Fusion objects, as well as managing the status of file uploading and processing.
+- **Metadata**: Information about surveys, partitions, seismic objects, and headers.
+- **Trace**: Retrieving traces or information about traces.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| CreateSurvey | [CreateSurveyRequest](#com-cognite-seismic-v1-CreateSurveyRequest) | [Survey](#com-cognite-seismic-v1-Survey) | Creates a Survey object in the data model. A Survey object represents a grouping of seismic data in the same area and normally sharing acquisition and most processing parameters. Capabilities: Requires Seismic:WRITE capability to the CDF tenant. |
-| SearchSurveys | [SearchSurveysRequest](#com-cognite-seismic-v1-SearchSurveysRequest) | [SearchSurveyResponse](#com-cognite-seismic-v1-SearchSurveyResponse) stream | Lists all surveys accessible to the client. Optionally includes Cubes associated with the surveys.
+| CreateSurvey | [CreateSurveyRequest](#com-cognite-seismic-v1-CreateSurveyRequest) | [Survey](#com-cognite-seismic-v1-Survey) | Creates a Survey object in the data model. A Survey object represents a grouping of seismic data in the same area and normally shares acquisition and most processing parameters.
 
-Can optionally search surveys based on both/either of two criteria: Coverage polygon of files in the survey are within an area delimited by a specified polygon Filters on metadata of both the survey and the file |
-| EditSurvey | [EditSurveyRequest](#com-cognite-seismic-v1-EditSurveyRequest) | [Survey](#com-cognite-seismic-v1-Survey) | Modify the metadata for a survey. |
-| DeleteSurvey | [DeleteSurveyRequest](#com-cognite-seismic-v1-DeleteSurveyRequest) | [DeleteSurveyResponse](#com-cognite-seismic-v1-DeleteSurveyResponse) | Deletes a specified survey. Must have ALL scope and Write capabilities.
+Capabilities: Requires Seismic:WRITE capability to the CDF tenant. |
+| SearchSurveys | [SearchSurveysRequest](#com-cognite-seismic-v1-SearchSurveysRequest) | [SearchSurveyResponse](#com-cognite-seismic-v1-SearchSurveyResponse) stream | Lists all surveys accessible to the client. You can also choose to receive a list of Seismic and SeismicStore object ids associated with the surveys.
 
-In the case of Surveys, the &#34;name&#34; should be input into the external_ids field of the Identifier. |
+The returned surveys can also be limited to those that satisfy one or both of these criteria: - Coverage polygon of files in the survey are within an area delimited by a specified polygon. - Filters on metadata of both the survey and the file. |
+| EditSurvey | [EditSurveyRequest](#com-cognite-seismic-v1-EditSurveyRequest) | [Survey](#com-cognite-seismic-v1-Survey) | Modifies the metadata for a survey.
+
+The survey crs and grid transformation can only be modified if there are no ingested seismic stores in the survey. |
+| DeleteSurvey | [DeleteSurveyRequest](#com-cognite-seismic-v1-DeleteSurveyRequest) | [DeleteSurveyResponse](#com-cognite-seismic-v1-DeleteSurveyResponse) | Deletes a specified survey. Must have Seismic:ALL scope and Write capability. |
 | RegisterSourceSegyFile | [RegisterSourceSegyFileRequest](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest) | [RegisterSourceSegyFileResponse](#com-cognite-seismic-v1-RegisterSourceSegyFileResponse) | Registers a new file in a (previously registered) survey as source for ingestion. |
 | EditSourceSegyFile | [EditSourceSegyFileRequest](#com-cognite-seismic-v1-EditSourceSegyFileRequest) | [EditSourceSegyFileResponse](#com-cognite-seismic-v1-EditSourceSegyFileResponse) | Edits a registered source file.
 
-Before editing, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated with the source file must be deleted. This request will fail if the above criteira are not met. |
-| UnregisterSourceSegyFile | [UnregisterSourceSegyFileRequest](#com-cognite-seismic-v1-UnregisterSourceSegyFileRequest) | [UnregisterSourceSegyFileResponse](#com-cognite-seismic-v1-UnregisterSourceSegyFileResponse) | Unregisters a file previously registered as source for ingestion.
+Before editing, there must be no ingestion jobs running for the source file. The SeismicStore associated with the source file must also be deleted if it was successfully created. This request will fail if the above criteira aren&#39;t met. |
+| UnregisterSourceSegyFile | [UnregisterSourceSegyFileRequest](#com-cognite-seismic-v1-UnregisterSourceSegyFileRequest) | [UnregisterSourceSegyFileResponse](#com-cognite-seismic-v1-UnregisterSourceSegyFileResponse) | Unregisters a file previously registered as the source for ingestion.
 
-Before unregistering, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated with the source file must be deleted. This request will fail if the above criteira are not met. |
+Before unregistering, there must be no ingestion jobs running for the source file. The SeismicStore associated with the source file must also be deleted if it was successfully created. This request will fail if the above criteira aren&#39;t met. |
 | IngestSourceSegyFile | [IngestSourceSegyFileRequest](#com-cognite-seismic-v1-IngestSourceSegyFileRequest) | [IngestSourceSegyFileResponse](#com-cognite-seismic-v1-IngestSourceSegyFileResponse) | Requests queueing of a registered file for ingestion. |
-| CreateSeismic | [CreateSeismicRequest](#com-cognite-seismic-v1-CreateSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Create new Seismics and assign them to partitions. Seismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one if e.g. the definition or the seismic store must be changed |
-| SearchSeismics | [SearchSeismicsRequest](#com-cognite-seismic-v1-SearchSeismicsRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) stream | Returns Seismic metadata given its id. Can optionally retrieve seismic store &amp; partition info if user has the right scope. Use GetVolume to retrieve traces. |
-| EditSeismic | [EditSeismicRequest](#com-cognite-seismic-v1-EditSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Edit the specified seismic. Seismic object names and metadata can be changed. The cutout definition, however, cannot be changed. To modify the definition or the owning partition, delete the seismic object and create a new one. |
-| DeleteSeismic | [DeleteSeismicRequest](#com-cognite-seismic-v1-DeleteSeismicRequest) | [DeleteSeismicResponse](#com-cognite-seismic-v1-DeleteSeismicResponse) | Delete seismic objects. |
-| SearchSeismicStores | [SearchSeismicStoresRequest](#com-cognite-seismic-v1-SearchSeismicStoresRequest) | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) stream | Search and retrieve seismic stores. Can only retrieve seismic stores you own. |
-| InspectIngestion | [InspectIngestionRequest](#com-cognite-seismic-v1-InspectIngestionRequest) | [InspectIngestionResponse](#com-cognite-seismic-v1-InspectIngestionResponse) | Inspect the seismicstore resulting from a possibly failed ingestion. Useful for debugging failed ingestions. |
-| EditSeismicStore | [EditSeismicStoreRequest](#com-cognite-seismic-v1-EditSeismicStoreRequest) | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) | Set the name of a seismic store object. |
-| DeleteSeismicStore | [DeleteSeismicStoreRequest](#com-cognite-seismic-v1-DeleteSeismicStoreRequest) | [DeleteSeismicStoreResponse](#com-cognite-seismic-v1-DeleteSeismicStoreResponse) | Delete a seismic store. If any seismics still reference the specified seismic store, the request will fail. |
-| CreatePartition | [CreatePartitionRequest](#com-cognite-seismic-v1-CreatePartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Create a data partition, optionally setting a name. |
-| SearchPartitions | [SearchPartitionsRequest](#com-cognite-seismic-v1-SearchPartitionsRequest) | [Partition](#com-cognite-seismic-v1-Partition) stream | Returns the partition(s) specified, with the same search options as the other search endpoints. |
-| EditPartition | [EditPartitionRequest](#com-cognite-seismic-v1-EditPartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Edit partitions. The only modifiable field is the name |
-| DeletePartition | [DeletePartitionRequest](#com-cognite-seismic-v1-DeletePartitionRequest) | [DeletePartitionResponse](#com-cognite-seismic-v1-DeletePartitionResponse) | Delete the specified partition, and return whether it was successfully deleted. |
-| GetVolume | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Request a volume of traces by range of inlines, crosslines and time Deprecated - use StreamTraces instead. |
-| GetVolumeBounds | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [VolumeBoundsResponse](#com-cognite-seismic-v1-VolumeBoundsResponse) | Return information about what a GetVolume request would return, including bounding boxes of trace header values, and estimated total size. Deprecated - use GetTraceBounds instead. |
-| StreamTraces | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Request a set of seismic traces by ranges of trace headers such as inline, crossline (for 3d) or cdp or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices. See StreamTracesRequest for more information. |
-| GetTraceBounds | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [TraceBounds](#com-cognite-seismic-v1-TraceBounds) | Return information about what a StreamTraces request would return, including bounding boxes of trace header values, and estimated total size. |
-| GetSegYFile | [SegYSeismicRequest](#com-cognite-seismic-v1-SegYSeismicRequest) | [SegYSeismicResponse](#com-cognite-seismic-v1-SegYSeismicResponse) stream | Fetch seismic data in SEG-Y format. The stream of responses each contain a byte array that must be written sequentially to a file to produce a SEG-Y file. The ordering of traces in the output is unspecified.
+| CreateSeismic | [CreateSeismicRequest](#com-cognite-seismic-v1-CreateSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Creates new Seismics and assign them to partitions. Seismic objects are mostly immutable aside from their name and metadata. A Seismic object must be deleted and recreated in order to change properties such as the cutout or the source seismic store. |
+| SearchSeismics | [SearchSeismicsRequest](#com-cognite-seismic-v1-SearchSeismicsRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) stream | Returns metadata for a Seismic object. Can optionally retrieve seismic store &amp; partition info if user has appropriate scope and capability. |
+| EditSeismic | [EditSeismicRequest](#com-cognite-seismic-v1-EditSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Edits the specified seismic. Seismic object names and metadata can be changed. Other properties such as the cutout, owning partition, or source seismic store can&#39;t be changed. The seismic object must be deleted and recreated in order to modify these immutable properties. |
+| DeleteSeismic | [DeleteSeismicRequest](#com-cognite-seismic-v1-DeleteSeismicRequest) | [DeleteSeismicResponse](#com-cognite-seismic-v1-DeleteSeismicResponse) | Deletes seismic objects. |
+| SearchSeismicStores | [SearchSeismicStoresRequest](#com-cognite-seismic-v1-SearchSeismicStoresRequest) | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) stream | Searches and retrieves seismic stores. Can only retrieve seismic stores you own. |
+| InspectIngestion | [InspectIngestionRequest](#com-cognite-seismic-v1-InspectIngestionRequest) | [InspectIngestionResponse](#com-cognite-seismic-v1-InspectIngestionResponse) | Inspects the seismicstore resulting from a possibly failed ingestion. Useful for debugging failed ingestions. |
+| EditSeismicStore | [EditSeismicStoreRequest](#com-cognite-seismic-v1-EditSeismicStoreRequest) | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) | Sets the name or metadata of a seismic store object. |
+| DeleteSeismicStore | [DeleteSeismicStoreRequest](#com-cognite-seismic-v1-DeleteSeismicStoreRequest) | [DeleteSeismicStoreResponse](#com-cognite-seismic-v1-DeleteSeismicStoreResponse) | Deletes a seismic store. If any seismic objects still reference the specified seismic store, the request will fail. |
+| CreatePartition | [CreatePartitionRequest](#com-cognite-seismic-v1-CreatePartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Creates a data partition, optionally setting a name. |
+| SearchPartitions | [SearchPartitionsRequest](#com-cognite-seismic-v1-SearchPartitionsRequest) | [Partition](#com-cognite-seismic-v1-Partition) stream | Returns the specified partitions, with the same search options as the other search endpoints. |
+| EditPartition | [EditPartitionRequest](#com-cognite-seismic-v1-EditPartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Edits partitions. The only modifiable field is the name. |
+| DeletePartition | [DeletePartitionRequest](#com-cognite-seismic-v1-DeletePartitionRequest) | [DeletePartitionResponse](#com-cognite-seismic-v1-DeletePartitionResponse) | Deletes the specified partition and returns a response if it was successfully deleted. |
+| GetVolume | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Requests a volume of traces by range of inlines, crosslines, and time.
 
-The request object can be used to specify whether the file should contain the whole set of traces in the source dataset or a subset of the traces (ie. a cropped file). See SegYSeismicRequest for more information. Returns a stream of SegYSeismicResponse objects, each containing a fragment of a SEG-Y data stream. |
-| SearchFiles | [SearchFilesRequest](#com-cognite-seismic-v1-SearchFilesRequest) | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) stream | Retrieves File objects describing the seismic files registered with the tenant. Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved to a subset of the files in the tenant. See SearchFilesRequest for more information. Returns a stream of file objects, terminating all files matching the search criteria have been returned. |
+**Deprecated** - use StreamTraces instead. |
+| GetVolumeBounds | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [VolumeBoundsResponse](#com-cognite-seismic-v1-VolumeBoundsResponse) | Return information about what a GetVolume request would return, including bounding boxes of trace header values, and estimated total size. **Deprecated** - use `GetTraceBounds` instead. |
+| StreamTraces | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Requests a set of seismic traces by ranges of trace headers, such as inline, crossline (for 3d), cdp, or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices. See StreamTracesRequest for more information. |
+| GetTraceBounds | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [TraceBounds](#com-cognite-seismic-v1-TraceBounds) | Returns information about what a StreamTraces request would return, including bounding boxes of trace header values, and estimated total size. |
+| GetSegYFile | [SegYSeismicRequest](#com-cognite-seismic-v1-SegYSeismicRequest) | [SegYSeismicResponse](#com-cognite-seismic-v1-SegYSeismicResponse) stream | Fetches seismic data in SEG-Y format. Each response in the stream contains a byte array that must be written, in order, to a file-like object to produce a valid SEG-Y file. The ordering of traces in the resulting SEG-Y file is undefined.
+
+The request object can be used to specify whether the file should contain the whole set of traces in the source dataset or a subset of the traces (for example, a cropped file). See [`SegYSeismicRequest`](#segyseismicrequest) for more information. Returns a stream of `SegYSeismicResponse` objects, each containing a fragment of a SEG-Y data stream. |
+| SearchFiles | [SearchFilesRequest](#com-cognite-seismic-v1-SearchFilesRequest) | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) stream | Retrieves File objects describing the seismic files registered with the tenant. Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved to a subset of the files in the tenant. See SearchFilesRequest for more information. Returns a stream of file objects, terminating once all files matching the search criteria have been returned. |
 | SearchJobStatus | [SearchJobStatusRequest](#com-cognite-seismic-v1-SearchJobStatusRequest) | [JobStatusResponse](#com-cognite-seismic-v1-JobStatusResponse) stream | Retrieves ingestion job statuses, filtered by the specified criteria. |
 
  
@@ -305,8 +304,8 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | optional name |
-| external_id | [string](#string) |  | not optional externalid |
+| name | [string](#string) |  | [optional] A short description for the partition. |
+| external_id | [string](#string) |  | [required] The unique external identifier for the partition. |
 
 
 
@@ -321,18 +320,18 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | optional |
-| external_id | [string](#string) |  | not optional |
-| partition | [Identifier](#com-cognite-seismic-v1-Identifier) |  |  |
+| name | [string](#string) |  | [optional] A short description for the seismic |
+| external_id | [string](#string) |  | [required] An externally correlatable unique identifier for the seismic |
+| partition | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The owning partition |
 | seismic_store_id | [int64](#int64) |  |  |
-| volume_def | [VolumeDef](#com-cognite-seismic-v1-VolumeDef) |  | Define the volume as VolumeDef format |
+| volume_def | [VolumeDef](#com-cognite-seismic-v1-VolumeDef) |  | Deprecated**: Defines the volume as VolumeDef format. Use `two_dee_extent` or `three_dee_extent`. |
 | geometry | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | Defines the volume as WKT or GeoJson |
-| empty | [bool](#bool) |  | If true, will create a seismic with an empty cutout |
-| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | only valid if the seismic is 2D |
-| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | only valid if the seismic is 3D |
-| metadata | [OptionalMap](#com-cognite-seismic-v1-OptionalMap) |  |  |
-| text_header | [TextHeader](#com-cognite-seismic-v1-TextHeader) |  | Optionally set a custom text header |
-| binary_header | [BinaryHeader](#com-cognite-seismic-v1-BinaryHeader) |  | Optionally set a custom binary header |
+| empty | [bool](#bool) |  | Will create a seismic with an empty cutout if true |
+| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Defines the volume as an extent. Only valid if the seismic is 2D |
+| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Defines the volume as an extent. Only valid if the seismic is 3D |
+| metadata | [OptionalMap](#com-cognite-seismic-v1-OptionalMap) |  | [optional] Metadata to associate with the seismic. |
+| text_header | [TextHeader](#com-cognite-seismic-v1-TextHeader) |  | [optional] A custom text header for the seismic. |
+| binary_header | [BinaryHeader](#com-cognite-seismic-v1-BinaryHeader) |  | [optional] A custom binary header for the seismic. |
 | copy_metadata | [bool](#bool) |  | If true, copy the metadata from the source seismic store. |
 | trace_group_extent | [SeismicTraceGroupExtent](#com-cognite-seismic-v1-SeismicTraceGroupExtent) |  | Valid if the seismic is 2D or 3D |
 
@@ -349,12 +348,12 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | Short descriptive name |
-| metadata | [CreateSurveyRequest.MetadataEntry](#com-cognite-seismic-v1-CreateSurveyRequest-MetadataEntry) | repeated | Key-value pairs of metadata for the survey. |
-| external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  | Identifier for correlation with systems outside CDF |
-| crs | [string](#string) |  | CRS used by all members |
-| grid_transformation | [com.cognite.seismic.SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  | Optional |
-| custom_coverage | [com.cognite.seismic.CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  | [optional] Customer-provided survey coverage |
+| name | [string](#string) |  | [required] Short descriptive name |
+| metadata | [CreateSurveyRequest.MetadataEntry](#com-cognite-seismic-v1-CreateSurveyRequest-MetadataEntry) | repeated | [required] Key-value pairs of metadata for the survey. |
+| external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  | [required] Identifier for correlation with systems outside CDF |
+| crs | [string](#string) |  | [required] CRS used by all members of the survey |
+| grid_transformation | [com.cognite.seismic.SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  | [optional] Specifies a grid transformation to use, overriding the defaults. |
+| custom_coverage | [com.cognite.seismic.CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  | [optional] Specifies a coverage to serve as the survey coverage, overriding calculated coverage. |
 
 
 
@@ -385,7 +384,7 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| partition | [Identifier](#com-cognite-seismic-v1-Identifier) |  |  |
+| partition | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The partition to delete. |
 
 
 
@@ -445,7 +444,7 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| seismic_store | [Identifier](#com-cognite-seismic-v1-Identifier) |  |  |
+| seismic_store | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The seismic store to delete. |
 
 
 
@@ -475,7 +474,7 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| survey | [Identifier](#com-cognite-seismic-v1-Identifier) |  |  |
+| survey | [Identifier](#com-cognite-seismic-v1-Identifier) |  | The survey to delete. |
 
 
 
@@ -505,8 +504,8 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| partition | [Identifier](#com-cognite-seismic-v1-Identifier) |  | Must uniquely identify a partition |
-| new_name | [string](#string) |  |  |
+| partition | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The unique identifier for the partition to be edited. |
+| new_name | [string](#string) |  | [required] The new name. |
 
 
 
@@ -540,11 +539,11 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| seismic_store_id | [int64](#int64) |  | Deprecated. Use `identifier` instead. |
-| name | [google.protobuf.StringValue](#google-protobuf-StringValue) |  | If not null will change the seismic store name |
-| metadata | [OptionalMap](#com-cognite-seismic-v1-OptionalMap) |  | If not null, will replace the seismic store metadata |
-| seismic_store | [Identifier](#com-cognite-seismic-v1-Identifier) |  | Uniquely identifies one seismic store |
-| external_id | [google.protobuf.StringValue](#google-protobuf-StringValue) |  | If not null, will attempt to change the seismic store external id. Can fail if the new external id is not unique. |
+| seismic_store_id | [int64](#int64) |  | Deprecated**. Use `identifier` instead. |
+| name | [google.protobuf.StringValue](#google-protobuf-StringValue) |  | [optional] The new seismic store name. |
+| metadata | [OptionalMap](#com-cognite-seismic-v1-OptionalMap) |  | [optional] The new seismic store metadata. If set, this will replace the existing metadata. |
+| seismic_store | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The seismic store to edit. |
+| external_id | [google.protobuf.StringValue](#google-protobuf-StringValue) |  | [optional] The new external id. Will fail if the new external id is not unique. |
 
 
 
@@ -598,7 +597,7 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| file | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) |  |  |
+| file | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) |  | The result of the edit. |
 
 
 
@@ -614,12 +613,12 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | survey | [Identifier](#com-cognite-seismic-v1-Identifier) |  |  |
-| metadata | [OptionalMap](#com-cognite-seismic-v1-OptionalMap) |  | The existing metadata will be replaced with this metadata. |
-| external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  |  |
-| crs | [com.cognite.seismic.CRS](#com-cognite-seismic-CRS) |  | CRS used by all members |
-| grid_transformation | [com.cognite.seismic.SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  | Optional |
-| custom_coverage | [com.cognite.seismic.CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  | Optional |
-| new_name | [google.protobuf.StringValue](#google-protobuf-StringValue) |  | If provided, the new name of the survey |
+| metadata | [OptionalMap](#com-cognite-seismic-v1-OptionalMap) |  | [optional] The metadata to replace the existing metadata with. |
+| external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] The new external id. |
+| crs | [com.cognite.seismic.CRS](#com-cognite-seismic-CRS) |  | [optional] The new CRS for all members of the survey. |
+| grid_transformation | [com.cognite.seismic.SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  | [optional] The new custom grid transformation. |
+| custom_coverage | [com.cognite.seismic.CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  | [optional] The new custom coverage. |
+| new_name | [google.protobuf.StringValue](#google-protobuf-StringValue) |  | [optional] The new name of the survey. |
 
 
 
@@ -634,9 +633,9 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| geometry | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  |  |
-| interpolation_method | [com.cognite.seismic.InterpolationMethod](#com-cognite-seismic-InterpolationMethod) |  | Required if the geometry describes a line, otherwise ignored |
-| z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
+| geometry | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | [required] The geometry of the volume. |
+| interpolation_method | [com.cognite.seismic.InterpolationMethod](#com-cognite-seismic-InterpolationMethod) |  | [optional] If the geometry describes a line, must be specified. |
+| z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | [optional] The z-ranges to fetch. Defaults to the entire z-range. |
 
 
 
@@ -651,7 +650,7 @@ Messages that describe requests/responses from the Seismic Datastore in Cognite 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The file to queue for ingestiong |
+| file | [Identifier](#com-cognite-seismic-v1-Identifier) |  | [required] The file to queue for ingestion |
 | target_storage_tier_name | [string](#string) |  | [required] Target storage tier for this file.
 
 A storage tier is a defined facility for storing the trace data associated with a seismic volume.
@@ -688,8 +687,8 @@ Note that currently only one storage tier per trace store is supported, so inges
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| log_line | [string](#string) |  |  |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The time this log was recorded. |
+| log_line | [string](#string) |  | The contents of the log. |
 
 
 
@@ -704,9 +703,9 @@ Note that currently only one storage tier per trace store is supported, so inges
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| seismic_store_id | [int64](#int64) |  |  |
-| file_id | [int64](#int64) |  |  |
-| job_id | [string](#string) |  |  |
+| seismic_store_id | [int64](#int64) |  | Specifies a seismic store by id. |
+| file_id | [int64](#int64) |  | Specifies a seismic store by source segy file id. |
+| job_id | [string](#string) |  | Specifies a seismic store by job id. |
 
 
 
@@ -721,7 +720,7 @@ Note that currently only one storage tier per trace store is supported, so inges
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| seismic_store | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) |  |  |
+| seismic_store | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) |  | The fetched seismic store. |
 
 
 
@@ -736,14 +735,14 @@ Note that currently only one storage tier per trace store is supported, so inges
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| job_id | [string](#string) |  |  |
-| file_uuid | [string](#string) |  |  |
-| status | [com.cognite.seismic.JobStatus](#com-cognite-seismic-JobStatus) |  |  |
-| started_at | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| updated_at | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| target_storage_tier_name | [google.protobuf.StringValue](#google-protobuf-StringValue) |  |  |
-| logs | [IngestionLog](#com-cognite-seismic-v1-IngestionLog) | repeated |  |
-| file_id | [int64](#int64) |  |  |
+| job_id | [string](#string) |  | The job id for this status. |
+| file_uuid | [string](#string) |  | The uuid of the file that this job is associated with. |
+| status | [com.cognite.seismic.JobStatus](#com-cognite-seismic-JobStatus) |  | The status of the job. |
+| started_at | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | When the job was started. |
+| updated_at | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | When the job was last updated. |
+| target_storage_tier_name | [google.protobuf.StringValue](#google-protobuf-StringValue) |  | The target storage tier of the job. |
+| logs | [IngestionLog](#com-cognite-seismic-v1-IngestionLog) | repeated | Logs recorded by the job. |
+| file_id | [int64](#int64) |  | The id of the file that this job is associated with. |
 
 
 
@@ -812,10 +811,10 @@ Used to search files by a given file/seismic-store/survey search specification
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| spec | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Find files using a file search specification |
-| seismic_store | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Find files using a seismic store search specification |
-| survey | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Find files using a survey search specification |
-| last_modified | [LastModifiedFilter](#com-cognite-seismic-v1-LastModifiedFilter) |  | Filter files by last modified. |
+| spec | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Finds files by id, name or external id. |
+| seismic_store | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Finds files that are the source of the seismic stores specified by id, name, or external id. |
+| survey | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Finds files that are included in the surveys specified by id, name, or external id. |
+| last_modified | [LastModifiedFilter](#com-cognite-seismic-v1-LastModifiedFilter) |  | Finds files by their last modified time. |
 
 
 
@@ -830,15 +829,15 @@ Used to search files by a given file/seismic-store/survey search specification
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| job_id | [string](#string) |  |  |
-| file_uuid | [string](#string) |  |  |
-| file_id | [int64](#int64) |  |  |
-| status | [com.cognite.seismic.JobStatus](#com-cognite-seismic-JobStatus) |  |  |
-| target_storage_tier_name | [google.protobuf.StringValue](#google-protobuf-StringValue) |  |  |
-| started_before | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| started_after | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| updated_before | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| updated_after | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| job_id | [string](#string) |  | The id of the job. |
+| file_uuid | [string](#string) |  | The uuid of the file that a job is associated with. |
+| file_id | [int64](#int64) |  | The id of the file that a job is associated with. |
+| status | [com.cognite.seismic.JobStatus](#com-cognite-seismic-JobStatus) |  | [optional] If specified, only returns jobs with the given status. |
+| target_storage_tier_name | [google.protobuf.StringValue](#google-protobuf-StringValue) |  | [optional] If specified, only returns jobs with the given target storage tier. |
+| started_before | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | [optional] If specified, only returns jobs that started before the timestamp. |
+| started_after | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | [optional] If specified, only returns jobs that started after the timestamp. |
+| updated_before | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | [optional] If specified, only returns jobs that were last updated before the timestamp. |
+| updated_after | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | [optional] If specified, only returns jobs that were last updated after the timestamp. |
 
 
 
@@ -853,8 +852,8 @@ Used to search files by a given file/seismic-store/survey search specification
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| partitions | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  |  |
-| last_modified | [LastModifiedFilter](#com-cognite-seismic-v1-LastModifiedFilter) |  | Search for partitions by last modified. |
+| partitions | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Searches for partitions by id, name, or external id. |
+| last_modified | [LastModifiedFilter](#com-cognite-seismic-v1-LastModifiedFilter) |  | Searches for partitions by last modified time. |
 
 
 
@@ -873,13 +872,13 @@ Used to search files by a given file/seismic-store/survey search specification
 | survey | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  |  |
 | file | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  |  |
 | last_modified | [LastModifiedFilter](#com-cognite-seismic-v1-LastModifiedFilter) |  | Will return seismic stores by last modified. |
-| include_file_info | [bool](#bool) |  | If true, include File information in the response |
-| include_volume_definitions | [bool](#bool) |  | If true, includes inline/crossline volume definitions for store |
-| include_extent | [bool](#bool) |  | If true, include a description of the traces contained in the seismicstore |
-| extent_key | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | If specified, indicates which trace header the extent should be indexed by (if a 2d header), or which should be the major direction (if a 3d header). Leaving this unspecified with `include_extent=true` means the server chooses a key header for each seismicstore. Any seismicstores not indexed by the given header will have its extent field left as null. |
-| include_headers | [bool](#bool) |  | if true, include text and binary headers in the response |
-| include_coverage | [bool](#bool) |  | Deprecated. Use `coverage` instead. |
-| coverage | [CoverageSpec](#com-cognite-seismic-v1-CoverageSpec) |  | If specified, include coverage |
+| include_file_info | [bool](#bool) |  | [optional] Whether to include File information in the response. Defaults to false. |
+| include_volume_definitions | [bool](#bool) |  | Deprecated**: Whether to include inline/crossline volume definitions in the response. Use `include_extent` instead. Defaults to false. |
+| include_extent | [bool](#bool) |  | [optional] Whether to include a description of the traces contained in the seismicstore. Defaults to false. |
+| extent_key | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | [optional] If specified: - for 2D headers, indicates which trace header the extent should be indexed by, or - for 3D headers, what the major direction should be. Leaving `extent_key` unspecified when `include_extent=true` means the server will choose a key header for each seismicstore. Any seismicstores not indexed by the given header will have its extent field left as null. |
+| include_headers | [bool](#bool) |  | [optional] Whether to include text and binary headers in the response. Defaults to false. |
+| include_coverage | [bool](#bool) |  | Deprecated**. Use `coverage` instead. |
+| coverage | [CoverageSpec](#com-cognite-seismic-v1-CoverageSpec) |  | [optional] If specified, includes coverage in the specified format and CRS. |
 
 
 
@@ -894,22 +893,22 @@ Used to search files by a given file/seismic-store/survey search specification
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| survey | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  |  |
-| seismic | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  |  |
-| partition | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Can only search on partitions you can see. |
-| seismic_store | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Must be a data manager to search by seismic store. |
-| last_modified | [LastModifiedFilter](#com-cognite-seismic-v1-LastModifiedFilter) |  | Search for seismics by last modified |
-| include_text_header | [bool](#bool) |  |  |
-| include_binary_header | [bool](#bool) |  |  |
-| include_line_range | [bool](#bool) |  |  |
-| include_volume_definition | [bool](#bool) |  | If true, include the volume definition |
-| include_cutout | [bool](#bool) |  | If true, include the cutout specification the seismic was created with |
-| include_extent | [bool](#bool) |  | If true, include a description of the included traces |
-| extent_key | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | If specified, indicates which trace header the extent should be indexed by (if a 2d header), or which should be the major direction (if a 3d header). Leaving this unspecified with `include_extent=true` means the server chooses the native key header for each seismic. Any seismic not indexed by the given header will have its extent field left as null. |
-| include_seismic_store | [bool](#bool) |  | If true, include info on the backing seismicstore. Must be data manager. |
-| include_partition | [bool](#bool) |  | If true, include info on the partition. Must be data manager.\ |
-| include_coverage | [bool](#bool) |  | Deprecated. Use `coverage` instead. |
-| coverage | [CoverageSpec](#com-cognite-seismic-v1-CoverageSpec) |  | If specified, requests coverage as well. |
+| survey | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Searches for seismics which are included in the specified surveys. |
+| seismic | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Searches for seismics by their id, name or external id. |
+| partition | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Searches for seismics which are included in the specified partitions. Can only search on partitions you can see. |
+| seismic_store | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) |  | Searches for seismics by their seismic store. Requires ALL scope. |
+| last_modified | [LastModifiedFilter](#com-cognite-seismic-v1-LastModifiedFilter) |  | Searches for seismics by last modified |
+| include_text_header | [bool](#bool) |  | [optional] Whether to include the text header. Defaults to false. |
+| include_binary_header | [bool](#bool) |  | [optional] Whether to include the binary header. Defaults to false. |
+| include_line_range | [bool](#bool) |  | [optional] Whether to include the line range. Defaults to false. |
+| include_volume_definition | [bool](#bool) |  | Deprecated**. Whether to include the volume definition. Use `include_extent` instead. Defaults to false. |
+| include_cutout | [bool](#bool) |  | [optional] Whether to include the cutout specification the seismic was created with. Defaults to false. |
+| include_extent | [bool](#bool) |  | [optional] Whether to include a description of the included traces. Defaults to false. |
+| extent_key | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | [optional] If specified, indicates which trace header the extent should be indexed by (if a 2d header), or which should be the major direction (if a 3d header). Leaving this unspecified with `include_extent=true` means the server chooses the native key header for each seismic. Any seismic not indexed by the given header will have its extent field left as null. |
+| include_seismic_store | [bool](#bool) |  | [optional] Whether to include info on the backing seismicstore. Requires ALL scope. Defaults to false. |
+| include_partition | [bool](#bool) |  | [optional] Whether to include info on the partition. Requires ALL scope. Defaults to false. |
+| include_coverage | [bool](#bool) |  | Deprecated**. Use `coverage` instead. Defaults to false. |
+| coverage | [CoverageSpec](#com-cognite-seismic-v1-CoverageSpec) |  | [optional] If specified, includes coverage as the specified CRS and format. |
 
 
 
@@ -925,10 +924,10 @@ Used to search files by a given file/seismic-store/survey search specification
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | survey | [Survey](#com-cognite-seismic-v1-Survey) |  |  |
-| seismic_ids | [string](#string) | repeated | Optionally present |
-| seismic_store_ids | [string](#string) | repeated | Optionally present |
-| coverage | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | Optionally present |
-| coverage_source | [SurveyCoverageSource](#com-cognite-seismic-v1-SurveyCoverageSource) |  |  |
+| seismic_ids | [string](#string) | repeated | [optional] The list of ids for seismics included in the survey. |
+| seismic_store_ids | [string](#string) | repeated | [optional] The list of ids for seismic stores included in the survey. |
+| coverage | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | [optional] The coverage of the survey. |
+| coverage_source | [SurveyCoverageSource](#com-cognite-seismic-v1-SurveyCoverageSource) |  | [optional] The source of the fetched coverage of the survey. |
 
 
 
@@ -943,16 +942,16 @@ Used to search files by a given file/seismic-store/survey search specification
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| surveys | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) | repeated | Optional identifier of the survey. If empty, retrieve all accessible surveys |
-| list_seismic_ids | [bool](#bool) |  | set to true to list the survey&#39;s seismics in the response (default: false) |
-| list_seismic_store_ids | [bool](#bool) |  | Set to true to list the survey&#39;s seismic stores in the response. Only tenant users can see this. |
-| include_metadata | [bool](#bool) |  | set to true to include survey metadata in the response (default: false) |
-| include_coverage | [com.cognite.seismic.CoverageParameters](#com-cognite-seismic-CoverageParameters) |  | Deprecated. Use `coverage` instead. |
-| coverage | [CoverageSpec](#com-cognite-seismic-v1-CoverageSpec) |  | set this field to include coverage in the response (default: No coverage) |
-| include_grid_transformation | [bool](#bool) |  | set this field to include the manually specified grid transformation in the response (default: false) |
-| include_custom_coverage | [bool](#bool) |  | set this field to include the customer-provided survey coverage in the response |
-| coverage_source | [SurveyCoverageSource](#com-cognite-seismic-v1-SurveyCoverageSource) |  | Requests that a coverage geometry from a particular source is returned in the SearchSurveysResponse. If this field is specified, the coverage parameters in the include_coverage field must also be set. Note that this is independent from the custom coverage returned as part of the survey. If no coverage source is provided, but the coverage parameters are provided, the coverage geometry will be fetched from the custom coverage if one has been provided, and the calculated coverage in other cases. |
-| last_modified | [LastModifiedFilter](#com-cognite-seismic-v1-LastModifiedFilter) |  | If set, will further filter returned objects by last modified. |
+| surveys | [SearchSpec](#com-cognite-seismic-v1-SearchSpec) | repeated | [optional] Identifier of the survey(s) to fetch. If not specified, retrieves all accessible surveys. |
+| list_seismic_ids | [bool](#bool) |  | [optional] Whether to list the survey&#39;s seismics in the response (default: false) |
+| list_seismic_store_ids | [bool](#bool) |  | [optional] Whether to list the survey&#39;s seismic stores in the response. Requires ALL scope. |
+| include_metadata | [bool](#bool) |  | [optional] Whether to include survey metadata in the response (default: false) |
+| include_coverage | [com.cognite.seismic.CoverageParameters](#com-cognite-seismic-CoverageParameters) |  | Deprecated**. Use `coverage` instead. |
+| coverage | [CoverageSpec](#com-cognite-seismic-v1-CoverageSpec) |  | [optional] If set, includes coverage in the responses in the specified format and CRS. |
+| include_grid_transformation | [bool](#bool) |  | [optional] Whether to include the manually specified grid transformation in the response (default: false) |
+| include_custom_coverage | [bool](#bool) |  | [optional] Whether to include the customer-provided survey coverage in the response. |
+| coverage_source | [SurveyCoverageSource](#com-cognite-seismic-v1-SurveyCoverageSource) |  | [optional] If set, requests that a coverage geometry from a particular source is returned in the SearchSurveysResponse. If set, the `coverage` field must also be provided. Note that this is independent from the custom coverage returned as part of the survey. If `coverage_source` is unset but `coverage` is, the coverage geometry will use custom coverage if available and fall back to the calculated coverage otherwise. |
+| last_modified | [LastModifiedFilter](#com-cognite-seismic-v1-LastModifiedFilter) |  | [optional] If set, will further filter returned objects by the last modified time. |
 
 
 
@@ -967,14 +966,14 @@ Used to search files by a given file/seismic-store/survey search specification
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| seismic | [Identifier](#com-cognite-seismic-v1-Identifier) |  |  |
-| seismic_store_id | [int64](#int64) |  | Need to be a data manager or tenant user, not 3rd party, to access by seismic store |
-| polygon | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  |  |
-| lines | [com.cognite.seismic.LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  | Only valid if the queried object is 3D. Deprecated. Use three_dee_extent instead. |
-| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Only valid if the queried object is 2D |
-| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Only valid if the queried object is 3D |
-| skip_message_count | [int32](#int32) |  | Skip the first n chunks of the download. Useful for resuming aborted downloads. Default: 0. |
-| trace_group_filter | [SeismicTraceGroupExtent](#com-cognite-seismic-v1-SeismicTraceGroupExtent) |  | Select which traces to return within each ensemble. Only if the queried object is pre-stack. |
+| seismic | [Identifier](#com-cognite-seismic-v1-Identifier) |  | Specifies a seismic object. |
+| seismic_store_id | [int64](#int64) |  | Specifies a seismic store. Requires ALL scope. |
+| polygon | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | Traces will be contained within the polygon. |
+| lines | [com.cognite.seismic.LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  | Deprecated**. Traces will be contained within the rectangle. Only valid if the queried object is 3D. |
+| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Traces will be contained within the extent. Only valid if the queried object is 2D. |
+| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Traces will be contained within the extent. Only valid if the queried object is 3D |
+| skip_message_count | [int32](#int32) |  | [optional] Skips the first *n* chunks of the download. Useful for resuming aborted downloads. Defaults to 0. |
+| trace_group_filter | [SeismicTraceGroupExtent](#com-cognite-seismic-v1-SeismicTraceGroupExtent) |  | [optional] Select which traces to return within each ensemble. Only valid if the queried object is pre-stack. |
 
 
 
@@ -989,7 +988,7 @@ Used to search files by a given file/seismic-store/survey search specification
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| content | [bytes](#bytes) |  |  |
+| content | [bytes](#bytes) |  | Some bytes of the resulting Seg-Y file. |
 
 
 
@@ -1005,13 +1004,13 @@ Used to search files by a given file/seismic-store/survey search specification
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | seismic | [Identifier](#com-cognite-seismic-v1-Identifier) |  | The identifier of the Seismic object to stream traces from |
-| seismic_store_id | [int64](#int64) |  | The id of the Seismicstore to stream traces from. Only accessible by data managers. |
-| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Filter traces by 2D header ranges. Only valid if the queried object is 2D |
-| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Filter traces by 3D header ranges. Only valid if the queried object is 3D |
-| geometry | [GeometryFilter](#com-cognite-seismic-v1-GeometryFilter) |  | Filter traces by geometry. If the geometry is a polygon, select traces contained in the geometry. If the geometry is a line or a linestring, interpolate traces onto the line. |
-| z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | Select which depth indices to return as part of the traces. |
-| include_trace_header | [bool](#bool) |  | Whether to include the binary trace header in the streamed traces. |
-| trace_group_filter | [SeismicTraceGroupExtent](#com-cognite-seismic-v1-SeismicTraceGroupExtent) |  | Select which traces to return within each ensemble. Only valid if the queried object is pre-stack. |
+| seismic_store_id | [int64](#int64) |  | The id of the Seismicstore to stream traces from. Requires ALL scope. |
+| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Filters traces by 2D header ranges. Only valid if the queried object is 2D. |
+| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Filters traces by 3D header ranges. Only valid if the queried object is 3D. |
+| geometry | [GeometryFilter](#com-cognite-seismic-v1-GeometryFilter) |  | Filters traces by geometry. If the geometry is a polygon, traces will be contained within the geometry. If the geometry is a line or a linestring, the traces will be interpolated traces onto the line. |
+| z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | [optional] Which depth indices to return as part of the traces. Defaults to the entire depth. |
+| include_trace_header | [bool](#bool) |  | [optional] Whether to include the binary trace header in the streamed traces. Defaults to false. |
+| trace_group_filter | [SeismicTraceGroupExtent](#com-cognite-seismic-v1-SeismicTraceGroupExtent) |  | [optional] Which traces to return within each ensemble. Only valid if the queried object is pre-stack. |
 
 
 
@@ -1027,13 +1026,13 @@ Used to search files by a given file/seismic-store/survey search specification
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | trace_size_bytes | [int32](#int32) |  | The size in bytes of one Trace message |
-| num_traces | [int32](#int32) |  | The number of traces returned |
+| num_traces | [int32](#int32) |  | The number of traces to be returned |
 | sample_count | [int32](#int32) |  | The number of samples per trace |
 | crs | [string](#string) |  | CRS of the returned trace coordinates |
 | z_range | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | The actual range of z values returned |
 | three_dee_bounds | [LineRange](#com-cognite-seismic-v1-LineRange) |  | Three-dimensional bounds for the case when the seismic object is 3D |
 | two_dee_bounds | [TwoDeeBounds](#com-cognite-seismic-v1-TwoDeeBounds) |  | Two-dimensional bounds for the case when the seismic object is 2D |
-| cdp_trace_bounds | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | Will be null for post-stack data |
+| cdp_trace_bounds | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | Null for post-stack data |
 
 
 
@@ -1090,7 +1089,7 @@ Used to search files by a given file/seismic-store/survey search specification
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | trace_size_bytes | [int32](#int32) |  | The size in bytes of one Trace message |
-| num_traces | [int32](#int32) |  | The number of traces returned |
+| num_traces | [int32](#int32) |  | The number of traces to be returned |
 | sample_count | [int32](#int32) |  | The number of samples per trace |
 | crs | [string](#string) |  | CRS of the returned trace coordinates |
 | bounds | [LineBasedVolume](#com-cognite-seismic-v1-LineBasedVolume) |  | Upper and lower bounds and step sizes in each direction for the returned traces. Null if the result is empty. The iline and xline fields will be null for a line-like geometry. |
@@ -1103,16 +1102,16 @@ Used to search files by a given file/seismic-store/survey search specification
 <a name="com-cognite-seismic-v1-VolumeRequest"></a>
 
 ### VolumeRequest
-
+Deprecated**.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| seismic | [Identifier](#com-cognite-seismic-v1-Identifier) |  |  |
-| seismic_store_id | [int64](#int64) |  | Need to be a data manager or tenant user, not 3rd party, to access by tracestore |
-| volume | [LineBasedVolume](#com-cognite-seismic-v1-LineBasedVolume) |  |  |
-| geometry | [GeometryBasedVolume](#com-cognite-seismic-v1-GeometryBasedVolume) |  |  |
-| include_trace_header | [bool](#bool) |  |  |
+| seismic | [Identifier](#com-cognite-seismic-v1-Identifier) |  | The unique identifier for a seismic object. |
+| seismic_store_id | [int64](#int64) |  | The unique ID for a seismic store. Requires ALL scope. |
+| volume | [LineBasedVolume](#com-cognite-seismic-v1-LineBasedVolume) |  | Retrieves traces by lines. |
+| geometry | [GeometryBasedVolume](#com-cognite-seismic-v1-GeometryBasedVolume) |  | Retrieves traces within a geometry. |
+| include_trace_header | [bool](#bool) |  | [optional] Whether to include trace headers. Defaults to false. |
 
 
 
@@ -1143,7 +1142,7 @@ A representation of binary headers used to create or edit existing headers. Bina
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| file_id | [string](#string) |  | DEPRECATED: This field will always be empty |
+| file_id | [string](#string) |  | Deprecated**: This field will always be empty |
 | traces | [int32](#int32) |  |  |
 | trace_data_type | [int32](#int32) |  |  |
 | fixed_length_traces | [int32](#int32) |  |  |
@@ -1179,7 +1178,7 @@ A representation of binary headers used to create or edit existing headers. Bina
 <a name="com-cognite-seismic-v1-Coordinate"></a>
 
 ### Coordinate
-
+Describes a coordinate pair in some coordinate system.
 
 
 | Field | Type | Label | Description |
@@ -1195,13 +1194,13 @@ A representation of binary headers used to create or edit existing headers. Bina
 <a name="com-cognite-seismic-v1-CoverageSpec"></a>
 
 ### CoverageSpec
-
+Specifies how to return a coverage.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| crs | [string](#string) |  | If crs is not specified (aka is blank), uses default crs from file |
-| format | [CoverageSpec.Format](#com-cognite-seismic-v1-CoverageSpec-Format) |  |  |
+| crs | [string](#string) |  | [optional] Which CRS to return the coverage in. Defaults to the native CRS of the object. |
+| format | [CoverageSpec.Format](#com-cognite-seismic-v1-CoverageSpec-Format) |  | [optional] Which format to return the coverage as. Defaults to WKT. |
 
 
 
@@ -1216,7 +1215,7 @@ Specify an individual filter.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key_value_exact_match | [KeyValueExactMatch](#com-cognite-seismic-v1-KeyValueExactMatch) |  |  |
+| key_value_exact_match | [KeyValueExactMatch](#com-cognite-seismic-v1-KeyValueExactMatch) |  | Match on an exact key-value pair. Both the key and the value must exactly match. |
 
 
 
@@ -1242,13 +1241,13 @@ Specify an individual filter.
 <a name="com-cognite-seismic-v1-Identifier"></a>
 
 ### Identifier
-Used to identify zero or one objects that may have an external id
+Used to identify zero or one objects by a unique id.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [int64](#int64) |  |  |
-| external_id | [string](#string) |  |  |
+| id | [int64](#int64) |  | Identifies an object by internal id. |
+| external_id | [string](#string) |  | Identifies an object by external id. |
 
 
 
@@ -1258,12 +1257,12 @@ Used to identify zero or one objects that may have an external id
 <a name="com-cognite-seismic-v1-KeyValueExactMatch"></a>
 
 ### KeyValueExactMatch
-Matches when the key AND value are exact matches.
+A key-value pair exact match filter
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
+| key | [string](#string) |  | The key to match on. |
 | value | [string](#string) |  |  |
 
 
@@ -1274,14 +1273,14 @@ Matches when the key AND value are exact matches.
 <a name="com-cognite-seismic-v1-LastModifiedFilter"></a>
 
 ### LastModifiedFilter
-Specifies a last modified timestamp range to search.
-Returned objects will satisfy all arguments that are not null.
+The last modified timestamp range to search by.
+Returned objects will satisfy all specified arguments.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| before | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | All returned objects will have a last_modified before this timestamp. |
-| after | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | All returned objects will have a last_modified after this timestamp. |
+| before | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | [optional] All returned objects will have a last_modified before this timestamp. |
+| after | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | [optional] All returned objects will have a last_modified after this timestamp. |
 
 
 
@@ -1306,14 +1305,14 @@ Returned objects will satisfy all arguments that are not null.
 <a name="com-cognite-seismic-v1-LineBasedVolume"></a>
 
 ### LineBasedVolume
-
+Describes a volume by line ranges.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| iline | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
-| xline | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
-| z | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
+| iline | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | [optional] The inline range. Defaults to the entire inline range, depending on context. |
+| xline | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | [optional] The crossline range. Defaults to the entire crossline range, depending on context. |
+| z | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | [optional] The depth range. Defaults to the entire depth range, depending on context. |
 
 
 
@@ -1323,29 +1322,13 @@ Returned objects will satisfy all arguments that are not null.
 <a name="com-cognite-seismic-v1-LineRange"></a>
 
 ### LineRange
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| inline | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
-| crossline | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-v1-LineSelect"></a>
-
-### LineSelect
-
+Describe a line range.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| iline | [int32](#int32) |  |  |
-| xline | [int32](#int32) |  |  |
+| inline | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | [optional] The inline range. Defaults to the entire inline range, depending on context. |
+| crossline | [com.cognite.seismic.LineDescriptor](#com-cognite-seismic-LineDescriptor) |  | [optional] The crossline range. Defaults to the entire crossline range, depending on context. |
 
 
 
@@ -1355,13 +1338,13 @@ Returned objects will satisfy all arguments that are not null.
 <a name="com-cognite-seismic-v1-MetadataFilter"></a>
 
 ### MetadataFilter
-Specifying how to filter metadata. An object will be considered a match if it satisfies ALL filters.
+Specifies a set of metadata filters. An object will be considered a match if it satisfies ALL filters.
 All strings are case sensitive.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| filters | [Filter](#com-cognite-seismic-v1-Filter) | repeated |  |
+| filters | [Filter](#com-cognite-seismic-v1-Filter) | repeated | The list of metadata filters. |
 
 
 
@@ -1371,7 +1354,7 @@ All strings are case sensitive.
 <a name="com-cognite-seismic-v1-MinorLines"></a>
 
 ### MinorLines
-
+A set of points, described as one or more line descriptors.
 
 
 | Field | Type | Label | Description |
@@ -1386,12 +1369,12 @@ All strings are case sensitive.
 <a name="com-cognite-seismic-v1-OptionalMap"></a>
 
 ### OptionalMap
-Used in edit messages to distinguish between an empty map, and a missing map
+Used in edit messages to distinguish between an empty map and a missing map.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| data | [OptionalMap.DataEntry](#com-cognite-seismic-v1-OptionalMap-DataEntry) | repeated |  |
+| data | [OptionalMap.DataEntry](#com-cognite-seismic-v1-OptionalMap-DataEntry) | repeated | The contents of the map. |
 
 
 
@@ -1422,11 +1405,11 @@ Represents partitions, used for granular access control
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [int64](#int64) |  | The unique internal id for this partition |
+| id | [int64](#int64) |  | The unique internal id for this partition. |
 | external_id | [string](#string) |  | The external id of the partition |
-| name | [string](#string) |  | The human-friendly name for this partition |
-| seismics | [Seismic](#com-cognite-seismic-v1-Seismic) | repeated | DEPRECATED: This field will always be empty. Use seismic search by partition instead. |
-| seismic_ids | [int64](#int64) | repeated | The list of ids of seismics that belong to this partition |
+| name | [string](#string) |  | A short description of this partition |
+| seismics | [Seismic](#com-cognite-seismic-v1-Seismic) | repeated | Deprecated**: This field will always be empty. Use seismic search by partition instead. |
+| seismic_ids | [int64](#int64) | repeated | If specified, the list of ids of seismics that belong to this partition. |
 | last_modified | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The last time this object was created or edited. |
 
 
@@ -1437,25 +1420,21 @@ Represents partitions, used for granular access control
 <a name="com-cognite-seismic-v1-SearchSpec"></a>
 
 ### SearchSpec
-Used to identify any number of objects, intended for any plural Read* endpoints. Set* endpoints should use Identifier.
+Used to identify any number of objects, intended for plural Read or Search-type endpoints.
 
 Can search by id, name, or prefix.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [int64](#int64) |  |  |
-| id_string | [string](#string) |  | Surveys and files must have string format ids. Other objects can&#39;t use this. |
-| external_id | [string](#string) |  | External ids only exist for partitions and seismics.
-
-Exact match required |
-| external_id_substring | [string](#string) |  |  |
-| name | [string](#string) |  | Names exist for everything
-
-An exact string match is required |
-| name_substring | [string](#string) |  | Searches for names having this substring. |
-| metadata | [MetadataFilter](#com-cognite-seismic-v1-MetadataFilter) |  | Filters by metadata. Currently only supported by Surveys. |
-| geometry | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | Filters by intersection with a geometry. Currently only supported by Surveys. |
+| id | [int64](#int64) |  | Searches by integer id. |
+| id_string | [string](#string) |  | Searches surveys and files by string-format uuid. This is not a valid way to search other objects. |
+| external_id | [string](#string) |  | Searches seismics and seismic stores by an exact match of external id. |
+| external_id_substring | [string](#string) |  | Searches seismics and seismic stores by a substring match of external id. |
+| name | [string](#string) |  | Searchs any object by an exact match of name. |
+| name_substring | [string](#string) |  | Searches any object by a substring match of name. |
+| metadata | [MetadataFilter](#com-cognite-seismic-v1-MetadataFilter) |  | Searches surveys by metadata. |
+| geometry | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | Searches surveys by intersection with geometry. |
 
 
 
@@ -1470,16 +1449,16 @@ Metadata related to interpreting SEG-Y files.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
-| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
-| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the X coordinate of ensemble (CDP) in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
-| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the Y coordinate of ensemble (CDP) in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
-| cdp_number_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the ensemble (CDP) number in trace headers. Defaults to 21 as per the SEG-Y rev1 specification |
-| energy_source_point_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the energy source point in trace headers. Defaults to 17 as per the SEG-Y rev1 specification |
-| shotpoint_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the shotpoint field in trace headers. Defaults to 197 as per the SEG-Y rev1 specification |
-| cdp_trace_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the trace number within ensemble. Defaults to 21 as per the SEG-Y rev1 specification. |
-| offset_header_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | Position of the &#39;offset&#39; field in the trace header. Defaults to 37 as per the SEG-Y rev1 specification. |
-| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  | [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header. Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100. Negative values and values greater than 1 are not permitted. To remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN. The next ingestion processing of a file will then use the source group scalar values found in trace headers. |
+| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Position of the inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
+| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Position of the crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
+| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Position of the X coordinate of ensemble (CDP) in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
+| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Position of the Y coordinate of ensemble (CDP) in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
+| cdp_number_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Position of the ensemble (CDP) number in trace headers. Defaults to 21 as per the SEG-Y rev1 specification |
+| energy_source_point_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Position of the energy source point in trace headers. Defaults to 17 as per the SEG-Y rev1 specification |
+| shotpoint_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Position of the shotpoint field in trace headers. Defaults to 197 as per the SEG-Y rev1 specification |
+| cdp_trace_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Position of the trace number within ensemble. Defaults to 21 as per the SEG-Y rev1 specification. |
+| offset_header_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Position of the &#39;offset&#39; field in the trace header. Defaults to 37 as per the SEG-Y rev1 specification. |
+| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  | [optional] Multiplier for CDP-X and CDP-Y values that overrides the scalar factor obtained from the trace header. Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the way that the &#34;source group scalar trace header field&#34; in the SEG-Y specification is. In other words, to divide by 100 you must specify 0.01, not -100. Negative values and values greater than 1 are not permitted. To remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN. The next ingestion process for that file will then use the source group scalar values found in trace headers. |
 
 
 
@@ -1494,22 +1473,22 @@ A cutout of a seismic store
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [int64](#int64) |  | The unique internal id of the seismic. It is always present |
+| id | [int64](#int64) |  | The unique internal id of the seismic. It is always present. |
 | external_id | [string](#string) |  | The external id of the seismic |
 | name | [string](#string) |  | A non-unique name for the seismic. It is easily editable and is intended to be used as a human-friendly reference. |
 | crs | [string](#string) |  | The Coordinate Reference System of the seismic |
 | metadata | [Seismic.MetadataEntry](#com-cognite-seismic-v1-Seismic-MetadataEntry) | repeated | Any custom-defined metadata |
 | text_header | [TextHeader](#com-cognite-seismic-v1-TextHeader) |  | The text header that corresponds to the seismic |
 | binary_header | [BinaryHeader](#com-cognite-seismic-v1-BinaryHeader) |  | The binary header that corresponds to the seismic |
-| line_range | [LineRange](#com-cognite-seismic-v1-LineRange) |  | Deprecated: Use the GetTraceBounds API call instead |
-| volume_def | [VolumeDef](#com-cognite-seismic-v1-VolumeDef) |  | The VolumeDef describing the seismic |
-| cutout | [SeismicCutout](#com-cognite-seismic-v1-SeismicCutout) |  | The cutout the seismic object was created with |
-| extent | [SeismicExtent](#com-cognite-seismic-v1-SeismicExtent) |  | A description of the traces contained in the seismic |
-| partition_id | [int64](#int64) |  | The id of the partition the seismic belongs to |
-| seismicstore_id | [int64](#int64) |  | The id of the seismicstore the seismic is derived from. It is present only if agent has READ access and ALL scope |
+| line_range | [LineRange](#com-cognite-seismic-v1-LineRange) |  | Deprecated**: Use the GetTraceBounds API call instead. |
+| volume_def | [VolumeDef](#com-cognite-seismic-v1-VolumeDef) |  | Deprecated**: The VolumeDef describing the seismic. Use extents instead. |
+| cutout | [SeismicCutout](#com-cognite-seismic-v1-SeismicCutout) |  | The cutout the seismic object was created with. |
+| extent | [SeismicExtent](#com-cognite-seismic-v1-SeismicExtent) |  | A description of the traces contained in the seismic. |
+| partition_id | [int64](#int64) |  | The id of the partition the seismic belongs to. |
+| seismicstore_id | [int64](#int64) |  | The id of the seismicstore the seismic is derived from. It is present only if you have READ access and ALL scope. |
 | coverage | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | The coverage geometry for the seismic. |
-| created_empty | [bool](#bool) |  | If true, this seismic was created empty (deprecated) |
-| trace_count | [int64](#int64) |  | Provides an estimate of the number of traces contained within the seismic. |
+| created_empty | [bool](#bool) |  | Deprecated**. Whether this seismic was created empty. Use the `cutout` field instead. |
+| trace_count | [int64](#int64) |  | An estimate of the number of traces contained within the seismic. |
 | trace_header_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that have been registered as keys for indexing. This will always match the trace header fields registered for the underlying seismic store. |
 | dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | The underlying file&#39;s data dimensionality, either 2D or 3D This will always match the dimensionality for the underlying seismic store. |
 | last_modified | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The last time this object was created or edited. |
@@ -1539,7 +1518,7 @@ A cutout of a seismic store
 <a name="com-cognite-seismic-v1-Seismic2dExtent"></a>
 
 ### Seismic2dExtent
-
+Describes the extent of a 2d seismic object.
 
 
 | Field | Type | Label | Description |
@@ -1571,14 +1550,14 @@ A cutout of a seismic store
 <a name="com-cognite-seismic-v1-Seismic3dDef"></a>
 
 ### Seismic3dDef
-
+A enumeration of inline/crossline coordinates.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| major_header | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | Must be inline or crossline |
-| minor_header | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | Must be inline or crossline, and different from major_header |
-| lines | [Seismic3dDef.LinesEntry](#com-cognite-seismic-v1-Seismic3dDef-LinesEntry) | repeated |  |
+| major_header | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | Whether `inline` or `crossline` is the first coordinate. |
+| minor_header | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) |  | Whether `inline` or `crossline` is the second coordinate. Must be different to `major_header`. |
+| lines | [Seismic3dDef.LinesEntry](#com-cognite-seismic-v1-Seismic3dDef-LinesEntry) | repeated | The set of included coordinates. The key is `major_header` and values are `minor_header`. |
 
 
 
@@ -1604,13 +1583,13 @@ A cutout of a seismic store
 <a name="com-cognite-seismic-v1-Seismic3dExtent"></a>
 
 ### Seismic3dExtent
-
+Describes the extent of a 3d seismic object.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| rects | [Seismic3dRects](#com-cognite-seismic-v1-Seismic3dRects) |  |  |
-| def | [Seismic3dDef](#com-cognite-seismic-v1-Seismic3dDef) |  |  |
+| rects | [Seismic3dRects](#com-cognite-seismic-v1-Seismic3dRects) |  | An extent described as a set of rectangles. |
+| def | [Seismic3dDef](#com-cognite-seismic-v1-Seismic3dDef) |  | An extent described by an enumeration of inline/crossline pairs. |
 
 
 
@@ -1620,7 +1599,7 @@ A cutout of a seismic store
 <a name="com-cognite-seismic-v1-Seismic3dRect"></a>
 
 ### Seismic3dRect
-
+A single rectangle described by a stepped inline and crossline.
 
 
 | Field | Type | Label | Description |
@@ -1636,12 +1615,12 @@ A cutout of a seismic store
 <a name="com-cognite-seismic-v1-Seismic3dRects"></a>
 
 ### Seismic3dRects
-
+A set of rectangles, the union of which describes the extent.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| rects | [Seismic3dRect](#com-cognite-seismic-v1-Seismic3dRect) | repeated |  |
+| rects | [Seismic3dRect](#com-cognite-seismic-v1-Seismic3dRect) | repeated | The rectangles that compose the extent. |
 
 
 
@@ -1651,16 +1630,16 @@ A cutout of a seismic store
 <a name="com-cognite-seismic-v1-SeismicCutout"></a>
 
 ### SeismicCutout
-
+Describes a cutout for a seismic.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Indicates that the seismic was requested with this 2D extent |
-| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Indicates that the seismic was requested with this 3D extent (or an equivalent VolumeDef) |
-| geometry | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | Indicates that the seismic was requested with this geometry |
-| empty | [bool](#bool) |  | Indicates that the seismic was created empty |
-| full | [bool](#bool) |  | Indicates that the seismic was created to cover the entire seismicstore |
+| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | Indicates that the seismic was created with this 2D extent. |
+| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | Indicates that the seismic was created with this 3D extent (or an equivalent VolumeDef). |
+| geometry | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | Indicates that the seismic was created with this geometry. |
+| empty | [bool](#bool) |  | Indicates that the seismic was created empty. |
+| full | [bool](#bool) |  | Indicates that the seismic was created to cover the entire seismicstore. |
 
 
 
@@ -1670,13 +1649,13 @@ A cutout of a seismic store
 <a name="com-cognite-seismic-v1-SeismicExtent"></a>
 
 ### SeismicExtent
-
+Describes the extent of a seismic object.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  |  |
-| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  |  |
+| two_dee_extent | [Seismic2dExtent](#com-cognite-seismic-v1-Seismic2dExtent) |  | A two dimensional extent. |
+| three_dee_extent | [Seismic3dExtent](#com-cognite-seismic-v1-Seismic3dExtent) |  | A three dimensional extent. |
 
 
 
@@ -1692,23 +1671,23 @@ Represents a seismic store.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [int64](#int64) |  | The unique internal id of the seismic store |
-| name | [string](#string) |  | The unique name of the seismic store. Will become non-unique in the future, and `external_id` will become the unique identifier. |
-| survey_id | [string](#string) |  | The survey this seismic store belongs to, in the old uuid format. |
-| survey_id_int | [int64](#int64) |  | The survey this seismic store belongs to. |
+| name | [string](#string) |  | The unique name of the seismic store. This will become non-unique in the future, and `external_id` will be the only unique string-based identifier for seismic stores. |
+| survey_id | [string](#string) |  | The uuid of the survey this seismic store belongs to. |
+| survey_id_int | [int64](#int64) |  | The integer id of the survey this seismic store belongs to. |
 | ingestion_source | [com.cognite.seismic.IngestionSource](#com-cognite-seismic-IngestionSource) |  | The source of the seismicstore. It indicates how the file was ingested |
-| metadata | [SeismicStore.MetadataEntry](#com-cognite-seismic-v1-SeismicStore-MetadataEntry) | repeated | Any custom-defined metadata |
-| ingested_file | [com.cognite.seismic.File](#com-cognite-seismic-File) |  | Same as `ingested_source_file`. This field is deprecated and will be removed in the future. |
+| metadata | [SeismicStore.MetadataEntry](#com-cognite-seismic-v1-SeismicStore-MetadataEntry) | repeated | Custom-defined metadata. |
+| ingested_file | [com.cognite.seismic.File](#com-cognite-seismic-File) |  | Deprecated**. Same as `ingested_source_file`. |
 | ingested_source_file | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) |  | If present, the file this SeismicStore was ingested from. |
-| inline_volume_def | [VolumeDef](#com-cognite-seismic-v1-VolumeDef) |  | Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines. |
-| crossline_volume_def | [VolumeDef](#com-cognite-seismic-v1-VolumeDef) |  | Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines |
+| inline_volume_def | [VolumeDef](#com-cognite-seismic-v1-VolumeDef) |  | Deprecated**: Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines. Use extents instead. |
+| crossline_volume_def | [VolumeDef](#com-cognite-seismic-v1-VolumeDef) |  | Deprecated**: Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines. Use extents instead. |
 | extent | [SeismicExtent](#com-cognite-seismic-v1-SeismicExtent) |  | Description of the traces contained in the seismicstore. |
-| text_header | [TextHeader](#com-cognite-seismic-v1-TextHeader) |  | If present, the text header for this seismic store |
-| binary_header | [BinaryHeader](#com-cognite-seismic-v1-BinaryHeader) |  | If present, the binary header for this seismic store |
+| text_header | [TextHeader](#com-cognite-seismic-v1-TextHeader) |  | If present, the text header for this seismic store. |
+| binary_header | [BinaryHeader](#com-cognite-seismic-v1-BinaryHeader) |  | If present, the binary header for this seismic store. |
 | storage_tier_name | [string](#string) | repeated | Tenant specific name for the storage facility the trace data are stored in. If empty, it is stored in an unspecified trace store. While support for multiple storage backends per store is planned, this is not currently offered. |
-| coverage | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | If present, the coverage geometry for this seismic store |
+| coverage | [com.cognite.seismic.Geometry](#com-cognite-seismic-Geometry) |  | If present, the coverage geometry for this seismic store. |
 | trace_header_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that have been registered as keys for indexing. |
-| dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | The underlying file&#39;s data dimensionality, either 2D or 3D |
-| crs | [string](#string) |  | The coordinate reference system used by this seismicstore |
+| dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | The underlying file&#39;s data dimensionality, either 2D or 3D. |
+| crs | [string](#string) |  | The coordinate reference system used by this seismicstore. |
 | last_modified | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The last time this object was created or edited. |
 | seismic_data_type | [SeismicDataType](#com-cognite-seismic-v1-SeismicDataType) |  | Whether this seismic store contains pre-stack or post-stack data. |
 
@@ -1767,18 +1746,19 @@ Represents a seismic store.
 <a name="com-cognite-seismic-v1-SourceSegyFile"></a>
 
 ### SourceSegyFile
-File or dataset or cube derived from a single SEG-Y file
+Metadata about a SEG-Y file registered for ingestion.
+Trace data for the file after ingestion is available via the corresponding seismic store object.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| uuid | [string](#string) |  |  |
-| id | [int64](#int64) |  |  |
-| external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  |  |
+| uuid | [string](#string) |  | A unique string id. |
+| id | [int64](#int64) |  | A unique numerical id. |
+| external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  | A unique external id. |
 | name | [string](#string) |  | The name of the file |
-| cloud_storage_path | [string](#string) |  | Cloud storage path including protocol, bucket, directory structure, and file name. Usually in format gs://path/to/file/some_name.sgy |
-| metadata | [SourceSegyFile.MetadataEntry](#com-cognite-seismic-v1-SourceSegyFile-MetadataEntry) | repeated |  |
-| segy_overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  |  |
+| cloud_storage_path | [string](#string) |  | The cloud storage path including protocol, bucket, directory structure, and file name. Usually in format gs://path/to/file/some_name.sgy |
+| metadata | [SourceSegyFile.MetadataEntry](#com-cognite-seismic-v1-SourceSegyFile-MetadataEntry) | repeated | Associated key-value metadata. |
+| segy_overrides | [SegyOverrides](#com-cognite-seismic-v1-SegyOverrides) |  | Overrides for various Seg-Y options. |
 | key_fields | [TraceHeaderField](#com-cognite-seismic-v1-TraceHeaderField) | repeated | The trace header fields that will be used as keys for indexing. |
 | dimensions | [Dimensions](#com-cognite-seismic-v1-Dimensions) |  | File data dimensionality, either 2D or 3D |
 | crs | [string](#string) |  | The coordinate reference system used by this file |
@@ -1815,18 +1795,16 @@ Representation of the data for a survey
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  | Unique identifier for the survey in CDF. The identifier is generated by CDF on creation and not editable. |
-| id_int | [int64](#int64) |  | The integer unique ID for the survey. This ID should be used for V1 survey operations. |
-| name | [string](#string) |  | Survey name: Should be a short but recognizable name for the survey. Must be unique within a single CDF tenant, and may be used to refer to the survey in API calls.
-
-Survey name |
+| id | [string](#string) |  | The unique uuid for the survey in CDF. The identifier is generated by CDF on creation and not editable. |
+| id_int | [int64](#int64) |  | The unique integer ID for the survey. This ID should be used for V1 survey operations. |
+| name | [string](#string) |  | Survey name: Should be a short but recognizable name for the survey. Must be unique within a single CDF tenant, and may be used to refer to the survey in API calls. |
 | metadata | [Survey.MetadataEntry](#com-cognite-seismic-v1-Survey-MetadataEntry) | repeated | Metadata describing the survey with named fields and values.
 
 @exclude TODO: Augment surveys with a predefined set of fields giving a predictable metadata model and better integration with Discover. |
 | external_id | [com.cognite.seismic.ExternalId](#com-cognite-seismic-ExternalId) |  | External identifier of the survey. The value of this field must be unique among all the surveys in the CDF tenant. It may be used for correlating with systems outside CDF, and for search and retrieval operations later. |
 | crs | [string](#string) |  | Coordinate reference system to be used by all members of this survey |
-| grid_transformation | [com.cognite.seismic.SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  | Manually specify an affine transformation between bin grid coordinates and projected crs coordinates, either using an origin point and the azimuth of the xline axis (P6Transformation) or by specifying three or more corners of the grid as a list of DoubleTraceCoordinates. This transformation must be valid for all members of this survey. |
-| custom_coverage | [com.cognite.seismic.CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  | User-provided coverage override |
+| grid_transformation | [com.cognite.seismic.SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  | A manually specified affine transformation between bin grid coordinates and projected crs coordinates, either using an origin point and the azimuth of the xline axis (P6Transformation), or by specifying three or more corners of the grid as a list of DoubleTraceCoordinates. This transformation must be valid for all members of this survey. |
+| custom_coverage | [com.cognite.seismic.CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  | A user-provided coverage override |
 | last_modified | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The last time this object was created or edited. |
 
 
@@ -1858,7 +1836,7 @@ A representation of text headers used to create or edit existing headers.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| file_id | [string](#string) |  | DEPRECATED: This field will always be empty |
+| file_id | [string](#string) |  | Deprecated**: This field will always be empty |
 | header | [string](#string) |  | The text content of the header |
 | raw_header | [string](#string) |  | The raw bytes of a header as a string |
 
@@ -1887,7 +1865,7 @@ A representation of text headers used to create or edit existing headers.
 <a name="com-cognite-seismic-v1-VolumeDef"></a>
 
 ### VolumeDef
-VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.
+Deprecated**: VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.
 
 The grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line. 
 For example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.
@@ -1921,7 +1899,7 @@ For more information refer to &lt;a href=&#34;https://cognite-seismic-sdk.readth
 <a name="com-cognite-seismic-v1-Dimensions"></a>
 
 ### Dimensions
-
+Used to specify dimensionality of a seismic object.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
@@ -1934,7 +1912,7 @@ For more information refer to &lt;a href=&#34;https://cognite-seismic-sdk.readth
 <a name="com-cognite-seismic-v1-SeismicDataType"></a>
 
 ### SeismicDataType
-
+The type of seismic data.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
@@ -1960,18 +1938,18 @@ For more information refer to &lt;a href=&#34;https://cognite-seismic-sdk.readth
 <a name="com-cognite-seismic-v1-TraceHeaderField"></a>
 
 ### TraceHeaderField
-
+Enumeration of possible trace header fields used for indexing seismic objects.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | UNSPECIFIED_TRACE_HEADER_FIELD | 0 |  |
-| ENERGY_SOURCE_POINT | 1 |  |
-| CDP | 2 |  |
-| INLINE | 3 |  |
-| CROSSLINE | 4 |  |
-| SHOTPOINT | 5 |  |
-| CDP_TRACE | 6 | bytes 25-28 of standard trace header: trace number within ensemble |
-| OFFSET | 7 | bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group. |
+| ENERGY_SOURCE_POINT | 1 | Valid for 2d seismic objects. Corresponds to bytes 17-20 of standard trace header: energy source point number. |
+| CDP | 2 | Valid for 2d seismic objects. Corresponds to bytes 21-24 of standard trace header: ensemble number. |
+| INLINE | 3 | Valid for 3d seismic objects. Corresponds to bytes 189-192 of standard trace header: inline number. |
+| CROSSLINE | 4 | Valid for 3d seismic objects. Corresponds to bytes 193-196 of standard trace header: crossline number. |
+| SHOTPOINT | 5 | Valid for 2d seismic objects. Corresponds to bytes 197-202 of standard trace header: shotpoint number. |
+| CDP_TRACE | 6 | Valid for pre-stack seismic objects. Corresponds to bytes 25-28 of standard trace header: trace number within ensemble |
+| OFFSET | 7 | Valid for pre-stack seismic objects. Corresponds to bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group. |
 
 
  
@@ -1997,7 +1975,7 @@ Messages for types used in ingestion and query services in Seismic Datastore in 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| crs | [string](#string) |  |  |
+| crs | [string](#string) |  | A coordinate reference system specified as a full EPSG code, for example &#34;EPSG:4326&#34;. |
 
 
 
@@ -2007,12 +1985,12 @@ Messages for types used in ingestion and query services in Seismic Datastore in 
 <a name="com-cognite-seismic-Coordinate"></a>
 
 ### Coordinate
-Basic type representing (x,y) coordinate in the given CRS
+Basic type representing (x,y) coordinate in the given coordinate reference system (CRS).
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| crs | [string](#string) |  | The Coordinate Reference System of the coordinate. Generally should be an EPSG code including the EPSG: prefix, for example `EPSG:23031` |
+| crs | [string](#string) |  | The CRS of the coordinate. Must be a full EPSG code, for example `EPSG:23031`. |
 | x | [float](#float) |  | The x value of the coordinate |
 | y | [float](#float) |  | The y value of the coordinate |
 
@@ -2024,13 +2002,13 @@ Basic type representing (x,y) coordinate in the given CRS
 <a name="com-cognite-seismic-CoverageParameters"></a>
 
 ### CoverageParameters
-Parameters for requesting coverage of survey
+Deprecated**: use [`CoverageSpec`](#coveragespec) instead. Parameters for requesting coverage of survey
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the survey&#39;s original CRS |
-| in_wkt | [bool](#bool) |  | set this to true to return in WKT format. Otherwise, response will be in geojson format by default |
+| in_wkt | [bool](#bool) |  | [optional] Whether to use WKT format in the response. Defaults to false, returning GeoJSON. |
 
 
 
@@ -2040,13 +2018,13 @@ Parameters for requesting coverage of survey
 <a name="com-cognite-seismic-CustomSurveyCoverage"></a>
 
 ### CustomSurveyCoverage
-Customer-provided custom coverage for surveys
+Customer-provided custom coverage for surveys.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | custom_coverage | [Geometry](#com-cognite-seismic-Geometry) |  | Overrides survey coverage with the provided custom coverage geometry |
-| no_custom_coverage | [CustomSurveyCoverage.NoCustomCoverage](#com-cognite-seismic-CustomSurveyCoverage-NoCustomCoverage) |  | Specifies that no custom coverage is provided, so survey coverage is computed from the seismicstores in the survey |
+| no_custom_coverage | [CustomSurveyCoverage.NoCustomCoverage](#com-cognite-seismic-CustomSurveyCoverage-NoCustomCoverage) |  | No custom coverage is provided. Survey coverage will be computed from the seismicstores contained in the survey. |
 
 
 
@@ -2095,7 +2073,7 @@ Correlated grid indices and coordinates
 <a name="com-cognite-seismic-ExternalId"></a>
 
 ### ExternalId
-
+An external ID.
 
 
 | Field | Type | Label | Description |
@@ -2110,7 +2088,7 @@ Correlated grid indices and coordinates
 <a name="com-cognite-seismic-File"></a>
 
 ### File
-File or dataset or cube derived from a single SEG-Y file
+Deprecated**. File or dataset or cube derived from a single SEG-Y file
 
 
 | Field | Type | Label | Description |
@@ -2171,9 +2149,9 @@ Geometry can be specified using either wkt or geoJSON. CRS is always required.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| crs | [CRS](#com-cognite-seismic-CRS) |  | required |
-| wkt | [Wkt](#com-cognite-seismic-Wkt) |  |  |
-| geo | [GeoJson](#com-cognite-seismic-GeoJson) |  |  |
+| crs | [CRS](#com-cognite-seismic-CRS) |  | [required] The CRS of the geometry. |
+| wkt | [Wkt](#com-cognite-seismic-Wkt) |  | A wkt format geometry. |
+| geo | [GeoJson](#com-cognite-seismic-GeoJson) |  | A GeoJSON format geometry. |
 
 
 
@@ -2183,7 +2161,7 @@ Geometry can be specified using either wkt or geoJSON. CRS is always required.
 <a name="com-cognite-seismic-Identifier"></a>
 
 ### Identifier
-Specify either id or name to find a file or survey.
+Deprecated**. Specify either id or name to find a file or survey.
 
 
 | Field | Type | Label | Description |
@@ -2199,7 +2177,7 @@ Specify either id or name to find a file or survey.
 <a name="com-cognite-seismic-LineBasedRectangle"></a>
 
 ### LineBasedRectangle
-Range of inline and crossline indices defining a 2D region
+Deprecated**. Range of inline and crossline indices defining a 2D region
 
 
 | Field | Type | Label | Description |
@@ -2215,14 +2193,16 @@ Range of inline and crossline indices defining a 2D region
 <a name="com-cognite-seismic-LineDescriptor"></a>
 
 ### LineDescriptor
-
+Describes a series of points.
+The first point is `min`, the next point is `min&#43;step`, the point after that is `min&#43;step*2`, and so on.
+None of the points will be greater than `max`.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| min | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-| max | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-| step | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+| min | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] The first element of the line. Defaults to the minimum value, depending on context. |
+| max | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] The maximum value of a point on the line. Defaults to the maximum value, depending on context. |
+| step | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] The &#39;step&#39; of the line. Defaults to 1. |
 
 
 
@@ -2248,7 +2228,7 @@ Object to store the line range. From and to are optional
 <a name="com-cognite-seismic-LineSelect"></a>
 
 ### LineSelect
-Specify either inline OR crossline
+Deprecated**. Specifies an inline or a crossline
 
 
 | Field | Type | Label | Description |
@@ -2287,7 +2267,7 @@ https://ge0mlib.com/papers/Guide/IOGP/373-07-2-1_2017.pdf
 <a name="com-cognite-seismic-PositionQuery"></a>
 
 ### PositionQuery
-Point defined by its inline and crossline indices
+Deprecated**. Point defined by its inline and crossline indices
 
 
 | Field | Type | Label | Description |
@@ -2303,7 +2283,7 @@ Point defined by its inline and crossline indices
 <a name="com-cognite-seismic-Project"></a>
 
 ### Project
-
+Deprecated**.
 
 
 | Field | Type | Label | Description |
@@ -2319,7 +2299,7 @@ Point defined by its inline and crossline indices
 <a name="com-cognite-seismic-SlabTrace"></a>
 
 ### SlabTrace
-Wrapper over Trace type that additionally provide information about the range of z values
+Deprecated**. Wrapper over Trace type that additionally provide information about the range of z values
 included in the trace.
 
 
@@ -2337,7 +2317,7 @@ included in the trace.
 <a name="com-cognite-seismic-SurfacePoint"></a>
 
 ### SurfacePoint
-Basic type to represent a point in a surface defined by a horizontal grid
+Deprecated**. Basic type to represent a point in a surface defined by a horizontal grid
 Used in horizontal slice queries
 
 
@@ -2355,7 +2335,7 @@ Used in horizontal slice queries
 <a name="com-cognite-seismic-Survey"></a>
 
 ### Survey
-A survey represents a collection of files in the same area
+Deprecated**. A survey represents a collection of files in the same area
 
 
 | Field | Type | Label | Description |
@@ -2469,7 +2449,7 @@ Well-known text representation of geometry (&lt;a href=&#34;http://www.opengeosp
 <a name="com-cognite-seismic-FileStep"></a>
 
 ### FileStep
-
+Deprecated**.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
@@ -2529,12 +2509,12 @@ Well-known text representation of geometry (&lt;a href=&#34;http://www.opengeosp
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| NONE | 0 |  |
-| QUEUED | 1 |  |
-| IN_PROGRESS | 2 |  |
-| SUCCESS | 3 |  |
-| FAILED | 4 |  |
-| TIMEOUT | 5 |  |
+| NONE | 0 | Default value for the enum. |
+| QUEUED | 1 | The job is in the queue but has not been worked on. |
+| IN_PROGRESS | 2 | The job is being processed. |
+| SUCCESS | 3 | The job has terminated correctly. |
+| FAILED | 4 | The job has failed. |
+| TIMEOUT | 5 | The job took too long and has timed out. No more work will be done on the job. |
 
 
  

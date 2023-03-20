@@ -3961,7 +3961,7 @@
           "name": "FileStep",
           "longName": "FileStep",
           "fullName": "com.cognite.seismic.FileStep",
-          "description": "",
+          "description": "Deprecated**.",
           "values": [
             {
               "name": "REGISTER",
@@ -4078,32 +4078,32 @@
             {
               "name": "NONE",
               "number": "0",
-              "description": ""
+              "description": "Default value for the enum."
             },
             {
               "name": "QUEUED",
               "number": "1",
-              "description": ""
+              "description": "The job is in the queue but has not been worked on."
             },
             {
               "name": "IN_PROGRESS",
               "number": "2",
-              "description": ""
+              "description": "The job is being processed."
             },
             {
               "name": "SUCCESS",
               "number": "3",
-              "description": ""
+              "description": "The job has terminated correctly."
             },
             {
               "name": "FAILED",
               "number": "4",
-              "description": ""
+              "description": "The job has failed."
             },
             {
               "name": "TIMEOUT",
               "number": "5",
-              "description": ""
+              "description": "The job took too long and has timed out. No more work will be done on the job."
             }
           ]
         }
@@ -4122,7 +4122,7 @@
           "fields": [
             {
               "name": "crs",
-              "description": "",
+              "description": "A coordinate reference system specified as a full EPSG code, for example \"EPSG:4326\".",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -4138,7 +4138,7 @@
           "name": "Coordinate",
           "longName": "Coordinate",
           "fullName": "com.cognite.seismic.Coordinate",
-          "description": "Basic type representing (x,y) coordinate in the given CRS",
+          "description": "Basic type representing (x,y) coordinate in the given coordinate reference system (CRS).",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4146,7 +4146,7 @@
           "fields": [
             {
               "name": "crs",
-              "description": "The Coordinate Reference System of the coordinate. Generally should be an EPSG code including the EPSG: prefix, for example `EPSG:23031`",
+              "description": "The CRS of the coordinate. Must be a full EPSG code, for example `EPSG:23031`.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -4186,7 +4186,7 @@
           "name": "CoverageParameters",
           "longName": "CoverageParameters",
           "fullName": "com.cognite.seismic.CoverageParameters",
-          "description": "Parameters for requesting coverage of survey",
+          "description": "Deprecated**: use [`CoverageSpec`](#coveragespec) instead. Parameters for requesting coverage of survey",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4206,7 +4206,7 @@
             },
             {
               "name": "in_wkt",
-              "description": "set this to true to return in WKT format. Otherwise, response will be in geojson format by default",
+              "description": "[optional] Whether to use WKT format in the response. Defaults to false, returning GeoJSON.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -4222,7 +4222,7 @@
           "name": "CustomSurveyCoverage",
           "longName": "CustomSurveyCoverage",
           "fullName": "com.cognite.seismic.CustomSurveyCoverage",
-          "description": "Customer-provided custom coverage for surveys",
+          "description": "Customer-provided custom coverage for surveys.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -4242,7 +4242,7 @@
             },
             {
               "name": "no_custom_coverage",
-              "description": "Specifies that no custom coverage is provided, so survey coverage\nis computed from the seismicstores in the survey",
+              "description": "No custom coverage is provided. Survey coverage\nwill be computed from the seismicstores contained in the survey.",
               "label": "",
               "type": "NoCustomCoverage",
               "longType": "CustomSurveyCoverage.NoCustomCoverage",
@@ -4340,7 +4340,7 @@
           "name": "ExternalId",
           "longName": "ExternalId",
           "fullName": "com.cognite.seismic.ExternalId",
-          "description": "",
+          "description": "An external ID.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4364,7 +4364,7 @@
           "name": "File",
           "longName": "File",
           "fullName": "com.cognite.seismic.File",
-          "description": "File or dataset or cube derived from a single SEG-Y file",
+          "description": "Deprecated**. File or dataset or cube derived from a single SEG-Y file",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4504,7 +4504,7 @@
           "fields": [
             {
               "name": "crs",
-              "description": "required",
+              "description": "[required] The CRS of the geometry.",
               "label": "",
               "type": "CRS",
               "longType": "CRS",
@@ -4516,7 +4516,7 @@
             },
             {
               "name": "wkt",
-              "description": "",
+              "description": "A wkt format geometry.",
               "label": "",
               "type": "Wkt",
               "longType": "Wkt",
@@ -4528,7 +4528,7 @@
             },
             {
               "name": "geo",
-              "description": "",
+              "description": "A GeoJSON format geometry.",
               "label": "",
               "type": "GeoJson",
               "longType": "GeoJson",
@@ -4544,7 +4544,7 @@
           "name": "Identifier",
           "longName": "Identifier",
           "fullName": "com.cognite.seismic.Identifier",
-          "description": "Specify either id or name to find a file or survey.",
+          "description": "Deprecated**. Specify either id or name to find a file or survey.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -4580,7 +4580,7 @@
           "name": "LineBasedRectangle",
           "longName": "LineBasedRectangle",
           "fullName": "com.cognite.seismic.LineBasedRectangle",
-          "description": "Range of inline and crossline indices defining a 2D region",
+          "description": "Deprecated**. Range of inline and crossline indices defining a 2D region",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4616,7 +4616,7 @@
           "name": "LineDescriptor",
           "longName": "LineDescriptor",
           "fullName": "com.cognite.seismic.LineDescriptor",
-          "description": "",
+          "description": "Describes a series of points.\nThe first point is `min`, the next point is `min+step`, the point after that is `min+step*2`, and so on.\nNone of the points will be greater than `max`.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4624,7 +4624,7 @@
           "fields": [
             {
               "name": "min",
-              "description": "",
+              "description": "[optional] The first element of the line. Defaults to the minimum value, depending on context.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4636,7 +4636,7 @@
             },
             {
               "name": "max",
-              "description": "",
+              "description": "[optional] The maximum value of a point on the line. Defaults to the maximum value, depending on context.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4648,7 +4648,7 @@
             },
             {
               "name": "step",
-              "description": "",
+              "description": "[optional] The 'step' of the line. Defaults to 1.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4700,7 +4700,7 @@
           "name": "LineSelect",
           "longName": "LineSelect",
           "fullName": "com.cognite.seismic.LineSelect",
-          "description": "Specify either inline OR crossline",
+          "description": "Deprecated**. Specifies an inline or a crossline",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -4832,7 +4832,7 @@
           "name": "PositionQuery",
           "longName": "PositionQuery",
           "fullName": "com.cognite.seismic.PositionQuery",
-          "description": "Point defined by its inline and crossline indices",
+          "description": "Deprecated**. Point defined by its inline and crossline indices",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4868,7 +4868,7 @@
           "name": "Project",
           "longName": "Project",
           "fullName": "com.cognite.seismic.Project",
-          "description": "",
+          "description": "Deprecated**.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4904,7 +4904,7 @@
           "name": "SlabTrace",
           "longName": "SlabTrace",
           "fullName": "com.cognite.seismic.SlabTrace",
-          "description": "Wrapper over Trace type that additionally provide information about the range of z values\nincluded in the trace.",
+          "description": "Deprecated**. Wrapper over Trace type that additionally provide information about the range of z values\nincluded in the trace.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4952,7 +4952,7 @@
           "name": "SurfacePoint",
           "longName": "SurfacePoint",
           "fullName": "com.cognite.seismic.SurfacePoint",
-          "description": "Basic type to represent a point in a surface defined by a horizontal grid\nUsed in horizontal slice queries",
+          "description": "Deprecated**. Basic type to represent a point in a surface defined by a horizontal grid\nUsed in horizontal slice queries",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -5000,7 +5000,7 @@
           "name": "Survey",
           "longName": "Survey",
           "fullName": "com.cognite.seismic.Survey",
-          "description": "A survey represents a collection of files in the same area",
+          "description": "Deprecated**. A survey represents a collection of files in the same area",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,

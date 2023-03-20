@@ -16,11 +16,11 @@
           "name": "SeismicAPI",
           "longName": "SeismicAPI",
           "fullName": "com.cognite.seismic.v1.SeismicAPI",
-          "description": "Service for querying data and metadata from seismic tracestore in Cognite Data Fusion (CDF) seismic datastore.\n\nQueries are done primarily on cubes, with some management endpoints for tracestores \u0026 partitions.\n\nQueries are divided in:\n  Metadata: General information and headers for surveys and files\n  Trace: Retrieve traces, be it by geometry, line or volume\n  Artificial sampling: Get the (calculated/interpolated) values of properties in the file/tracestore given arbitrary positions\n\nMetadata queries",
+          "description": "This is the main service for managing and querying metadata and seismic traces from Cognite Data Fusion (CDF). [`Survey`](#com.cognite.seismic.v1.survey) and [`Partition`](#com.cognite.seismic.v1.partition) objects are primarily metadata-focused, and all seismic traces are queried via references to [`SeismicStore`](#com.cognite.seismic.v1.seismicstore) or [`Seismic`](#com.cognite.seismic.v1.seismic) objects.\n\nQueries are divided into these broad categories:\n- **Management**: Creating, editing and deleting Cognite Data Fusion objects, as well as managing the status of file uploading and processing.\n- **Metadata**: Information about surveys, partitions, seismic objects, and headers.\n- **Trace**: Retrieving traces or information about traces.",
           "methods": [
             {
               "name": "CreateSurvey",
-              "description": "Creates a Survey object in the data model. A Survey object represents a grouping of seismic data\nin the same area and normally sharing acquisition and most processing parameters.\nCapabilities: Requires Seismic:WRITE capability to the CDF tenant.",
+              "description": "Creates a Survey object in the data model. A Survey object represents a grouping of seismic data\nin the same area and normally shares acquisition and most processing parameters.\n\nCapabilities: Requires Seismic:WRITE capability to the CDF tenant.",
               "requestType": "CreateSurveyRequest",
               "requestLongType": "CreateSurveyRequest",
               "requestFullType": "com.cognite.seismic.v1.CreateSurveyRequest",
@@ -32,7 +32,7 @@
             },
             {
               "name": "SearchSurveys",
-              "description": "Lists all surveys accessible to the client. Optionally includes Cubes associated with the surveys.\n\nCan optionally search surveys based on both/either of two criteria:\n  Coverage polygon of files in the survey are within an area delimited by a specified polygon\n  Filters on metadata of both the survey and the file",
+              "description": "Lists all surveys accessible to the client.\nYou can also choose to receive a list of Seismic and SeismicStore object ids associated with the surveys.\n\nThe returned surveys can also be limited to those that satisfy one or both of these criteria:\n  - Coverage polygon of files in the survey are within an area delimited by a specified polygon.\n  - Filters on metadata of both the survey and the file.",
               "requestType": "SearchSurveysRequest",
               "requestLongType": "SearchSurveysRequest",
               "requestFullType": "com.cognite.seismic.v1.SearchSurveysRequest",
@@ -44,7 +44,7 @@
             },
             {
               "name": "EditSurvey",
-              "description": "Modify the metadata for a survey.",
+              "description": "Modifies the metadata for a survey.\n\nThe survey crs and grid transformation can only be modified if there are no ingested seismic stores in the survey.",
               "requestType": "EditSurveyRequest",
               "requestLongType": "EditSurveyRequest",
               "requestFullType": "com.cognite.seismic.v1.EditSurveyRequest",
@@ -56,7 +56,7 @@
             },
             {
               "name": "DeleteSurvey",
-              "description": "Deletes a specified survey. Must have ALL scope and Write capabilities.\n\nIn the case of Surveys, the \"name\" should be input into the external_ids field of the Identifier.",
+              "description": "Deletes a specified survey. Must have Seismic:ALL scope and Write capability.",
               "requestType": "DeleteSurveyRequest",
               "requestLongType": "DeleteSurveyRequest",
               "requestFullType": "com.cognite.seismic.v1.DeleteSurveyRequest",
@@ -80,7 +80,7 @@
             },
             {
               "name": "EditSourceSegyFile",
-              "description": "Edits a registered source file.\n\nBefore editing, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated\nwith the source file must be deleted.\nThis request will fail if the above criteira are not met.",
+              "description": "Edits a registered source file.\n\nBefore editing, there must be no ingestion jobs running for the source file.\nThe SeismicStore associated with the source file must also be deleted if it was successfully created.\nThis request will fail if the above criteira aren't met.",
               "requestType": "EditSourceSegyFileRequest",
               "requestLongType": "EditSourceSegyFileRequest",
               "requestFullType": "com.cognite.seismic.v1.EditSourceSegyFileRequest",
@@ -92,7 +92,7 @@
             },
             {
               "name": "UnregisterSourceSegyFile",
-              "description": "Unregisters a file previously registered as source for ingestion.\n\nBefore unregistering, there must be no ingestion jobs running for the source file and, if already ingested, any SeismicStore associated\nwith the source file must be deleted.\nThis request will fail if the above criteira are not met.",
+              "description": "Unregisters a file previously registered as the source for ingestion.\n\nBefore unregistering, there must be no ingestion jobs running for the source file.\nThe SeismicStore associated with the source file must also be deleted if it was successfully created.\nThis request will fail if the above criteira aren't met.",
               "requestType": "UnregisterSourceSegyFileRequest",
               "requestLongType": "UnregisterSourceSegyFileRequest",
               "requestFullType": "com.cognite.seismic.v1.UnregisterSourceSegyFileRequest",
@@ -116,7 +116,7 @@
             },
             {
               "name": "CreateSeismic",
-              "description": "Create new Seismics and assign them to partitions.\nSeismics are mostly immutable save for their name and metadata. The user needs to delete an existing cutout and create a new one\nif e.g. the definition or the seismic store must be changed",
+              "description": "Creates new Seismics and assign them to partitions.\nSeismic objects are mostly immutable aside from their name and metadata.\nA Seismic object must be deleted and recreated in order to change properties such as the cutout or the source seismic store.",
               "requestType": "CreateSeismicRequest",
               "requestLongType": "CreateSeismicRequest",
               "requestFullType": "com.cognite.seismic.v1.CreateSeismicRequest",
@@ -128,7 +128,7 @@
             },
             {
               "name": "SearchSeismics",
-              "description": "Returns Seismic metadata given its id.\nCan optionally retrieve seismic store \u0026 partition info if user has the right scope.\nUse GetVolume to retrieve traces.",
+              "description": "Returns metadata for a Seismic object.\nCan optionally retrieve seismic store \u0026 partition info if user has appropriate scope and capability.",
               "requestType": "SearchSeismicsRequest",
               "requestLongType": "SearchSeismicsRequest",
               "requestFullType": "com.cognite.seismic.v1.SearchSeismicsRequest",
@@ -140,7 +140,7 @@
             },
             {
               "name": "EditSeismic",
-              "description": "Edit the specified seismic. Seismic object names and metadata can be changed.\nThe cutout definition, however, cannot be changed.\nTo modify the definition or the owning partition, delete the seismic object\nand create a new one.",
+              "description": "Edits the specified seismic. Seismic object names and metadata can be changed.\nOther properties such as the cutout, owning partition, or source seismic store can't be changed.\nThe seismic object must be deleted and recreated in order to modify these immutable properties.",
               "requestType": "EditSeismicRequest",
               "requestLongType": "EditSeismicRequest",
               "requestFullType": "com.cognite.seismic.v1.EditSeismicRequest",
@@ -152,7 +152,7 @@
             },
             {
               "name": "DeleteSeismic",
-              "description": "Delete seismic objects.",
+              "description": "Deletes seismic objects.",
               "requestType": "DeleteSeismicRequest",
               "requestLongType": "DeleteSeismicRequest",
               "requestFullType": "com.cognite.seismic.v1.DeleteSeismicRequest",
@@ -164,7 +164,7 @@
             },
             {
               "name": "SearchSeismicStores",
-              "description": "Search and retrieve seismic stores. Can only retrieve seismic stores you own.",
+              "description": "Searches and retrieves seismic stores. Can only retrieve seismic stores you own.",
               "requestType": "SearchSeismicStoresRequest",
               "requestLongType": "SearchSeismicStoresRequest",
               "requestFullType": "com.cognite.seismic.v1.SearchSeismicStoresRequest",
@@ -176,7 +176,7 @@
             },
             {
               "name": "InspectIngestion",
-              "description": "Inspect the seismicstore resulting from a possibly failed ingestion. Useful for \ndebugging failed ingestions.",
+              "description": "Inspects the seismicstore resulting from a possibly failed ingestion. Useful for \ndebugging failed ingestions.",
               "requestType": "InspectIngestionRequest",
               "requestLongType": "InspectIngestionRequest",
               "requestFullType": "com.cognite.seismic.v1.InspectIngestionRequest",
@@ -188,7 +188,7 @@
             },
             {
               "name": "EditSeismicStore",
-              "description": "Set the name of a seismic store object.",
+              "description": "Sets the name or metadata of a seismic store object.",
               "requestType": "EditSeismicStoreRequest",
               "requestLongType": "EditSeismicStoreRequest",
               "requestFullType": "com.cognite.seismic.v1.EditSeismicStoreRequest",
@@ -200,7 +200,7 @@
             },
             {
               "name": "DeleteSeismicStore",
-              "description": "Delete a seismic store. If any seismics still reference the specified seismic store, the request will fail.",
+              "description": "Deletes a seismic store. If any seismic objects still reference the specified seismic store, the request will fail.",
               "requestType": "DeleteSeismicStoreRequest",
               "requestLongType": "DeleteSeismicStoreRequest",
               "requestFullType": "com.cognite.seismic.v1.DeleteSeismicStoreRequest",
@@ -212,7 +212,7 @@
             },
             {
               "name": "CreatePartition",
-              "description": "Create a data partition, optionally setting a name.",
+              "description": "Creates a data partition, optionally setting a name.",
               "requestType": "CreatePartitionRequest",
               "requestLongType": "CreatePartitionRequest",
               "requestFullType": "com.cognite.seismic.v1.CreatePartitionRequest",
@@ -224,7 +224,7 @@
             },
             {
               "name": "SearchPartitions",
-              "description": "Returns the partition(s) specified, with the same search options as the other search endpoints.",
+              "description": "Returns the specified partitions, with the same search options as the other search endpoints.",
               "requestType": "SearchPartitionsRequest",
               "requestLongType": "SearchPartitionsRequest",
               "requestFullType": "com.cognite.seismic.v1.SearchPartitionsRequest",
@@ -236,7 +236,7 @@
             },
             {
               "name": "EditPartition",
-              "description": "Edit partitions. The only modifiable field is the name",
+              "description": "Edits partitions. The only modifiable field is the name.",
               "requestType": "EditPartitionRequest",
               "requestLongType": "EditPartitionRequest",
               "requestFullType": "com.cognite.seismic.v1.EditPartitionRequest",
@@ -248,7 +248,7 @@
             },
             {
               "name": "DeletePartition",
-              "description": "Delete the specified partition, and return whether it was successfully deleted.",
+              "description": "Deletes the specified partition and returns a response if it was successfully deleted.",
               "requestType": "DeletePartitionRequest",
               "requestLongType": "DeletePartitionRequest",
               "requestFullType": "com.cognite.seismic.v1.DeletePartitionRequest",
@@ -260,7 +260,7 @@
             },
             {
               "name": "GetVolume",
-              "description": "Request a volume of traces by range of inlines, crosslines and time\nDeprecated - use StreamTraces instead.",
+              "description": "Requests a volume of traces by range of inlines, crosslines, and time.\n\n**Deprecated** - use StreamTraces instead.",
               "requestType": "VolumeRequest",
               "requestLongType": "VolumeRequest",
               "requestFullType": "com.cognite.seismic.v1.VolumeRequest",
@@ -272,7 +272,7 @@
             },
             {
               "name": "GetVolumeBounds",
-              "description": "Return information about what a GetVolume request would return, including bounding boxes of\ntrace header values, and estimated total size.\nDeprecated - use GetTraceBounds instead.",
+              "description": "Return information about what a GetVolume request would return, including bounding boxes of\ntrace header values, and estimated total size.\n**Deprecated** - use `GetTraceBounds` instead.",
               "requestType": "VolumeRequest",
               "requestLongType": "VolumeRequest",
               "requestFullType": "com.cognite.seismic.v1.VolumeRequest",
@@ -284,7 +284,7 @@
             },
             {
               "name": "StreamTraces",
-              "description": "Request a set of seismic traces by ranges of trace headers such as inline, crossline (for 3d)\nor cdp or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices.\nSee StreamTracesRequest for more information.",
+              "description": "Requests a set of seismic traces by ranges of trace headers, such as inline, crossline (for 3d),\ncdp, or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices.\nSee StreamTracesRequest for more information.",
               "requestType": "StreamTracesRequest",
               "requestLongType": "StreamTracesRequest",
               "requestFullType": "com.cognite.seismic.v1.StreamTracesRequest",
@@ -296,7 +296,7 @@
             },
             {
               "name": "GetTraceBounds",
-              "description": "Return information about what a StreamTraces request would return, including bounding boxes of\ntrace header values, and estimated total size.",
+              "description": "Returns information about what a StreamTraces request would return, including bounding boxes of\ntrace header values, and estimated total size.",
               "requestType": "StreamTracesRequest",
               "requestLongType": "StreamTracesRequest",
               "requestFullType": "com.cognite.seismic.v1.StreamTracesRequest",
@@ -308,7 +308,7 @@
             },
             {
               "name": "GetSegYFile",
-              "description": "Fetch seismic data in SEG-Y format.\nThe stream of responses each contain a byte array that must be written sequentially to a\nfile to produce a SEG-Y file. The ordering of traces in the output is unspecified.\n\nThe request object can be used to specify whether the file should contain the whole set\nof traces in the source dataset or a subset of the traces (ie. a cropped file). See\nSegYSeismicRequest for more information.\nReturns a stream of SegYSeismicResponse objects, each containing a fragment of a SEG-Y\ndata stream.",
+              "description": "Fetches seismic data in SEG-Y format.\nEach response in the stream contains a byte array that must be written, in order, to a file-like object\nto produce a valid SEG-Y file. The ordering of traces in the resulting SEG-Y file is undefined.\n\nThe request object can be used to specify whether the file should contain the whole set\nof traces in the source dataset or a subset of the traces (for example, a cropped file). See\n[`SegYSeismicRequest`](#segyseismicrequest) for more information.\nReturns a stream of `SegYSeismicResponse` objects, each containing a fragment of a SEG-Y\ndata stream.",
               "requestType": "SegYSeismicRequest",
               "requestLongType": "SegYSeismicRequest",
               "requestFullType": "com.cognite.seismic.v1.SegYSeismicRequest",
@@ -320,7 +320,7 @@
             },
             {
               "name": "SearchFiles",
-              "description": "Retrieves File objects describing the seismic files registered with the tenant.\nSearch criteria can be specified in the SearchFilesRequest, restricting the data retrieved\nto a subset of the files in the tenant. See SearchFilesRequest for more information.\nReturns a stream of file objects, terminating all files matching the search criteria have been\nreturned.",
+              "description": "Retrieves File objects describing the seismic files registered with the tenant.\nSearch criteria can be specified in the SearchFilesRequest, restricting the data retrieved\nto a subset of the files in the tenant. See SearchFilesRequest for more information.\nReturns a stream of file objects, terminating once all files matching the search criteria have been\nreturned.",
               "requestType": "SearchFilesRequest",
               "requestLongType": "SearchFilesRequest",
               "requestFullType": "com.cognite.seismic.v1.SearchFilesRequest",
@@ -369,7 +369,7 @@
           "fields": [
             {
               "name": "name",
-              "description": "optional name",
+              "description": "[optional] A short description for the partition.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -381,7 +381,7 @@
             },
             {
               "name": "external_id",
-              "description": "not optional externalid",
+              "description": "[required] The unique external identifier for the partition.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -405,7 +405,7 @@
           "fields": [
             {
               "name": "name",
-              "description": "optional",
+              "description": "[optional] A short description for the seismic",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -417,7 +417,7 @@
             },
             {
               "name": "external_id",
-              "description": "not optional",
+              "description": "[required] An externally correlatable unique identifier for the seismic",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -429,7 +429,7 @@
             },
             {
               "name": "partition",
-              "description": "",
+              "description": "[required] The owning partition",
               "label": "",
               "type": "Identifier",
               "longType": "Identifier",
@@ -453,7 +453,7 @@
             },
             {
               "name": "volume_def",
-              "description": "Define the volume as VolumeDef format",
+              "description": "Deprecated**: Defines the volume as VolumeDef format. Use `two_dee_extent` or `three_dee_extent`.",
               "label": "",
               "type": "VolumeDef",
               "longType": "VolumeDef",
@@ -477,7 +477,7 @@
             },
             {
               "name": "empty",
-              "description": "If true, will create a seismic with an empty cutout",
+              "description": "Will create a seismic with an empty cutout if true",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -489,7 +489,7 @@
             },
             {
               "name": "two_dee_extent",
-              "description": "only valid if the seismic is 2D",
+              "description": "Defines the volume as an extent. Only valid if the seismic is 2D",
               "label": "",
               "type": "Seismic2dExtent",
               "longType": "Seismic2dExtent",
@@ -501,7 +501,7 @@
             },
             {
               "name": "three_dee_extent",
-              "description": "only valid if the seismic is 3D",
+              "description": "Defines the volume as an extent. Only valid if the seismic is 3D",
               "label": "",
               "type": "Seismic3dExtent",
               "longType": "Seismic3dExtent",
@@ -513,7 +513,7 @@
             },
             {
               "name": "metadata",
-              "description": "",
+              "description": "[optional] Metadata to associate with the seismic.",
               "label": "",
               "type": "OptionalMap",
               "longType": "OptionalMap",
@@ -525,7 +525,7 @@
             },
             {
               "name": "text_header",
-              "description": "Optionally set a custom text header",
+              "description": "[optional] A custom text header for the seismic.",
               "label": "",
               "type": "TextHeader",
               "longType": "TextHeader",
@@ -537,7 +537,7 @@
             },
             {
               "name": "binary_header",
-              "description": "Optionally set a custom binary header",
+              "description": "[optional] A custom binary header for the seismic.",
               "label": "",
               "type": "BinaryHeader",
               "longType": "BinaryHeader",
@@ -585,7 +585,7 @@
           "fields": [
             {
               "name": "name",
-              "description": "Short descriptive name",
+              "description": "[required] Short descriptive name",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -597,7 +597,7 @@
             },
             {
               "name": "metadata",
-              "description": "Key-value pairs of metadata for the survey.",
+              "description": "[required] Key-value pairs of metadata for the survey.",
               "label": "repeated",
               "type": "MetadataEntry",
               "longType": "CreateSurveyRequest.MetadataEntry",
@@ -609,7 +609,7 @@
             },
             {
               "name": "external_id",
-              "description": "Identifier for correlation with systems outside CDF",
+              "description": "[required] Identifier for correlation with systems outside CDF",
               "label": "",
               "type": "ExternalId",
               "longType": "com.cognite.seismic.ExternalId",
@@ -621,7 +621,7 @@
             },
             {
               "name": "crs",
-              "description": "CRS used by all members",
+              "description": "[required] CRS used by all members of the survey",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -633,7 +633,7 @@
             },
             {
               "name": "grid_transformation",
-              "description": "Optional",
+              "description": "[optional] Specifies a grid transformation to use, overriding the defaults.",
               "label": "",
               "type": "SurveyGridTransformation",
               "longType": "com.cognite.seismic.SurveyGridTransformation",
@@ -645,7 +645,7 @@
             },
             {
               "name": "custom_coverage",
-              "description": "[optional] Customer-provided survey coverage",
+              "description": "[optional] Specifies a coverage to serve as the survey coverage, overriding calculated coverage.",
               "label": "",
               "type": "CustomSurveyCoverage",
               "longType": "com.cognite.seismic.CustomSurveyCoverage",
@@ -705,7 +705,7 @@
           "fields": [
             {
               "name": "partition",
-              "description": "",
+              "description": "[required] The partition to delete.",
               "label": "",
               "type": "Identifier",
               "longType": "Identifier",
@@ -801,7 +801,7 @@
           "fields": [
             {
               "name": "seismic_store",
-              "description": "",
+              "description": "[required] The seismic store to delete.",
               "label": "",
               "type": "Identifier",
               "longType": "Identifier",
@@ -849,7 +849,7 @@
           "fields": [
             {
               "name": "survey",
-              "description": "",
+              "description": "The survey to delete.",
               "label": "",
               "type": "Identifier",
               "longType": "Identifier",
@@ -897,7 +897,7 @@
           "fields": [
             {
               "name": "partition",
-              "description": "Must uniquely identify a partition",
+              "description": "[required] The unique identifier for the partition to be edited.",
               "label": "",
               "type": "Identifier",
               "longType": "Identifier",
@@ -909,7 +909,7 @@
             },
             {
               "name": "new_name",
-              "description": "",
+              "description": "[required] The new name.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -1005,7 +1005,7 @@
           "fields": [
             {
               "name": "seismic_store_id",
-              "description": "Deprecated. Use `identifier` instead.",
+              "description": "Deprecated**. Use `identifier` instead.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -1017,7 +1017,7 @@
             },
             {
               "name": "name",
-              "description": "If not null will change the seismic store name",
+              "description": "[optional] The new seismic store name.",
               "label": "",
               "type": "StringValue",
               "longType": "google.protobuf.StringValue",
@@ -1029,7 +1029,7 @@
             },
             {
               "name": "metadata",
-              "description": "If not null, will replace the seismic store metadata",
+              "description": "[optional] The new seismic store metadata. If set, this will replace the existing metadata.",
               "label": "",
               "type": "OptionalMap",
               "longType": "OptionalMap",
@@ -1041,7 +1041,7 @@
             },
             {
               "name": "seismic_store",
-              "description": "Uniquely identifies one seismic store",
+              "description": "[required] The seismic store to edit.",
               "label": "",
               "type": "Identifier",
               "longType": "Identifier",
@@ -1053,7 +1053,7 @@
             },
             {
               "name": "external_id",
-              "description": "If not null, will attempt to change the seismic store external id. Can fail if the new external id is not unique.",
+              "description": "[optional] The new external id. Will fail if the new external id is not unique.",
               "label": "",
               "type": "StringValue",
               "longType": "google.protobuf.StringValue",
@@ -1233,7 +1233,7 @@
           "fields": [
             {
               "name": "file",
-              "description": "",
+              "description": "The result of the edit.",
               "label": "",
               "type": "SourceSegyFile",
               "longType": "SourceSegyFile",
@@ -1269,7 +1269,7 @@
             },
             {
               "name": "metadata",
-              "description": "The existing metadata will be replaced with this metadata.",
+              "description": "[optional] The metadata to replace the existing metadata with.",
               "label": "",
               "type": "OptionalMap",
               "longType": "OptionalMap",
@@ -1281,7 +1281,7 @@
             },
             {
               "name": "external_id",
-              "description": "",
+              "description": "[optional] The new external id.",
               "label": "",
               "type": "ExternalId",
               "longType": "com.cognite.seismic.ExternalId",
@@ -1293,7 +1293,7 @@
             },
             {
               "name": "crs",
-              "description": "CRS used by all members",
+              "description": "[optional] The new CRS for all members of the survey.",
               "label": "",
               "type": "CRS",
               "longType": "com.cognite.seismic.CRS",
@@ -1305,7 +1305,7 @@
             },
             {
               "name": "grid_transformation",
-              "description": "Optional",
+              "description": "[optional] The new custom grid transformation.",
               "label": "",
               "type": "SurveyGridTransformation",
               "longType": "com.cognite.seismic.SurveyGridTransformation",
@@ -1317,7 +1317,7 @@
             },
             {
               "name": "custom_coverage",
-              "description": "Optional",
+              "description": "[optional] The new custom coverage.",
               "label": "",
               "type": "CustomSurveyCoverage",
               "longType": "com.cognite.seismic.CustomSurveyCoverage",
@@ -1329,7 +1329,7 @@
             },
             {
               "name": "new_name",
-              "description": "If provided, the new name of the survey",
+              "description": "[optional] The new name of the survey.",
               "label": "",
               "type": "StringValue",
               "longType": "google.protobuf.StringValue",
@@ -1353,7 +1353,7 @@
           "fields": [
             {
               "name": "geometry",
-              "description": "",
+              "description": "[required] The geometry of the volume.",
               "label": "",
               "type": "Geometry",
               "longType": "com.cognite.seismic.Geometry",
@@ -1365,7 +1365,7 @@
             },
             {
               "name": "interpolation_method",
-              "description": "Required if the geometry describes a line, otherwise ignored",
+              "description": "[optional] If the geometry describes a line, must be specified.",
               "label": "",
               "type": "InterpolationMethod",
               "longType": "com.cognite.seismic.InterpolationMethod",
@@ -1377,7 +1377,7 @@
             },
             {
               "name": "z_range",
-              "description": "",
+              "description": "[optional] The z-ranges to fetch. Defaults to the entire z-range.",
               "label": "",
               "type": "LineDescriptor",
               "longType": "com.cognite.seismic.LineDescriptor",
@@ -1401,7 +1401,7 @@
           "fields": [
             {
               "name": "file",
-              "description": "[required] The file to queue for ingestiong",
+              "description": "[required] The file to queue for ingestion",
               "label": "",
               "type": "Identifier",
               "longType": "Identifier",
@@ -1461,7 +1461,7 @@
           "fields": [
             {
               "name": "timestamp",
-              "description": "",
+              "description": "The time this log was recorded.",
               "label": "",
               "type": "Timestamp",
               "longType": "google.protobuf.Timestamp",
@@ -1473,7 +1473,7 @@
             },
             {
               "name": "log_line",
-              "description": "",
+              "description": "The contents of the log.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -1497,7 +1497,7 @@
           "fields": [
             {
               "name": "seismic_store_id",
-              "description": "",
+              "description": "Specifies a seismic store by id.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -1509,7 +1509,7 @@
             },
             {
               "name": "file_id",
-              "description": "",
+              "description": "Specifies a seismic store by source segy file id.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -1521,7 +1521,7 @@
             },
             {
               "name": "job_id",
-              "description": "",
+              "description": "Specifies a seismic store by job id.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -1545,7 +1545,7 @@
           "fields": [
             {
               "name": "seismic_store",
-              "description": "",
+              "description": "The fetched seismic store.",
               "label": "",
               "type": "SeismicStore",
               "longType": "SeismicStore",
@@ -1569,7 +1569,7 @@
           "fields": [
             {
               "name": "job_id",
-              "description": "",
+              "description": "The job id for this status.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -1581,7 +1581,7 @@
             },
             {
               "name": "file_uuid",
-              "description": "",
+              "description": "The uuid of the file that this job is associated with.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -1593,7 +1593,7 @@
             },
             {
               "name": "status",
-              "description": "",
+              "description": "The status of the job.",
               "label": "",
               "type": "JobStatus",
               "longType": "com.cognite.seismic.JobStatus",
@@ -1605,7 +1605,7 @@
             },
             {
               "name": "started_at",
-              "description": "",
+              "description": "When the job was started.",
               "label": "",
               "type": "Timestamp",
               "longType": "google.protobuf.Timestamp",
@@ -1617,7 +1617,7 @@
             },
             {
               "name": "updated_at",
-              "description": "",
+              "description": "When the job was last updated.",
               "label": "",
               "type": "Timestamp",
               "longType": "google.protobuf.Timestamp",
@@ -1629,7 +1629,7 @@
             },
             {
               "name": "target_storage_tier_name",
-              "description": "",
+              "description": "The target storage tier of the job.",
               "label": "",
               "type": "StringValue",
               "longType": "google.protobuf.StringValue",
@@ -1641,7 +1641,7 @@
             },
             {
               "name": "logs",
-              "description": "",
+              "description": "Logs recorded by the job.",
               "label": "repeated",
               "type": "IngestionLog",
               "longType": "IngestionLog",
@@ -1653,7 +1653,7 @@
             },
             {
               "name": "file_id",
-              "description": "",
+              "description": "The id of the file that this job is associated with.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -1857,7 +1857,7 @@
           "fields": [
             {
               "name": "spec",
-              "description": "Find files using a file search specification",
+              "description": "Finds files by id, name or external id.",
               "label": "",
               "type": "SearchSpec",
               "longType": "SearchSpec",
@@ -1869,7 +1869,7 @@
             },
             {
               "name": "seismic_store",
-              "description": "Find files using a seismic store search specification",
+              "description": "Finds files that are the source of the seismic stores specified by id, name, or external id.",
               "label": "",
               "type": "SearchSpec",
               "longType": "SearchSpec",
@@ -1881,7 +1881,7 @@
             },
             {
               "name": "survey",
-              "description": "Find files using a survey search specification",
+              "description": "Finds files that are included in the surveys specified by id, name, or external id.",
               "label": "",
               "type": "SearchSpec",
               "longType": "SearchSpec",
@@ -1893,7 +1893,7 @@
             },
             {
               "name": "last_modified",
-              "description": "Filter files by last modified.",
+              "description": "Finds files by their last modified time.",
               "label": "",
               "type": "LastModifiedFilter",
               "longType": "LastModifiedFilter",
@@ -1917,7 +1917,7 @@
           "fields": [
             {
               "name": "job_id",
-              "description": "",
+              "description": "The id of the job.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -1929,7 +1929,7 @@
             },
             {
               "name": "file_uuid",
-              "description": "",
+              "description": "The uuid of the file that a job is associated with.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -1941,7 +1941,7 @@
             },
             {
               "name": "file_id",
-              "description": "",
+              "description": "The id of the file that a job is associated with.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -1953,7 +1953,7 @@
             },
             {
               "name": "status",
-              "description": "",
+              "description": "[optional] If specified, only returns jobs with the given status.",
               "label": "",
               "type": "JobStatus",
               "longType": "com.cognite.seismic.JobStatus",
@@ -1965,7 +1965,7 @@
             },
             {
               "name": "target_storage_tier_name",
-              "description": "",
+              "description": "[optional] If specified, only returns jobs with the given target storage tier.",
               "label": "",
               "type": "StringValue",
               "longType": "google.protobuf.StringValue",
@@ -1977,7 +1977,7 @@
             },
             {
               "name": "started_before",
-              "description": "",
+              "description": "[optional] If specified, only returns jobs that started before the timestamp.",
               "label": "",
               "type": "Timestamp",
               "longType": "google.protobuf.Timestamp",
@@ -1989,7 +1989,7 @@
             },
             {
               "name": "started_after",
-              "description": "",
+              "description": "[optional] If specified, only returns jobs that started after the timestamp.",
               "label": "",
               "type": "Timestamp",
               "longType": "google.protobuf.Timestamp",
@@ -2001,7 +2001,7 @@
             },
             {
               "name": "updated_before",
-              "description": "",
+              "description": "[optional] If specified, only returns jobs that were last updated before the timestamp.",
               "label": "",
               "type": "Timestamp",
               "longType": "google.protobuf.Timestamp",
@@ -2013,7 +2013,7 @@
             },
             {
               "name": "updated_after",
-              "description": "",
+              "description": "[optional] If specified, only returns jobs that were last updated after the timestamp.",
               "label": "",
               "type": "Timestamp",
               "longType": "google.protobuf.Timestamp",
@@ -2037,7 +2037,7 @@
           "fields": [
             {
               "name": "partitions",
-              "description": "",
+              "description": "Searches for partitions by id, name, or external id.",
               "label": "",
               "type": "SearchSpec",
               "longType": "SearchSpec",
@@ -2049,7 +2049,7 @@
             },
             {
               "name": "last_modified",
-              "description": "Search for partitions by last modified.",
+              "description": "Searches for partitions by last modified time.",
               "label": "",
               "type": "LastModifiedFilter",
               "longType": "LastModifiedFilter",
@@ -2121,7 +2121,7 @@
             },
             {
               "name": "include_file_info",
-              "description": "If true, include File information in the response",
+              "description": "[optional] Whether to include File information in the response. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2133,7 +2133,7 @@
             },
             {
               "name": "include_volume_definitions",
-              "description": "If true, includes inline/crossline volume definitions for store",
+              "description": "Deprecated**: Whether to include inline/crossline volume definitions in the response. Use `include_extent` instead. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2145,7 +2145,7 @@
             },
             {
               "name": "include_extent",
-              "description": "If true, include a description of the traces contained in the seismicstore",
+              "description": "[optional] Whether to include a description of the traces contained in the seismicstore. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2157,7 +2157,7 @@
             },
             {
               "name": "extent_key",
-              "description": "If specified, indicates which trace header the extent should be indexed by (if a 2d header), or\nwhich should be the major direction (if a 3d header). Leaving this unspecified with\n`include_extent=true` means the server chooses a key header for each seismicstore.\nAny seismicstores not indexed by the given header will have its extent field left as null.",
+              "description": "[optional] If specified:\n- for 2D headers, indicates which trace header the extent should be indexed by, or\n- for 3D headers, what the major direction should be.\n Leaving `extent_key` unspecified when `include_extent=true`\nmeans the server will choose a key header for each seismicstore.\nAny seismicstores not indexed by the given header will have its extent field left as null.",
               "label": "",
               "type": "TraceHeaderField",
               "longType": "TraceHeaderField",
@@ -2169,7 +2169,7 @@
             },
             {
               "name": "include_headers",
-              "description": "if true, include text and binary headers in the response",
+              "description": "[optional] Whether to include text and binary headers in the response. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2181,7 +2181,7 @@
             },
             {
               "name": "include_coverage",
-              "description": "Deprecated. Use `coverage` instead.",
+              "description": "Deprecated**. Use `coverage` instead.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2193,7 +2193,7 @@
             },
             {
               "name": "coverage",
-              "description": "If specified, include coverage",
+              "description": "[optional] If specified, includes coverage in the specified format and CRS.",
               "label": "",
               "type": "CoverageSpec",
               "longType": "CoverageSpec",
@@ -2217,7 +2217,7 @@
           "fields": [
             {
               "name": "survey",
-              "description": "",
+              "description": "Searches for seismics which are included in the specified surveys.",
               "label": "",
               "type": "SearchSpec",
               "longType": "SearchSpec",
@@ -2229,7 +2229,7 @@
             },
             {
               "name": "seismic",
-              "description": "",
+              "description": "Searches for seismics by their id, name or external id.",
               "label": "",
               "type": "SearchSpec",
               "longType": "SearchSpec",
@@ -2241,7 +2241,7 @@
             },
             {
               "name": "partition",
-              "description": "Can only search on partitions you can see.",
+              "description": "Searches for seismics which are included in the specified partitions. Can only search on partitions you can see.",
               "label": "",
               "type": "SearchSpec",
               "longType": "SearchSpec",
@@ -2253,7 +2253,7 @@
             },
             {
               "name": "seismic_store",
-              "description": "Must be a data manager to search by seismic store.",
+              "description": "Searches for seismics by their seismic store. Requires ALL scope.",
               "label": "",
               "type": "SearchSpec",
               "longType": "SearchSpec",
@@ -2265,7 +2265,7 @@
             },
             {
               "name": "last_modified",
-              "description": "Search for seismics by last modified",
+              "description": "Searches for seismics by last modified",
               "label": "",
               "type": "LastModifiedFilter",
               "longType": "LastModifiedFilter",
@@ -2277,7 +2277,7 @@
             },
             {
               "name": "include_text_header",
-              "description": "",
+              "description": "[optional] Whether to include the text header. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2289,7 +2289,7 @@
             },
             {
               "name": "include_binary_header",
-              "description": "",
+              "description": "[optional] Whether to include the binary header. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2301,7 +2301,7 @@
             },
             {
               "name": "include_line_range",
-              "description": "",
+              "description": "[optional] Whether to include the line range. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2313,7 +2313,7 @@
             },
             {
               "name": "include_volume_definition",
-              "description": "If true, include the volume definition",
+              "description": "Deprecated**. Whether to include the volume definition. Use `include_extent` instead. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2325,7 +2325,7 @@
             },
             {
               "name": "include_cutout",
-              "description": "If true, include the cutout specification the seismic was created with",
+              "description": "[optional] Whether to include the cutout specification the seismic was created with. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2337,7 +2337,7 @@
             },
             {
               "name": "include_extent",
-              "description": "If true, include a description of the included traces",
+              "description": "[optional] Whether to include a description of the included traces. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2349,7 +2349,7 @@
             },
             {
               "name": "extent_key",
-              "description": "If specified, indicates which trace header the extent should be indexed by (if a 2d header), or\nwhich should be the major direction (if a 3d header). Leaving this unspecified with\n`include_extent=true` means the server chooses the native key header for each seismic.\nAny seismic not indexed by the given header will have its extent field left as null.",
+              "description": "[optional] If specified, indicates which trace header the extent should be indexed by (if a 2d header), or\nwhich should be the major direction (if a 3d header). Leaving this unspecified with\n`include_extent=true` means the server chooses the native key header for each seismic.\nAny seismic not indexed by the given header will have its extent field left as null.",
               "label": "",
               "type": "TraceHeaderField",
               "longType": "TraceHeaderField",
@@ -2361,7 +2361,7 @@
             },
             {
               "name": "include_seismic_store",
-              "description": "If true, include info on the backing seismicstore. Must be data manager.",
+              "description": "[optional] Whether to include info on the backing seismicstore. Requires ALL scope. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2373,7 +2373,7 @@
             },
             {
               "name": "include_partition",
-              "description": "If true, include info on the partition. Must be data manager.\\",
+              "description": "[optional] Whether to include info on the partition. Requires ALL scope. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2385,7 +2385,7 @@
             },
             {
               "name": "include_coverage",
-              "description": "Deprecated. Use `coverage` instead.",
+              "description": "Deprecated**. Use `coverage` instead. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2397,7 +2397,7 @@
             },
             {
               "name": "coverage",
-              "description": "If specified, requests coverage as well.",
+              "description": "[optional] If specified, includes coverage as the specified CRS and format.",
               "label": "",
               "type": "CoverageSpec",
               "longType": "CoverageSpec",
@@ -2433,7 +2433,7 @@
             },
             {
               "name": "seismic_ids",
-              "description": "Optionally present",
+              "description": "[optional] The list of ids for seismics included in the survey.",
               "label": "repeated",
               "type": "string",
               "longType": "string",
@@ -2445,7 +2445,7 @@
             },
             {
               "name": "seismic_store_ids",
-              "description": "Optionally present",
+              "description": "[optional] The list of ids for seismic stores included in the survey.",
               "label": "repeated",
               "type": "string",
               "longType": "string",
@@ -2457,7 +2457,7 @@
             },
             {
               "name": "coverage",
-              "description": "Optionally present",
+              "description": "[optional] The coverage of the survey.",
               "label": "",
               "type": "Geometry",
               "longType": "com.cognite.seismic.Geometry",
@@ -2469,7 +2469,7 @@
             },
             {
               "name": "coverage_source",
-              "description": "",
+              "description": "[optional] The source of the fetched coverage of the survey.",
               "label": "",
               "type": "SurveyCoverageSource",
               "longType": "SurveyCoverageSource",
@@ -2493,7 +2493,7 @@
           "fields": [
             {
               "name": "surveys",
-              "description": "Optional identifier of the survey. If empty, retrieve all accessible surveys",
+              "description": "[optional] Identifier of the survey(s) to fetch. If not specified, retrieves all accessible surveys.",
               "label": "repeated",
               "type": "SearchSpec",
               "longType": "SearchSpec",
@@ -2505,7 +2505,7 @@
             },
             {
               "name": "list_seismic_ids",
-              "description": "set to true to list the survey's seismics in the response (default: false)",
+              "description": "[optional] Whether to list the survey's seismics in the response (default: false)",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2517,7 +2517,7 @@
             },
             {
               "name": "list_seismic_store_ids",
-              "description": "Set to true to list the survey's seismic stores in the response. Only tenant users can see this.",
+              "description": "[optional] Whether to list the survey's seismic stores in the response. Requires ALL scope.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2529,7 +2529,7 @@
             },
             {
               "name": "include_metadata",
-              "description": "set to true to include survey metadata in the response (default: false)",
+              "description": "[optional] Whether to include survey metadata in the response (default: false)",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2541,7 +2541,7 @@
             },
             {
               "name": "include_coverage",
-              "description": "Deprecated. Use `coverage` instead.",
+              "description": "Deprecated**. Use `coverage` instead.",
               "label": "",
               "type": "CoverageParameters",
               "longType": "com.cognite.seismic.CoverageParameters",
@@ -2553,7 +2553,7 @@
             },
             {
               "name": "coverage",
-              "description": "set this field to include coverage in the response (default: No coverage)",
+              "description": "[optional] If set, includes coverage in the responses in the specified format and CRS.",
               "label": "",
               "type": "CoverageSpec",
               "longType": "CoverageSpec",
@@ -2565,7 +2565,7 @@
             },
             {
               "name": "include_grid_transformation",
-              "description": "set this field to include the manually specified grid transformation in the response (default: false)",
+              "description": "[optional] Whether to include the manually specified grid transformation in the response (default: false)",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2577,7 +2577,7 @@
             },
             {
               "name": "include_custom_coverage",
-              "description": "set this field to include the customer-provided survey coverage in the response",
+              "description": "[optional] Whether to include the customer-provided survey coverage in the response.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2589,7 +2589,7 @@
             },
             {
               "name": "coverage_source",
-              "description": "Requests that a coverage geometry from a particular source is returned in the SearchSurveysResponse.\nIf this field is specified, the coverage parameters in the include_coverage field must also be set.\nNote that this is independent from the custom coverage returned as part of the survey.\nIf no coverage source is provided, but the coverage parameters are provided, the coverage geometry will be fetched from the custom coverage if one has been provided, and the calculated coverage in other cases.",
+              "description": "[optional] If set, requests that a coverage geometry from a particular source is returned in the SearchSurveysResponse.\nIf set, the `coverage` field must also be provided.\nNote that this is independent from the custom coverage returned as part of the survey.\nIf `coverage_source` is unset but `coverage` is, the coverage geometry will use custom coverage if available and fall back to the calculated coverage otherwise.",
               "label": "",
               "type": "SurveyCoverageSource",
               "longType": "SurveyCoverageSource",
@@ -2601,7 +2601,7 @@
             },
             {
               "name": "last_modified",
-              "description": "If set, will further filter returned objects by last modified.",
+              "description": "[optional] If set, will further filter returned objects by the last modified time.",
               "label": "",
               "type": "LastModifiedFilter",
               "longType": "LastModifiedFilter",
@@ -2625,7 +2625,7 @@
           "fields": [
             {
               "name": "seismic",
-              "description": "",
+              "description": "Specifies a seismic object.",
               "label": "",
               "type": "Identifier",
               "longType": "Identifier",
@@ -2637,7 +2637,7 @@
             },
             {
               "name": "seismic_store_id",
-              "description": "Need to be a data manager or tenant user, not 3rd party, to access by seismic store",
+              "description": "Specifies a seismic store. Requires ALL scope.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -2649,7 +2649,7 @@
             },
             {
               "name": "polygon",
-              "description": "",
+              "description": "Traces will be contained within the polygon.",
               "label": "",
               "type": "Geometry",
               "longType": "com.cognite.seismic.Geometry",
@@ -2661,7 +2661,7 @@
             },
             {
               "name": "lines",
-              "description": "Only valid if the queried object is 3D. Deprecated. Use three_dee_extent instead.",
+              "description": "Deprecated**. Traces will be contained within the rectangle. Only valid if the queried object is 3D.",
               "label": "",
               "type": "LineBasedRectangle",
               "longType": "com.cognite.seismic.LineBasedRectangle",
@@ -2673,7 +2673,7 @@
             },
             {
               "name": "two_dee_extent",
-              "description": "Only valid if the queried object is 2D",
+              "description": "Traces will be contained within the extent. Only valid if the queried object is 2D.",
               "label": "",
               "type": "Seismic2dExtent",
               "longType": "Seismic2dExtent",
@@ -2685,7 +2685,7 @@
             },
             {
               "name": "three_dee_extent",
-              "description": "Only valid if the queried object is 3D",
+              "description": "Traces will be contained within the extent. Only valid if the queried object is 3D",
               "label": "",
               "type": "Seismic3dExtent",
               "longType": "Seismic3dExtent",
@@ -2697,7 +2697,7 @@
             },
             {
               "name": "skip_message_count",
-              "description": "Skip the first n chunks of the download. Useful for resuming aborted downloads. Default: 0.",
+              "description": "[optional] Skips the first *n* chunks of the download. Useful for resuming aborted downloads. Defaults to 0.",
               "label": "",
               "type": "int32",
               "longType": "int32",
@@ -2709,7 +2709,7 @@
             },
             {
               "name": "trace_group_filter",
-              "description": "Select which traces to return within each ensemble. Only if the queried object is pre-stack.",
+              "description": "[optional] Select which traces to return within each ensemble. Only valid if the queried object is pre-stack.",
               "label": "",
               "type": "SeismicTraceGroupExtent",
               "longType": "SeismicTraceGroupExtent",
@@ -2733,7 +2733,7 @@
           "fields": [
             {
               "name": "content",
-              "description": "",
+              "description": "Some bytes of the resulting Seg-Y file.",
               "label": "",
               "type": "bytes",
               "longType": "bytes",
@@ -2769,7 +2769,7 @@
             },
             {
               "name": "seismic_store_id",
-              "description": "The id of the Seismicstore to stream traces from. Only accessible by data managers.",
+              "description": "The id of the Seismicstore to stream traces from. Requires ALL scope.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -2781,7 +2781,7 @@
             },
             {
               "name": "two_dee_extent",
-              "description": "Filter traces by 2D header ranges. Only valid if the queried object is 2D",
+              "description": "Filters traces by 2D header ranges. Only valid if the queried object is 2D.",
               "label": "",
               "type": "Seismic2dExtent",
               "longType": "Seismic2dExtent",
@@ -2793,7 +2793,7 @@
             },
             {
               "name": "three_dee_extent",
-              "description": "Filter traces by 3D header ranges. Only valid if the queried object is 3D",
+              "description": "Filters traces by 3D header ranges. Only valid if the queried object is 3D.",
               "label": "",
               "type": "Seismic3dExtent",
               "longType": "Seismic3dExtent",
@@ -2805,7 +2805,7 @@
             },
             {
               "name": "geometry",
-              "description": "Filter traces by geometry. If the geometry is a polygon, select traces contained in the geometry.\nIf the geometry is a line or a linestring, interpolate traces onto the line.",
+              "description": "Filters traces by geometry. If the geometry is a polygon, traces will be contained within the geometry.\nIf the geometry is a line or a linestring, the traces will be interpolated traces onto the line.",
               "label": "",
               "type": "GeometryFilter",
               "longType": "GeometryFilter",
@@ -2817,7 +2817,7 @@
             },
             {
               "name": "z_range",
-              "description": "Select which depth indices to return as part of the traces.",
+              "description": "[optional] Which depth indices to return as part of the traces. Defaults to the entire depth.",
               "label": "",
               "type": "LineDescriptor",
               "longType": "com.cognite.seismic.LineDescriptor",
@@ -2829,7 +2829,7 @@
             },
             {
               "name": "include_trace_header",
-              "description": "Whether to include the binary trace header in the streamed traces.",
+              "description": "[optional] Whether to include the binary trace header in the streamed traces. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -2841,7 +2841,7 @@
             },
             {
               "name": "trace_group_filter",
-              "description": "Select which traces to return within each ensemble. Only valid if the queried object is pre-stack.",
+              "description": "[optional] Which traces to return within each ensemble. Only valid if the queried object is pre-stack.",
               "label": "",
               "type": "SeismicTraceGroupExtent",
               "longType": "SeismicTraceGroupExtent",
@@ -2877,7 +2877,7 @@
             },
             {
               "name": "num_traces",
-              "description": "The number of traces returned",
+              "description": "The number of traces to be returned",
               "label": "",
               "type": "int32",
               "longType": "int32",
@@ -2949,7 +2949,7 @@
             },
             {
               "name": "cdp_trace_bounds",
-              "description": "Will be null for post-stack data",
+              "description": "Null for post-stack data",
               "label": "",
               "type": "LineDescriptor",
               "longType": "com.cognite.seismic.LineDescriptor",
@@ -3056,7 +3056,7 @@
             },
             {
               "name": "num_traces",
-              "description": "The number of traces returned",
+              "description": "The number of traces to be returned",
               "label": "",
               "type": "int32",
               "longType": "int32",
@@ -3108,7 +3108,7 @@
           "name": "VolumeRequest",
           "longName": "VolumeRequest",
           "fullName": "com.cognite.seismic.v1.VolumeRequest",
-          "description": "",
+          "description": "Deprecated**.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -3116,7 +3116,7 @@
           "fields": [
             {
               "name": "seismic",
-              "description": "",
+              "description": "The unique identifier for a seismic object.",
               "label": "",
               "type": "Identifier",
               "longType": "Identifier",
@@ -3128,7 +3128,7 @@
             },
             {
               "name": "seismic_store_id",
-              "description": "Need to be a data manager or tenant user, not 3rd party, to access by tracestore",
+              "description": "The unique ID for a seismic store. Requires ALL scope.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -3140,7 +3140,7 @@
             },
             {
               "name": "volume",
-              "description": "",
+              "description": "Retrieves traces by lines.",
               "label": "",
               "type": "LineBasedVolume",
               "longType": "LineBasedVolume",
@@ -3152,7 +3152,7 @@
             },
             {
               "name": "geometry",
-              "description": "",
+              "description": "Retrieves traces within a geometry.",
               "label": "",
               "type": "GeometryBasedVolume",
               "longType": "GeometryBasedVolume",
@@ -3164,7 +3164,7 @@
             },
             {
               "name": "include_trace_header",
-              "description": "",
+              "description": "[optional] Whether to include trace headers. Defaults to false.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -3210,7 +3210,7 @@
           "name": "Dimensions",
           "longName": "Dimensions",
           "fullName": "com.cognite.seismic.v1.Dimensions",
-          "description": "",
+          "description": "Used to specify dimensionality of a seismic object.",
           "values": [
             {
               "name": "UNSPECIFIED_DIMENSION",
@@ -3233,7 +3233,7 @@
           "name": "SeismicDataType",
           "longName": "SeismicDataType",
           "fullName": "com.cognite.seismic.v1.SeismicDataType",
-          "description": "",
+          "description": "The type of seismic data.",
           "values": [
             {
               "name": "UNSPECIFIED_DATA_TYPE",
@@ -3279,7 +3279,7 @@
           "name": "TraceHeaderField",
           "longName": "TraceHeaderField",
           "fullName": "com.cognite.seismic.v1.TraceHeaderField",
-          "description": "",
+          "description": "Enumeration of possible trace header fields used for indexing seismic objects.",
           "values": [
             {
               "name": "UNSPECIFIED_TRACE_HEADER_FIELD",
@@ -3289,37 +3289,37 @@
             {
               "name": "ENERGY_SOURCE_POINT",
               "number": "1",
-              "description": ""
+              "description": "Valid for 2d seismic objects. Corresponds to bytes 17-20 of standard trace header: energy source point number."
             },
             {
               "name": "CDP",
               "number": "2",
-              "description": ""
+              "description": "Valid for 2d seismic objects. Corresponds to bytes 21-24 of standard trace header: ensemble number."
             },
             {
               "name": "INLINE",
               "number": "3",
-              "description": ""
+              "description": "Valid for 3d seismic objects. Corresponds to bytes 189-192 of standard trace header: inline number."
             },
             {
               "name": "CROSSLINE",
               "number": "4",
-              "description": ""
+              "description": "Valid for 3d seismic objects. Corresponds to bytes 193-196 of standard trace header: crossline number."
             },
             {
               "name": "SHOTPOINT",
               "number": "5",
-              "description": ""
+              "description": "Valid for 2d seismic objects. Corresponds to bytes 197-202 of standard trace header: shotpoint number."
             },
             {
               "name": "CDP_TRACE",
               "number": "6",
-              "description": "bytes 25-28 of standard trace header: trace number within ensemble"
+              "description": "Valid for pre-stack seismic objects. Corresponds to bytes 25-28 of standard trace header: trace number within ensemble"
             },
             {
               "name": "OFFSET",
               "number": "7",
-              "description": "bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group."
+              "description": "Valid for pre-stack seismic objects. Corresponds to bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group."
             }
           ]
         }
@@ -3338,7 +3338,7 @@
           "fields": [
             {
               "name": "file_id",
-              "description": "DEPRECATED: This field will always be empty",
+              "description": "Deprecated**: This field will always be empty",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -3666,7 +3666,7 @@
           "name": "Coordinate",
           "longName": "Coordinate",
           "fullName": "com.cognite.seismic.v1.Coordinate",
-          "description": "",
+          "description": "Describes a coordinate pair in some coordinate system.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -3702,7 +3702,7 @@
           "name": "CoverageSpec",
           "longName": "CoverageSpec",
           "fullName": "com.cognite.seismic.v1.CoverageSpec",
-          "description": "",
+          "description": "Specifies how to return a coverage.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -3710,7 +3710,7 @@
           "fields": [
             {
               "name": "crs",
-              "description": "If crs is not specified (aka is blank), uses default crs from file",
+              "description": "[optional] Which CRS to return the coverage in. Defaults to the native CRS of the object.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -3722,7 +3722,7 @@
             },
             {
               "name": "format",
-              "description": "",
+              "description": "[optional] Which format to return the coverage as. Defaults to WKT.",
               "label": "",
               "type": "Format",
               "longType": "CoverageSpec.Format",
@@ -3746,7 +3746,7 @@
           "fields": [
             {
               "name": "key_value_exact_match",
-              "description": "",
+              "description": "Match on an exact key-value pair. Both the key and the value must exactly match.",
               "label": "",
               "type": "KeyValueExactMatch",
               "longType": "KeyValueExactMatch",
@@ -3798,7 +3798,7 @@
           "name": "Identifier",
           "longName": "Identifier",
           "fullName": "com.cognite.seismic.v1.Identifier",
-          "description": "Used to identify zero or one objects that may have an external id",
+          "description": "Used to identify zero or one objects by a unique id.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -3806,7 +3806,7 @@
           "fields": [
             {
               "name": "id",
-              "description": "",
+              "description": "Identifies an object by internal id.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -3818,7 +3818,7 @@
             },
             {
               "name": "external_id",
-              "description": "",
+              "description": "Identifies an object by external id.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -3834,7 +3834,7 @@
           "name": "KeyValueExactMatch",
           "longName": "KeyValueExactMatch",
           "fullName": "com.cognite.seismic.v1.KeyValueExactMatch",
-          "description": "Matches when the key AND value are exact matches.",
+          "description": "A key-value pair exact match filter",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -3842,7 +3842,7 @@
           "fields": [
             {
               "name": "key",
-              "description": "",
+              "description": "The key to match on.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -3870,7 +3870,7 @@
           "name": "LastModifiedFilter",
           "longName": "LastModifiedFilter",
           "fullName": "com.cognite.seismic.v1.LastModifiedFilter",
-          "description": "Specifies a last modified timestamp range to search.\nReturned objects will satisfy all arguments that are not null.",
+          "description": "The last modified timestamp range to search by.\nReturned objects will satisfy all specified arguments.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -3878,7 +3878,7 @@
           "fields": [
             {
               "name": "before",
-              "description": "All returned objects will have a last_modified before this timestamp.",
+              "description": "[optional] All returned objects will have a last_modified before this timestamp.",
               "label": "",
               "type": "Timestamp",
               "longType": "google.protobuf.Timestamp",
@@ -3890,7 +3890,7 @@
             },
             {
               "name": "after",
-              "description": "All returned objects will have a last_modified after this timestamp.",
+              "description": "[optional] All returned objects will have a last_modified after this timestamp.",
               "label": "",
               "type": "Timestamp",
               "longType": "google.protobuf.Timestamp",
@@ -3930,7 +3930,7 @@
           "name": "LineBasedVolume",
           "longName": "LineBasedVolume",
           "fullName": "com.cognite.seismic.v1.LineBasedVolume",
-          "description": "",
+          "description": "Describes a volume by line ranges.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -3938,7 +3938,7 @@
           "fields": [
             {
               "name": "iline",
-              "description": "",
+              "description": "[optional] The inline range. Defaults to the entire inline range, depending on context.",
               "label": "",
               "type": "LineDescriptor",
               "longType": "com.cognite.seismic.LineDescriptor",
@@ -3950,7 +3950,7 @@
             },
             {
               "name": "xline",
-              "description": "",
+              "description": "[optional] The crossline range. Defaults to the entire crossline range, depending on context.",
               "label": "",
               "type": "LineDescriptor",
               "longType": "com.cognite.seismic.LineDescriptor",
@@ -3962,7 +3962,7 @@
             },
             {
               "name": "z",
-              "description": "",
+              "description": "[optional] The depth range. Defaults to the entire depth range, depending on context.",
               "label": "",
               "type": "LineDescriptor",
               "longType": "com.cognite.seismic.LineDescriptor",
@@ -3978,7 +3978,7 @@
           "name": "LineRange",
           "longName": "LineRange",
           "fullName": "com.cognite.seismic.v1.LineRange",
-          "description": "",
+          "description": "Describe a line range.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -3986,7 +3986,7 @@
           "fields": [
             {
               "name": "inline",
-              "description": "",
+              "description": "[optional] The inline range. Defaults to the entire inline range, depending on context.",
               "label": "",
               "type": "LineDescriptor",
               "longType": "com.cognite.seismic.LineDescriptor",
@@ -3998,7 +3998,7 @@
             },
             {
               "name": "crossline",
-              "description": "",
+              "description": "[optional] The crossline range. Defaults to the entire crossline range, depending on context.",
               "label": "",
               "type": "LineDescriptor",
               "longType": "com.cognite.seismic.LineDescriptor",
@@ -4011,46 +4011,10 @@
           ]
         },
         {
-          "name": "LineSelect",
-          "longName": "LineSelect",
-          "fullName": "com.cognite.seismic.v1.LineSelect",
-          "description": "",
-          "hasExtensions": false,
-          "hasFields": true,
-          "hasOneofs": true,
-          "extensions": [],
-          "fields": [
-            {
-              "name": "iline",
-              "description": "",
-              "label": "",
-              "type": "int32",
-              "longType": "int32",
-              "fullType": "int32",
-              "ismap": false,
-              "isoneof": true,
-              "oneofdecl": "direction",
-              "defaultValue": ""
-            },
-            {
-              "name": "xline",
-              "description": "",
-              "label": "",
-              "type": "int32",
-              "longType": "int32",
-              "fullType": "int32",
-              "ismap": false,
-              "isoneof": true,
-              "oneofdecl": "direction",
-              "defaultValue": ""
-            }
-          ]
-        },
-        {
           "name": "MetadataFilter",
           "longName": "MetadataFilter",
           "fullName": "com.cognite.seismic.v1.MetadataFilter",
-          "description": "Specifying how to filter metadata. An object will be considered a match if it satisfies ALL filters.\nAll strings are case sensitive.",
+          "description": "Specifies a set of metadata filters. An object will be considered a match if it satisfies ALL filters.\nAll strings are case sensitive.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4058,7 +4022,7 @@
           "fields": [
             {
               "name": "filters",
-              "description": "",
+              "description": "The list of metadata filters.",
               "label": "repeated",
               "type": "Filter",
               "longType": "Filter",
@@ -4074,7 +4038,7 @@
           "name": "MinorLines",
           "longName": "MinorLines",
           "fullName": "com.cognite.seismic.v1.MinorLines",
-          "description": "",
+          "description": "A set of points, described as one or more line descriptors.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4098,7 +4062,7 @@
           "name": "OptionalMap",
           "longName": "OptionalMap",
           "fullName": "com.cognite.seismic.v1.OptionalMap",
-          "description": "Used in edit messages to distinguish between an empty map, and a missing map",
+          "description": "Used in edit messages to distinguish between an empty map and a missing map.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4106,7 +4070,7 @@
           "fields": [
             {
               "name": "data",
-              "description": "",
+              "description": "The contents of the map.",
               "label": "repeated",
               "type": "DataEntry",
               "longType": "OptionalMap.DataEntry",
@@ -4166,7 +4130,7 @@
           "fields": [
             {
               "name": "id",
-              "description": "The unique internal id for this partition",
+              "description": "The unique internal id for this partition.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -4190,7 +4154,7 @@
             },
             {
               "name": "name",
-              "description": "The human-friendly name for this partition",
+              "description": "A short description of this partition",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -4202,7 +4166,7 @@
             },
             {
               "name": "seismics",
-              "description": "DEPRECATED: This field will always be empty. Use seismic search by partition instead.",
+              "description": "Deprecated**: This field will always be empty. Use seismic search by partition instead.",
               "label": "repeated",
               "type": "Seismic",
               "longType": "Seismic",
@@ -4214,7 +4178,7 @@
             },
             {
               "name": "seismic_ids",
-              "description": "The list of ids of seismics that belong to this partition",
+              "description": "If specified, the list of ids of seismics that belong to this partition.",
               "label": "repeated",
               "type": "int64",
               "longType": "int64",
@@ -4242,7 +4206,7 @@
           "name": "SearchSpec",
           "longName": "SearchSpec",
           "fullName": "com.cognite.seismic.v1.SearchSpec",
-          "description": "Used to identify any number of objects, intended for any plural Read* endpoints. Set* endpoints should use Identifier.\n\nCan search by id, name, or prefix.",
+          "description": "Used to identify any number of objects, intended for plural Read or Search-type endpoints.\n\nCan search by id, name, or prefix.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -4250,7 +4214,7 @@
           "fields": [
             {
               "name": "id",
-              "description": "",
+              "description": "Searches by integer id.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -4262,7 +4226,7 @@
             },
             {
               "name": "id_string",
-              "description": "Surveys and files must have string format ids. Other objects can't use this.",
+              "description": "Searches surveys and files by string-format uuid. This is not a valid way to search other objects.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -4274,7 +4238,7 @@
             },
             {
               "name": "external_id",
-              "description": "External ids only exist for partitions and seismics.\n\nExact match required",
+              "description": "Searches seismics and seismic stores by an exact match of external id.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -4286,7 +4250,7 @@
             },
             {
               "name": "external_id_substring",
-              "description": "",
+              "description": "Searches seismics and seismic stores by a substring match of external id.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -4298,7 +4262,7 @@
             },
             {
               "name": "name",
-              "description": "Names exist for everything\n\nAn exact string match is required",
+              "description": "Searchs any object by an exact match of name.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -4310,7 +4274,7 @@
             },
             {
               "name": "name_substring",
-              "description": "Searches for names having this substring.",
+              "description": "Searches any object by a substring match of name.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -4322,7 +4286,7 @@
             },
             {
               "name": "metadata",
-              "description": "Filters by metadata. Currently only supported by Surveys.",
+              "description": "Searches surveys by metadata.",
               "label": "",
               "type": "MetadataFilter",
               "longType": "MetadataFilter",
@@ -4334,7 +4298,7 @@
             },
             {
               "name": "geometry",
-              "description": "Filters by intersection with a geometry. Currently only supported by Surveys.",
+              "description": "Searches surveys by intersection with geometry.",
               "label": "",
               "type": "Geometry",
               "longType": "com.cognite.seismic.Geometry",
@@ -4358,7 +4322,7 @@
           "fields": [
             {
               "name": "inline_offset",
-              "description": "Position of the inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification",
+              "description": "[optional] Position of the inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4370,7 +4334,7 @@
             },
             {
               "name": "crossline_offset",
-              "description": "Position of the crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification",
+              "description": "[optional] Position of the crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4382,7 +4346,7 @@
             },
             {
               "name": "cdp_x_offset",
-              "description": "Position of the X coordinate of ensemble (CDP) in trace headers. Defaults to 181 as per the SEG-Y rev1 specification",
+              "description": "[optional] Position of the X coordinate of ensemble (CDP) in trace headers. Defaults to 181 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4394,7 +4358,7 @@
             },
             {
               "name": "cdp_y_offset",
-              "description": "Position of the Y coordinate of ensemble (CDP) in trace headers. Defaults to 185 as per the SEG-Y rev1 specification",
+              "description": "[optional] Position of the Y coordinate of ensemble (CDP) in trace headers. Defaults to 185 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4406,7 +4370,7 @@
             },
             {
               "name": "cdp_number_offset",
-              "description": "Position of the ensemble (CDP) number in trace headers. Defaults to 21 as per the SEG-Y rev1 specification",
+              "description": "[optional] Position of the ensemble (CDP) number in trace headers. Defaults to 21 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4418,7 +4382,7 @@
             },
             {
               "name": "energy_source_point_offset",
-              "description": "Position of the energy source point in trace headers. Defaults to 17 as per the SEG-Y rev1 specification",
+              "description": "[optional] Position of the energy source point in trace headers. Defaults to 17 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4430,7 +4394,7 @@
             },
             {
               "name": "shotpoint_offset",
-              "description": "Position of the shotpoint field in trace headers. Defaults to 197 as per the SEG-Y rev1 specification",
+              "description": "[optional] Position of the shotpoint field in trace headers. Defaults to 197 as per the SEG-Y rev1 specification",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4442,7 +4406,7 @@
             },
             {
               "name": "cdp_trace_offset",
-              "description": "Position of the trace number within ensemble. Defaults to 21 as per the SEG-Y rev1 specification.",
+              "description": "[optional] Position of the trace number within ensemble. Defaults to 21 as per the SEG-Y rev1 specification.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4454,7 +4418,7 @@
             },
             {
               "name": "offset_header_offset",
-              "description": "Position of the 'offset' field in the trace header. Defaults to 37 as per the SEG-Y rev1 specification.",
+              "description": "[optional] Position of the 'offset' field in the trace header. Defaults to 37 as per the SEG-Y rev1 specification.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -4466,7 +4430,7 @@
             },
             {
               "name": "source_group_scalar_override",
-              "description": "[optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header.\nNote that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header\nfield in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100.\nNegative values and values greater than 1 are not permitted.\nTo remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN.\nThe next ingestion processing of a file will then use the source group scalar values found in trace headers.",
+              "description": "[optional] Multiplier for CDP-X and CDP-Y values that overrides the scalar factor obtained from the trace header.\nNote that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not\ninterpreted in the way that the \"source group scalar trace header field\" in the SEG-Y specification is.\nIn other words, to divide by 100 you must specify 0.01, not -100. Negative values and values greater than 1 are not permitted.\nTo remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN.\nThe next ingestion process for that file will then use the source group scalar values found in trace headers.",
               "label": "",
               "type": "FloatValue",
               "longType": "google.protobuf.FloatValue",
@@ -4490,7 +4454,7 @@
           "fields": [
             {
               "name": "id",
-              "description": "The unique internal id of the seismic. It is always present",
+              "description": "The unique internal id of the seismic. It is always present.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -4574,7 +4538,7 @@
             },
             {
               "name": "line_range",
-              "description": "Deprecated: Use the GetTraceBounds API call instead",
+              "description": "Deprecated**: Use the GetTraceBounds API call instead.",
               "label": "",
               "type": "LineRange",
               "longType": "LineRange",
@@ -4586,7 +4550,7 @@
             },
             {
               "name": "volume_def",
-              "description": "The VolumeDef describing the seismic",
+              "description": "Deprecated**: The VolumeDef describing the seismic. Use extents instead.",
               "label": "",
               "type": "VolumeDef",
               "longType": "VolumeDef",
@@ -4598,7 +4562,7 @@
             },
             {
               "name": "cutout",
-              "description": "The cutout the seismic object was created with",
+              "description": "The cutout the seismic object was created with.",
               "label": "",
               "type": "SeismicCutout",
               "longType": "SeismicCutout",
@@ -4610,7 +4574,7 @@
             },
             {
               "name": "extent",
-              "description": "A description of the traces contained in the seismic",
+              "description": "A description of the traces contained in the seismic.",
               "label": "",
               "type": "SeismicExtent",
               "longType": "SeismicExtent",
@@ -4622,7 +4586,7 @@
             },
             {
               "name": "partition_id",
-              "description": "The id of the partition the seismic belongs to",
+              "description": "The id of the partition the seismic belongs to.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -4634,7 +4598,7 @@
             },
             {
               "name": "seismicstore_id",
-              "description": "The id of the seismicstore the seismic is derived from. It is present only if agent has READ access and ALL scope",
+              "description": "The id of the seismicstore the seismic is derived from. It is present only if you have READ access and ALL scope.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -4658,7 +4622,7 @@
             },
             {
               "name": "created_empty",
-              "description": "If true, this seismic was created empty (deprecated)",
+              "description": "Deprecated**. Whether this seismic was created empty. Use the `cutout` field instead.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -4670,7 +4634,7 @@
             },
             {
               "name": "trace_count",
-              "description": "Provides an estimate of the number of traces contained within the seismic.",
+              "description": "An estimate of the number of traces contained within the seismic.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -4770,7 +4734,7 @@
           "name": "Seismic2dExtent",
           "longName": "Seismic2dExtent",
           "fullName": "com.cognite.seismic.v1.Seismic2dExtent",
-          "description": "",
+          "description": "Describes the extent of a 2d seismic object.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4842,7 +4806,7 @@
           "name": "Seismic3dDef",
           "longName": "Seismic3dDef",
           "fullName": "com.cognite.seismic.v1.Seismic3dDef",
-          "description": "",
+          "description": "A enumeration of inline/crossline coordinates.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4850,7 +4814,7 @@
           "fields": [
             {
               "name": "major_header",
-              "description": "Must be inline or crossline",
+              "description": "Whether `inline` or `crossline` is the first coordinate.",
               "label": "",
               "type": "TraceHeaderField",
               "longType": "TraceHeaderField",
@@ -4862,7 +4826,7 @@
             },
             {
               "name": "minor_header",
-              "description": "Must be inline or crossline, and different from major_header",
+              "description": "Whether `inline` or `crossline` is the second coordinate. Must be different to `major_header`.",
               "label": "",
               "type": "TraceHeaderField",
               "longType": "TraceHeaderField",
@@ -4874,7 +4838,7 @@
             },
             {
               "name": "lines",
-              "description": "",
+              "description": "The set of included coordinates. The key is `major_header` and values are `minor_header`.",
               "label": "repeated",
               "type": "LinesEntry",
               "longType": "Seismic3dDef.LinesEntry",
@@ -4926,7 +4890,7 @@
           "name": "Seismic3dExtent",
           "longName": "Seismic3dExtent",
           "fullName": "com.cognite.seismic.v1.Seismic3dExtent",
-          "description": "",
+          "description": "Describes the extent of a 3d seismic object.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -4934,7 +4898,7 @@
           "fields": [
             {
               "name": "rects",
-              "description": "",
+              "description": "An extent described as a set of rectangles.",
               "label": "",
               "type": "Seismic3dRects",
               "longType": "Seismic3dRects",
@@ -4946,7 +4910,7 @@
             },
             {
               "name": "def",
-              "description": "",
+              "description": "An extent described by an enumeration of inline/crossline pairs.",
               "label": "",
               "type": "Seismic3dDef",
               "longType": "Seismic3dDef",
@@ -4962,7 +4926,7 @@
           "name": "Seismic3dRect",
           "longName": "Seismic3dRect",
           "fullName": "com.cognite.seismic.v1.Seismic3dRect",
-          "description": "",
+          "description": "A single rectangle described by a stepped inline and crossline.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4998,7 +4962,7 @@
           "name": "Seismic3dRects",
           "longName": "Seismic3dRects",
           "fullName": "com.cognite.seismic.v1.Seismic3dRects",
-          "description": "",
+          "description": "A set of rectangles, the union of which describes the extent.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -5006,7 +4970,7 @@
           "fields": [
             {
               "name": "rects",
-              "description": "",
+              "description": "The rectangles that compose the extent.",
               "label": "repeated",
               "type": "Seismic3dRect",
               "longType": "Seismic3dRect",
@@ -5022,7 +4986,7 @@
           "name": "SeismicCutout",
           "longName": "SeismicCutout",
           "fullName": "com.cognite.seismic.v1.SeismicCutout",
-          "description": "",
+          "description": "Describes a cutout for a seismic.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -5030,7 +4994,7 @@
           "fields": [
             {
               "name": "two_dee_extent",
-              "description": "Indicates that the seismic was requested with this 2D extent",
+              "description": "Indicates that the seismic was created with this 2D extent.",
               "label": "",
               "type": "Seismic2dExtent",
               "longType": "Seismic2dExtent",
@@ -5042,7 +5006,7 @@
             },
             {
               "name": "three_dee_extent",
-              "description": "Indicates that the seismic was requested with this 3D extent (or an equivalent VolumeDef)",
+              "description": "Indicates that the seismic was created with this 3D extent (or an equivalent VolumeDef).",
               "label": "",
               "type": "Seismic3dExtent",
               "longType": "Seismic3dExtent",
@@ -5054,7 +5018,7 @@
             },
             {
               "name": "geometry",
-              "description": "Indicates that the seismic was requested with this geometry",
+              "description": "Indicates that the seismic was created with this geometry.",
               "label": "",
               "type": "Geometry",
               "longType": "com.cognite.seismic.Geometry",
@@ -5066,7 +5030,7 @@
             },
             {
               "name": "empty",
-              "description": "Indicates that the seismic was created empty",
+              "description": "Indicates that the seismic was created empty.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -5078,7 +5042,7 @@
             },
             {
               "name": "full",
-              "description": "Indicates that the seismic was created to cover the entire seismicstore",
+              "description": "Indicates that the seismic was created to cover the entire seismicstore.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -5094,7 +5058,7 @@
           "name": "SeismicExtent",
           "longName": "SeismicExtent",
           "fullName": "com.cognite.seismic.v1.SeismicExtent",
-          "description": "",
+          "description": "Describes the extent of a seismic object.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -5102,7 +5066,7 @@
           "fields": [
             {
               "name": "two_dee_extent",
-              "description": "",
+              "description": "A two dimensional extent.",
               "label": "",
               "type": "Seismic2dExtent",
               "longType": "Seismic2dExtent",
@@ -5114,7 +5078,7 @@
             },
             {
               "name": "three_dee_extent",
-              "description": "",
+              "description": "A three dimensional extent.",
               "label": "",
               "type": "Seismic3dExtent",
               "longType": "Seismic3dExtent",
@@ -5150,7 +5114,7 @@
             },
             {
               "name": "name",
-              "description": "The unique name of the seismic store. Will become non-unique in the future, and `external_id` will become the unique identifier.",
+              "description": "The unique name of the seismic store. This will become non-unique in the future, and `external_id` will be the only unique string-based identifier for seismic stores.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -5162,7 +5126,7 @@
             },
             {
               "name": "survey_id",
-              "description": "The survey this seismic store belongs to, in the old uuid format.",
+              "description": "The uuid of the survey this seismic store belongs to.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -5174,7 +5138,7 @@
             },
             {
               "name": "survey_id_int",
-              "description": "The survey this seismic store belongs to.",
+              "description": "The integer id of the survey this seismic store belongs to.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -5198,7 +5162,7 @@
             },
             {
               "name": "metadata",
-              "description": "Any custom-defined metadata",
+              "description": "Custom-defined metadata.",
               "label": "repeated",
               "type": "MetadataEntry",
               "longType": "SeismicStore.MetadataEntry",
@@ -5210,7 +5174,7 @@
             },
             {
               "name": "ingested_file",
-              "description": "Same as `ingested_source_file`. This field is deprecated and will be removed in the future.",
+              "description": "Deprecated**. Same as `ingested_source_file`.",
               "label": "",
               "type": "File",
               "longType": "com.cognite.seismic.File",
@@ -5234,7 +5198,7 @@
             },
             {
               "name": "inline_volume_def",
-              "description": "Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines.",
+              "description": "Deprecated**: Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines. Use extents instead.",
               "label": "",
               "type": "VolumeDef",
               "longType": "VolumeDef",
@@ -5246,7 +5210,7 @@
             },
             {
               "name": "crossline_volume_def",
-              "description": "Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines",
+              "description": "Deprecated**: Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines. Use extents instead.",
               "label": "",
               "type": "VolumeDef",
               "longType": "VolumeDef",
@@ -5270,7 +5234,7 @@
             },
             {
               "name": "text_header",
-              "description": "If present, the text header for this seismic store",
+              "description": "If present, the text header for this seismic store.",
               "label": "",
               "type": "TextHeader",
               "longType": "TextHeader",
@@ -5282,7 +5246,7 @@
             },
             {
               "name": "binary_header",
-              "description": "If present, the binary header for this seismic store",
+              "description": "If present, the binary header for this seismic store.",
               "label": "",
               "type": "BinaryHeader",
               "longType": "BinaryHeader",
@@ -5306,7 +5270,7 @@
             },
             {
               "name": "coverage",
-              "description": "If present, the coverage geometry for this seismic store",
+              "description": "If present, the coverage geometry for this seismic store.",
               "label": "",
               "type": "Geometry",
               "longType": "com.cognite.seismic.Geometry",
@@ -5330,7 +5294,7 @@
             },
             {
               "name": "dimensions",
-              "description": "The underlying file's data dimensionality, either 2D or 3D",
+              "description": "The underlying file's data dimensionality, either 2D or 3D.",
               "label": "",
               "type": "Dimensions",
               "longType": "Dimensions",
@@ -5342,7 +5306,7 @@
             },
             {
               "name": "crs",
-              "description": "The coordinate reference system used by this seismicstore",
+              "description": "The coordinate reference system used by this seismicstore.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -5478,7 +5442,7 @@
           "name": "SourceSegyFile",
           "longName": "SourceSegyFile",
           "fullName": "com.cognite.seismic.v1.SourceSegyFile",
-          "description": "File or dataset or cube derived from a single SEG-Y file",
+          "description": "Metadata about a SEG-Y file registered for ingestion.\nTrace data for the file after ingestion is available via the corresponding seismic store object.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -5486,7 +5450,7 @@
           "fields": [
             {
               "name": "uuid",
-              "description": "",
+              "description": "A unique string id.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -5498,7 +5462,7 @@
             },
             {
               "name": "id",
-              "description": "",
+              "description": "A unique numerical id.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -5510,7 +5474,7 @@
             },
             {
               "name": "external_id",
-              "description": "",
+              "description": "A unique external id.",
               "label": "",
               "type": "ExternalId",
               "longType": "com.cognite.seismic.ExternalId",
@@ -5534,7 +5498,7 @@
             },
             {
               "name": "cloud_storage_path",
-              "description": "Cloud storage path including protocol, bucket, directory structure, and file name. Usually in format gs://path/to/file/some_name.sgy",
+              "description": "The cloud storage path including protocol, bucket, directory structure, and file name. Usually in format gs://path/to/file/some_name.sgy",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -5546,7 +5510,7 @@
             },
             {
               "name": "metadata",
-              "description": "",
+              "description": "Associated key-value metadata.",
               "label": "repeated",
               "type": "MetadataEntry",
               "longType": "SourceSegyFile.MetadataEntry",
@@ -5558,7 +5522,7 @@
             },
             {
               "name": "segy_overrides",
-              "description": "",
+              "description": "Overrides for various Seg-Y options.",
               "label": "",
               "type": "SegyOverrides",
               "longType": "SegyOverrides",
@@ -5690,7 +5654,7 @@
           "fields": [
             {
               "name": "id",
-              "description": "Unique identifier for the survey in CDF. The identifier is generated by CDF on creation and not editable.",
+              "description": "The unique uuid for the survey in CDF. The identifier is generated by CDF on creation and not editable.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -5702,7 +5666,7 @@
             },
             {
               "name": "id_int",
-              "description": "The integer unique ID for the survey. This ID should be used for V1 survey operations.",
+              "description": "The unique integer ID for the survey. This ID should be used for V1 survey operations.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -5714,7 +5678,7 @@
             },
             {
               "name": "name",
-              "description": "Survey name: Should be a short but recognizable name for the survey. Must be unique within a single CDF tenant, and may be used to refer to the survey in API calls.\n\nSurvey name",
+              "description": "Survey name: Should be a short but recognizable name for the survey. Must be unique within a single CDF tenant, and may be used to refer to the survey in API calls.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -5762,7 +5726,7 @@
             },
             {
               "name": "grid_transformation",
-              "description": "Manually specify an affine transformation between bin grid coordinates and projected crs coordinates, either using an origin point and the azimuth of the xline axis (P6Transformation) \nor by specifying three or more corners of the grid as a list of DoubleTraceCoordinates. This transformation must be valid for all members of this survey.",
+              "description": "A manually specified affine transformation between bin grid coordinates and projected crs coordinates, either using an origin point and the azimuth of the xline axis (P6Transformation),\nor by specifying three or more corners of the grid as a list of DoubleTraceCoordinates. This transformation must be valid for all members of this survey.",
               "label": "",
               "type": "SurveyGridTransformation",
               "longType": "com.cognite.seismic.SurveyGridTransformation",
@@ -5774,7 +5738,7 @@
             },
             {
               "name": "custom_coverage",
-              "description": "User-provided coverage override",
+              "description": "A user-provided coverage override",
               "label": "",
               "type": "CustomSurveyCoverage",
               "longType": "com.cognite.seismic.CustomSurveyCoverage",
@@ -5846,7 +5810,7 @@
           "fields": [
             {
               "name": "file_id",
-              "description": "DEPRECATED: This field will always be empty",
+              "description": "Deprecated**: This field will always be empty",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -5934,7 +5898,7 @@
           "name": "VolumeDef",
           "longName": "VolumeDef",
           "fullName": "com.cognite.seismic.v1.VolumeDef",
-          "description": "VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.\n\nThe grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line. \nFor example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.\n\nFor more information refer to \u003ca href=\"https://cognite-seismic-sdk.readthedocs-hosted.com/en/latest/volumedef.html#volumedef-overview\"\u003ethe SDK docs\u003c/a\u003e.",
+          "description": "Deprecated**: VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.\n\nThe grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line. \nFor example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.\n\nFor more information refer to \u003ca href=\"https://cognite-seismic-sdk.readthedocs-hosted.com/en/latest/volumedef.html#volumedef-overview\"\u003ethe SDK docs\u003c/a\u003e.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -5970,7 +5934,7 @@
           "name": "FileStep",
           "longName": "FileStep",
           "fullName": "com.cognite.seismic.FileStep",
-          "description": "",
+          "description": "Deprecated**.",
           "values": [
             {
               "name": "REGISTER",
@@ -6087,32 +6051,32 @@
             {
               "name": "NONE",
               "number": "0",
-              "description": ""
+              "description": "Default value for the enum."
             },
             {
               "name": "QUEUED",
               "number": "1",
-              "description": ""
+              "description": "The job is in the queue but has not been worked on."
             },
             {
               "name": "IN_PROGRESS",
               "number": "2",
-              "description": ""
+              "description": "The job is being processed."
             },
             {
               "name": "SUCCESS",
               "number": "3",
-              "description": ""
+              "description": "The job has terminated correctly."
             },
             {
               "name": "FAILED",
               "number": "4",
-              "description": ""
+              "description": "The job has failed."
             },
             {
               "name": "TIMEOUT",
               "number": "5",
-              "description": ""
+              "description": "The job took too long and has timed out. No more work will be done on the job."
             }
           ]
         }
@@ -6131,7 +6095,7 @@
           "fields": [
             {
               "name": "crs",
-              "description": "",
+              "description": "A coordinate reference system specified as a full EPSG code, for example \"EPSG:4326\".",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -6147,7 +6111,7 @@
           "name": "Coordinate",
           "longName": "Coordinate",
           "fullName": "com.cognite.seismic.Coordinate",
-          "description": "Basic type representing (x,y) coordinate in the given CRS",
+          "description": "Basic type representing (x,y) coordinate in the given coordinate reference system (CRS).",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -6155,7 +6119,7 @@
           "fields": [
             {
               "name": "crs",
-              "description": "The Coordinate Reference System of the coordinate. Generally should be an EPSG code including the EPSG: prefix, for example `EPSG:23031`",
+              "description": "The CRS of the coordinate. Must be a full EPSG code, for example `EPSG:23031`.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -6195,7 +6159,7 @@
           "name": "CoverageParameters",
           "longName": "CoverageParameters",
           "fullName": "com.cognite.seismic.CoverageParameters",
-          "description": "Parameters for requesting coverage of survey",
+          "description": "Deprecated**: use [`CoverageSpec`](#coveragespec) instead. Parameters for requesting coverage of survey",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -6215,7 +6179,7 @@
             },
             {
               "name": "in_wkt",
-              "description": "set this to true to return in WKT format. Otherwise, response will be in geojson format by default",
+              "description": "[optional] Whether to use WKT format in the response. Defaults to false, returning GeoJSON.",
               "label": "",
               "type": "bool",
               "longType": "bool",
@@ -6231,7 +6195,7 @@
           "name": "CustomSurveyCoverage",
           "longName": "CustomSurveyCoverage",
           "fullName": "com.cognite.seismic.CustomSurveyCoverage",
-          "description": "Customer-provided custom coverage for surveys",
+          "description": "Customer-provided custom coverage for surveys.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -6251,7 +6215,7 @@
             },
             {
               "name": "no_custom_coverage",
-              "description": "Specifies that no custom coverage is provided, so survey coverage\nis computed from the seismicstores in the survey",
+              "description": "No custom coverage is provided. Survey coverage\nwill be computed from the seismicstores contained in the survey.",
               "label": "",
               "type": "NoCustomCoverage",
               "longType": "CustomSurveyCoverage.NoCustomCoverage",
@@ -6349,7 +6313,7 @@
           "name": "ExternalId",
           "longName": "ExternalId",
           "fullName": "com.cognite.seismic.ExternalId",
-          "description": "",
+          "description": "An external ID.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -6373,7 +6337,7 @@
           "name": "File",
           "longName": "File",
           "fullName": "com.cognite.seismic.File",
-          "description": "File or dataset or cube derived from a single SEG-Y file",
+          "description": "Deprecated**. File or dataset or cube derived from a single SEG-Y file",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -6513,7 +6477,7 @@
           "fields": [
             {
               "name": "crs",
-              "description": "required",
+              "description": "[required] The CRS of the geometry.",
               "label": "",
               "type": "CRS",
               "longType": "CRS",
@@ -6525,7 +6489,7 @@
             },
             {
               "name": "wkt",
-              "description": "",
+              "description": "A wkt format geometry.",
               "label": "",
               "type": "Wkt",
               "longType": "Wkt",
@@ -6537,7 +6501,7 @@
             },
             {
               "name": "geo",
-              "description": "",
+              "description": "A GeoJSON format geometry.",
               "label": "",
               "type": "GeoJson",
               "longType": "GeoJson",
@@ -6553,7 +6517,7 @@
           "name": "Identifier",
           "longName": "Identifier",
           "fullName": "com.cognite.seismic.Identifier",
-          "description": "Specify either id or name to find a file or survey.",
+          "description": "Deprecated**. Specify either id or name to find a file or survey.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -6589,7 +6553,7 @@
           "name": "LineBasedRectangle",
           "longName": "LineBasedRectangle",
           "fullName": "com.cognite.seismic.LineBasedRectangle",
-          "description": "Range of inline and crossline indices defining a 2D region",
+          "description": "Deprecated**. Range of inline and crossline indices defining a 2D region",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -6625,7 +6589,7 @@
           "name": "LineDescriptor",
           "longName": "LineDescriptor",
           "fullName": "com.cognite.seismic.LineDescriptor",
-          "description": "",
+          "description": "Describes a series of points.\nThe first point is `min`, the next point is `min+step`, the point after that is `min+step*2`, and so on.\nNone of the points will be greater than `max`.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -6633,7 +6597,7 @@
           "fields": [
             {
               "name": "min",
-              "description": "",
+              "description": "[optional] The first element of the line. Defaults to the minimum value, depending on context.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -6645,7 +6609,7 @@
             },
             {
               "name": "max",
-              "description": "",
+              "description": "[optional] The maximum value of a point on the line. Defaults to the maximum value, depending on context.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -6657,7 +6621,7 @@
             },
             {
               "name": "step",
-              "description": "",
+              "description": "[optional] The 'step' of the line. Defaults to 1.",
               "label": "",
               "type": "Int32Value",
               "longType": "google.protobuf.Int32Value",
@@ -6709,7 +6673,7 @@
           "name": "LineSelect",
           "longName": "LineSelect",
           "fullName": "com.cognite.seismic.LineSelect",
-          "description": "Specify either inline OR crossline",
+          "description": "Deprecated**. Specifies an inline or a crossline",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": true,
@@ -6841,7 +6805,7 @@
           "name": "PositionQuery",
           "longName": "PositionQuery",
           "fullName": "com.cognite.seismic.PositionQuery",
-          "description": "Point defined by its inline and crossline indices",
+          "description": "Deprecated**. Point defined by its inline and crossline indices",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -6877,7 +6841,7 @@
           "name": "Project",
           "longName": "Project",
           "fullName": "com.cognite.seismic.Project",
-          "description": "",
+          "description": "Deprecated**.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -6913,7 +6877,7 @@
           "name": "SlabTrace",
           "longName": "SlabTrace",
           "fullName": "com.cognite.seismic.SlabTrace",
-          "description": "Wrapper over Trace type that additionally provide information about the range of z values\nincluded in the trace.",
+          "description": "Deprecated**. Wrapper over Trace type that additionally provide information about the range of z values\nincluded in the trace.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -6961,7 +6925,7 @@
           "name": "SurfacePoint",
           "longName": "SurfacePoint",
           "fullName": "com.cognite.seismic.SurfacePoint",
-          "description": "Basic type to represent a point in a surface defined by a horizontal grid\nUsed in horizontal slice queries",
+          "description": "Deprecated**. Basic type to represent a point in a surface defined by a horizontal grid\nUsed in horizontal slice queries",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -7009,7 +6973,7 @@
           "name": "Survey",
           "longName": "Survey",
           "fullName": "com.cognite.seismic.Survey",
-          "description": "A survey represents a collection of files in the same area",
+          "description": "Deprecated**. A survey represents a collection of files in the same area",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
