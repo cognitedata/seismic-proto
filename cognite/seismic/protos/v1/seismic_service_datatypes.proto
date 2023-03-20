@@ -41,7 +41,8 @@ enum SeismicDataType {
     PRESTACK_DEPTH_MIGRATED = 2;
 }
 
-// A file, dataset, or cube derived from a single SEG-Y file
+// Metadata about a SEG-Y file registered for ingestion.
+// Trace data for the file after ingestion is available via the corresponding seismic store object.
 message SourceSegyFile {
     string uuid = 1; // A unique string id.
     int64 id = 2;    // A unique numerical id.

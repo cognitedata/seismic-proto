@@ -27,7 +27,7 @@ service SeismicAPI {
      * Lists all surveys accessible to the client.
      * You can also choose to receive a list of Seismic and SeismicStore object ids associated with the surveys.
      *
-     * The returned filters can also be limited to those that satisfy one or both of these criteria:
+     * The returned surveys can also be limited to those that satisfy one or both of these criteria:
      *   - Coverage polygon of files in the survey are within an area delimited by a specified polygon.
      *   - Filters on metadata of both the survey and the file.
      */
@@ -35,13 +35,13 @@ service SeismicAPI {
 
     /**
      * Modifies the metadata for a survey.
+     *
+     * The survey crs and grid transformation can only be modified if there are no ingested seismic stores in the survey.
      */
     rpc EditSurvey (EditSurveyRequest) returns (Survey) {}
 
     /**
      * Deletes a specified survey. Must have Seismic:ALL scope and Write capability.
-     *
-     * A Survey can be specified by using the "name" field as the "external_id".
      */
     rpc DeleteSurvey(DeleteSurveyRequest) returns (DeleteSurveyResponse) {}
 
@@ -88,7 +88,7 @@ service SeismicAPI {
 
     /**
      * Edits the specified seismic. Seismic object names and metadata can be changed.
-     * Other properties such as the cutout, owning partition, or source seismic store can't be changed..
+     * Other properties such as the cutout, owning partition, or source seismic store can't be changed.
      * The seismic object must be deleted and recreated in order to modify these immutable properties.
      */
     rpc EditSeismic (EditSeismicRequest) returns (Seismic) {}
@@ -110,7 +110,7 @@ service SeismicAPI {
     rpc InspectIngestion (InspectIngestionRequest) returns (InspectIngestionResponse) {}
 
     /**
-     * Sets the name of a seismic store object.
+     * Sets the name or metadata of a seismic store object.
      **/
     rpc EditSeismicStore (EditSeismicStoreRequest) returns (SeismicStore) {}
 
