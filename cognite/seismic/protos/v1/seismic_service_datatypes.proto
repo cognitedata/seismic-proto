@@ -333,11 +333,11 @@ enum Dimensions {
 // Enumeration of possible trace header fields used for indexing seismic objects.
 enum TraceHeaderField {
     UNSPECIFIED_TRACE_HEADER_FIELD = 0;
-    ENERGY_SOURCE_POINT = 1; // Valid for 2d seismic objects
-    CDP = 2;                 // Valid for 2d seismic objects
-    INLINE = 3;              // Valid for 3d seismic objects
-    CROSSLINE = 4;           // Valid for 3d seismic objects
-    SHOTPOINT = 5;           // Valid for 2d seismic objects
+    ENERGY_SOURCE_POINT = 1; // Valid for 2d seismic objects. Corresponds to bytes 17-20 of standard trace header: energy source point number.                           
+    CDP = 2;                 // Valid for 2d seismic objects. Corresponds to bytes 21-24 of standard trace header: ensemble number.
+    INLINE = 3;              // Valid for 3d seismic objects. Corresponds to bytes 189-192 of standard trace header: inline number.
+    CROSSLINE = 4;           // Valid for 3d seismic objects. Corresponds to bytes 193-196 of standard trace header: crossline number.
+    SHOTPOINT = 5;           // Valid for 2d seismic objects. Corresponds to bytes 197-202 of standard trace header: shotpoint number.
     CDP_TRACE = 6;           // Valid for pre-stack seismic objects. Corresponds to bytes 25-28 of standard trace header: trace number within ensemble
     OFFSET = 7;              // Valid for pre-stack seismic objects. Corresponds to bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group.
 }
