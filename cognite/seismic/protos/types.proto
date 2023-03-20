@@ -100,7 +100,7 @@ message Trace {
 }
 
 /**
-    Wrapper over Trace type that additionally provide information about the range of z values
+    **Deprecated**. Wrapper over Trace type that additionally provide information about the range of z values
     included in the trace.
  **/
  message SlabTrace {
@@ -110,7 +110,7 @@ message Trace {
 }
 
 /**
-    Basic type to represent a point in a surface defined by a horizontal grid
+    **Deprecated**. Basic type to represent a point in a surface defined by a horizontal grid
     Used in horizontal slice queries
  **/
 message SurfacePoint {
@@ -163,15 +163,15 @@ message ExternalId {
 }
 
 // Describes a series of points.
-// The first point is `min``, the next point is `min+step`, the point after that is `min+step*2``, and so on.
+// The first point is `min`, the next point is `min+step`, the point after that is `min+step*2`, and so on.
 // None of the points will be greater than `max`.
 message LineDescriptor {
-    google.protobuf.Int32Value min = 1;  // [required] The first element of the line.
-    google.protobuf.Int32Value max = 2;  // [required] The maximum value of a point on the line
-    google.protobuf.Int32Value step = 3; // [optional] The 'step' of the line.
+    google.protobuf.Int32Value min = 1;  // [optional] The first element of the line. Defaults to the minimum value, depending on context.
+    google.protobuf.Int32Value max = 2;  // [optional] The maximum value of a point on the line. Defaults to the maximum value, depending on context.
+    google.protobuf.Int32Value step = 3; // [optional] The 'step' of the line. Defaults to 1.
 }
 
-// Specifies an inline or a crossline
+// **Deprecated**. Specifies an inline or a crossline
 message LineSelect {
     oneof direction {
         int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
@@ -185,7 +185,7 @@ message LineRange {
     google.protobuf.Int32Value to_line = 2;
 }
 
-// Parameters for requesting coverage of survey
+// **Deprecated**: use [`CoverageSpec`](#coveragespec) instead. Parameters for requesting coverage of survey
 message CoverageParameters {
     CRS crs = 1;                 // [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the survey's original CRS
     bool in_wkt = 2;             // [optional] Whether to use WKT format in the response. Defaults to false, returning GeoJSON.
@@ -239,7 +239,7 @@ message CustomSurveyCoverage {
 }
 
 /**
-Range of inline and crossline indices defining a 2D region
+**Deprecated**. Range of inline and crossline indices defining a 2D region
 **/
 message LineBasedRectangle {
     PositionQuery top_left = 1;
@@ -247,7 +247,7 @@ message LineBasedRectangle {
 }
 
 /**
-Point defined by its inline and crossline indices
+**Deprecated**. Point defined by its inline and crossline indices
 **/
 message PositionQuery {
     int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
@@ -267,6 +267,7 @@ enum JobStatus {
     TIMEOUT = 5;     // The job took too long and has timed out. No more work will be done on the job.
 }
 
+// **Deprecated**.
 enum FileStep {
     REGISTER = 0;
     INSERT_FILE_HEADERS = 1;
