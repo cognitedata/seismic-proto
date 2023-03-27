@@ -99,40 +99,9 @@ message Trace {
     Coordinate coordinate = 5;                          // The CDP X and Y coordinates of the trace.
 }
 
-/**
-    **Deprecated**. Wrapper over Trace type that additionally provide information about the range of z values
-    included in the trace.
- **/
- message SlabTrace {
-    Trace trace = 1;
-    int32 z_from = 2;
-    int32 z_to = 3;
-}
-
-/**
-    **Deprecated**. Basic type to represent a point in a surface defined by a horizontal grid
-    Used in horizontal slice queries
- **/
-message SurfacePoint {
-    int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
-    int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. 
-    float value = 3;
-}
-
 // -----
 
 // Common request types
-
-// **Deprecated**. A survey represents a collection of files in the same area
-message Survey {
-    string id = 1; // Survey ID
-    string name = 2; // Survey name
-    map<string, string> metadata = 3;
-    ExternalId external_id = 4; // Survey external ID
-    CRS crs = 5; // The Coordinate Reference System of the survey
-    SurveyGridTransformation grid_transformation = 6;
-    CustomSurveyCoverage custom_coverage = 7;
-}
 
 // **Deprecated**. File or dataset or cube derived from a single SEG-Y file
 message File {
@@ -141,20 +110,6 @@ message File {
     map<string, string> metadata = 3;
     bool is_temporary = 4;
     ExternalId external_id = 5;
-}
-
-// **Deprecated**.
-message Project {
-    string id = 1;
-    string alias = 2;
-}
-
-// **Deprecated**. Specify either id or name to find a file or survey.
-message Identifier {
-    oneof findby {
-        string id = 1;
-        string name = 2;
-    }
 }
 
 // An external ID.
@@ -169,14 +124,6 @@ message LineDescriptor {
     google.protobuf.Int32Value min = 1;  // [optional] The first element of the line. Defaults to the minimum value, depending on context.
     google.protobuf.Int32Value max = 2;  // [optional] The maximum value of a point on the line. Defaults to the maximum value, depending on context.
     google.protobuf.Int32Value step = 3; // [optional] The 'step' of the line. Defaults to 1.
-}
-
-// **Deprecated**. Specifies an inline or a crossline
-message LineSelect {
-    oneof direction {
-        int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
-        int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.
-    }
 }
 
 // Object to store the line range. From and to are optional
@@ -265,19 +212,6 @@ enum JobStatus {
     SUCCESS = 3;     // The job has terminated correctly.
     FAILED = 4;      // The job has failed.
     TIMEOUT = 5;     // The job took too long and has timed out. No more work will be done on the job.
-}
-
-// **Deprecated**.
-enum FileStep {
-    REGISTER = 0;
-    INSERT_FILE_HEADERS = 1;
-    INSERT_TRACE_HEADERS = 2;
-    INSERT_DATA = 3;
-    COMPUTE_COVERAGE = 4;
-    COMPUTE_GRID = 5;
-    COMPUTE_TRACE_INDICES = 6;
-    DELETING = 254;
-    DELETE = 255;
 }
 
 enum InterpolationMethod {
