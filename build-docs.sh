@@ -12,12 +12,6 @@ mkdir -p docs/docs dockerout
 # and ingest_job.proto. Those should probably be moved out of this repository.
 PROTOFILES=$(find $PWD/cognite/seismic/protos -name '*.proto' | sed "s~$PWD/cognite/seismic/protos~protos/cognite/seismic/protos~")
 
-# Protocol buffer files describing the v0 API, in the process of being phased out
-# Ideally this should be determined by just recursing through the imports in query_service.proto
-# and ingest_service.proto
-V0_PROTOS="query_service ingest_service query_service_messages ingest_service_messages types"
-V0_PROTOFILES=$(for PROTO in $V0_PROTOS ; do echo protos/cognite/seismic/protos/${PROTO}.proto ; done )
-
 # Protocol buffer files describing the v1 API.
 # Ideally this should be determined by just recursing through the imports in v1/seismic_service.proto
 V1_PROTOS="v1/seismic_service v1/seismic_service_messages v1/seismic_service_datatypes types"
@@ -32,7 +26,6 @@ DOCKER_COMMAND="docker run --rm -v $(pwd)/dockerout:/out -v $(pwd):/protos pseud
 # Build HTML docs and copy to output directory
 $DOCKER_COMMAND $PROTOFILES --doc_opt=html,all.html
 $DOCKER_COMMAND $API_PROTOFILES --doc_opt=html,index.html
-$DOCKER_COMMAND $V0_PROTOFILES --doc_opt=html,v0.html
 $DOCKER_COMMAND $V1_PROTOFILES --doc_opt=html,v1.html
 
 cp dockerout/*.html docs/docs/
@@ -40,9 +33,7 @@ cp dockerout/*.html docs/docs/
 # Build Markdown docs
 $DOCKER_COMMAND $PROTOFILES --doc_opt=markdown,all.md
 $DOCKER_COMMAND $API_PROTOFILES --doc_opt=markdown,docs.md
-$DOCKER_COMMAND $V0_PROTOFILES --doc_opt=markdown,v0.md
 $DOCKER_COMMAND $V1_PROTOFILES --doc_opt=markdown,v1.md
-$DOCKER_COMMAND $V0_PROTOFILES --doc_opt=json,v0.json
 $DOCKER_COMMAND $V1_PROTOFILES --doc_opt=json,v1.json
 
 # Copy markdown docs to output dir, but patch in a preamble first
