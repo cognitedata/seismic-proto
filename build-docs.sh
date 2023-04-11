@@ -56,7 +56,7 @@ $DOCKER_COMMAND $V1_PROTOFILES --doc_opt=json,v1.json
 
 # Copy markdown docs to output dir, but patch in a preamble first
 for mdfile in dockerout/*.md; do
-    python3 ./template/no_break.py $mdfile > docs/docs/$(basename $mdfile)
+    $PYTHON_COMMAND ./template/no_break.py $mdfile > docs/docs/$(basename $mdfile)
 done
 
 # Copy json docs to output dir
