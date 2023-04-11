@@ -27,7 +27,7 @@ API_PROTOFILES=$(for PROTO in $V1_PROTOS ${V0_PROTOS% types}; do echo protos/cog
 
 # We use a separate directory for docker output, as docker creates
 # files with odd ownership. We copy/edit outputs over to docs/docs later.
-DOCKER_COMMAND="docker run --rm -v $(pwd)/dockerout:/out -v $(pwd):/protos pseudomuto/protoc-gen-doc -I/protos"
+DOCKER_COMMAND="docker run --rm -v $(pwd)/template:/template -v $(pwd)/dockerout:/out -v $(pwd):/protos pseudomuto/protoc-gen-doc -I/protos"
 
 # Build HTML docs and copy to output directory
 $DOCKER_COMMAND $PROTOFILES --doc_opt=html,all.html
@@ -38,10 +38,10 @@ $DOCKER_COMMAND $V1_PROTOFILES --doc_opt=html,v1.html
 cp dockerout/*.html docs/docs/
 
 # Build Markdown docs
-$DOCKER_COMMAND $PROTOFILES --doc_opt=markdown,all.md
-$DOCKER_COMMAND $API_PROTOFILES --doc_opt=markdown,docs.md
-$DOCKER_COMMAND $V0_PROTOFILES --doc_opt=markdown,v0.md
-$DOCKER_COMMAND $V1_PROTOFILES --doc_opt=markdown,v1.md
+$DOCKER_COMMAND $PROTOFILES --doc_opt=/template/cog.markdown,all.md
+$DOCKER_COMMAND $API_PROTOFILES --doc_opt=/template/cog.markdown,docs.md
+$DOCKER_COMMAND $V0_PROTOFILES --doc_opt=/template/cog.markdown,v0.md
+$DOCKER_COMMAND $V1_PROTOFILES --doc_opt=/template/cog.markdown,v1.md
 $DOCKER_COMMAND $V0_PROTOFILES --doc_opt=json,v0.json
 $DOCKER_COMMAND $V1_PROTOFILES --doc_opt=json,v1.json
 
