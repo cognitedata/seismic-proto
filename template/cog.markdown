@@ -1,3 +1,8 @@
+---
+sidebar: auto
+sidebarDepth: 2
+---
+
 # Protocol Documentation
 <a name="top"></a>
 {{range .Files}}

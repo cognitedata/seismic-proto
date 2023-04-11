@@ -7,6 +7,15 @@ test -d docs && rm -rf docs
 test -d dockerout && rm -rf dockerout
 mkdir -p docs/docs dockerout
 
+if command -v python3 > /dev/null; then
+  PYTHON_COMMAND='python3'
+elif command -v python > /dev/null; then
+  PYTHON_COMMAND='python'
+else
+  echo 'Python not found' >&2
+  exit 1
+fi
+
 # All protocol buffer files
 # These include a number of proto files that aren't part of the API, notably persisted_trace.proto
 # and ingest_job.proto. Those should probably be moved out of this repository.
@@ -47,7 +56,7 @@ $DOCKER_COMMAND $V1_PROTOFILES --doc_opt=json,v1.json
 
 # Copy markdown docs to output dir, but patch in a preamble first
 for mdfile in dockerout/*.md; do
-    cat markdown_preamble.md $mdfile > docs/docs/$(basename $mdfile)
+    python3 ./template/no_break.py $mdfile > docs/docs/$(basename $mdfile)
 done
 
 # Copy json docs to output dir
