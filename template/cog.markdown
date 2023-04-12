@@ -36,7 +36,7 @@ sidebarDepth: 2
 {{end}}
 {{end}}
 
-{{end}} <!-- end messages -->
+{{end}}
 {{end}}
 {{if .Enums}}
 
@@ -52,7 +52,7 @@ sidebarDepth: 2
   | {{.Name}} | {{.Number}} | NOBREAK##{{nobr .Description}}##NOBREAK |
 {{end}}
 
-{{end}} <!-- end enums -->
+{{end}}
 {{end}}
 {{if .HasExtensions}}
 
@@ -64,7 +64,7 @@ sidebarDepth: 2
 {{range .Extensions -}}
   | {{.Name}} | {{.LongType}} | {{.ContainingLongType}} | {{.Number}} | NOBREAK##{{nobr .Description}}##NOBREAK{{if .DefaultValue}} Default: `{{.DefaultValue}}`{{end}} |
 {{end}}
-{{end}} <!-- end HasExtensions -->
+{{end}}
 {{if .Services}}
 
 {{range .Services}}
@@ -78,7 +78,7 @@ sidebarDepth: 2
 {{range .Methods -}}
   | {{.Name}} | [{{.RequestLongType}}](#{{.RequestFullType | anchor}}){{if .RequestStreaming}} stream{{end}} | [{{.ResponseLongType}}](#{{.ResponseFullType | anchor}}){{if .ResponseStreaming}} stream{{end}} | NOBREAK##{{nobr .Description}}##NOBREAK |
 {{end}}
-{{end}} <!-- end services -->
+{{end}}
 {{end}}
 
 {{end}}
