@@ -7,6 +7,15 @@ test -d docs && rm -rf docs
 test -d dockerout && rm -rf dockerout
 mkdir -p docs/docs dockerout
 
+if command -v python3 > /dev/null; then
+  PYTHON_COMMAND='python3'
+elif command -v python > /dev/null; then
+  PYTHON_COMMAND='python'
+else
+  echo 'Python not found' >&2
+  exit 1
+fi
+
 # All protocol buffer files
 # These include a number of proto files that aren't part of the API, notably persisted_trace.proto
 # and ingest_job.proto. Those should probably be moved out of this repository.
@@ -27,7 +36,7 @@ API_PROTOFILES=$(for PROTO in $V1_PROTOS ${V0_PROTOS% types}; do echo protos/cog
 
 # We use a separate directory for docker output, as docker creates
 # files with odd ownership. We copy/edit outputs over to docs/docs later.
-DOCKER_COMMAND="docker run --rm -v $(pwd)/dockerout:/out -v $(pwd):/protos pseudomuto/protoc-gen-doc -I/protos"
+DOCKER_COMMAND="docker run --rm -v $(pwd)/template:/template -v $(pwd)/dockerout:/out -v $(pwd):/protos pseudomuto/protoc-gen-doc -I/protos"
 
 # Build HTML docs and copy to output directory
 $DOCKER_COMMAND $PROTOFILES --doc_opt=html,all.html
@@ -38,16 +47,16 @@ $DOCKER_COMMAND $V1_PROTOFILES --doc_opt=html,v1.html
 cp dockerout/*.html docs/docs/
 
 # Build Markdown docs
-$DOCKER_COMMAND $PROTOFILES --doc_opt=markdown,all.md
-$DOCKER_COMMAND $API_PROTOFILES --doc_opt=markdown,docs.md
-$DOCKER_COMMAND $V0_PROTOFILES --doc_opt=markdown,v0.md
-$DOCKER_COMMAND $V1_PROTOFILES --doc_opt=markdown,v1.md
+$DOCKER_COMMAND $PROTOFILES --doc_opt=/template/cog.markdown,all.md
+$DOCKER_COMMAND $API_PROTOFILES --doc_opt=/template/cog.markdown,docs.md
+$DOCKER_COMMAND $V0_PROTOFILES --doc_opt=/template/cog.markdown,v0.md
+$DOCKER_COMMAND $V1_PROTOFILES --doc_opt=/template/cog.markdown,v1.md
 $DOCKER_COMMAND $V0_PROTOFILES --doc_opt=json,v0.json
 $DOCKER_COMMAND $V1_PROTOFILES --doc_opt=json,v1.json
 
 # Copy markdown docs to output dir, but patch in a preamble first
 for mdfile in dockerout/*.md; do
-    cat markdown_preamble.md $mdfile > docs/docs/$(basename $mdfile)
+    $PYTHON_COMMAND ./template/post_process.py $mdfile > docs/docs/$(basename $mdfile)
 done
 
 # Copy json docs to output dir
