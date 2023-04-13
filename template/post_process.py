@@ -12,14 +12,13 @@ def enforce_nobreak(content):
     while True:
         chunk = re.search(r'NOBREAK##[^\|]*##NOBREAK', content, re.MULTILINE)
         if chunk:
-            clean_chunk = chunk.group(0)[9:-9].replace('\n', ' ')
-            clean_chunk = re.sub(r'\s\s+', ' ', clean_chunk)
+            clean_chunk = re.sub(r'\s+', ' ', chunk.group(0)[9:-9])
             content = content.replace(chunk.group(0), clean_chunk)
         else:
             return content
 
 def replace_code_block(content):
-    return re.sub(r'</?pre>', '```', content)
+    return re.sub(r'</?pre>', '\n```\n', content)
 
 with open(input, 'r', encoding='utf8') as input:
     content = input.read()

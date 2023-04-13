@@ -1,6 +1,8 @@
 ---
 sidebar: auto
 sidebarDepth: 2
+pagination_next: null
+pagination_prev: null
 ---
 
 # Protocol Documentation
