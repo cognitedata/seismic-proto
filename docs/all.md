@@ -9,6 +9,577 @@ pagination_prev: null
 <a name="top"></a>
 
 
+<a name="cognite_seismic_protos_types-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/types.proto
+Messages for types used in ingestion and query services in Seismic Datastore in Cognite Data Fusion
+
+
+
+<a name="com-cognite-seismic-CRS"></a>
+
+### CRS
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| crs | [string](#string) |  | A coordinate reference system specified as a full EPSG code, for example "EPSG:4326". |
+
+
+
+
+
+
+<a name="com-cognite-seismic-Coordinate"></a>
+
+### Coordinate
+Basic type representing (x,y) coordinate in the given coordinate reference system (CRS).
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| crs | [string](#string) |  | The CRS of the coordinate. Must be a full EPSG code, for example `EPSG:23031`. |
+| x | [float](#float) |  | The x value of the coordinate |
+| y | [float](#float) |  | The y value of the coordinate |
+
+
+
+
+
+
+<a name="com-cognite-seismic-CoverageParameters"></a>
+
+### CoverageParameters
+Deprecated**: use [`CoverageSpec`](#coveragespec) instead. Parameters for requesting coverage of survey
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the survey's original CRS |
+| in_wkt | [bool](#bool) |  | [optional] Whether to use WKT format in the response. Defaults to false, returning GeoJSON. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-CustomSurveyCoverage"></a>
+
+### CustomSurveyCoverage
+Customer-provided custom coverage for surveys.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| custom_coverage | [Geometry](#com-cognite-seismic-Geometry) |  | Overrides survey coverage with the provided custom coverage geometry |
+| no_custom_coverage | [CustomSurveyCoverage.NoCustomCoverage](#com-cognite-seismic-CustomSurveyCoverage-NoCustomCoverage) |  | No custom coverage is provided. Survey coverage will be computed from the seismicstores contained in the survey. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-CustomSurveyCoverage-NoCustomCoverage"></a>
+
+### CustomSurveyCoverage.NoCustomCoverage
+
+
+
+
+
+
+
+<a name="com-cognite-seismic-DeduceFromTraces"></a>
+
+### DeduceFromTraces
+Have the seismic service try to deduce the affine transformation for each file by
+reading trace coordinates
+
+
+
+
+
+
+<a name="com-cognite-seismic-DoubleTraceCoordinates"></a>
+
+### DoubleTraceCoordinates
+Correlated grid indices and coordinates
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
+| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
+| x | [float](#float) |  | The x value of the coordinate |
+| y | [float](#float) |  | The y value of the coordinate |
+
+
+
+
+
+
+<a name="com-cognite-seismic-ExternalId"></a>
+
+### ExternalId
+An external ID.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| external_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-File"></a>
+
+### File
+Deprecated**. File or dataset or cube derived from a single SEG-Y file
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| metadata | [File.MetadataEntry](#com-cognite-seismic-File-MetadataEntry) | repeated |  |
+| is_temporary | [bool](#bool) |  |  |
+| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-File-MetadataEntry"></a>
+
+### File.MetadataEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-GeoJson"></a>
+
+### GeoJson
+The GeoJSON format (<a href="https://tools.ietf.org/html/rfc7946">RFC 7946</a>)
+Supported geometry: Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, and GeometryCollection.
+Example:
+
+```
+{
+   "type": "Point",
+   "coordinates": [100.0, 0.0]
+}
+```
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| json | [google.protobuf.Struct](#google-protobuf-Struct) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-Geometry"></a>
+
+### Geometry
+Geometry can be specified using either wkt or geoJSON. CRS is always required.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| crs | [CRS](#com-cognite-seismic-CRS) |  | [required] The CRS of the geometry. |
+| wkt | [Wkt](#com-cognite-seismic-Wkt) |  | A wkt format geometry. |
+| geo | [GeoJson](#com-cognite-seismic-GeoJson) |  | A GeoJSON format geometry. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-Identifier"></a>
+
+### Identifier
+Deprecated**. Specify either id or name to find a file or survey.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-LineBasedRectangle"></a>
+
+### LineBasedRectangle
+Deprecated**. Range of inline and crossline indices defining a 2D region
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| top_left | [PositionQuery](#com-cognite-seismic-PositionQuery) |  |  |
+| bottom_right | [PositionQuery](#com-cognite-seismic-PositionQuery) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-LineDescriptor"></a>
+
+### LineDescriptor
+Describes a series of points.
+The first point is `min`, the next point is `min+step`, the point after that is `min+step*2`, and so on.
+None of the points will be greater than `max`.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| min | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] The first element of the line. Defaults to the minimum value, depending on context. |
+| max | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] The maximum value of a point on the line. Defaults to the maximum value, depending on context. |
+| step | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] The 'step' of the line. Defaults to 1. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-LineRange"></a>
+
+### LineRange
+Object to store the line range. From and to are optional
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| from_line | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+| to_line | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-LineSelect"></a>
+
+### LineSelect
+Deprecated**. Specifies an inline or a crossline
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
+| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-P6Transformation"></a>
+
+### P6Transformation
+Specify the transformation by an origin point and the crossline azimuth
+Format inspired by IOGP guidance note 373-7-2 section 2.3.2.4.
+https://ge0mlib.com/papers/Guide/IOGP/373-07-2-1_2017.pdf
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| handedness | [Handedness](#com-cognite-seismic-Handedness) |  |  |
+| origin | [DoubleTraceCoordinates](#com-cognite-seismic-DoubleTraceCoordinates) |  | A point in the grid |
+| iline_bin_width | [float](#float) |  | The bin width along the inline axis |
+| xline_bin_width | [float](#float) |  | The bin width along the crossline axis |
+| xline_azimuth | [float](#float) |  | Map bearing of the crossline axis in clockwise degrees from north |
+| iline_bin_inc | [int32](#int32) |  | Inline increment corresponding to a bin |
+| xline_bin_inc | [int32](#int32) |  | Crossline increment corresponding to a bin |
+
+
+
+
+
+
+<a name="com-cognite-seismic-PositionQuery"></a>
+
+### PositionQuery
+Deprecated**. Point defined by its inline and crossline indices
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
+| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-Project"></a>
+
+### Project
+Deprecated**.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| alias | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-SlabTrace"></a>
+
+### SlabTrace
+Deprecated**. Wrapper over Trace type that additionally provide information about the range of z values
+included in the trace.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| trace | [Trace](#com-cognite-seismic-Trace) |  |  |
+| z_from | [int32](#int32) |  |  |
+| z_to | [int32](#int32) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-SurfacePoint"></a>
+
+### SurfacePoint
+Deprecated**. Basic type to represent a point in a surface defined by a horizontal grid
+Used in horizontal slice queries
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
+| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
+| value | [float](#float) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-Survey"></a>
+
+### Survey
+Deprecated**. A survey represents a collection of files in the same area
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | Survey ID |
+| name | [string](#string) |  | Survey name |
+| metadata | [Survey.MetadataEntry](#com-cognite-seismic-Survey-MetadataEntry) | repeated |  |
+| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  | Survey external ID |
+| crs | [CRS](#com-cognite-seismic-CRS) |  | The Coordinate Reference System of the survey |
+| grid_transformation | [SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  |  |
+| custom_coverage | [CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-Survey-MetadataEntry"></a>
+
+### Survey.MetadataEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-SurveyGridTransformation"></a>
+
+### SurveyGridTransformation
+Specify the affine transformation between line indices and coordinates
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| p6_transformation | [P6Transformation](#com-cognite-seismic-P6Transformation) |  |  |
+| trace_corners | [TraceCorners](#com-cognite-seismic-TraceCorners) |  |  |
+| deduce_from_traces | [DeduceFromTraces](#com-cognite-seismic-DeduceFromTraces) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-Trace"></a>
+
+### Trace
+Basic type to represent a seismic trace
+Used in trace, vertical slices and volume queries
+Contains the samples and information on positioning
+If a trace is an original trace in the file, it can optionally contain the trace header.
+This is not valid for traces that are synthetically generated from interpolation.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| trace_header | [bytes](#bytes) |  | The binary SEGY trace header, if requested. |
+| iline | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The inline number. Only populated for 3D seismics. |
+| xline | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The xline number. Only populated for 3D seismics. |
+| cdp | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The cdp number. Only populated for 2D seismics indexed by cdp. |
+| shotpoint | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The shotpoint number. Only populated for 2D seismics indexed by shotpoint. |
+| energy_source_point | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The energy source point number. Only populated for 2D seismics indexed by energy source point. |
+| cdp_trace | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The cdp trace number. Only populated for prestack-migrated seismics indexed by cdp_trace. |
+| offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The offset number. Only populated for prestack-migrated seismics indexed by offset. |
+| trace | [float](#float) | repeated | The underlying array of floats representing samples |
+| coordinate | [Coordinate](#com-cognite-seismic-Coordinate) |  | The CDP X and Y coordinates of the trace. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-TraceCorners"></a>
+
+### TraceCorners
+Specify the transformation by giving the coordinates of three or more corners
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| corners | [DoubleTraceCoordinates](#com-cognite-seismic-DoubleTraceCoordinates) | repeated |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-Wkt"></a>
+
+### Wkt
+Well-known text representation of geometry (<a href="http://www.opengeospatial.org/standards/sfa">WKT</a>)
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| geometry | [string](#string) |  |  |
+
+
+
+
+
+
+
+
+
+
+<a name="com-cognite-seismic-FileStep"></a>
+
+### FileStep
+Deprecated**.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| REGISTER | 0 |  |
+| INSERT_FILE_HEADERS | 1 |  |
+| INSERT_TRACE_HEADERS | 2 |  |
+| INSERT_DATA | 3 |  |
+| COMPUTE_COVERAGE | 4 |  |
+| COMPUTE_GRID | 5 |  |
+| COMPUTE_TRACE_INDICES | 6 |  |
+| DELETING | 254 |  |
+| DELETE | 255 |  |
+
+
+
+<a name="com-cognite-seismic-Handedness"></a>
+
+### Handedness
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| RIGHTHANDED | 0 | inline axis is 90 deg clockwise from crossline AKA EPSG code 9666 |
+| LEFTHANDED | 1 | inline axis is 90 deg counterclockwise from crossline AKA EPSG code 1049 |
+
+
+
+<a name="com-cognite-seismic-IngestionSource"></a>
+
+### IngestionSource
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| INVALID_SOURCE | 0 |  |
+| FILE_SOURCE | 1 |  |
+| TRACE_WRITER | 2 | TraceWriter |
+
+
+
+<a name="com-cognite-seismic-InterpolationMethod"></a>
+
+### InterpolationMethod
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| NEAREST_TRACE | 0 |  |
+| INVERSE_DISTANCE_WEIGHTING | 1 |  |
+
+
+
+<a name="com-cognite-seismic-JobStatus"></a>
+
+### JobStatus
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| NONE | 0 | Default value for the enum. |
+| QUEUED | 1 | The job is in the queue but has not been worked on. |
+| IN_PROGRESS | 2 | The job is being processed. |
+| SUCCESS | 3 | The job has terminated correctly. |
+| FAILED | 4 | The job has failed. |
+| TIMEOUT | 5 | The job took too long and has timed out. No more work will be done on the job. |
+
+
+
+
+
+
+
+
+
 <a name="cognite_seismic_protos_query_service_messages-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -728,6 +1299,481 @@ Request a volume from a file by range of inlines, crosslines and time
 
 
 
+<a name="cognite_seismic_protos_persisted_trace-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/persisted_trace.proto
+
+
+
+
+<a name="com-cognite-seismic-PersistedTrace"></a>
+
+### PersistedTrace
+Version:
+For trace data:
+1 - no compression of traces
+2 - zstd compression of traces
+3 - waveform compression
+For trace headers:
+1 - gzip compression
+2 - no compression, storing diff bytes of base header
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| version | [int32](#int32) |  |  |
+| trace | [bytes](#bytes) |  |  |
+| header | [bytes](#bytes) |  |  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a name="cognite_seismic_protos_ingest_service_messages-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/ingest_service_messages.proto
+Messages from the ingestion service of Seismic Datastore in Cognite Data Fusion
+
+
+
+<a name="com-cognite-seismic-DeleteFileRequest"></a>
+
+### DeleteFileRequest
+[Example]
+{"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a file previously registered with /RegisterFile |
+| keep_registered | [bool](#bool) |  | If set to true, will delete contents of file (undo the ingestion), but keep the file registered. If set to false, will completely remove the file from database. If no option is set, default is false |
+
+
+
+
+
+
+<a name="com-cognite-seismic-DeleteSurveyRequest"></a>
+
+### DeleteSurveyRequest
+[Example]
+{"survey": {"name": "survey_name"} }
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| survey | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a survey previously registered with /RegisterSurvey |
+
+
+
+
+
+
+<a name="com-cognite-seismic-EditFileAccessRequest"></a>
+
+### EditFileAccessRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a file |
+| project | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a project |
+| add | [bool](#bool) |  | If neither add or remove are set, or if both are set to true, add will be assumed Add project access to this file |
+| remove | [bool](#bool) |  | Remove project access from this file |
+
+
+
+
+
+
+<a name="com-cognite-seismic-EditFileRequest"></a>
+
+### EditFileRequest
+[Example]
+{"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a file previously registered with /RegisterFile |
+| path | [string](#string) |  | [optional] New path. Example: "gs://cognite-seismic-eu/samples/" |
+| name | [string](#string) |  | [optional] New (unique) filename. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy" |
+| metadata | [EditFileRequest.MetadataEntry](#com-cognite-seismic-EditFileRequest-MetadataEntry) | repeated | [optional] New metadata |
+| crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] Official name of the CRS used. Example: "EPSG:23031" |
+| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
+| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
+| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
+| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
+| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] An external identifier - matches service contract field |
+| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  | [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header. Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100. Negative values and values greater than 1 are not permitted. To remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN. The next ingestion processing of a file will then use the source group scalar values found in trace headers. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-EditFileRequest-MetadataEntry"></a>
+
+### EditFileRequest.MetadataEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-EditFileResponse"></a>
+
+### EditFileResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [File](#com-cognite-seismic-File) |  |  |
+| path | [string](#string) |  |  |
+| crs | [CRS](#com-cognite-seismic-CRS) |  |  |
+| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
+| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
+| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
+| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
+| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  | [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header |
+
+
+
+
+
+
+<a name="com-cognite-seismic-EditSurveyRequest"></a>
+
+### EditSurveyRequest
+[Example]
+{"survey": {"id": "97305892-d622-4425-8530-3029b740842e"}, "name": "new name"}
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| survey | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a survey previously registered with /RegisterSurvey |
+| name | [string](#string) |  | [optional] New name |
+| metadata | [EditSurveyRequest.MetadataEntry](#com-cognite-seismic-EditSurveyRequest-MetadataEntry) | repeated | [optional] New metadata |
+| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] External id matching service contract type |
+| crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] new CRS used by all members |
+| grid_transformation | [SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  | [optional] Affine transformation from grid bins to coordinates |
+| custom_coverage | [CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  | [optional] Customer-provided custom survey coverage |
+
+
+
+
+
+
+<a name="com-cognite-seismic-EditSurveyRequest-MetadataEntry"></a>
+
+### EditSurveyRequest.MetadataEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-EditSurveyResponse"></a>
+
+### EditSurveyResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| survey | [Survey](#com-cognite-seismic-Survey) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-IngestFileRequest"></a>
+
+### IngestFileRequest
+[Example]
+{"file": {"name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..JS-021837.segy"} }
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a file previously registered with /RegisterFile |
+| start_step | [FileStep](#com-cognite-seismic-FileStep) |  | [optional] Selected step to start ingestion. Leave blank to start from last completed step. [Accepted values] 1 -- insert binary and text headers 2 -- insert trace headers 3 -- insert trace data 4 -- compute coverage polygon and additional metadata (trace count, valid lines, etc) 6 -- insert trace offset indices [Use cases] Usual ingestion: If the last successful step was 0 (REGISTER), the file will be fully ingested regardless of start_step Completing a failed ingestion: If the last successful step was 3 (INSERT_DATA), and no start step is selected, only coverage will be computed. Previously ingested headers and traces will be preserved in this case. Forcing reingestion: If start_step is 1 (INSERT_FILE_HEADERS), regardless of previous ingestion status, all headers and data will be deleted and the whole file will be forcefully reingested Forcing a single step to be rerun: If the file is ingested (last step is COMPUTE_COVERAGE), by using start_step = 4 (COMPUTE_COVERAGE), for example, only coverage will be computed while headers and traces will be preserved |
+| target_storage_tier_name | [string](#string) |  | [optional as of 2020-11-01, will be required at some later time] Target storage tier for this file. If empty a bigtable-based storage will be used. A storage tier is a defined facility for storing the trace data associated with a seismic volume. The default storage facility is based on Cloud Bigtable, but it is also possible to leave trace data stored in SEG-Y files in Cloud Storage, only retaining a compact index of file data in fast storage to facilitate retrieval of data from Cloud Storage in a performant manner. [Accepted values] Accepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage cost, retrieval performance, numeric precision and sampling. Note that currently only one storage tier per trace store is supported, so ingesting an already ingested file will result in the file's data being removed from the previously active storage tier. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-IngestFileResponse"></a>
+
+### IngestFileResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| job_id | [string](#string) |  | job id that can be used to query for status |
+| file_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-IngestionLog"></a>
+
+### IngestionLog
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| timestamp | [string](#string) |  |  |
+| log_line | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-ListFileAccessRequest"></a>
+
+### ListFileAccessRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a file |
+
+
+
+
+
+
+<a name="com-cognite-seismic-ProjectListResponse"></a>
+
+### ProjectListResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| project | [Project](#com-cognite-seismic-Project) | repeated |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-RegisterFileRequest"></a>
+
+### RegisterFileRequest
+[Example]
+{
+"survey": {"name": "surveyname"},
+"name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..J.segy",
+"path": "gs://cognite-seismic-eu/samples/from-diskos-disks",
+"crs": { "crs": "EPSG:23031"}
+}
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| survey | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a survey previously registered with /RegisterSurvey |
+| path | [string](#string) |  | [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/" |
+| name | [string](#string) |  | [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests |
+| metadata | [RegisterFileRequest.MetadataEntry](#com-cognite-seismic-RegisterFileRequest-MetadataEntry) | repeated | [optional] |
+| crs | [CRS](#com-cognite-seismic-CRS) |  | [required] Official name of the CRS used. Example: "EPSG:23031" |
+| is_temporary | [google.protobuf.BoolValue](#google-protobuf-BoolValue) |  | [optional] tells whether file is temporary (writeable) or not. False by default |
+| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
+| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
+| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
+| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
+| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] An external identifier - matches service contract field |
+| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  | [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header. Must be in the range (0,1]. Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100. Negative values, 0 and values greater than 1 are not permitted when registering a file, although 0 may be used in the EditFile call to unset this field. |
+
+
+
+
+
+
+<a name="com-cognite-seismic-RegisterFileRequest-MetadataEntry"></a>
+
+### RegisterFileRequest.MetadataEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-RegisterFileResponse"></a>
+
+### RegisterFileResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [File](#com-cognite-seismic-File) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-RegisterSurveyRequest"></a>
+
+### RegisterSurveyRequest
+[Example]
+{"name": "surveyname", "metadata": {"location": "underwater"}, "external_id": "surveyname-external" }
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | [required] |
+| metadata | [RegisterSurveyRequest.MetadataEntry](#com-cognite-seismic-RegisterSurveyRequest-MetadataEntry) | repeated | [optional] |
+| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] |
+| crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] new CRS used by all members |
+| grid_transformation | [SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  | [optional] Affine transformation from grid bins to coordinates |
+| custom_coverage | [CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-RegisterSurveyRequest-MetadataEntry"></a>
+
+### RegisterSurveyRequest.MetadataEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-RegisterSurveyResponse"></a>
+
+### RegisterSurveyResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| survey | [Survey](#com-cognite-seismic-Survey) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-StatusRequest"></a>
+
+### StatusRequest
+[Example]
+{"job_id": "1e9a4f9b-7c15-44dd-bbbb-e9e9fb83e401"}
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| job_id | [string](#string) |  |  |
+| file_id | [string](#string) |  |  |
+| seismicstore_id | [int64](#int64) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-StatusResponse"></a>
+
+### StatusResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| status | [JobStatus](#com-cognite-seismic-JobStatus) |  |  |
+| message | [string](#string) |  |  |
+| started_at | [string](#string) |  |  |
+| updated_at | [string](#string) |  |  |
+| logs | [IngestionLog](#com-cognite-seismic-IngestionLog) | repeated |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-StoreTraceRequest"></a>
+
+### StoreTraceRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| iline | [int32](#int32) |  |  |
+| xline | [int32](#int32) |  |  |
+| x | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+| y | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+| trace | [float](#float) | repeated |  |
+| raw_header | [bytes](#bytes) |  |  |
+
+
+
+
+
+
+
+
+
+
+
+
+
 <a name="cognite_seismic_protos_ingest_job-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -756,6 +1802,245 @@ Request a volume from a file by range of inlines, crosslines and time
 
 
 
+
+
+
+
+
+
+<a name="cognite_seismic_protos_query_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/query_service.proto
+
+
+
+
+
+
+
+<a name="com-cognite-seismic-Query"></a>
+
+### Query
+Service for querying data and metadata from seismic files in Cognite Data Fusion
+(CDF) seismic datastore We use the word `File` to refer to a single seismic
+file/dataset/cube. Queries on a file require it to have been previously ingested
+into CDF using (ingest_service.proto)
+
+Queries are divided in:
+
+- Metadata:
+
+General information and headers for surveys and files
+
+- Geometry and grid:
+
+Information on a file's grid and positioning, such as coverage and range of
+inlines and crosslines
+
+- Trace:
+
+Find a single trace in the file. A trace will include header, position
+information and samples. More details about the trace format can be found on its
+definition in (types.proto)
+
+- Vertical slice:
+
+Get 2D vertical slices of samples (thus 1D arrays of traces). The slices can
+be based on a single defined line or in an arbitrarily defined line with
+interpolation.
+
+- Area:
+
+Get 3D volumes of samples (thus 2D arrays of traces) defined by a region in
+the horizontal plane
+
+- Horizontal slice:
+
+Get 2D horizontal slices of samples defined by a region in the horizontal
+plane and a specific index in depth/time
+
+- Artificial sampling:
+
+Get the (calculated/interpolated) values of properties in the file/cube
+given arbitrary positions
+
+Metadata queries
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetSurvey | [SurveyQueryRequest](#com-cognite-seismic-SurveyQueryRequest) | [GetSurveyResponse](#com-cognite-seismic-GetSurveyResponse) | Finds one survey given its name or id. Optionally, lists its associated files. |
+| ListSurveys | [ListSurveysQueryRequest](#com-cognite-seismic-ListSurveysQueryRequest) | [SurveyWithFilesResponse](#com-cognite-seismic-SurveyWithFilesResponse) | Lists all surveys owned by this project. Optionally, includes their lists of files. |
+| ListFiles | [.google.protobuf.Empty](#google-protobuf-Empty) | [ListFilesResponse](#com-cognite-seismic-ListFilesResponse) | Lists all files available, both owned by the authorized CDF project and shared with it |
+| SearchSurveys | [SearchSurveyRequest](#com-cognite-seismic-SearchSurveyRequest) | [SurveyWithFilesResponse](#com-cognite-seismic-SurveyWithFilesResponse) | Search surveys based on two criteria: 1. Coverage polygon of files in the survey are within an area delimited by a specified polygon 2. Filters on metadata of both the survey and the file. Both criteria are optional and can be combined for a more detailed search. |
+| GetFile | [FileQueryRequest](#com-cognite-seismic-FileQueryRequest) | [GetFileResponse](#com-cognite-seismic-GetFileResponse) | Returns file metadata given its name or id. |
+| GetBinaryHeader | [HeaderFileQueryRequest](#com-cognite-seismic-HeaderFileQueryRequest) | [GetBinaryHeaderResponse](#com-cognite-seismic-GetBinaryHeaderResponse) | Returns a binary header given its file name or id. |
+| GetTextHeader | [HeaderFileQueryRequest](#com-cognite-seismic-HeaderFileQueryRequest) | [GetTextHeaderResponse](#com-cognite-seismic-GetTextHeaderResponse) | Returns a text header given its file name or id. |
+| GetFileDataCoverage | [FileCoverageRequest](#com-cognite-seismic-FileCoverageRequest) | [DataCoverageResponse](#com-cognite-seismic-DataCoverageResponse) | Returns the coverage for a given file identified by its id or name. The coverage is represented by a polygon either in WKT or geojson and represents the area covered by traces in the file. There can be holes in the polygon if traces do not exist in an area inside of it. DEPRECATE in favor of Geospatial APIs. |
+| GetFileLineRange | [FileQueryRequest](#com-cognite-seismic-FileQueryRequest) | [LineRangeResponse](#com-cognite-seismic-LineRangeResponse) | Returns the full range of the inlines and crosslines in the file, i.e. the minimum and maximum inline and crossline |
+| GetCrosslinesByInline | [FileLineQueryRequest](#com-cognite-seismic-FileLineQueryRequest) | [AvailableLines](#com-cognite-seismic-AvailableLines) | Returns the set of valid crossline indices for a specific inline, in a given file DEPRECATE: Move to GetFileLineRange. |
+| GetInlinesByCrossline | [FileLineQueryRequest](#com-cognite-seismic-FileLineQueryRequest) | [AvailableLines](#com-cognite-seismic-AvailableLines) | Returns the set of valid inline indices for a specific crossline, in a given file DEPRECATE: Move to GetFileLineRange. |
+| GetTraceByCoordinates | [CoordinateTraceQueryRequest](#com-cognite-seismic-CoordinateTraceQueryRequest) | [Trace](#com-cognite-seismic-Trace) | Returns the trace in a file that is closest to a point given its coordinates (x,y) |
+| GetTracesByLine | [LineTraceQueryRequest](#com-cognite-seismic-LineTraceQueryRequest) stream | [Trace](#com-cognite-seismic-Trace) stream | Returns a trace for each coordinate (inline, xline) from the input stream |
+| GetSliceByLine | [LineSliceQueryRequest](#com-cognite-seismic-LineSliceQueryRequest) | [Trace](#com-cognite-seismic-Trace) stream | Returns all or a subset of traces in a slice (inline or crossline) given its index (and optionally from/to) DEPRECATED, use GetVolume instead. |
+| GetSliceByGeometry | [GeometrySliceQueryRequest](#com-cognite-seismic-GeometrySliceQueryRequest) | [Trace](#com-cognite-seismic-Trace) stream | Returns a slice with traces following a path determined by an arbitrary line. Depending on interpolating method, these can be either real traces in the file that are closest to the path or synthetic traces generated by interpolation of the traces in the file. |
+| GetCubeByLines | [LineCubeRequest](#com-cognite-seismic-LineCubeRequest) | [Trace](#com-cognite-seismic-Trace) stream | Returns a volume with all traces inside a given range of inlines and a given range of crosslines DEPRECATED, use GetVolume instead. |
+| GetCubeByGeometry | [GeometryCubeRequest](#com-cognite-seismic-GeometryCubeRequest) | [Trace](#com-cognite-seismic-Trace) stream | Returns a volume with all traces with x, y coordinates inside an arbitrary 2D polygon |
+| GetSegYFile | [SegYQueryRequest](#com-cognite-seismic-SegYQueryRequest) | [SegYQueryResponse](#com-cognite-seismic-SegYQueryResponse) stream | Returns a SEG-Y file. Can retrieve a full file or create a new cropped file filtering on areas of interest only. DEPRECATED, to be replaced with a command line tool or an SDK method for constructing a SEG-Y file by calling GetVolume |
+| GetSlabByLines | [LineSlabRequest](#com-cognite-seismic-LineSlabRequest) | [SlabTrace](#com-cognite-seismic-SlabTrace) stream | Returns a seismic slab by either horizon or constant depth and area constrained by a range of inlines and crosslines |
+| GetTimeSliceByGeometry | [GeometryTimeSliceQueryRequest](#com-cognite-seismic-GeometryTimeSliceQueryRequest) | [SurfacePoint](#com-cognite-seismic-SurfacePoint) stream | Returns a horizontal slice for a given depth or time and area constrained by an arbitrary 2D polygon |
+| GetVolume | [VolumeRequest](#com-cognite-seismic-VolumeRequest) | [Trace](#com-cognite-seismic-Trace) stream | Volume queries |
+
+
+
+
+
+
+<a name="cognite_seismic_protos_experimental_experimental_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/experimental/experimental_service.proto
+
+
+
+
+
+
+
+<a name="com-cognite-seismic-experimental-ExperimentalAPI"></a>
+
+### ExperimentalAPI
+A service for experimental features.
+Should only be enabled on greenfield.
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+
+
+
+
+
+
+<a name="cognite_seismic_protos_experimental_experimental_service_messages-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/experimental/experimental_service_messages.proto
+
+
+
+
+
+
+
+
+<a name="cognite_seismic_protos_ingest_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/ingest_service.proto
+
+
+
+
+
+
+
+<a name="com-cognite-seismic-Ingest"></a>
+
+### Ingest
+Service for ingestion and metadata updates of SEG-Y files into Cognite Data Fusion (CDF) seismic datastore
+
+We use the word `File` to refer to a single seismic file/dataset/cube
+Surveys can have many files attached to them, with different attributes or processing stages, and every file must
+belong to a survey
+The expected order of ingestion is:
+
+1) Register a survey, if it does not exist
+
+2) Register a file
+Files are expected to be previously uploaded to a Google Cloud Storage (GCS) bucket at this point, and the service needs
+permission to this bucket in the form of a service account.
+The RegisterFile endpoint will request the survey name or id, bucket address and the CRS used in this file
+(e.g.: EDM50, WGS84), so be sure to have this information prior at hand.
+
+3) Ingest the file
+If the RegisterFile endpoint completes successfully, and your file is found in the bucket, you can now send a request to
+the IngestFile endpoint, and an asynchronous process will be started remotely to download and process the file.
+You can verify the status of this process by calling the Status endpoint  with the id returned in the IngestFile endpoint
+
+As soon as the status of the processing job is set to complete, data from the file will be available with the query service
+
+When a file is registered in a CDF project, this project owns the file. It is then allowed to share access with other
+CDF projects
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| RegisterSurvey | [RegisterSurveyRequest](#com-cognite-seismic-RegisterSurveyRequest) | [RegisterSurveyResponse](#com-cognite-seismic-RegisterSurveyResponse) | Registers a new survey. |
+| RegisterFile | [RegisterFileRequest](#com-cognite-seismic-RegisterFileRequest) | [RegisterFileResponse](#com-cognite-seismic-RegisterFileResponse) | Registers a new file in a (previously registered) survey. |
+| IngestFile | [IngestFileRequest](#com-cognite-seismic-IngestFileRequest) | [IngestFileResponse](#com-cognite-seismic-IngestFileResponse) | Sends a request for the ingestion of a registered file into the queue. Will return a job id which can be queried for status. |
+| Status | [StatusRequest](#com-cognite-seismic-StatusRequest) | [StatusResponse](#com-cognite-seismic-StatusResponse) | Retrieves the status of an ingestion job. |
+| DeleteFile | [DeleteFileRequest](#com-cognite-seismic-DeleteFileRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Deletes a file |
+| DeleteSurvey | [DeleteSurveyRequest](#com-cognite-seismic-DeleteSurveyRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Deletes a survey |
+| EditFile | [EditFileRequest](#com-cognite-seismic-EditFileRequest) | [EditFileResponse](#com-cognite-seismic-EditFileResponse) | Updates file metadata |
+| EditSurvey | [EditSurveyRequest](#com-cognite-seismic-EditSurveyRequest) | [EditSurveyResponse](#com-cognite-seismic-EditSurveyResponse) | Updates survey metadata |
+| ListFileAccess | [ListFileAccessRequest](#com-cognite-seismic-ListFileAccessRequest) | [ProjectListResponse](#com-cognite-seismic-ProjectListResponse) | List projects that have access to a specific file. Only users in the CDF project that owns the file have access to this method DEPRECATED - multitenant file sharing is not supported anymore |
+| EditFileAccess | [EditFileAccessRequest](#com-cognite-seismic-EditFileAccessRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Add or remove access to a file for CDF projects Only users in the CDF project that owns the file have access to this method DEPRECATED - multitenant file sharing is not supported anymore |
+| StoreTrace | [StoreTraceRequest](#com-cognite-seismic-StoreTraceRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Store a single trace to synthetic file/volume |
+
+
+
+
+
+
+<a name="cognite_seismic_protos_v1_seismic_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/v1/seismic_service.proto
+
+
+
+
+
+
+
+<a name="com-cognite-seismic-v1-SeismicAPI"></a>
+
+### SeismicAPI
+This is the main service for managing and querying metadata and seismic traces from Cognite Data Fusion (CDF). [`Survey`](#com.cognite.seismic.v1.survey) and [`Partition`](#com.cognite.seismic.v1.partition) objects are primarily metadata-focused, and all seismic traces are queried via references to [`SeismicStore`](#com.cognite.seismic.v1.seismicstore) or [`Seismic`](#com.cognite.seismic.v1.seismic) objects.
+
+Queries are divided into these broad categories:
+- **Management**: Creating, editing and deleting Cognite Data Fusion objects, as well as managing the status of file uploading and processing.
+- **Metadata**: Information about surveys, partitions, seismic objects, and headers.
+- **Trace**: Retrieving traces or information about traces.
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| CreateSurvey | [CreateSurveyRequest](#com-cognite-seismic-v1-CreateSurveyRequest) | [Survey](#com-cognite-seismic-v1-Survey) | Creates a Survey object in the data model. A Survey object represents a grouping of seismic data in the same area and normally shares acquisition and most processing parameters. Capabilities: Requires Seismic:WRITE capability to the CDF tenant. |
+| SearchSurveys | [SearchSurveysRequest](#com-cognite-seismic-v1-SearchSurveysRequest) | [SearchSurveyResponse](#com-cognite-seismic-v1-SearchSurveyResponse) stream | Lists all surveys accessible to the client. You can also choose to receive a list of Seismic and SeismicStore object ids associated with the surveys. The returned surveys can also be limited to those that satisfy one or both of these criteria: - Coverage polygon of files in the survey are within an area delimited by a specified polygon. - Filters on metadata of both the survey and the file. |
+| EditSurvey | [EditSurveyRequest](#com-cognite-seismic-v1-EditSurveyRequest) | [Survey](#com-cognite-seismic-v1-Survey) | Modifies the metadata for a survey. The survey crs and grid transformation can only be modified if there are no ingested seismic stores in the survey. |
+| DeleteSurvey | [DeleteSurveyRequest](#com-cognite-seismic-v1-DeleteSurveyRequest) | [DeleteSurveyResponse](#com-cognite-seismic-v1-DeleteSurveyResponse) | Deletes a specified survey. Must have Seismic:ALL scope and Write capability. |
+| RegisterSourceSegyFile | [RegisterSourceSegyFileRequest](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest) | [RegisterSourceSegyFileResponse](#com-cognite-seismic-v1-RegisterSourceSegyFileResponse) | Registers a new file in a (previously registered) survey as source for ingestion. |
+| EditSourceSegyFile | [EditSourceSegyFileRequest](#com-cognite-seismic-v1-EditSourceSegyFileRequest) | [EditSourceSegyFileResponse](#com-cognite-seismic-v1-EditSourceSegyFileResponse) | Edits a registered source file. Before editing, there must be no ingestion jobs running for the source file. The SeismicStore associated with the source file must also be deleted if it was successfully created. This request will fail if the above criteira aren't met. |
+| UnregisterSourceSegyFile | [UnregisterSourceSegyFileRequest](#com-cognite-seismic-v1-UnregisterSourceSegyFileRequest) | [UnregisterSourceSegyFileResponse](#com-cognite-seismic-v1-UnregisterSourceSegyFileResponse) | Unregisters a file previously registered as the source for ingestion. Before unregistering, there must be no ingestion jobs running for the source file. The SeismicStore associated with the source file must also be deleted if it was successfully created. This request will fail if the above criteira aren't met. |
+| IngestSourceSegyFile | [IngestSourceSegyFileRequest](#com-cognite-seismic-v1-IngestSourceSegyFileRequest) | [IngestSourceSegyFileResponse](#com-cognite-seismic-v1-IngestSourceSegyFileResponse) | Requests queueing of a registered file for ingestion. |
+| CreateSeismic | [CreateSeismicRequest](#com-cognite-seismic-v1-CreateSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Creates new Seismics and assign them to partitions. Seismic objects are mostly immutable aside from their name and metadata. A Seismic object must be deleted and recreated in order to change properties such as the cutout or the source seismic store. |
+| SearchSeismics | [SearchSeismicsRequest](#com-cognite-seismic-v1-SearchSeismicsRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) stream | Returns metadata for a Seismic object. Can optionally retrieve seismic store & partition info if user has appropriate scope and capability. |
+| EditSeismic | [EditSeismicRequest](#com-cognite-seismic-v1-EditSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Edits the specified seismic. Seismic object names and metadata can be changed. Other properties such as the cutout, owning partition, or source seismic store can't be changed. The seismic object must be deleted and recreated in order to modify these immutable properties. |
+| DeleteSeismic | [DeleteSeismicRequest](#com-cognite-seismic-v1-DeleteSeismicRequest) | [DeleteSeismicResponse](#com-cognite-seismic-v1-DeleteSeismicResponse) | Deletes seismic objects. |
+| SearchSeismicStores | [SearchSeismicStoresRequest](#com-cognite-seismic-v1-SearchSeismicStoresRequest) | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) stream | Searches and retrieves seismic stores. Can only retrieve seismic stores you own. |
+| InspectIngestion | [InspectIngestionRequest](#com-cognite-seismic-v1-InspectIngestionRequest) | [InspectIngestionResponse](#com-cognite-seismic-v1-InspectIngestionResponse) | Inspects the seismicstore resulting from a possibly failed ingestion. Useful for debugging failed ingestions. |
+| EditSeismicStore | [EditSeismicStoreRequest](#com-cognite-seismic-v1-EditSeismicStoreRequest) | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) | Sets the name or metadata of a seismic store object. |
+| DeleteSeismicStore | [DeleteSeismicStoreRequest](#com-cognite-seismic-v1-DeleteSeismicStoreRequest) | [DeleteSeismicStoreResponse](#com-cognite-seismic-v1-DeleteSeismicStoreResponse) | Deletes a seismic store. If any seismic objects still reference the specified seismic store, the request will fail. |
+| CreatePartition | [CreatePartitionRequest](#com-cognite-seismic-v1-CreatePartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Creates a data partition, optionally setting a name. |
+| SearchPartitions | [SearchPartitionsRequest](#com-cognite-seismic-v1-SearchPartitionsRequest) | [Partition](#com-cognite-seismic-v1-Partition) stream | Returns the specified partitions, with the same search options as the other search endpoints. |
+| EditPartition | [EditPartitionRequest](#com-cognite-seismic-v1-EditPartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Edits partitions. The only modifiable field is the name. |
+| DeletePartition | [DeletePartitionRequest](#com-cognite-seismic-v1-DeletePartitionRequest) | [DeletePartitionResponse](#com-cognite-seismic-v1-DeletePartitionResponse) | Deletes the specified partition and returns a response if it was successfully deleted. |
+| GetVolume | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Requests a volume of traces by range of inlines, crosslines, and time. **Deprecated** - use StreamTraces instead. |
+| GetVolumeBounds | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [VolumeBoundsResponse](#com-cognite-seismic-v1-VolumeBoundsResponse) | Return information about what a GetVolume request would return, including bounding boxes of trace header values, and estimated total size. **Deprecated** - use `GetTraceBounds` instead. |
+| StreamTraces | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Requests a set of seismic traces by ranges of trace headers, such as inline, crossline (for 3d), cdp, or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices. See StreamTracesRequest for more information. |
+| GetTraceBounds | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [TraceBounds](#com-cognite-seismic-v1-TraceBounds) | Returns information about what a StreamTraces request would return, including bounding boxes of trace header values, and estimated total size. |
+| GetSegYFile | [SegYSeismicRequest](#com-cognite-seismic-v1-SegYSeismicRequest) | [SegYSeismicResponse](#com-cognite-seismic-v1-SegYSeismicResponse) stream | Fetches seismic data in SEG-Y format. Each response in the stream contains a byte array that must be written, in order, to a file-like object to produce a valid SEG-Y file. The ordering of traces in the resulting SEG-Y file is undefined. The request object can be used to specify whether the file should contain the whole set of traces in the source dataset or a subset of the traces (for example, a cropped file). See [`SegYSeismicRequest`](#segyseismicrequest) for more information. Returns a stream of `SegYSeismicResponse` objects, each containing a fragment of a SEG-Y data stream. |
+| SearchFiles | [SearchFilesRequest](#com-cognite-seismic-v1-SearchFilesRequest) | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) stream | Retrieves File objects describing the seismic files registered with the tenant. Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved to a subset of the files in the tenant. See SearchFilesRequest for more information. Returns a stream of file objects, terminating once all files matching the search criteria have been returned. |
+| SearchJobStatus | [SearchJobStatusRequest](#com-cognite-seismic-v1-SearchJobStatusRequest) | [JobStatusResponse](#com-cognite-seismic-v1-JobStatusResponse) stream | Retrieves ingestion job statuses, filtered by the specified criteria. |
 
 
 
@@ -2420,1291 +3705,6 @@ Enumeration of possible trace header fields used for indexing seismic objects.
 
 
 
-
-
-
-
-
-
-<a name="cognite_seismic_protos_v1_seismic_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/v1/seismic_service.proto
-
-
-
-
-
-
-
-<a name="com-cognite-seismic-v1-SeismicAPI"></a>
-
-### SeismicAPI
-This is the main service for managing and querying metadata and seismic traces from Cognite Data Fusion (CDF). [`Survey`](#com.cognite.seismic.v1.survey) and [`Partition`](#com.cognite.seismic.v1.partition) objects are primarily metadata-focused, and all seismic traces are queried via references to [`SeismicStore`](#com.cognite.seismic.v1.seismicstore) or [`Seismic`](#com.cognite.seismic.v1.seismic) objects.
-
-Queries are divided into these broad categories:
-- **Management**: Creating, editing and deleting Cognite Data Fusion objects, as well as managing the status of file uploading and processing.
-- **Metadata**: Information about surveys, partitions, seismic objects, and headers.
-- **Trace**: Retrieving traces or information about traces.
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| CreateSurvey | [CreateSurveyRequest](#com-cognite-seismic-v1-CreateSurveyRequest) | [Survey](#com-cognite-seismic-v1-Survey) | Creates a Survey object in the data model. A Survey object represents a grouping of seismic data in the same area and normally shares acquisition and most processing parameters. Capabilities: Requires Seismic:WRITE capability to the CDF tenant. |
-| SearchSurveys | [SearchSurveysRequest](#com-cognite-seismic-v1-SearchSurveysRequest) | [SearchSurveyResponse](#com-cognite-seismic-v1-SearchSurveyResponse) stream | Lists all surveys accessible to the client. You can also choose to receive a list of Seismic and SeismicStore object ids associated with the surveys. The returned surveys can also be limited to those that satisfy one or both of these criteria: - Coverage polygon of files in the survey are within an area delimited by a specified polygon. - Filters on metadata of both the survey and the file. |
-| EditSurvey | [EditSurveyRequest](#com-cognite-seismic-v1-EditSurveyRequest) | [Survey](#com-cognite-seismic-v1-Survey) | Modifies the metadata for a survey. The survey crs and grid transformation can only be modified if there are no ingested seismic stores in the survey. |
-| DeleteSurvey | [DeleteSurveyRequest](#com-cognite-seismic-v1-DeleteSurveyRequest) | [DeleteSurveyResponse](#com-cognite-seismic-v1-DeleteSurveyResponse) | Deletes a specified survey. Must have Seismic:ALL scope and Write capability. |
-| RegisterSourceSegyFile | [RegisterSourceSegyFileRequest](#com-cognite-seismic-v1-RegisterSourceSegyFileRequest) | [RegisterSourceSegyFileResponse](#com-cognite-seismic-v1-RegisterSourceSegyFileResponse) | Registers a new file in a (previously registered) survey as source for ingestion. |
-| EditSourceSegyFile | [EditSourceSegyFileRequest](#com-cognite-seismic-v1-EditSourceSegyFileRequest) | [EditSourceSegyFileResponse](#com-cognite-seismic-v1-EditSourceSegyFileResponse) | Edits a registered source file. Before editing, there must be no ingestion jobs running for the source file. The SeismicStore associated with the source file must also be deleted if it was successfully created. This request will fail if the above criteira aren't met. |
-| UnregisterSourceSegyFile | [UnregisterSourceSegyFileRequest](#com-cognite-seismic-v1-UnregisterSourceSegyFileRequest) | [UnregisterSourceSegyFileResponse](#com-cognite-seismic-v1-UnregisterSourceSegyFileResponse) | Unregisters a file previously registered as the source for ingestion. Before unregistering, there must be no ingestion jobs running for the source file. The SeismicStore associated with the source file must also be deleted if it was successfully created. This request will fail if the above criteira aren't met. |
-| IngestSourceSegyFile | [IngestSourceSegyFileRequest](#com-cognite-seismic-v1-IngestSourceSegyFileRequest) | [IngestSourceSegyFileResponse](#com-cognite-seismic-v1-IngestSourceSegyFileResponse) | Requests queueing of a registered file for ingestion. |
-| CreateSeismic | [CreateSeismicRequest](#com-cognite-seismic-v1-CreateSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Creates new Seismics and assign them to partitions. Seismic objects are mostly immutable aside from their name and metadata. A Seismic object must be deleted and recreated in order to change properties such as the cutout or the source seismic store. |
-| SearchSeismics | [SearchSeismicsRequest](#com-cognite-seismic-v1-SearchSeismicsRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) stream | Returns metadata for a Seismic object. Can optionally retrieve seismic store & partition info if user has appropriate scope and capability. |
-| EditSeismic | [EditSeismicRequest](#com-cognite-seismic-v1-EditSeismicRequest) | [Seismic](#com-cognite-seismic-v1-Seismic) | Edits the specified seismic. Seismic object names and metadata can be changed. Other properties such as the cutout, owning partition, or source seismic store can't be changed. The seismic object must be deleted and recreated in order to modify these immutable properties. |
-| DeleteSeismic | [DeleteSeismicRequest](#com-cognite-seismic-v1-DeleteSeismicRequest) | [DeleteSeismicResponse](#com-cognite-seismic-v1-DeleteSeismicResponse) | Deletes seismic objects. |
-| SearchSeismicStores | [SearchSeismicStoresRequest](#com-cognite-seismic-v1-SearchSeismicStoresRequest) | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) stream | Searches and retrieves seismic stores. Can only retrieve seismic stores you own. |
-| InspectIngestion | [InspectIngestionRequest](#com-cognite-seismic-v1-InspectIngestionRequest) | [InspectIngestionResponse](#com-cognite-seismic-v1-InspectIngestionResponse) | Inspects the seismicstore resulting from a possibly failed ingestion. Useful for debugging failed ingestions. |
-| EditSeismicStore | [EditSeismicStoreRequest](#com-cognite-seismic-v1-EditSeismicStoreRequest) | [SeismicStore](#com-cognite-seismic-v1-SeismicStore) | Sets the name or metadata of a seismic store object. |
-| DeleteSeismicStore | [DeleteSeismicStoreRequest](#com-cognite-seismic-v1-DeleteSeismicStoreRequest) | [DeleteSeismicStoreResponse](#com-cognite-seismic-v1-DeleteSeismicStoreResponse) | Deletes a seismic store. If any seismic objects still reference the specified seismic store, the request will fail. |
-| CreatePartition | [CreatePartitionRequest](#com-cognite-seismic-v1-CreatePartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Creates a data partition, optionally setting a name. |
-| SearchPartitions | [SearchPartitionsRequest](#com-cognite-seismic-v1-SearchPartitionsRequest) | [Partition](#com-cognite-seismic-v1-Partition) stream | Returns the specified partitions, with the same search options as the other search endpoints. |
-| EditPartition | [EditPartitionRequest](#com-cognite-seismic-v1-EditPartitionRequest) | [Partition](#com-cognite-seismic-v1-Partition) | Edits partitions. The only modifiable field is the name. |
-| DeletePartition | [DeletePartitionRequest](#com-cognite-seismic-v1-DeletePartitionRequest) | [DeletePartitionResponse](#com-cognite-seismic-v1-DeletePartitionResponse) | Deletes the specified partition and returns a response if it was successfully deleted. |
-| GetVolume | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Requests a volume of traces by range of inlines, crosslines, and time. **Deprecated** - use StreamTraces instead. |
-| GetVolumeBounds | [VolumeRequest](#com-cognite-seismic-v1-VolumeRequest) | [VolumeBoundsResponse](#com-cognite-seismic-v1-VolumeBoundsResponse) | Return information about what a GetVolume request would return, including bounding boxes of trace header values, and estimated total size. **Deprecated** - use `GetTraceBounds` instead. |
-| StreamTraces | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [.com.cognite.seismic.Trace](#com-cognite-seismic-Trace) stream | Requests a set of seismic traces by ranges of trace headers, such as inline, crossline (for 3d), cdp, or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices. See StreamTracesRequest for more information. |
-| GetTraceBounds | [StreamTracesRequest](#com-cognite-seismic-v1-StreamTracesRequest) | [TraceBounds](#com-cognite-seismic-v1-TraceBounds) | Returns information about what a StreamTraces request would return, including bounding boxes of trace header values, and estimated total size. |
-| GetSegYFile | [SegYSeismicRequest](#com-cognite-seismic-v1-SegYSeismicRequest) | [SegYSeismicResponse](#com-cognite-seismic-v1-SegYSeismicResponse) stream | Fetches seismic data in SEG-Y format. Each response in the stream contains a byte array that must be written, in order, to a file-like object to produce a valid SEG-Y file. The ordering of traces in the resulting SEG-Y file is undefined. The request object can be used to specify whether the file should contain the whole set of traces in the source dataset or a subset of the traces (for example, a cropped file). See [`SegYSeismicRequest`](#segyseismicrequest) for more information. Returns a stream of `SegYSeismicResponse` objects, each containing a fragment of a SEG-Y data stream. |
-| SearchFiles | [SearchFilesRequest](#com-cognite-seismic-v1-SearchFilesRequest) | [SourceSegyFile](#com-cognite-seismic-v1-SourceSegyFile) stream | Retrieves File objects describing the seismic files registered with the tenant. Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved to a subset of the files in the tenant. See SearchFilesRequest for more information. Returns a stream of file objects, terminating once all files matching the search criteria have been returned. |
-| SearchJobStatus | [SearchJobStatusRequest](#com-cognite-seismic-v1-SearchJobStatusRequest) | [JobStatusResponse](#com-cognite-seismic-v1-JobStatusResponse) stream | Retrieves ingestion job statuses, filtered by the specified criteria. |
-
-
-
-
-
-
-<a name="cognite_seismic_protos_persisted_trace-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/persisted_trace.proto
-
-
-
-
-<a name="com-cognite-seismic-PersistedTrace"></a>
-
-### PersistedTrace
-Version:
-For trace data:
-1 - no compression of traces
-2 - zstd compression of traces
-3 - waveform compression
-For trace headers:
-1 - gzip compression
-2 - no compression, storing diff bytes of base header
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| version | [int32](#int32) |  |  |
-| trace | [bytes](#bytes) |  |  |
-| header | [bytes](#bytes) |  |  |
-
-
-
-
-
-
-
-
-
-
-
-
-
-<a name="cognite_seismic_protos_types-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/types.proto
-Messages for types used in ingestion and query services in Seismic Datastore in Cognite Data Fusion
-
-
-
-<a name="com-cognite-seismic-CRS"></a>
-
-### CRS
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| crs | [string](#string) |  | A coordinate reference system specified as a full EPSG code, for example "EPSG:4326". |
-
-
-
-
-
-
-<a name="com-cognite-seismic-Coordinate"></a>
-
-### Coordinate
-Basic type representing (x,y) coordinate in the given coordinate reference system (CRS).
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| crs | [string](#string) |  | The CRS of the coordinate. Must be a full EPSG code, for example `EPSG:23031`. |
-| x | [float](#float) |  | The x value of the coordinate |
-| y | [float](#float) |  | The y value of the coordinate |
-
-
-
-
-
-
-<a name="com-cognite-seismic-CoverageParameters"></a>
-
-### CoverageParameters
-Deprecated**: use [`CoverageSpec`](#coveragespec) instead. Parameters for requesting coverage of survey
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the survey's original CRS |
-| in_wkt | [bool](#bool) |  | [optional] Whether to use WKT format in the response. Defaults to false, returning GeoJSON. |
-
-
-
-
-
-
-<a name="com-cognite-seismic-CustomSurveyCoverage"></a>
-
-### CustomSurveyCoverage
-Customer-provided custom coverage for surveys.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| custom_coverage | [Geometry](#com-cognite-seismic-Geometry) |  | Overrides survey coverage with the provided custom coverage geometry |
-| no_custom_coverage | [CustomSurveyCoverage.NoCustomCoverage](#com-cognite-seismic-CustomSurveyCoverage-NoCustomCoverage) |  | No custom coverage is provided. Survey coverage will be computed from the seismicstores contained in the survey. |
-
-
-
-
-
-
-<a name="com-cognite-seismic-CustomSurveyCoverage-NoCustomCoverage"></a>
-
-### CustomSurveyCoverage.NoCustomCoverage
-
-
-
-
-
-
-
-<a name="com-cognite-seismic-DeduceFromTraces"></a>
-
-### DeduceFromTraces
-Have the seismic service try to deduce the affine transformation for each file by
-reading trace coordinates
-
-
-
-
-
-
-<a name="com-cognite-seismic-DoubleTraceCoordinates"></a>
-
-### DoubleTraceCoordinates
-Correlated grid indices and coordinates
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
-| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
-| x | [float](#float) |  | The x value of the coordinate |
-| y | [float](#float) |  | The y value of the coordinate |
-
-
-
-
-
-
-<a name="com-cognite-seismic-ExternalId"></a>
-
-### ExternalId
-An external ID.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| external_id | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-File"></a>
-
-### File
-Deprecated**. File or dataset or cube derived from a single SEG-Y file
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| metadata | [File.MetadataEntry](#com-cognite-seismic-File-MetadataEntry) | repeated |  |
-| is_temporary | [bool](#bool) |  |  |
-| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-File-MetadataEntry"></a>
-
-### File.MetadataEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-GeoJson"></a>
-
-### GeoJson
-The GeoJSON format (<a href="https://tools.ietf.org/html/rfc7946">RFC 7946</a>)
-Supported geometry: Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, and GeometryCollection.
-Example:
-
-```
-{
-   "type": "Point",
-   "coordinates": [100.0, 0.0]
-}
-```
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| json | [google.protobuf.Struct](#google-protobuf-Struct) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-Geometry"></a>
-
-### Geometry
-Geometry can be specified using either wkt or geoJSON. CRS is always required.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| crs | [CRS](#com-cognite-seismic-CRS) |  | [required] The CRS of the geometry. |
-| wkt | [Wkt](#com-cognite-seismic-Wkt) |  | A wkt format geometry. |
-| geo | [GeoJson](#com-cognite-seismic-GeoJson) |  | A GeoJSON format geometry. |
-
-
-
-
-
-
-<a name="com-cognite-seismic-Identifier"></a>
-
-### Identifier
-Deprecated**. Specify either id or name to find a file or survey.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-LineBasedRectangle"></a>
-
-### LineBasedRectangle
-Deprecated**. Range of inline and crossline indices defining a 2D region
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| top_left | [PositionQuery](#com-cognite-seismic-PositionQuery) |  |  |
-| bottom_right | [PositionQuery](#com-cognite-seismic-PositionQuery) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-LineDescriptor"></a>
-
-### LineDescriptor
-Describes a series of points.
-The first point is `min`, the next point is `min+step`, the point after that is `min+step*2`, and so on.
-None of the points will be greater than `max`.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| min | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] The first element of the line. Defaults to the minimum value, depending on context. |
-| max | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] The maximum value of a point on the line. Defaults to the maximum value, depending on context. |
-| step | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] The 'step' of the line. Defaults to 1. |
-
-
-
-
-
-
-<a name="com-cognite-seismic-LineRange"></a>
-
-### LineRange
-Object to store the line range. From and to are optional
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| from_line | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-| to_line | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-LineSelect"></a>
-
-### LineSelect
-Deprecated**. Specifies an inline or a crossline
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
-| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
-
-
-
-
-
-
-<a name="com-cognite-seismic-P6Transformation"></a>
-
-### P6Transformation
-Specify the transformation by an origin point and the crossline azimuth
-Format inspired by IOGP guidance note 373-7-2 section 2.3.2.4.
-https://ge0mlib.com/papers/Guide/IOGP/373-07-2-1_2017.pdf
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| handedness | [Handedness](#com-cognite-seismic-Handedness) |  |  |
-| origin | [DoubleTraceCoordinates](#com-cognite-seismic-DoubleTraceCoordinates) |  | A point in the grid |
-| iline_bin_width | [float](#float) |  | The bin width along the inline axis |
-| xline_bin_width | [float](#float) |  | The bin width along the crossline axis |
-| xline_azimuth | [float](#float) |  | Map bearing of the crossline axis in clockwise degrees from north |
-| iline_bin_inc | [int32](#int32) |  | Inline increment corresponding to a bin |
-| xline_bin_inc | [int32](#int32) |  | Crossline increment corresponding to a bin |
-
-
-
-
-
-
-<a name="com-cognite-seismic-PositionQuery"></a>
-
-### PositionQuery
-Deprecated**. Point defined by its inline and crossline indices
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
-| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
-
-
-
-
-
-
-<a name="com-cognite-seismic-Project"></a>
-
-### Project
-Deprecated**.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| alias | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-SlabTrace"></a>
-
-### SlabTrace
-Deprecated**. Wrapper over Trace type that additionally provide information about the range of z values
-included in the trace.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| trace | [Trace](#com-cognite-seismic-Trace) |  |  |
-| z_from | [int32](#int32) |  |  |
-| z_to | [int32](#int32) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-SurfacePoint"></a>
-
-### SurfacePoint
-Deprecated**. Basic type to represent a point in a surface defined by a horizontal grid
-Used in horizontal slice queries
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| iline | [int32](#int32) |  | The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. |
-| xline | [int32](#int32) |  | The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. |
-| value | [float](#float) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-Survey"></a>
-
-### Survey
-Deprecated**. A survey represents a collection of files in the same area
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  | Survey ID |
-| name | [string](#string) |  | Survey name |
-| metadata | [Survey.MetadataEntry](#com-cognite-seismic-Survey-MetadataEntry) | repeated |  |
-| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  | Survey external ID |
-| crs | [CRS](#com-cognite-seismic-CRS) |  | The Coordinate Reference System of the survey |
-| grid_transformation | [SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  |  |
-| custom_coverage | [CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-Survey-MetadataEntry"></a>
-
-### Survey.MetadataEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-SurveyGridTransformation"></a>
-
-### SurveyGridTransformation
-Specify the affine transformation between line indices and coordinates
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| p6_transformation | [P6Transformation](#com-cognite-seismic-P6Transformation) |  |  |
-| trace_corners | [TraceCorners](#com-cognite-seismic-TraceCorners) |  |  |
-| deduce_from_traces | [DeduceFromTraces](#com-cognite-seismic-DeduceFromTraces) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-Trace"></a>
-
-### Trace
-Basic type to represent a seismic trace
-Used in trace, vertical slices and volume queries
-Contains the samples and information on positioning
-If a trace is an original trace in the file, it can optionally contain the trace header.
-This is not valid for traces that are synthetically generated from interpolation.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| trace_header | [bytes](#bytes) |  | The binary SEGY trace header, if requested. |
-| iline | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The inline number. Only populated for 3D seismics. |
-| xline | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The xline number. Only populated for 3D seismics. |
-| cdp | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The cdp number. Only populated for 2D seismics indexed by cdp. |
-| shotpoint | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The shotpoint number. Only populated for 2D seismics indexed by shotpoint. |
-| energy_source_point | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The energy source point number. Only populated for 2D seismics indexed by energy source point. |
-| cdp_trace | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The cdp trace number. Only populated for prestack-migrated seismics indexed by cdp_trace. |
-| offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | The offset number. Only populated for prestack-migrated seismics indexed by offset. |
-| trace | [float](#float) | repeated | The underlying array of floats representing samples |
-| coordinate | [Coordinate](#com-cognite-seismic-Coordinate) |  | The CDP X and Y coordinates of the trace. |
-
-
-
-
-
-
-<a name="com-cognite-seismic-TraceCorners"></a>
-
-### TraceCorners
-Specify the transformation by giving the coordinates of three or more corners
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| corners | [DoubleTraceCoordinates](#com-cognite-seismic-DoubleTraceCoordinates) | repeated |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-Wkt"></a>
-
-### Wkt
-Well-known text representation of geometry (<a href="http://www.opengeospatial.org/standards/sfa">WKT</a>)
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| geometry | [string](#string) |  |  |
-
-
-
-
-
-
-
-
-
-
-<a name="com-cognite-seismic-FileStep"></a>
-
-### FileStep
-Deprecated**.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| REGISTER | 0 |  |
-| INSERT_FILE_HEADERS | 1 |  |
-| INSERT_TRACE_HEADERS | 2 |  |
-| INSERT_DATA | 3 |  |
-| COMPUTE_COVERAGE | 4 |  |
-| COMPUTE_GRID | 5 |  |
-| COMPUTE_TRACE_INDICES | 6 |  |
-| DELETING | 254 |  |
-| DELETE | 255 |  |
-
-
-
-<a name="com-cognite-seismic-Handedness"></a>
-
-### Handedness
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| RIGHTHANDED | 0 | inline axis is 90 deg clockwise from crossline AKA EPSG code 9666 |
-| LEFTHANDED | 1 | inline axis is 90 deg counterclockwise from crossline AKA EPSG code 1049 |
-
-
-
-<a name="com-cognite-seismic-IngestionSource"></a>
-
-### IngestionSource
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| INVALID_SOURCE | 0 |  |
-| FILE_SOURCE | 1 |  |
-| TRACE_WRITER | 2 | TraceWriter |
-
-
-
-<a name="com-cognite-seismic-InterpolationMethod"></a>
-
-### InterpolationMethod
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| NEAREST_TRACE | 0 |  |
-| INVERSE_DISTANCE_WEIGHTING | 1 |  |
-
-
-
-<a name="com-cognite-seismic-JobStatus"></a>
-
-### JobStatus
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| NONE | 0 | Default value for the enum. |
-| QUEUED | 1 | The job is in the queue but has not been worked on. |
-| IN_PROGRESS | 2 | The job is being processed. |
-| SUCCESS | 3 | The job has terminated correctly. |
-| FAILED | 4 | The job has failed. |
-| TIMEOUT | 5 | The job took too long and has timed out. No more work will be done on the job. |
-
-
-
-
-
-
-
-
-
-<a name="cognite_seismic_protos_ingest_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/ingest_service.proto
-
-
-
-
-
-
-
-<a name="com-cognite-seismic-Ingest"></a>
-
-### Ingest
-Service for ingestion and metadata updates of SEG-Y files into Cognite Data Fusion (CDF) seismic datastore
-
-We use the word `File` to refer to a single seismic file/dataset/cube
-Surveys can have many files attached to them, with different attributes or processing stages, and every file must
-belong to a survey
-The expected order of ingestion is:
-
-1) Register a survey, if it does not exist
-
-2) Register a file
-Files are expected to be previously uploaded to a Google Cloud Storage (GCS) bucket at this point, and the service needs
-permission to this bucket in the form of a service account.
-The RegisterFile endpoint will request the survey name or id, bucket address and the CRS used in this file
-(e.g.: EDM50, WGS84), so be sure to have this information prior at hand.
-
-3) Ingest the file
-If the RegisterFile endpoint completes successfully, and your file is found in the bucket, you can now send a request to
-the IngestFile endpoint, and an asynchronous process will be started remotely to download and process the file.
-You can verify the status of this process by calling the Status endpoint  with the id returned in the IngestFile endpoint
-
-As soon as the status of the processing job is set to complete, data from the file will be available with the query service
-
-When a file is registered in a CDF project, this project owns the file. It is then allowed to share access with other
-CDF projects
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| RegisterSurvey | [RegisterSurveyRequest](#com-cognite-seismic-RegisterSurveyRequest) | [RegisterSurveyResponse](#com-cognite-seismic-RegisterSurveyResponse) | Registers a new survey. |
-| RegisterFile | [RegisterFileRequest](#com-cognite-seismic-RegisterFileRequest) | [RegisterFileResponse](#com-cognite-seismic-RegisterFileResponse) | Registers a new file in a (previously registered) survey. |
-| IngestFile | [IngestFileRequest](#com-cognite-seismic-IngestFileRequest) | [IngestFileResponse](#com-cognite-seismic-IngestFileResponse) | Sends a request for the ingestion of a registered file into the queue. Will return a job id which can be queried for status. |
-| Status | [StatusRequest](#com-cognite-seismic-StatusRequest) | [StatusResponse](#com-cognite-seismic-StatusResponse) | Retrieves the status of an ingestion job. |
-| DeleteFile | [DeleteFileRequest](#com-cognite-seismic-DeleteFileRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Deletes a file |
-| DeleteSurvey | [DeleteSurveyRequest](#com-cognite-seismic-DeleteSurveyRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Deletes a survey |
-| EditFile | [EditFileRequest](#com-cognite-seismic-EditFileRequest) | [EditFileResponse](#com-cognite-seismic-EditFileResponse) | Updates file metadata |
-| EditSurvey | [EditSurveyRequest](#com-cognite-seismic-EditSurveyRequest) | [EditSurveyResponse](#com-cognite-seismic-EditSurveyResponse) | Updates survey metadata |
-| ListFileAccess | [ListFileAccessRequest](#com-cognite-seismic-ListFileAccessRequest) | [ProjectListResponse](#com-cognite-seismic-ProjectListResponse) | List projects that have access to a specific file. Only users in the CDF project that owns the file have access to this method DEPRECATED - multitenant file sharing is not supported anymore |
-| EditFileAccess | [EditFileAccessRequest](#com-cognite-seismic-EditFileAccessRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Add or remove access to a file for CDF projects Only users in the CDF project that owns the file have access to this method DEPRECATED - multitenant file sharing is not supported anymore |
-| StoreTrace | [StoreTraceRequest](#com-cognite-seismic-StoreTraceRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Store a single trace to synthetic file/volume |
-
-
-
-
-
-
-<a name="cognite_seismic_protos_ingest_service_messages-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/ingest_service_messages.proto
-Messages from the ingestion service of Seismic Datastore in Cognite Data Fusion
-
-
-
-<a name="com-cognite-seismic-DeleteFileRequest"></a>
-
-### DeleteFileRequest
-[Example]
-{"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a file previously registered with /RegisterFile |
-| keep_registered | [bool](#bool) |  | If set to true, will delete contents of file (undo the ingestion), but keep the file registered. If set to false, will completely remove the file from database. If no option is set, default is false |
-
-
-
-
-
-
-<a name="com-cognite-seismic-DeleteSurveyRequest"></a>
-
-### DeleteSurveyRequest
-[Example]
-{"survey": {"name": "survey_name"} }
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| survey | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a survey previously registered with /RegisterSurvey |
-
-
-
-
-
-
-<a name="com-cognite-seismic-EditFileAccessRequest"></a>
-
-### EditFileAccessRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a file |
-| project | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a project |
-| add | [bool](#bool) |  | If neither add or remove are set, or if both are set to true, add will be assumed Add project access to this file |
-| remove | [bool](#bool) |  | Remove project access from this file |
-
-
-
-
-
-
-<a name="com-cognite-seismic-EditFileRequest"></a>
-
-### EditFileRequest
-[Example]
-{"file": {"id": "97305892-d622-4425-8530-3029b740842e"} }
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a file previously registered with /RegisterFile |
-| path | [string](#string) |  | [optional] New path. Example: "gs://cognite-seismic-eu/samples/" |
-| name | [string](#string) |  | [optional] New (unique) filename. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy" |
-| metadata | [EditFileRequest.MetadataEntry](#com-cognite-seismic-EditFileRequest-MetadataEntry) | repeated | [optional] New metadata |
-| crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] Official name of the CRS used. Example: "EPSG:23031" |
-| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
-| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
-| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
-| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
-| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] An external identifier - matches service contract field |
-| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  | [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header. Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100. Negative values and values greater than 1 are not permitted. To remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN. The next ingestion processing of a file will then use the source group scalar values found in trace headers. |
-
-
-
-
-
-
-<a name="com-cognite-seismic-EditFileRequest-MetadataEntry"></a>
-
-### EditFileRequest.MetadataEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-EditFileResponse"></a>
-
-### EditFileResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [File](#com-cognite-seismic-File) |  |  |
-| path | [string](#string) |  |  |
-| crs | [CRS](#com-cognite-seismic-CRS) |  |  |
-| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
-| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
-| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
-| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
-| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  | [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header |
-
-
-
-
-
-
-<a name="com-cognite-seismic-EditSurveyRequest"></a>
-
-### EditSurveyRequest
-[Example]
-{"survey": {"id": "97305892-d622-4425-8530-3029b740842e"}, "name": "new name"}
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| survey | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a survey previously registered with /RegisterSurvey |
-| name | [string](#string) |  | [optional] New name |
-| metadata | [EditSurveyRequest.MetadataEntry](#com-cognite-seismic-EditSurveyRequest-MetadataEntry) | repeated | [optional] New metadata |
-| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] External id matching service contract type |
-| crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] new CRS used by all members |
-| grid_transformation | [SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  | [optional] Affine transformation from grid bins to coordinates |
-| custom_coverage | [CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  | [optional] Customer-provided custom survey coverage |
-
-
-
-
-
-
-<a name="com-cognite-seismic-EditSurveyRequest-MetadataEntry"></a>
-
-### EditSurveyRequest.MetadataEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-EditSurveyResponse"></a>
-
-### EditSurveyResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| survey | [Survey](#com-cognite-seismic-Survey) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-IngestFileRequest"></a>
-
-### IngestFileRequest
-[Example]
-{"file": {"name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..JS-021837.segy"} }
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a file previously registered with /RegisterFile |
-| start_step | [FileStep](#com-cognite-seismic-FileStep) |  | [optional] Selected step to start ingestion. Leave blank to start from last completed step. [Accepted values] 1 -- insert binary and text headers 2 -- insert trace headers 3 -- insert trace data 4 -- compute coverage polygon and additional metadata (trace count, valid lines, etc) 6 -- insert trace offset indices [Use cases] Usual ingestion: If the last successful step was 0 (REGISTER), the file will be fully ingested regardless of start_step Completing a failed ingestion: If the last successful step was 3 (INSERT_DATA), and no start step is selected, only coverage will be computed. Previously ingested headers and traces will be preserved in this case. Forcing reingestion: If start_step is 1 (INSERT_FILE_HEADERS), regardless of previous ingestion status, all headers and data will be deleted and the whole file will be forcefully reingested Forcing a single step to be rerun: If the file is ingested (last step is COMPUTE_COVERAGE), by using start_step = 4 (COMPUTE_COVERAGE), for example, only coverage will be computed while headers and traces will be preserved |
-| target_storage_tier_name | [string](#string) |  | [optional as of 2020-11-01, will be required at some later time] Target storage tier for this file. If empty a bigtable-based storage will be used. A storage tier is a defined facility for storing the trace data associated with a seismic volume. The default storage facility is based on Cloud Bigtable, but it is also possible to leave trace data stored in SEG-Y files in Cloud Storage, only retaining a compact index of file data in fast storage to facilitate retrieval of data from Cloud Storage in a performant manner. [Accepted values] Accepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage cost, retrieval performance, numeric precision and sampling. Note that currently only one storage tier per trace store is supported, so ingesting an already ingested file will result in the file's data being removed from the previously active storage tier. |
-
-
-
-
-
-
-<a name="com-cognite-seismic-IngestFileResponse"></a>
-
-### IngestFileResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| job_id | [string](#string) |  | job id that can be used to query for status |
-| file_id | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-IngestionLog"></a>
-
-### IngestionLog
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| timestamp | [string](#string) |  |  |
-| log_line | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-ListFileAccessRequest"></a>
-
-### ListFileAccessRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a file |
-
-
-
-
-
-
-<a name="com-cognite-seismic-ProjectListResponse"></a>
-
-### ProjectListResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| project | [Project](#com-cognite-seismic-Project) | repeated |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-RegisterFileRequest"></a>
-
-### RegisterFileRequest
-[Example]
-{
-"survey": {"name": "surveyname"},
-"name": "ABP16M03-FMIG-OBC-PSDM-FULL-STACK-T.MIG_FIN.POST_STACK..J.segy",
-"path": "gs://cognite-seismic-eu/samples/from-diskos-disks",
-"crs": { "crs": "EPSG:23031"}
-}
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| survey | [Identifier](#com-cognite-seismic-Identifier) |  | [required] Either name or id of a survey previously registered with /RegisterSurvey |
-| path | [string](#string) |  | [required if file is not synthetic] Path including protocol, bucket and directory structure. Example: "gs://cognite-seismic-eu/samples/" |
-| name | [string](#string) |  | [required] Unique filename including extension. Example: "DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy". The name must be unique across buckets and can be used to identify this file in query requests |
-| metadata | [RegisterFileRequest.MetadataEntry](#com-cognite-seismic-RegisterFileRequest-MetadataEntry) | repeated | [optional] |
-| crs | [CRS](#com-cognite-seismic-CRS) |  | [required] Official name of the CRS used. Example: "EPSG:23031" |
-| is_temporary | [google.protobuf.BoolValue](#google-protobuf-BoolValue) |  | [optional] tells whether file is temporary (writeable) or not. False by default |
-| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification |
-| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification |
-| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] X coordinate of ensemble (CDP) position in trace headers. Defaults to 181 as per the SEG-Y rev1 specification |
-| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | [optional] Y coordinate of ensemble (CDP) position in trace headers. Defaults to 185 as per the SEG-Y rev1 specification |
-| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] An external identifier - matches service contract field |
-| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  | [optional] Multiplier for CDP-X and CDP-Y values, overrides scalar factor obtained from trace header. Must be in the range (0,1]. Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not interpreted in the manner of the source group scalar trace header field in the SEG-Y specification. That is: To divide by 100, specify 0.01, not -100. Negative values, 0 and values greater than 1 are not permitted when registering a file, although 0 may be used in the EditFile call to unset this field. |
-
-
-
-
-
-
-<a name="com-cognite-seismic-RegisterFileRequest-MetadataEntry"></a>
-
-### RegisterFileRequest.MetadataEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-RegisterFileResponse"></a>
-
-### RegisterFileResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [File](#com-cognite-seismic-File) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-RegisterSurveyRequest"></a>
-
-### RegisterSurveyRequest
-[Example]
-{"name": "surveyname", "metadata": {"location": "underwater"}, "external_id": "surveyname-external" }
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | [required] |
-| metadata | [RegisterSurveyRequest.MetadataEntry](#com-cognite-seismic-RegisterSurveyRequest-MetadataEntry) | repeated | [optional] |
-| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  | [optional] |
-| crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] new CRS used by all members |
-| grid_transformation | [SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  | [optional] Affine transformation from grid bins to coordinates |
-| custom_coverage | [CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-RegisterSurveyRequest-MetadataEntry"></a>
-
-### RegisterSurveyRequest.MetadataEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-RegisterSurveyResponse"></a>
-
-### RegisterSurveyResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| survey | [Survey](#com-cognite-seismic-Survey) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-StatusRequest"></a>
-
-### StatusRequest
-[Example]
-{"job_id": "1e9a4f9b-7c15-44dd-bbbb-e9e9fb83e401"}
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| job_id | [string](#string) |  |  |
-| file_id | [string](#string) |  |  |
-| seismicstore_id | [int64](#int64) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-StatusResponse"></a>
-
-### StatusResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| status | [JobStatus](#com-cognite-seismic-JobStatus) |  |  |
-| message | [string](#string) |  |  |
-| started_at | [string](#string) |  |  |
-| updated_at | [string](#string) |  |  |
-| logs | [IngestionLog](#com-cognite-seismic-IngestionLog) | repeated |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-StoreTraceRequest"></a>
-
-### StoreTraceRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| iline | [int32](#int32) |  |  |
-| xline | [int32](#int32) |  |  |
-| x | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-| y | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-| trace | [float](#float) | repeated |  |
-| raw_header | [bytes](#bytes) |  |  |
-
-
-
-
-
-
-
-
-
-
-
-
-
-<a name="cognite_seismic_protos_experimental_experimental_service_messages-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/experimental/experimental_service_messages.proto
-
-
-
-
-
-
-
-
-<a name="cognite_seismic_protos_experimental_experimental_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/experimental/experimental_service.proto
-
-
-
-
-
-
-
-<a name="com-cognite-seismic-experimental-ExperimentalAPI"></a>
-
-### ExperimentalAPI
-A service for experimental features.
-Should only be enabled on greenfield.
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-
-
-
-
-
-
-<a name="cognite_seismic_protos_query_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/query_service.proto
-
-
-
-
-
-
-
-<a name="com-cognite-seismic-Query"></a>
-
-### Query
-Service for querying data and metadata from seismic files in Cognite Data Fusion
-(CDF) seismic datastore We use the word `File` to refer to a single seismic
-file/dataset/cube. Queries on a file require it to have been previously ingested
-into CDF using (ingest_service.proto)
-
-Queries are divided in:
-
-- Metadata:
-
-General information and headers for surveys and files
-
-- Geometry and grid:
-
-Information on a file's grid and positioning, such as coverage and range of
-inlines and crosslines
-
-- Trace:
-
-Find a single trace in the file. A trace will include header, position
-information and samples. More details about the trace format can be found on its
-definition in (types.proto)
-
-- Vertical slice:
-
-Get 2D vertical slices of samples (thus 1D arrays of traces). The slices can
-be based on a single defined line or in an arbitrarily defined line with
-interpolation.
-
-- Area:
-
-Get 3D volumes of samples (thus 2D arrays of traces) defined by a region in
-the horizontal plane
-
-- Horizontal slice:
-
-Get 2D horizontal slices of samples defined by a region in the horizontal
-plane and a specific index in depth/time
-
-- Artificial sampling:
-
-Get the (calculated/interpolated) values of properties in the file/cube
-given arbitrary positions
-
-Metadata queries
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| GetSurvey | [SurveyQueryRequest](#com-cognite-seismic-SurveyQueryRequest) | [GetSurveyResponse](#com-cognite-seismic-GetSurveyResponse) | Finds one survey given its name or id. Optionally, lists its associated files. |
-| ListSurveys | [ListSurveysQueryRequest](#com-cognite-seismic-ListSurveysQueryRequest) | [SurveyWithFilesResponse](#com-cognite-seismic-SurveyWithFilesResponse) | Lists all surveys owned by this project. Optionally, includes their lists of files. |
-| ListFiles | [.google.protobuf.Empty](#google-protobuf-Empty) | [ListFilesResponse](#com-cognite-seismic-ListFilesResponse) | Lists all files available, both owned by the authorized CDF project and shared with it |
-| SearchSurveys | [SearchSurveyRequest](#com-cognite-seismic-SearchSurveyRequest) | [SurveyWithFilesResponse](#com-cognite-seismic-SurveyWithFilesResponse) | Search surveys based on two criteria: 1. Coverage polygon of files in the survey are within an area delimited by a specified polygon 2. Filters on metadata of both the survey and the file. Both criteria are optional and can be combined for a more detailed search. |
-| GetFile | [FileQueryRequest](#com-cognite-seismic-FileQueryRequest) | [GetFileResponse](#com-cognite-seismic-GetFileResponse) | Returns file metadata given its name or id. |
-| GetBinaryHeader | [HeaderFileQueryRequest](#com-cognite-seismic-HeaderFileQueryRequest) | [GetBinaryHeaderResponse](#com-cognite-seismic-GetBinaryHeaderResponse) | Returns a binary header given its file name or id. |
-| GetTextHeader | [HeaderFileQueryRequest](#com-cognite-seismic-HeaderFileQueryRequest) | [GetTextHeaderResponse](#com-cognite-seismic-GetTextHeaderResponse) | Returns a text header given its file name or id. |
-| GetFileDataCoverage | [FileCoverageRequest](#com-cognite-seismic-FileCoverageRequest) | [DataCoverageResponse](#com-cognite-seismic-DataCoverageResponse) | Returns the coverage for a given file identified by its id or name. The coverage is represented by a polygon either in WKT or geojson and represents the area covered by traces in the file. There can be holes in the polygon if traces do not exist in an area inside of it. DEPRECATE in favor of Geospatial APIs. |
-| GetFileLineRange | [FileQueryRequest](#com-cognite-seismic-FileQueryRequest) | [LineRangeResponse](#com-cognite-seismic-LineRangeResponse) | Returns the full range of the inlines and crosslines in the file, i.e. the minimum and maximum inline and crossline |
-| GetCrosslinesByInline | [FileLineQueryRequest](#com-cognite-seismic-FileLineQueryRequest) | [AvailableLines](#com-cognite-seismic-AvailableLines) | Returns the set of valid crossline indices for a specific inline, in a given file DEPRECATE: Move to GetFileLineRange. |
-| GetInlinesByCrossline | [FileLineQueryRequest](#com-cognite-seismic-FileLineQueryRequest) | [AvailableLines](#com-cognite-seismic-AvailableLines) | Returns the set of valid inline indices for a specific crossline, in a given file DEPRECATE: Move to GetFileLineRange. |
-| GetTraceByCoordinates | [CoordinateTraceQueryRequest](#com-cognite-seismic-CoordinateTraceQueryRequest) | [Trace](#com-cognite-seismic-Trace) | Returns the trace in a file that is closest to a point given its coordinates (x,y) |
-| GetTracesByLine | [LineTraceQueryRequest](#com-cognite-seismic-LineTraceQueryRequest) stream | [Trace](#com-cognite-seismic-Trace) stream | Returns a trace for each coordinate (inline, xline) from the input stream |
-| GetSliceByLine | [LineSliceQueryRequest](#com-cognite-seismic-LineSliceQueryRequest) | [Trace](#com-cognite-seismic-Trace) stream | Returns all or a subset of traces in a slice (inline or crossline) given its index (and optionally from/to) DEPRECATED, use GetVolume instead. |
-| GetSliceByGeometry | [GeometrySliceQueryRequest](#com-cognite-seismic-GeometrySliceQueryRequest) | [Trace](#com-cognite-seismic-Trace) stream | Returns a slice with traces following a path determined by an arbitrary line. Depending on interpolating method, these can be either real traces in the file that are closest to the path or synthetic traces generated by interpolation of the traces in the file. |
-| GetCubeByLines | [LineCubeRequest](#com-cognite-seismic-LineCubeRequest) | [Trace](#com-cognite-seismic-Trace) stream | Returns a volume with all traces inside a given range of inlines and a given range of crosslines DEPRECATED, use GetVolume instead. |
-| GetCubeByGeometry | [GeometryCubeRequest](#com-cognite-seismic-GeometryCubeRequest) | [Trace](#com-cognite-seismic-Trace) stream | Returns a volume with all traces with x, y coordinates inside an arbitrary 2D polygon |
-| GetSegYFile | [SegYQueryRequest](#com-cognite-seismic-SegYQueryRequest) | [SegYQueryResponse](#com-cognite-seismic-SegYQueryResponse) stream | Returns a SEG-Y file. Can retrieve a full file or create a new cropped file filtering on areas of interest only. DEPRECATED, to be replaced with a command line tool or an SDK method for constructing a SEG-Y file by calling GetVolume |
-| GetSlabByLines | [LineSlabRequest](#com-cognite-seismic-LineSlabRequest) | [SlabTrace](#com-cognite-seismic-SlabTrace) stream | Returns a seismic slab by either horizon or constant depth and area constrained by a range of inlines and crosslines |
-| GetTimeSliceByGeometry | [GeometryTimeSliceQueryRequest](#com-cognite-seismic-GeometryTimeSliceQueryRequest) | [SurfacePoint](#com-cognite-seismic-SurfacePoint) stream | Returns a horizontal slice for a given depth or time and area constrained by an arbitrary 2D polygon |
-| GetVolume | [VolumeRequest](#com-cognite-seismic-VolumeRequest) | [Trace](#com-cognite-seismic-Trace) stream | Volume queries |
 
 
 
