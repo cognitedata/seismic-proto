@@ -12,6 +12,9 @@ jobs:
         with:
           token: ''
           lint: true
+          format: true
+          breaking: true
+          breaking_against: .git#branch=master
           push: false
           archive: false
   build-docs:
