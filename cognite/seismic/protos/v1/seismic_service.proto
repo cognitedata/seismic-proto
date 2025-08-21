@@ -7,166 +7,166 @@ import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 import "cognite/seismic/protos/v1/seismic_service_messages.proto";
 
 /**
-This is the main service for managing and querying metadata and seismic traces from Cognite Data Fusion (CDF). [`Survey`](#com.cognite.seismic.v1.survey) and [`Partition`](#com.cognite.seismic.v1.partition) objects are primarily metadata-focused, and all seismic traces are queried via references to [`SeismicStore`](#com.cognite.seismic.v1.seismicstore) or [`Seismic`](#com.cognite.seismic.v1.seismic) objects.
+   This is the main service for managing and querying metadata and seismic traces from Cognite Data Fusion (CDF). [`Survey`](#com.cognite.seismic.v1.survey) and [`Partition`](#com.cognite.seismic.v1.partition) objects are primarily metadata-focused, and all seismic traces are queried via references to [`SeismicStore`](#com.cognite.seismic.v1.seismicstore) or [`Seismic`](#com.cognite.seismic.v1.seismic) objects.
 
-Queries are divided into these broad categories:
-- **Management**: Creating, editing and deleting Cognite Data Fusion objects, as well as managing the status of file uploading and processing.
-- **Metadata**: Information about surveys, partitions, seismic objects, and headers.
-- **Trace**: Retrieving traces or information about traces.
-**/
+   Queries are divided into these broad categories:
+   - **Management**: Creating, editing and deleting Cognite Data Fusion objects, as well as managing the status of file uploading and processing.
+   - **Metadata**: Information about surveys, partitions, seismic objects, and headers.
+   - **Trace**: Retrieving traces or information about traces.
+   **/
 service SeismicAPI {
-    /**
-     * Creates a Survey object in the data model. A Survey object represents a grouping of seismic data
-     * in the same area and normally shares acquisition and most processing parameters.
-     * 
-     * Capabilities: Requires Seismic:WRITE capability to the CDF tenant.
-     */
-    rpc CreateSurvey (CreateSurveyRequest) returns (Survey) {}
+  /**
+   * Creates a Survey object in the data model. A Survey object represents a grouping of seismic data
+   * in the same area and normally shares acquisition and most processing parameters.
+   *
+   * Capabilities: Requires Seismic:WRITE capability to the CDF tenant.
+   */
+  rpc CreateSurvey(CreateSurveyRequest) returns (Survey) {}
 
-    /**
-     * Lists all surveys accessible to the client.
-     * You can also choose to receive a list of Seismic and SeismicStore object ids associated with the surveys.
-     *
-     * The returned surveys can also be limited to those that satisfy one or both of these criteria:
-     *   - Coverage polygon of files in the survey are within an area delimited by a specified polygon.
-     *   - Filters on metadata of both the survey and the file.
-     */
-    rpc SearchSurveys (SearchSurveysRequest) returns (stream SearchSurveyResponse) {}
+  /**
+   * Lists all surveys accessible to the client.
+   * You can also choose to receive a list of Seismic and SeismicStore object ids associated with the surveys.
+   *
+   * The returned surveys can also be limited to those that satisfy one or both of these criteria:
+   *   - Coverage polygon of files in the survey are within an area delimited by a specified polygon.
+   *   - Filters on metadata of both the survey and the file.
+   */
+  rpc SearchSurveys(SearchSurveysRequest) returns (stream SearchSurveyResponse) {}
 
-    /**
-     * Modifies the metadata for a survey.
-     *
-     * The survey crs and grid transformation can only be modified if there are no ingested seismic stores in the survey.
-     */
-    rpc EditSurvey (EditSurveyRequest) returns (Survey) {}
+  /**
+   * Modifies the metadata for a survey.
+   *
+   * The survey crs and grid transformation can only be modified if there are no ingested seismic stores in the survey.
+   */
+  rpc EditSurvey(EditSurveyRequest) returns (Survey) {}
 
-    /**
-     * Deletes a specified survey. Must have Seismic:ALL scope and Write capability.
-     */
-    rpc DeleteSurvey(DeleteSurveyRequest) returns (DeleteSurveyResponse) {}
+  /**
+   * Deletes a specified survey. Must have Seismic:ALL scope and Write capability.
+   */
+  rpc DeleteSurvey(DeleteSurveyRequest) returns (DeleteSurveyResponse) {}
 
-    /**
-     * Registers a new file in a (previously registered) survey as source for ingestion.
-     */
-    rpc RegisterSourceSegyFile (RegisterSourceSegyFileRequest) returns (RegisterSourceSegyFileResponse) {}
+  /**
+   * Registers a new file in a (previously registered) survey as source for ingestion.
+   */
+  rpc RegisterSourceSegyFile(RegisterSourceSegyFileRequest) returns (RegisterSourceSegyFileResponse) {}
 
-    /**
-     * Edits a registered source file.
-     *
-     * Before editing, there must be no ingestion jobs running for the source file.
-     * The SeismicStore associated with the source file must also be deleted if it was successfully created.
-     * This request will fail if the above criteira aren't met.
-     */
-    rpc EditSourceSegyFile (EditSourceSegyFileRequest) returns (EditSourceSegyFileResponse) {}
+  /**
+   * Edits a registered source file.
+   *
+   * Before editing, there must be no ingestion jobs running for the source file.
+   * The SeismicStore associated with the source file must also be deleted if it was successfully created.
+   * This request will fail if the above criteira aren't met.
+   */
+  rpc EditSourceSegyFile(EditSourceSegyFileRequest) returns (EditSourceSegyFileResponse) {}
 
-    /**
-     * Unregisters a file previously registered as the source for ingestion.
-     *
-     * Before unregistering, there must be no ingestion jobs running for the source file.
-     * The SeismicStore associated with the source file must also be deleted if it was successfully created.
-     * This request will fail if the above criteira aren't met.
-     */
-    rpc UnregisterSourceSegyFile (UnregisterSourceSegyFileRequest) returns (UnregisterSourceSegyFileResponse) {}
+  /**
+   * Unregisters a file previously registered as the source for ingestion.
+   *
+   * Before unregistering, there must be no ingestion jobs running for the source file.
+   * The SeismicStore associated with the source file must also be deleted if it was successfully created.
+   * This request will fail if the above criteira aren't met.
+   */
+  rpc UnregisterSourceSegyFile(UnregisterSourceSegyFileRequest) returns (UnregisterSourceSegyFileResponse) {}
 
-    /**
-     * Requests queueing of a registered file for ingestion.
-     */
-    rpc IngestSourceSegyFile (IngestSourceSegyFileRequest) returns (IngestSourceSegyFileResponse) {}
+  /**
+   * Requests queueing of a registered file for ingestion.
+   */
+  rpc IngestSourceSegyFile(IngestSourceSegyFileRequest) returns (IngestSourceSegyFileResponse) {}
 
-    /**
-     * Creates new Seismics and assign them to partitions.
-     * Seismic objects are mostly immutable aside from their name and metadata.
-     * A Seismic object must be deleted and recreated in order to change properties such as the cutout or the source seismic store.
-     */
-    rpc CreateSeismic (CreateSeismicRequest) returns (Seismic) {}
+  /**
+   * Creates new Seismics and assign them to partitions.
+   * Seismic objects are mostly immutable aside from their name and metadata.
+   * A Seismic object must be deleted and recreated in order to change properties such as the cutout or the source seismic store.
+   */
+  rpc CreateSeismic(CreateSeismicRequest) returns (Seismic) {}
 
-    /**
-     * Returns metadata for a Seismic object.
-     * Can optionally retrieve seismic store & partition info if user has appropriate scope and capability.
-     */
-    rpc SearchSeismics (SearchSeismicsRequest) returns (stream Seismic) {}
+  /**
+   * Returns metadata for a Seismic object.
+   * Can optionally retrieve seismic store & partition info if user has appropriate scope and capability.
+   */
+  rpc SearchSeismics(SearchSeismicsRequest) returns (stream Seismic) {}
 
-    /**
-     * Edits the specified seismic. Seismic object names and metadata can be changed.
-     * Other properties such as the cutout, owning partition, or source seismic store can't be changed.
-     * The seismic object must be deleted and recreated in order to modify these immutable properties.
-     */
-    rpc EditSeismic (EditSeismicRequest) returns (Seismic) {}
+  /**
+   * Edits the specified seismic. Seismic object names and metadata can be changed.
+   * Other properties such as the cutout, owning partition, or source seismic store can't be changed.
+   * The seismic object must be deleted and recreated in order to modify these immutable properties.
+   */
+  rpc EditSeismic(EditSeismicRequest) returns (Seismic) {}
 
-    /**
-     * Deletes seismic objects.
-     */
-    rpc DeleteSeismic (DeleteSeismicRequest) returns (DeleteSeismicResponse) {}
+  /**
+   * Deletes seismic objects.
+   */
+  rpc DeleteSeismic(DeleteSeismicRequest) returns (DeleteSeismicResponse) {}
 
-    /**
-     * Searches and retrieves seismic stores. Can only retrieve seismic stores you own.
-     */
-    rpc SearchSeismicStores (SearchSeismicStoresRequest) returns (stream SeismicStore) {}
+  /**
+   * Searches and retrieves seismic stores. Can only retrieve seismic stores you own.
+   */
+  rpc SearchSeismicStores(SearchSeismicStoresRequest) returns (stream SeismicStore) {}
 
-    /**
-    * Inspects the seismicstore resulting from a possibly failed ingestion. Useful for 
-    * debugging failed ingestions.
-    */
-    rpc InspectIngestion (InspectIngestionRequest) returns (InspectIngestionResponse) {}
+  /**
+   * Inspects the seismicstore resulting from a possibly failed ingestion. Useful for
+   * debugging failed ingestions.
+   */
+  rpc InspectIngestion(InspectIngestionRequest) returns (InspectIngestionResponse) {}
 
-    /**
-     * Sets the name or metadata of a seismic store object.
-     **/
-    rpc EditSeismicStore (EditSeismicStoreRequest) returns (SeismicStore) {}
+  /**
+   * Sets the name or metadata of a seismic store object.
+   **/
+  rpc EditSeismicStore(EditSeismicStoreRequest) returns (SeismicStore) {}
 
-    /**
-     * Deletes a seismic store. If any seismic objects still reference the specified seismic store, the request will fail.
-     */
-    rpc DeleteSeismicStore (DeleteSeismicStoreRequest) returns (DeleteSeismicStoreResponse) {}
+  /**
+   * Deletes a seismic store. If any seismic objects still reference the specified seismic store, the request will fail.
+   */
+  rpc DeleteSeismicStore(DeleteSeismicStoreRequest) returns (DeleteSeismicStoreResponse) {}
 
-    /**
-     * Creates a data partition, optionally setting a name.
-     */
-    rpc CreatePartition (CreatePartitionRequest) returns (Partition) {}
+  /**
+   * Creates a data partition, optionally setting a name.
+   */
+  rpc CreatePartition(CreatePartitionRequest) returns (Partition) {}
 
-    /**
-     * Returns the specified partitions, with the same search options as the other search endpoints.
-     */
-    rpc SearchPartitions (SearchPartitionsRequest) returns (stream Partition) {}
+  /**
+   * Returns the specified partitions, with the same search options as the other search endpoints.
+   */
+  rpc SearchPartitions(SearchPartitionsRequest) returns (stream Partition) {}
 
-    /**
-     * Edits partitions. The only modifiable field is the name.
-     */
-    rpc EditPartition (EditPartitionRequest) returns (Partition) {}
+  /**
+   * Edits partitions. The only modifiable field is the name.
+   */
+  rpc EditPartition(EditPartitionRequest) returns (Partition) {}
 
-    /**
-     * Deletes the specified partition and returns a response if it was successfully deleted.
-     */
-    rpc DeletePartition (DeletePartitionRequest) returns (DeletePartitionResponse) {}
+  /**
+   * Deletes the specified partition and returns a response if it was successfully deleted.
+   */
+  rpc DeletePartition(DeletePartitionRequest) returns (DeletePartitionResponse) {}
 
-    /**
-     * Requests a volume of traces by range of inlines, crosslines, and time.
-     * 
-     * **Deprecated** - use StreamTraces instead.
-     */
-    rpc GetVolume(VolumeRequest) returns (stream com.cognite.seismic.Trace) {}
+  /**
+   * Requests a volume of traces by range of inlines, crosslines, and time.
+   *
+   * **Deprecated** - use StreamTraces instead.
+   */
+  rpc GetVolume(VolumeRequest) returns (stream com.cognite.seismic.Trace) {}
 
-    /**
-     * Return information about what a GetVolume request would return, including bounding boxes of
-     * trace header values, and estimated total size.
-     * **Deprecated** - use `GetTraceBounds` instead.
-     */
-    rpc GetVolumeBounds(VolumeRequest) returns (VolumeBoundsResponse) {}
+  /**
+   * Return information about what a GetVolume request would return, including bounding boxes of
+   * trace header values, and estimated total size.
+   * **Deprecated** - use `GetTraceBounds` instead.
+   */
+  rpc GetVolumeBounds(VolumeRequest) returns (VolumeBoundsResponse) {}
 
-    /**
-     * Requests a set of seismic traces by ranges of trace headers, such as inline, crossline (for 3d),
-     * cdp, or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices.
-     * See StreamTracesRequest for more information.
-     */
-    rpc StreamTraces(StreamTracesRequest) returns (stream com.cognite.seismic.Trace) {}
+  /**
+   * Requests a set of seismic traces by ranges of trace headers, such as inline, crossline (for 3d),
+   * cdp, or shotpoint (for 2d). Can also filter by geometry, and select a subset of depth indices.
+   * See StreamTracesRequest for more information.
+   */
+  rpc StreamTraces(StreamTracesRequest) returns (stream com.cognite.seismic.Trace) {}
 
-    /**
-     * Returns information about what a StreamTraces request would return, including bounding boxes of
-     * trace header values, and estimated total size.
-     */
-    rpc GetTraceBounds(StreamTracesRequest) returns (TraceBounds) {}
+  /**
+   * Returns information about what a StreamTraces request would return, including bounding boxes of
+   * trace header values, and estimated total size.
+   */
+  rpc GetTraceBounds(StreamTracesRequest) returns (TraceBounds) {}
 
-    /**
+  /**
      * Fetches seismic data in SEG-Y format.
      * Each response in the stream contains a byte array that must be written, in order, to a file-like object
      * to produce a valid SEG-Y file. The ordering of traces in the resulting SEG-Y file is undefined.
@@ -176,20 +176,20 @@ service SeismicAPI {
      * [`SegYSeismicRequest`](#segyseismicrequest) for more information.
      * Returns a stream of `SegYSeismicResponse` objects, each containing a fragment of a SEG-Y
      * data stream.
-     */
-    rpc GetSegYFile (SegYSeismicRequest) returns (stream SegYSeismicResponse) {}
+  */
+  rpc GetSegYFile(SegYSeismicRequest) returns (stream SegYSeismicResponse) {}
 
-    /**
-     * Retrieves File objects describing the seismic files registered with the tenant.
-     * Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved
-     * to a subset of the files in the tenant. See SearchFilesRequest for more information.
-     * Returns a stream of file objects, terminating once all files matching the search criteria have been
-     * returned.
-     */
-    rpc SearchFiles(SearchFilesRequest) returns (stream SourceSegyFile) {}
+  /**
+   * Retrieves File objects describing the seismic files registered with the tenant.
+   * Search criteria can be specified in the SearchFilesRequest, restricting the data retrieved
+   * to a subset of the files in the tenant. See SearchFilesRequest for more information.
+   * Returns a stream of file objects, terminating once all files matching the search criteria have been
+   * returned.
+   */
+  rpc SearchFiles(SearchFilesRequest) returns (stream SourceSegyFile) {}
 
-    /**
-     * Retrieves ingestion job statuses, filtered by the specified criteria.
-     */
-    rpc SearchJobStatus(SearchJobStatusRequest) returns (stream JobStatusResponse) {}
+  /**
+   * Retrieves ingestion job statuses, filtered by the specified criteria.
+   */
+  rpc SearchJobStatus(SearchJobStatusRequest) returns (stream JobStatusResponse) {}
 }
