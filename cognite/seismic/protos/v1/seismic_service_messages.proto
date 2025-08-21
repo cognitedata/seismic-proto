@@ -1,13 +1,13 @@
 /**
-Messages that describe requests/responses from the Seismic Datastore in Cognite Data Fusion
+   Messages that describe requests/responses from the Seismic Datastore in Cognite Data Fusion
 */
 syntax = "proto3";
 package com.cognite.seismic.v1;
 
-import "google/protobuf/wrappers.proto";
-import "google/protobuf/timestamp.proto";
-import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
 import "cognite/seismic/protos/types.proto";
+import "cognite/seismic/protos/v1/seismic_service_datatypes.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 // ---
 
@@ -15,423 +15,423 @@ import "cognite/seismic/protos/types.proto";
 // (╯°□°)╯︵ ┻━┻
 
 /**
-    Surveys
-**/
+       Surveys
+   **/
 
 message CreateSurveyRequest {
-    // [required] Short descriptive name
-    string name = 1;
-    // [required] Key-value pairs of metadata for the survey.
-    map<string, string> metadata = 2;
-    // [required] Identifier for correlation with systems outside CDF
-    ExternalId external_id = 3;
-    string crs = 4; // [required] CRS used by all members of the survey
-    SurveyGridTransformation grid_transformation = 5; // [optional] Specifies a grid transformation to use, overriding the defaults.
-    CustomSurveyCoverage custom_coverage = 6; // [optional] Specifies a coverage to serve as the survey coverage, overriding calculated coverage.
+  // [required] Short descriptive name
+  string name = 1;
+  // [required] Key-value pairs of metadata for the survey.
+  map<string, string> metadata = 2;
+  // [required] Identifier for correlation with systems outside CDF
+  ExternalId external_id = 3;
+  string crs = 4; // [required] CRS used by all members of the survey
+  SurveyGridTransformation grid_transformation = 5; // [optional] Specifies a grid transformation to use, overriding the defaults.
+  CustomSurveyCoverage custom_coverage = 6; // [optional] Specifies a coverage to serve as the survey coverage, overriding calculated coverage.
 }
 
 message SearchSurveysRequest {
-    repeated SearchSpec surveys = 1; // [optional] Identifier of the survey(s) to fetch. If not specified, retrieves all accessible surveys.
-    bool list_seismic_ids = 2;       // [optional] Whether to list the survey's seismics in the response (default: false)
-    bool list_seismic_store_ids = 3; // [optional] Whether to list the survey's seismic stores in the response. Requires ALL scope.
-    bool include_metadata = 4;       // [optional] Whether to include survey metadata in the response (default: false)
-    CoverageParameters include_coverage = 5;  // **Deprecated**. Use `coverage` instead.
-    CoverageSpec coverage = 9;  // [optional] If set, includes coverage in the responses in the specified format and CRS.
-    bool include_grid_transformation = 6;  //  [optional] Whether to include the manually specified grid transformation in the response (default: false)
-    bool include_custom_coverage = 7;      //  [optional] Whether to include the customer-provided survey coverage in the response.
-    // [optional] If set, requests that a coverage geometry from a particular source is returned in the SearchSurveysResponse.
-    // If set, the `coverage` field must also be provided.
-    // Note that this is independent from the custom coverage returned as part of the survey.
-    // If `coverage_source` is unset but `coverage` is, the coverage geometry will use custom coverage if available and fall back to the calculated coverage otherwise.
-    SurveyCoverageSource coverage_source = 8;
-    LastModifiedFilter last_modified = 10; // [optional] If set, will further filter returned objects by the last modified time.
+  repeated SearchSpec surveys = 1; // [optional] Identifier of the survey(s) to fetch. If not specified, retrieves all accessible surveys.
+  bool list_seismic_ids = 2; // [optional] Whether to list the survey's seismics in the response (default: false)
+  bool list_seismic_store_ids = 3; // [optional] Whether to list the survey's seismic stores in the response. Requires ALL scope.
+  bool include_metadata = 4; // [optional] Whether to include survey metadata in the response (default: false)
+  CoverageParameters include_coverage = 5; // **Deprecated**. Use `coverage` instead.
+  CoverageSpec coverage = 9; // [optional] If set, includes coverage in the responses in the specified format and CRS.
+  bool include_grid_transformation = 6; //  [optional] Whether to include the manually specified grid transformation in the response (default: false)
+  bool include_custom_coverage = 7; //  [optional] Whether to include the customer-provided survey coverage in the response.
+  // [optional] If set, requests that a coverage geometry from a particular source is returned in the SearchSurveysResponse.
+  // If set, the `coverage` field must also be provided.
+  // Note that this is independent from the custom coverage returned as part of the survey.
+  // If `coverage_source` is unset but `coverage` is, the coverage geometry will use custom coverage if available and fall back to the calculated coverage otherwise.
+  SurveyCoverageSource coverage_source = 8;
+  LastModifiedFilter last_modified = 10; // [optional] If set, will further filter returned objects by the last modified time.
 }
 
 message SearchSurveyResponse {
-    Survey survey = 1;
-    repeated string seismic_ids = 2;  // [optional] The list of ids for seismics included in the survey.
-    repeated string seismic_store_ids = 3;  // [optional] The list of ids for seismic stores included in the survey.
-    Geometry coverage = 4;  // [optional] The coverage of the survey.
-    SurveyCoverageSource coverage_source = 5;  // [optional] The source of the fetched coverage of the survey.
+  Survey survey = 1;
+  repeated string seismic_ids = 2; // [optional] The list of ids for seismics included in the survey.
+  repeated string seismic_store_ids = 3; // [optional] The list of ids for seismic stores included in the survey.
+  Geometry coverage = 4; // [optional] The coverage of the survey.
+  SurveyCoverageSource coverage_source = 5; // [optional] The source of the fetched coverage of the survey.
 }
 
 message EditSurveyRequest {
-    Identifier survey = 1;
-    OptionalMap metadata = 2;   // [optional] The metadata to replace the existing metadata with.
-    ExternalId external_id = 3; // [optional] The new external id.
-    CRS crs = 4; // [optional] The new CRS for all members of the survey.
-    SurveyGridTransformation grid_transformation = 5; // [optional] The new custom grid transformation.
-    CustomSurveyCoverage custom_coverage = 6; // [optional] The new custom coverage.
-    google.protobuf.StringValue new_name = 7; // [optional] The new name of the survey.
+  Identifier survey = 1;
+  OptionalMap metadata = 2; // [optional] The metadata to replace the existing metadata with.
+  ExternalId external_id = 3; // [optional] The new external id.
+  CRS crs = 4; // [optional] The new CRS for all members of the survey.
+  SurveyGridTransformation grid_transformation = 5; // [optional] The new custom grid transformation.
+  CustomSurveyCoverage custom_coverage = 6; // [optional] The new custom coverage.
+  google.protobuf.StringValue new_name = 7; // [optional] The new name of the survey.
 }
 
 message DeleteSurveyRequest {
-    Identifier survey = 1;  // The survey to delete.
+  Identifier survey = 1; // The survey to delete.
 }
 
 message DeleteSurveyResponse {
-    bool success = 1;
+  bool success = 1;
 }
 
 /**
-    Source Files
-**/
+       Source Files
+   **/
 
 message RegisterSourceSegyFileRequest {
-    Identifier survey = 1;                     // [required] The survey this source file belongs to
-    string path = 2;                           // [required] Path including protocol, bucket, directory structure, and file name. Example: "gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
-    ExternalId external_id = 3;                // [optional] An external identifier - matches service contract field
-    map<string, string> metadata = 4;          // [optional] Any custom-defined metadata
-    CRS crs = 5;                               // [required] Official name of the CRS used. Example: "EPSG:23031"
-    SegyOverrides segy_overrides = 6;          // [optional] Overrides for the source file
-    repeated TraceHeaderField key_fields = 7;  // [optional] The trace header fields that will be used as keys for indexing
-    Dimensions dimensions = 8;                 // [required] File data dimensionality, either 2D or 3D
-    SeismicDataType seismic_data_type = 9;     // [required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack
+  Identifier survey = 1; // [required] The survey this source file belongs to
+  string path = 2; // [required] Path including protocol, bucket, directory structure, and file name. Example: "gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
+  ExternalId external_id = 3; // [optional] An external identifier - matches service contract field
+  map<string, string> metadata = 4; // [optional] Any custom-defined metadata
+  CRS crs = 5; // [required] Official name of the CRS used. Example: "EPSG:23031"
+  SegyOverrides segy_overrides = 6; // [optional] Overrides for the source file
+  repeated TraceHeaderField key_fields = 7; // [optional] The trace header fields that will be used as keys for indexing
+  Dimensions dimensions = 8; // [required] File data dimensionality, either 2D or 3D
+  SeismicDataType seismic_data_type = 9; // [required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack
 }
 
 message RegisterSourceSegyFileResponse {
-    SourceSegyFile file = 1;
+  SourceSegyFile file = 1;
 }
 
 message EditSourceSegyFileRequest {
-    Identifier file = 1;                       // [required] The registered source file to edit
-    google.protobuf.StringValue path = 2;      // [optional] Path including protocol, bucket, directory structure, and file name. Example: "gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
-    ExternalId external_id = 3;                // [optional] An external identifier - matches service contract field
-    map<string, string> metadata = 4;          // [optional] Any custom-defined metadata
-    CRS crs = 5;                               // [optional] Official name of the CRS used. Example: "EPSG:23031"
-    SegyOverrides segy_overrides = 6;          // [optional] Overrides for the source file
-    repeated TraceHeaderField key_fields = 7;  // [optional] The trace header fields that will be used as keys for indexing
-    Dimensions dimensions = 8;                 // [optional] File data dimensionality, either 2D or 3D
-    SeismicDataType seismic_data_type = 9;     // [required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack
+  Identifier file = 1; // [required] The registered source file to edit
+  google.protobuf.StringValue path = 2; // [optional] Path including protocol, bucket, directory structure, and file name. Example: "gs://cognite-seismic-eu/samples/DN1302M03R16_MERGED_KPSDM_00-32_DEG_T.sgy"
+  ExternalId external_id = 3; // [optional] An external identifier - matches service contract field
+  map<string, string> metadata = 4; // [optional] Any custom-defined metadata
+  CRS crs = 5; // [optional] Official name of the CRS used. Example: "EPSG:23031"
+  SegyOverrides segy_overrides = 6; // [optional] Overrides for the source file
+  repeated TraceHeaderField key_fields = 7; // [optional] The trace header fields that will be used as keys for indexing
+  Dimensions dimensions = 8; // [optional] File data dimensionality, either 2D or 3D
+  SeismicDataType seismic_data_type = 9; // [required] The type of seismic data contained in this file. E.g., pre-stack vs. post-stack
 }
 
 message EditSourceSegyFileResponse {
-    SourceSegyFile file = 1;  // The result of the edit.
+  SourceSegyFile file = 1; // The result of the edit.
 }
 
 message UnregisterSourceSegyFileRequest {
-    Identifier file = 1;                       // [required] The file to unregister
+  Identifier file = 1; // [required] The file to unregister
 }
 
 message UnregisterSourceSegyFileResponse {}
 
 message IngestSourceSegyFileRequest {
-    Identifier file = 1;                       // [required] The file to queue for ingestion
-    /**
-        [required]
-        Target storage tier for this file.
+  Identifier file = 1; // [required] The file to queue for ingestion
+  /**
+         [required]
+         Target storage tier for this file.
 
-        A storage tier is a defined facility for storing the trace data associated with a seismic volume.
+         A storage tier is a defined facility for storing the trace data associated with a seismic volume.
 
-        [Accepted values]
-        Accepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage
-        cost, retrieval performance, numeric precision and sampling.
+         [Accepted values]
+         Accepted values are defined by the tenant configuration, and allow for optimizing tradeoffs between storage
+         cost, retrieval performance, numeric precision and sampling.
 
-        Note that currently only one storage tier per trace store is supported, so ingesting an already ingested file
-        will result in the file's data being removed from the previously active storage tier.
-    **/
-    string target_storage_tier_name = 2;
+         Note that currently only one storage tier per trace store is supported, so ingesting an already ingested file
+         will result in the file's data being removed from the previously active storage tier.
+     **/
+  string target_storage_tier_name = 2;
 }
 
 message IngestSourceSegyFileResponse {
-    string job_id = 1;
+  string job_id = 1;
 }
 
 /**
-    Seismics
-**/
+       Seismics
+   **/
 
 message CreateSeismicRequest {
-    string name = 1;          // [optional] A short description for the seismic
-    string external_id = 2;   // [required] An externally correlatable unique identifier for the seismic
-    Identifier partition = 3; // [required] The owning partition
-    int64 seismic_store_id = 4;
-    // [required] Defines the portion of the tracestore volume to limit the new seismic to
-    oneof volume {
-        VolumeDef volume_def = 5;  // **Deprecated**: Defines the volume as VolumeDef format. Use `two_dee_extent` or `three_dee_extent`.
-        Geometry geometry = 7;     // Defines the volume as WKT or GeoJson
-        bool empty = 10;           // Will create a seismic with an empty cutout if true
-        Seismic2dExtent two_dee_extent = 12;   // Defines the volume as an extent. Only valid if the seismic is 2D
-        Seismic3dExtent three_dee_extent = 13; // Defines the volume as an extent. Only valid if the seismic is 3D
-    }
-    OptionalMap metadata = 6;        // [optional] Metadata to associate with the seismic.
-    TextHeader text_header = 8;      // [optional] A custom text header for the seismic.
-    BinaryHeader binary_header = 9;  // [optional] A custom binary header for the seismic.
-    bool copy_metadata = 11;         // If true, copy the metadata from the source seismic store.
-    oneof psm_trace_group_cutout {
-        SeismicTraceGroupExtent trace_group_extent = 14; // Valid if the seismic is 2D or 3D
-    }
+  string name = 1; // [optional] A short description for the seismic
+  string external_id = 2; // [required] An externally correlatable unique identifier for the seismic
+  Identifier partition = 3; // [required] The owning partition
+  int64 seismic_store_id = 4;
+  // [required] Defines the portion of the tracestore volume to limit the new seismic to
+  oneof volume {
+    VolumeDef volume_def = 5; // **Deprecated**: Defines the volume as VolumeDef format. Use `two_dee_extent` or `three_dee_extent`.
+    Geometry geometry = 7; // Defines the volume as WKT or GeoJson
+    bool empty = 10; // Will create a seismic with an empty cutout if true
+    Seismic2dExtent two_dee_extent = 12; // Defines the volume as an extent. Only valid if the seismic is 2D
+    Seismic3dExtent three_dee_extent = 13; // Defines the volume as an extent. Only valid if the seismic is 3D
+  }
+  OptionalMap metadata = 6; // [optional] Metadata to associate with the seismic.
+  TextHeader text_header = 8; // [optional] A custom text header for the seismic.
+  BinaryHeader binary_header = 9; // [optional] A custom binary header for the seismic.
+  bool copy_metadata = 11; // If true, copy the metadata from the source seismic store.
+  oneof psm_trace_group_cutout {
+    SeismicTraceGroupExtent trace_group_extent = 14; // Valid if the seismic is 2D or 3D
+  }
 }
 
 message SearchSeismicsRequest {
-    // [optional] A filter to restrict returned results by.
-    oneof findby {
-        SearchSpec survey = 1;          // Searches for seismics which are included in the specified surveys.
-        SearchSpec seismic = 2;         // Searches for seismics by their id, name or external id.
-        SearchSpec partition = 3;       // Searches for seismics which are included in the specified partitions. Can only search on partitions you can see.
-        SearchSpec seismic_store = 15;  // Searches for seismics by their seismic store. Requires ALL scope.
-        LastModifiedFilter last_modified = 16; // Searches for seismics by last modified
-    }
-    bool include_text_header = 4;        // [optional] Whether to include the text header. Defaults to false.
-    bool include_binary_header = 5;      // [optional] Whether to include the binary header. Defaults to false.
-    bool include_line_range = 6;         // [optional] Whether to include the line range. Defaults to false.
-    bool include_volume_definition = 7;  // **Deprecated**. Whether to include the volume definition. Use `include_extent` instead. Defaults to false.
-    bool include_cutout = 12;            // [optional] Whether to include the cutout specification the seismic was created with. Defaults to false.
-    bool include_extent = 13;            // [optional] Whether to include a description of the included traces. Defaults to false.
-    // [optional] If specified, indicates which trace header the extent should be indexed by (if a 2d header), or
-    // which should be the major direction (if a 3d header). Leaving this unspecified with
-    // `include_extent=true` means the server chooses the native key header for each seismic.
-    // Any seismic not indexed by the given header will have its extent field left as null.
-    TraceHeaderField extent_key = 14;
-    bool include_seismic_store = 8;      // [optional] Whether to include info on the backing seismicstore. Requires ALL scope. Defaults to false.
-    bool include_partition = 9;          // [optional] Whether to include info on the partition. Requires ALL scope. Defaults to false.
-    bool include_coverage = 10;          // **Deprecated**. Use `coverage` instead. Defaults to false.
-    CoverageSpec coverage = 11;          // [optional] If specified, includes coverage as the specified CRS and format.
+  // [optional] A filter to restrict returned results by.
+  oneof findby {
+    SearchSpec survey = 1; // Searches for seismics which are included in the specified surveys.
+    SearchSpec seismic = 2; // Searches for seismics by their id, name or external id.
+    SearchSpec partition = 3; // Searches for seismics which are included in the specified partitions. Can only search on partitions you can see.
+    SearchSpec seismic_store = 15; // Searches for seismics by their seismic store. Requires ALL scope.
+    LastModifiedFilter last_modified = 16; // Searches for seismics by last modified
+  }
+  bool include_text_header = 4; // [optional] Whether to include the text header. Defaults to false.
+  bool include_binary_header = 5; // [optional] Whether to include the binary header. Defaults to false.
+  bool include_line_range = 6; // [optional] Whether to include the line range. Defaults to false.
+  bool include_volume_definition = 7; // **Deprecated**. Whether to include the volume definition. Use `include_extent` instead. Defaults to false.
+  bool include_cutout = 12; // [optional] Whether to include the cutout specification the seismic was created with. Defaults to false.
+  bool include_extent = 13; // [optional] Whether to include a description of the included traces. Defaults to false.
+  // [optional] If specified, indicates which trace header the extent should be indexed by (if a 2d header), or
+  // which should be the major direction (if a 3d header). Leaving this unspecified with
+  // `include_extent=true` means the server chooses the native key header for each seismic.
+  // Any seismic not indexed by the given header will have its extent field left as null.
+  TraceHeaderField extent_key = 14;
+  bool include_seismic_store = 8; // [optional] Whether to include info on the backing seismicstore. Requires ALL scope. Defaults to false.
+  bool include_partition = 9; // [optional] Whether to include info on the partition. Requires ALL scope. Defaults to false.
+  bool include_coverage = 10; // **Deprecated**. Use `coverage` instead. Defaults to false.
+  CoverageSpec coverage = 11; // [optional] If specified, includes coverage as the specified CRS and format.
 }
 
 message EditSeismicRequest {
-    Identifier seismic = 1;
-    google.protobuf.StringValue name = 2;
-    OptionalMap metadata = 3;
-    TextHeader text_header = 4;  // Replaces the existing text header, if specified
-    BinaryHeader binary_header = 5; // Replaces the existing binary header, if specified
+  Identifier seismic = 1;
+  google.protobuf.StringValue name = 2;
+  OptionalMap metadata = 3;
+  TextHeader text_header = 4; // Replaces the existing text header, if specified
+  BinaryHeader binary_header = 5; // Replaces the existing binary header, if specified
 }
 
 message DeleteSeismicRequest {
-    Identifier seismic = 1;
+  Identifier seismic = 1;
 }
 
 message DeleteSeismicResponse {
-    bool succeeded = 1;
+  bool succeeded = 1;
 }
 
 message SearchSeismicStoresRequest {
-    // [optional] A filter to restrict returned results by.
-    oneof findby {
-        SearchSpec seismic_store = 1;
-        SearchSpec survey = 6;
-        SearchSpec file = 8;
-        LastModifiedFilter last_modified = 11; // Will return seismic stores by last modified.
-    }
-    bool include_file_info = 2;          // [optional] Whether to include File information in the response. Defaults to false.
-    bool include_volume_definitions = 3; // **Deprecated**: Whether to include inline/crossline volume definitions in the response. Use `include_extent` instead. Defaults to false.
-    bool include_extent = 9; // [optional] Whether to include a description of the traces contained in the seismicstore. Defaults to false.
-    // [optional] If specified:
-    // - for 2D headers, indicates which trace header the extent should be indexed by, or
-    // - for 3D headers, what the major direction should be.
-    //  Leaving `extent_key` unspecified when `include_extent=true`
-    // means the server will choose a key header for each seismicstore.
-    // Any seismicstores not indexed by the given header will have its extent field left as null.
-    TraceHeaderField extent_key = 10;
-    bool include_headers = 5; // [optional] Whether to include text and binary headers in the response. Defaults to false.
-    bool include_coverage = 4; // **Deprecated**. Use `coverage` instead.
-    CoverageSpec coverage = 7; // [optional] If specified, includes coverage in the specified format and CRS.
+  // [optional] A filter to restrict returned results by.
+  oneof findby {
+    SearchSpec seismic_store = 1;
+    SearchSpec survey = 6;
+    SearchSpec file = 8;
+    LastModifiedFilter last_modified = 11; // Will return seismic stores by last modified.
+  }
+  bool include_file_info = 2; // [optional] Whether to include File information in the response. Defaults to false.
+  bool include_volume_definitions = 3; // **Deprecated**: Whether to include inline/crossline volume definitions in the response. Use `include_extent` instead. Defaults to false.
+  bool include_extent = 9; // [optional] Whether to include a description of the traces contained in the seismicstore. Defaults to false.
+  // [optional] If specified:
+  // - for 2D headers, indicates which trace header the extent should be indexed by, or
+  // - for 3D headers, what the major direction should be.
+  //  Leaving `extent_key` unspecified when `include_extent=true`
+  // means the server will choose a key header for each seismicstore.
+  // Any seismicstores not indexed by the given header will have its extent field left as null.
+  TraceHeaderField extent_key = 10;
+  bool include_headers = 5; // [optional] Whether to include text and binary headers in the response. Defaults to false.
+  bool include_coverage = 4; // **Deprecated**. Use `coverage` instead.
+  CoverageSpec coverage = 7; // [optional] If specified, includes coverage in the specified format and CRS.
 }
 
 message InspectIngestionRequest {
-    // [required] Which seismic store to fetch ingestion info of.
-    oneof identifier {
-        int64 seismic_store_id = 1;  // Specifies a seismic store by id.
-        int64 file_id = 2;           // Specifies a seismic store by source segy file id.
-        string job_id = 3;           // Specifies a seismic store by job id.
-    }
+  // [required] Which seismic store to fetch ingestion info of.
+  oneof identifier {
+    int64 seismic_store_id = 1; // Specifies a seismic store by id.
+    int64 file_id = 2; // Specifies a seismic store by source segy file id.
+    string job_id = 3; // Specifies a seismic store by job id.
+  }
 }
 
 message InspectIngestionResponse {
-    SeismicStore seismic_store = 1;  // The fetched seismic store.
+  SeismicStore seismic_store = 1; // The fetched seismic store.
 }
 
 message EditSeismicStoreRequest {
-    int64 seismic_store_id = 1;           // **Deprecated**. Use `identifier` instead.
-    google.protobuf.StringValue name = 2; // [optional] The new seismic store name.
-    OptionalMap metadata = 3;             // [optional] The new seismic store metadata. If set, this will replace the existing metadata.
-    Identifier seismic_store = 4;         // [required] The seismic store to edit.
-    google.protobuf.StringValue external_id = 5; // [optional] The new external id. Will fail if the new external id is not unique.
+  int64 seismic_store_id = 1; // **Deprecated**. Use `identifier` instead.
+  google.protobuf.StringValue name = 2; // [optional] The new seismic store name.
+  OptionalMap metadata = 3; // [optional] The new seismic store metadata. If set, this will replace the existing metadata.
+  Identifier seismic_store = 4; // [required] The seismic store to edit.
+  google.protobuf.StringValue external_id = 5; // [optional] The new external id. Will fail if the new external id is not unique.
 }
 
 message DeleteSeismicStoreRequest {
-    Identifier seismic_store = 1;  // [required] The seismic store to delete.
+  Identifier seismic_store = 1; // [required] The seismic store to delete.
 }
 
 message DeleteSeismicStoreResponse {
-    bool succeeded = 1;
+  bool succeeded = 1;
 }
 
 /**
 
-    Partitions
+       Partitions
 
-**/
+   **/
 
 message CreatePartitionRequest {
-    string name = 1;         // [optional] A short description for the partition.
-    string external_id = 2;  // [required] The unique external identifier for the partition.
+  string name = 1; // [optional] A short description for the partition.
+  string external_id = 2; // [required] The unique external identifier for the partition.
 }
 
 message SearchPartitionsRequest {
-    // [optional] A filter to restrict returned results by. 
-    oneof findby {
-        SearchSpec partitions = 1;            // Searches for partitions by id, name, or external id.
-        LastModifiedFilter last_modified = 2; // Searches for partitions by last modified time.
-    }
+  // [optional] A filter to restrict returned results by.
+  oneof findby {
+    SearchSpec partitions = 1; // Searches for partitions by id, name, or external id.
+    LastModifiedFilter last_modified = 2; // Searches for partitions by last modified time.
+  }
 }
 
 message EditPartitionRequest {
-    Identifier partition = 1;  // [required] The unique identifier for the partition to be edited.
-    string new_name = 2;       // [required] The new name.
+  Identifier partition = 1; // [required] The unique identifier for the partition to be edited.
+  string new_name = 2; // [required] The new name.
 }
 
 message DeletePartitionRequest {
-    Identifier partition = 1; // [required] The partition to delete.
+  Identifier partition = 1; // [required] The partition to delete.
 }
 
 message DeletePartitionResponse {
-    bool success = 1;
+  bool success = 1;
 }
 
 /**
-    Trace querying
-**/
+       Trace querying
+   **/
 
 // **Deprecated**.
 message VolumeRequest {
-    // [required] The volume to fetch.
-    oneof identifier {
-        Identifier seismic = 1;      // The unique identifier for a seismic object.
-        int64 seismic_store_id = 2;  // The unique ID for a seismic store. Requires ALL scope.
-    }
-    // [optional] Restricts the fetched volume.
-    oneof filter {
-        LineBasedVolume volume = 3;       // Retrieves traces by lines.
-        GeometryBasedVolume geometry = 5; // Retrieves traces within a geometry.
-    }
-    bool include_trace_header = 4; // [optional] Whether to include trace headers. Defaults to false.
+  // [required] The volume to fetch.
+  oneof identifier {
+    Identifier seismic = 1; // The unique identifier for a seismic object.
+    int64 seismic_store_id = 2; // The unique ID for a seismic store. Requires ALL scope.
+  }
+  // [optional] Restricts the fetched volume.
+  oneof filter {
+    LineBasedVolume volume = 3; // Retrieves traces by lines.
+    GeometryBasedVolume geometry = 5; // Retrieves traces within a geometry.
+  }
+  bool include_trace_header = 4; // [optional] Whether to include trace headers. Defaults to false.
 }
 
 message GeometryBasedVolume {
-    Geometry geometry = 1; // [required] The geometry of the volume.
-    InterpolationMethod interpolation_method = 2; // [optional] If the geometry describes a line, must be specified.
-    LineDescriptor z_range = 3; // [optional] The z-ranges to fetch. Defaults to the entire z-range.
+  Geometry geometry = 1; // [required] The geometry of the volume.
+  InterpolationMethod interpolation_method = 2; // [optional] If the geometry describes a line, must be specified.
+  LineDescriptor z_range = 3; // [optional] The z-ranges to fetch. Defaults to the entire z-range.
 }
 
 message VolumeBoundsResponse {
-    int32 trace_size_bytes = 1; // The size in bytes of one Trace message
-    int32 num_traces = 2;       // The number of traces to be returned
-    int32 sample_count = 5;     // The number of samples per trace
-    string crs = 3;             // CRS of the returned trace coordinates
-    // Upper and lower bounds and step sizes in each direction for the returned traces.
-    // Null if the result is empty. The iline and xline fields will be null for a line-like geometry.
-    LineBasedVolume bounds = 4;
+  int32 trace_size_bytes = 1; // The size in bytes of one Trace message
+  int32 num_traces = 2; // The number of traces to be returned
+  int32 sample_count = 5; // The number of samples per trace
+  string crs = 3; // CRS of the returned trace coordinates
+  // Upper and lower bounds and step sizes in each direction for the returned traces.
+  // Null if the result is empty. The iline and xline fields will be null for a line-like geometry.
+  LineBasedVolume bounds = 4;
 }
 
 message StreamTracesRequest {
-    // [required] The volume from which to stream traces.
-    oneof identifier {
-        Identifier seismic = 1;      // The identifier of the Seismic object to stream traces from
-        int64 seismic_store_id = 2;  // The id of the Seismicstore to stream traces from. Requires ALL scope.
-    }
-    // [optional] Limits the traces to be fetched.
-    oneof filter {
-        Seismic2dExtent two_dee_extent = 3;   // Filters traces by 2D header ranges. Only valid if the queried object is 2D.
-        Seismic3dExtent three_dee_extent = 4; // Filters traces by 3D header ranges. Only valid if the queried object is 3D.
-        // Filters traces by geometry. If the geometry is a polygon, traces will be contained within the geometry.
-        // If the geometry is a line or a linestring, the traces will be interpolated traces onto the line.
-        GeometryFilter geometry = 5;
-    }
-    LineDescriptor z_range = 6;               // [optional] Which depth indices to return as part of the traces. Defaults to the entire depth.
-    bool include_trace_header = 7;            // [optional] Whether to include the binary trace header in the streamed traces. Defaults to false.
-    SeismicTraceGroupExtent trace_group_filter = 8; // [optional] Which traces to return within each ensemble. Only valid if the queried object is pre-stack.
+  // [required] The volume from which to stream traces.
+  oneof identifier {
+    Identifier seismic = 1; // The identifier of the Seismic object to stream traces from
+    int64 seismic_store_id = 2; // The id of the Seismicstore to stream traces from. Requires ALL scope.
+  }
+  // [optional] Limits the traces to be fetched.
+  oneof filter {
+    Seismic2dExtent two_dee_extent = 3; // Filters traces by 2D header ranges. Only valid if the queried object is 2D.
+    Seismic3dExtent three_dee_extent = 4; // Filters traces by 3D header ranges. Only valid if the queried object is 3D.
+    // Filters traces by geometry. If the geometry is a polygon, traces will be contained within the geometry.
+    // If the geometry is a line or a linestring, the traces will be interpolated traces onto the line.
+    GeometryFilter geometry = 5;
+  }
+  LineDescriptor z_range = 6; // [optional] Which depth indices to return as part of the traces. Defaults to the entire depth.
+  bool include_trace_header = 7; // [optional] Whether to include the binary trace header in the streamed traces. Defaults to false.
+  SeismicTraceGroupExtent trace_group_filter = 8; // [optional] Which traces to return within each ensemble. Only valid if the queried object is pre-stack.
 }
 
 message TraceBounds {
-    int32 trace_size_bytes = 1;     // The size in bytes of one Trace message
-    int32 num_traces = 2;           // The number of traces to be returned
-    int32 sample_count = 3;         // The number of samples per trace
-    string crs = 4;                 // CRS of the returned trace coordinates
-    LineDescriptor z_range = 5;     // The actual range of z values returned
-    // Bounding box of the trace header values. This will be null if the request
-    // would interpolate trace onto a line.
-    oneof bounds {
-        // Three-dimensional bounds for the case when the seismic object is 3D
-        cognite.seismic.v1.LineRange three_dee_bounds = 6;
-        // Two-dimensional bounds for the case when the seismic object is 2D
-        TwoDeeBounds two_dee_bounds = 7;
-    }
-    LineDescriptor cdp_trace_bounds = 8; // Null for post-stack data
+  int32 trace_size_bytes = 1; // The size in bytes of one Trace message
+  int32 num_traces = 2; // The number of traces to be returned
+  int32 sample_count = 3; // The number of samples per trace
+  string crs = 4; // CRS of the returned trace coordinates
+  LineDescriptor z_range = 5; // The actual range of z values returned
+  // Bounding box of the trace header values. This will be null if the request
+  // would interpolate trace onto a line.
+  oneof bounds {
+    // Three-dimensional bounds for the case when the seismic object is 3D
+    cognite.seismic.v1.LineRange three_dee_bounds = 6;
+    // Two-dimensional bounds for the case when the seismic object is 2D
+    TwoDeeBounds two_dee_bounds = 7;
+  }
+  LineDescriptor cdp_trace_bounds = 8; // Null for post-stack data
 }
 
 message TwoDeeBounds {
-    // A range bounding the trace header values of the returned traces,
-    // using the trace key specified in the extent (if any), or CDP if no extent was specified
-    Seismic2dRange requested_bounds = 1;
-    LineDescriptor cdp_bounds = 2;  // A range bounding the CDP numbers of the returned traces
+  // A range bounding the trace header values of the returned traces,
+  // using the trace key specified in the extent (if any), or CDP if no extent was specified
+  Seismic2dRange requested_bounds = 1;
+  LineDescriptor cdp_bounds = 2; // A range bounding the CDP numbers of the returned traces
 }
 
 message SegYSeismicRequest {
-    // [required] The object to retrieve as a Seg-Y file.
-    oneof identifier {
-        Identifier seismic = 1;      // Specifies a seismic object.
-        int64 seismic_store_id = 2;  // Specifies a seismic store. Requires ALL scope.
-    }
-    // [optional] Restricts the traces to be fetched.
-    oneof query {
-        Geometry polygon = 3;                 // Traces will be contained within the polygon.
-        LineBasedRectangle lines = 4;         // **Deprecated**. Traces will be contained within the rectangle. Only valid if the queried object is 3D.
-        Seismic2dExtent two_dee_extent = 5;   // Traces will be contained within the extent. Only valid if the queried object is 2D.
-        Seismic3dExtent three_dee_extent = 6; // Traces will be contained within the extent. Only valid if the queried object is 3D
-    }
-    int32 skip_message_count = 7; // [optional] Skips the first *n* chunks of the download. Useful for resuming aborted downloads. Defaults to 0.
-    SeismicTraceGroupExtent trace_group_filter = 8; // [optional] Select which traces to return within each ensemble. Only valid if the queried object is pre-stack.
+  // [required] The object to retrieve as a Seg-Y file.
+  oneof identifier {
+    Identifier seismic = 1; // Specifies a seismic object.
+    int64 seismic_store_id = 2; // Specifies a seismic store. Requires ALL scope.
+  }
+  // [optional] Restricts the traces to be fetched.
+  oneof query {
+    Geometry polygon = 3; // Traces will be contained within the polygon.
+    LineBasedRectangle lines = 4; // **Deprecated**. Traces will be contained within the rectangle. Only valid if the queried object is 3D.
+    Seismic2dExtent two_dee_extent = 5; // Traces will be contained within the extent. Only valid if the queried object is 2D.
+    Seismic3dExtent three_dee_extent = 6; // Traces will be contained within the extent. Only valid if the queried object is 3D
+  }
+  int32 skip_message_count = 7; // [optional] Skips the first *n* chunks of the download. Useful for resuming aborted downloads. Defaults to 0.
+  SeismicTraceGroupExtent trace_group_filter = 8; // [optional] Select which traces to return within each ensemble. Only valid if the queried object is pre-stack.
 }
 
 message SegYSeismicResponse {
-    bytes content = 1; // Some bytes of the resulting Seg-Y file.
+  bytes content = 1; // Some bytes of the resulting Seg-Y file.
 }
 
 /**
 
-    File operations
+       File operations
 
-**/
+   **/
 
 // Used to search files by a given file/seismic-store/survey search specification
 message SearchFilesRequest {
-    // [optional] Restricts the files to be returned.
-    oneof findby {
-        SearchSpec spec = 1;            // Finds files by id, name or external id.
-        SearchSpec seismic_store = 2;   // Finds files that are the source of the seismic stores specified by id, name, or external id.
-        SearchSpec survey = 3;          // Finds files that are included in the surveys specified by id, name, or external id.
-        LastModifiedFilter last_modified = 4; // Finds files by their last modified time.
-    }
+  // [optional] Restricts the files to be returned.
+  oneof findby {
+    SearchSpec spec = 1; // Finds files by id, name or external id.
+    SearchSpec seismic_store = 2; // Finds files that are the source of the seismic stores specified by id, name, or external id.
+    SearchSpec survey = 3; // Finds files that are included in the surveys specified by id, name, or external id.
+    LastModifiedFilter last_modified = 4; // Finds files by their last modified time.
+  }
 }
 
 message SearchJobStatusRequest {
-    // [required] The job to fetch statuses for.
-    oneof id {
-        string job_id = 1;    // The id of the job.
-        string file_uuid = 2; // The uuid of the file that a job is associated with.
-        int64 file_id = 9;    // The id of the file that a job is associated with.
-    }
-    JobStatus status = 3; // [optional] If specified, only returns jobs with the given status.
-    google.protobuf.StringValue target_storage_tier_name = 4; // [optional] If specified, only returns jobs with the given target storage tier. 
-    google.protobuf.Timestamp started_before = 5; // [optional] If specified, only returns jobs that started before the timestamp.
-    google.protobuf.Timestamp started_after = 6;  // [optional] If specified, only returns jobs that started after the timestamp.
-    google.protobuf.Timestamp updated_before = 7; // [optional] If specified, only returns jobs that were last updated before the timestamp.
-    google.protobuf.Timestamp updated_after = 8;  // [optional] If specified, only returns jobs that were last updated after the timestamp.
+  // [required] The job to fetch statuses for.
+  oneof id {
+    string job_id = 1; // The id of the job.
+    string file_uuid = 2; // The uuid of the file that a job is associated with.
+    int64 file_id = 9; // The id of the file that a job is associated with.
+  }
+  JobStatus status = 3; // [optional] If specified, only returns jobs with the given status.
+  google.protobuf.StringValue target_storage_tier_name = 4; // [optional] If specified, only returns jobs with the given target storage tier.
+  google.protobuf.Timestamp started_before = 5; // [optional] If specified, only returns jobs that started before the timestamp.
+  google.protobuf.Timestamp started_after = 6; // [optional] If specified, only returns jobs that started after the timestamp.
+  google.protobuf.Timestamp updated_before = 7; // [optional] If specified, only returns jobs that were last updated before the timestamp.
+  google.protobuf.Timestamp updated_after = 8; // [optional] If specified, only returns jobs that were last updated after the timestamp.
 }
 
 message JobStatusResponse {
-    string job_id = 1;    // The job id for this status.
-    string file_uuid = 2; // The uuid of the file that this job is associated with.
-    JobStatus status = 3; // The status of the job.
-    google.protobuf.Timestamp started_at = 4; // When the job was started.
-    google.protobuf.Timestamp updated_at = 5; // When the job was last updated.
-    google.protobuf.StringValue target_storage_tier_name = 6; // The target storage tier of the job.
-    repeated IngestionLog logs = 7; // Logs recorded by the job.
-    int64 file_id = 8; // The id of the file that this job is associated with.
+  string job_id = 1; // The job id for this status.
+  string file_uuid = 2; // The uuid of the file that this job is associated with.
+  JobStatus status = 3; // The status of the job.
+  google.protobuf.Timestamp started_at = 4; // When the job was started.
+  google.protobuf.Timestamp updated_at = 5; // When the job was last updated.
+  google.protobuf.StringValue target_storage_tier_name = 6; // The target storage tier of the job.
+  repeated IngestionLog logs = 7; // Logs recorded by the job.
+  int64 file_id = 8; // The id of the file that this job is associated with.
 }
 
 message IngestionLog {
-    google.protobuf.Timestamp timestamp = 1; // The time this log was recorded.
-    string log_line = 2; // The contents of the log.
+  google.protobuf.Timestamp timestamp = 1; // The time this log was recorded.
+  string log_line = 2; // The contents of the log.
 }
