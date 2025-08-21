@@ -3,11 +3,11 @@ on: [push]
 jobs:
   checkout_compile_lint:
     runs-on: ubuntu-latest
-    name: Compile and lint protobuf files
+    name: Compile, format, and lint protobuf files
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      - name: Compile and lint
+      - name: Check
         uses: bufbuild/buf-action@v1
         with:
           token: ''
