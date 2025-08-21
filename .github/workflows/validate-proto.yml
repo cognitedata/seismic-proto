@@ -7,6 +7,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - name: Check
         uses: bufbuild/buf-action@v1
         with:
@@ -14,7 +16,7 @@ jobs:
           lint: true
           format: true
           breaking: true
-          breaking_against: .git#branch=master
+          breaking_against: .git#branch=origin/master
           push: false
           archive: false
   build-docs:
