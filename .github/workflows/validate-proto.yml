@@ -3,22 +3,22 @@ on: [push]
 jobs:
   checkout_compile_lint:
     runs-on: ubuntu-latest
-    container: uber/prototool:1.10.0
     name: Compile and lint protobuf files
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Compile
-        run: prototool compile
-
-      - name: Lint
-        run: prototool lint
+        uses: actions/checkout@v5
+      - name: Compile and lint
+        uses: bufbuild/buf-action@v1
+        with:
+          token: ''
+          lint: true
+          push: false
+          archive: false
   build-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
       - name: Remove previous docs
         run: rm -rf docs
       - name: Build docs
