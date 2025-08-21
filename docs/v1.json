@@ -176,7 +176,7 @@
             },
             {
               "name": "InspectIngestion",
-              "description": "Inspects the seismicstore resulting from a possibly failed ingestion. Useful for \ndebugging failed ingestions.",
+              "description": "Inspects the seismicstore resulting from a possibly failed ingestion. Useful for\ndebugging failed ingestions.",
               "requestType": "InspectIngestionRequest",
               "requestLongType": "InspectIngestionRequest",
               "requestFullType": "com.cognite.seismic.v1.InspectIngestionRequest",
@@ -5898,7 +5898,7 @@
           "name": "VolumeDef",
           "longName": "VolumeDef",
           "fullName": "com.cognite.seismic.v1.VolumeDef",
-          "description": "Deprecated**: VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.\n\nThe grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line. \nFor example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.\n\nFor more information refer to \u003ca href=\"https://cognite-seismic-sdk.readthedocs-hosted.com/en/latest/volumedef.html#volumedef-overview\"\u003ethe SDK docs\u003c/a\u003e.",
+          "description": "Deprecated**: VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.\n\nThe grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line.\nFor example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.\n\nFor more information refer to \u003ca href=\"https://cognite-seismic-sdk.readthedocs-hosted.com/en/latest/volumedef.html#volumedef-overview\"\u003ethe SDK docs\u003c/a\u003e.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,

@@ -1635,7 +1635,7 @@ A representation of text headers used to create or edit existing headers.
 ### VolumeDef
 Deprecated**: VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.
 
-The grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line. 
+The grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line.
 For example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.
 
 For more information refer to <a href="https://cognite-seismic-sdk.readthedocs-hosted.com/en/latest/volumedef.html#volumedef-overview">the SDK docs</a>.
