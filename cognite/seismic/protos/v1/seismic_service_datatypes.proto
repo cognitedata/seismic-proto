@@ -1,408 +1,409 @@
 /**
-Messages that describe data types used by Seismic Datastore in Cognite Data Fusion
+   Messages that describe data types used by Seismic Datastore in Cognite Data Fusion
 */
 syntax = "proto3";
 package com.cognite.seismic.v1;
 
 import "cognite/seismic/protos/types.proto";
-import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 // Describes a coordinate pair in some coordinate system.
 message Coordinate {
-    float x = 1;  // The x value of the coordinate
-    float y = 2;  // The y value of the coordinate
+  float x = 1; // The x value of the coordinate
+  float y = 2; // The y value of the coordinate
 }
 
 // Describes a volume by line ranges.
 message LineBasedVolume {
-    LineDescriptor iline = 1;  // [optional] The inline range. Defaults to the entire inline range, depending on context.
-    LineDescriptor xline = 2;  // [optional] The crossline range. Defaults to the entire crossline range, depending on context.
-    LineDescriptor z = 3;      // [optional] The depth range. Defaults to the entire depth range, depending on context.
+  LineDescriptor iline = 1; // [optional] The inline range. Defaults to the entire inline range, depending on context.
+  LineDescriptor xline = 2; // [optional] The crossline range. Defaults to the entire crossline range, depending on context.
+  LineDescriptor z = 3; // [optional] The depth range. Defaults to the entire depth range, depending on context.
 }
 
 // Describe a line range.
 message LineRange {
-    LineDescriptor inline = 1;    // [optional] The inline range. Defaults to the entire inline range, depending on context.
-    LineDescriptor crossline = 2; // [optional] The crossline range. Defaults to the entire crossline range, depending on context.
+  LineDescriptor inline = 1; // [optional] The inline range. Defaults to the entire inline range, depending on context.
+  LineDescriptor crossline = 2; // [optional] The crossline range. Defaults to the entire crossline range, depending on context.
 }
 
 /**
-Used in edit messages to distinguish between an empty map and a missing map.
-**/
+   Used in edit messages to distinguish between an empty map and a missing map.
+   **/
 message OptionalMap {
-    map<string, string> data = 1;  // The contents of the map.
+  map<string, string> data = 1; // The contents of the map.
 }
 
 // The type of seismic data.
 enum SeismicDataType {
-    UNSPECIFIED_DATA_TYPE = 0;
-    POSTSTACK = 1;
-    PRESTACK_DEPTH_MIGRATED = 2;
+  UNSPECIFIED_DATA_TYPE = 0;
+  POSTSTACK = 1;
+  PRESTACK_DEPTH_MIGRATED = 2;
 }
 
 // Metadata about a SEG-Y file registered for ingestion.
 // Trace data for the file after ingestion is available via the corresponding seismic store object.
 message SourceSegyFile {
-    string uuid = 1; // A unique string id.
-    int64 id = 2;    // A unique numerical id.
-    ExternalId external_id = 3;  // A unique external id.
-    string name = 4; // The name of the file
-    string cloud_storage_path = 7; // The cloud storage path including protocol, bucket, directory structure, and file name. Usually in format gs://path/to/file/some_name.sgy
-    map<string, string> metadata = 5;  // Associated key-value metadata.
-    SegyOverrides segy_overrides = 6;  // Overrides for various Seg-Y options.
-    repeated TraceHeaderField key_fields = 8; // The trace header fields that will be used as keys for indexing.
-    Dimensions dimensions = 9; // File data dimensionality, either 2D or 3D
-    string crs = 10; // The coordinate reference system used by this file
-    int64 survey_id = 11; // The integer id of the survey this file is contained in
-    google.protobuf.Timestamp last_modified = 12;  // The last time this object was created or edited.
-    SeismicDataType seismic_data_type = 13; // Whether this file contains pre-stack or post-stack data.
+  string uuid = 1; // A unique string id.
+  int64 id = 2; // A unique numerical id.
+  ExternalId external_id = 3; // A unique external id.
+  string name = 4; // The name of the file
+  string cloud_storage_path = 7; // The cloud storage path including protocol, bucket, directory structure, and file name. Usually in format gs://path/to/file/some_name.sgy
+  map<string, string> metadata = 5; // Associated key-value metadata.
+  SegyOverrides segy_overrides = 6; // Overrides for various Seg-Y options.
+  repeated TraceHeaderField key_fields = 8; // The trace header fields that will be used as keys for indexing.
+  Dimensions dimensions = 9; // File data dimensionality, either 2D or 3D
+  string crs = 10; // The coordinate reference system used by this file
+  int64 survey_id = 11; // The integer id of the survey this file is contained in
+  google.protobuf.Timestamp last_modified = 12; // The last time this object was created or edited.
+  SeismicDataType seismic_data_type = 13; // Whether this file contains pre-stack or post-stack data.
 }
 
 // Metadata related to interpreting SEG-Y files.
 message SegyOverrides {
-    google.protobuf.Int32Value inline_offset = 1;               // [optional] Position of the inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value crossline_offset = 2;            // [optional] Position of the crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_x_offset = 3;                // [optional] Position of the X coordinate of ensemble (CDP) in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_y_offset = 4;                // [optional] Position of the Y coordinate of ensemble (CDP) in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_number_offset = 6;           // [optional] Position of the ensemble (CDP) number in trace headers. Defaults to 21 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value energy_source_point_offset = 7;  // [optional] Position of the energy source point in trace headers. Defaults to 17 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value shotpoint_offset = 8;            // [optional] Position of the shotpoint field in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
-    google.protobuf.Int32Value cdp_trace_offset = 9;            // [optional] Position of the trace number within ensemble. Defaults to 21 as per the SEG-Y rev1 specification.
-    google.protobuf.Int32Value offset_header_offset = 10;       // [optional] Position of the 'offset' field in the trace header. Defaults to 37 as per the SEG-Y rev1 specification.
+  google.protobuf.Int32Value inline_offset = 1; // [optional] Position of the inline number field in the trace headers. Defaults to 189 as per the SEG-Y rev1 specification
+  google.protobuf.Int32Value crossline_offset = 2; // [optional] Position of the crossline number field in the trace headers. Defaults to 193 as per the SEG-Y rev1 specification
+  google.protobuf.Int32Value cdp_x_offset = 3; // [optional] Position of the X coordinate of ensemble (CDP) in trace headers. Defaults to 181 as per the SEG-Y rev1 specification
+  google.protobuf.Int32Value cdp_y_offset = 4; // [optional] Position of the Y coordinate of ensemble (CDP) in trace headers. Defaults to 185 as per the SEG-Y rev1 specification
+  google.protobuf.Int32Value cdp_number_offset = 6; // [optional] Position of the ensemble (CDP) number in trace headers. Defaults to 21 as per the SEG-Y rev1 specification
+  google.protobuf.Int32Value energy_source_point_offset = 7; // [optional] Position of the energy source point in trace headers. Defaults to 17 as per the SEG-Y rev1 specification
+  google.protobuf.Int32Value shotpoint_offset = 8; // [optional] Position of the shotpoint field in trace headers. Defaults to 197 as per the SEG-Y rev1 specification
+  google.protobuf.Int32Value cdp_trace_offset = 9; // [optional] Position of the trace number within ensemble. Defaults to 21 as per the SEG-Y rev1 specification.
+  google.protobuf.Int32Value offset_header_offset = 10; // [optional] Position of the 'offset' field in the trace header. Defaults to 37 as per the SEG-Y rev1 specification.
 
-    /**
-    [optional] Multiplier for CDP-X and CDP-Y values that overrides the scalar factor obtained from the trace header.
-    Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not
-    interpreted in the way that the "source group scalar trace header field" in the SEG-Y specification is.
-    In other words, to divide by 100 you must specify 0.01, not -100. Negative values and values greater than 1 are not permitted.
-    To remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN.
-    The next ingestion process for that file will then use the source group scalar values found in trace headers.
-    **/
-    google.protobuf.FloatValue source_group_scalar_override = 5;
+  /**
+     [optional] Multiplier for CDP-X and CDP-Y values that overrides the scalar factor obtained from the trace header.
+     Note that this is a floating point multiplier used directly to scale CDP-X and CDP-Y values, and it is not
+     interpreted in the way that the "source group scalar trace header field" in the SEG-Y specification is.
+     In other words, to divide by 100 you must specify 0.01, not -100. Negative values and values greater than 1 are not permitted.
+     To remove the override from a file where an override has previously been set, set the source_group_scalar_override to 0 or NaN.
+     The next ingestion process for that file will then use the source group scalar values found in trace headers.
+     **/
+  google.protobuf.FloatValue source_group_scalar_override = 5;
 }
 
 /**
-Representation of the data for a survey
-**/
+   Representation of the data for a survey
+   **/
 message Survey {
-    string id = 1;     // The unique uuid for the survey in CDF. The identifier is generated by CDF on creation and not editable.
-    int64 id_int = 8;  // The unique integer ID for the survey. This ID should be used for V1 survey operations.
-    string name = 2;   // Survey name: Should be a short but recognizable name for the survey. Must be unique within a single CDF tenant, and may be used to refer to the survey in API calls.
-    // Metadata describing the survey with named fields and values. 
-    map<string, string> metadata = 3; // @exclude TODO: Augment surveys with a predefined set of fields giving a predictable metadata model and better integration with Discover.
-    ExternalId external_id = 4;  // External identifier of the survey. The value of this field must be unique among all the surveys in the CDF tenant. It may be used for correlating with systems outside CDF, and for search and retrieval operations later.
-    string crs = 5; // Coordinate reference system to be used by all members of this survey
-    // A manually specified affine transformation between bin grid coordinates and projected crs coordinates, either using an origin point and the azimuth of the xline axis (P6Transformation),
-    // or by specifying three or more corners of the grid as a list of DoubleTraceCoordinates. This transformation must be valid for all members of this survey.
-    SurveyGridTransformation grid_transformation = 6;
-    CustomSurveyCoverage custom_coverage = 7;     // A user-provided coverage override
-    google.protobuf.Timestamp last_modified = 9;  // The last time this object was created or edited.
+  string id = 1; // The unique uuid for the survey in CDF. The identifier is generated by CDF on creation and not editable.
+  int64 id_int = 8; // The unique integer ID for the survey. This ID should be used for V1 survey operations.
+  string name = 2; // Survey name: Should be a short but recognizable name for the survey. Must be unique within a single CDF tenant, and may be used to refer to the survey in API calls.
+  // Metadata describing the survey with named fields and values.
+  map<string, string> metadata = 3; // @exclude TODO: Augment surveys with a predefined set of fields giving a predictable metadata model and better integration with Discover.
+  ExternalId external_id = 4; // External identifier of the survey. The value of this field must be unique among all the surveys in the CDF tenant. It may be used for correlating with systems outside CDF, and for search and retrieval operations later.
+  string crs = 5; // Coordinate reference system to be used by all members of this survey
+  // A manually specified affine transformation between bin grid coordinates and projected crs coordinates, either using an origin point and the azimuth of the xline axis (P6Transformation),
+  // or by specifying three or more corners of the grid as a list of DoubleTraceCoordinates. This transformation must be valid for all members of this survey.
+  SurveyGridTransformation grid_transformation = 6;
+  CustomSurveyCoverage custom_coverage = 7; // A user-provided coverage override
+  google.protobuf.Timestamp last_modified = 9; // The last time this object was created or edited.
 }
 
 /**
  * A cutout of a seismic store
  */
- message Seismic {
-    int64 id = 1;           // The unique internal id of the seismic. It is always present.
-    string external_id = 2; // The external id of the seismic
-    string name = 3;        // A non-unique name for the seismic. It is easily editable and is intended to be used as a human-friendly reference. 
-    string crs = 4;         // The Coordinate Reference System of the seismic
-    map<string, string> metadata = 5; //Any custom-defined metadata
-    TextHeader text_header = 6;       //The text header that corresponds to the seismic
-    BinaryHeader binary_header = 7;   //The binary header that corresponds to the seismic
-    LineRange line_range = 8;   // **Deprecated**: Use the GetTraceBounds API call instead.
-    VolumeDef volume_def = 9;   // **Deprecated**: The VolumeDef describing the seismic. Use extents instead.
-    SeismicCutout cutout = 15;  // The cutout the seismic object was created with.
-    SeismicExtent extent = 16;  // A description of the traces contained in the seismic.
-    int64 partition_id = 10;    // The id of the partition the seismic belongs to.
-    int64 seismicstore_id = 11; // The id of the seismicstore the seismic is derived from. It is present only if you have READ access and ALL scope.
-    Geometry coverage = 12;     // The coverage geometry for the seismic.
-    bool created_empty = 13;    // **Deprecated**. Whether this seismic was created empty. Use the `cutout` field instead.
-    int64 trace_count = 14;     // An estimate of the number of traces contained within the seismic.
-    // The trace header fields that have been registered as keys for indexing.
-    // This will always match the trace header fields registered for the underlying seismic store.
-    repeated TraceHeaderField trace_header_fields = 17;
-    // The underlying file's data dimensionality, either 2D or 3D
-    // This will always match the dimensionality for the underlying seismic store.
-    Dimensions dimensions = 18;
-    google.protobuf.Timestamp last_modified = 19;  // The last time this object was created or edited.
-    SeismicDataType seismic_data_type = 20;        // Whether this seismic object contains pre-stack or post-stack data.
+message Seismic {
+  int64 id = 1; // The unique internal id of the seismic. It is always present.
+  string external_id = 2; // The external id of the seismic
+  string name = 3; // A non-unique name for the seismic. It is easily editable and is intended to be used as a human-friendly reference.
+  string crs = 4; // The Coordinate Reference System of the seismic
+  map<string, string> metadata = 5; //Any custom-defined metadata
+  TextHeader text_header = 6; //The text header that corresponds to the seismic
+  BinaryHeader binary_header = 7; //The binary header that corresponds to the seismic
+  LineRange line_range = 8; // **Deprecated**: Use the GetTraceBounds API call instead.
+  VolumeDef volume_def = 9; // **Deprecated**: The VolumeDef describing the seismic. Use extents instead.
+  SeismicCutout cutout = 15; // The cutout the seismic object was created with.
+  SeismicExtent extent = 16; // A description of the traces contained in the seismic.
+  int64 partition_id = 10; // The id of the partition the seismic belongs to.
+  int64 seismicstore_id = 11; // The id of the seismicstore the seismic is derived from. It is present only if you have READ access and ALL scope.
+  Geometry coverage = 12; // The coverage geometry for the seismic.
+  bool created_empty = 13; // **Deprecated**. Whether this seismic was created empty. Use the `cutout` field instead.
+  int64 trace_count = 14; // An estimate of the number of traces contained within the seismic.
+  // The trace header fields that have been registered as keys for indexing.
+  // This will always match the trace header fields registered for the underlying seismic store.
+  repeated TraceHeaderField trace_header_fields = 17;
+  // The underlying file's data dimensionality, either 2D or 3D
+  // This will always match the dimensionality for the underlying seismic store.
+  Dimensions dimensions = 18;
+  google.protobuf.Timestamp last_modified = 19; // The last time this object was created or edited.
+  SeismicDataType seismic_data_type = 20; // Whether this seismic object contains pre-stack or post-stack data.
 }
 
 // Describes a cutout for a seismic.
 message SeismicCutout {
-    oneof cutout {
-        Seismic2dExtent two_dee_extent = 1;   // Indicates that the seismic was created with this 2D extent.
-        Seismic3dExtent three_dee_extent = 2; // Indicates that the seismic was created with this 3D extent (or an equivalent VolumeDef).
-        Geometry geometry = 3; // Indicates that the seismic was created with this geometry.
-        bool empty = 4;        // Indicates that the seismic was created empty.
-        bool full = 5;         // Indicates that the seismic was created to cover the entire seismicstore.
-    }
-};
+  oneof cutout {
+    Seismic2dExtent two_dee_extent = 1; // Indicates that the seismic was created with this 2D extent.
+    Seismic3dExtent three_dee_extent = 2; // Indicates that the seismic was created with this 3D extent (or an equivalent VolumeDef).
+    Geometry geometry = 3; // Indicates that the seismic was created with this geometry.
+    bool empty = 4; // Indicates that the seismic was created empty.
+    bool full = 5; // Indicates that the seismic was created to cover the entire seismicstore.
+  }
+}
 
 // Describes the extent of a seismic object.
 message SeismicExtent {
-    oneof extent {
-        Seismic2dExtent two_dee_extent = 1;   // A two dimensional extent.
-        Seismic3dExtent three_dee_extent = 2; // A three dimensional extent.
-    }
+  oneof extent {
+    Seismic2dExtent two_dee_extent = 1; // A two dimensional extent.
+    Seismic3dExtent three_dee_extent = 2; // A three dimensional extent.
+  }
 }
 
 /**
-Represents a seismic store.
-**/
+   Represents a seismic store.
+   **/
 message SeismicStore {
-    int64 id = 1;         // The unique internal id of the seismic store
-    string name = 2;      // The unique name of the seismic store. This will become non-unique in the future, and `external_id` will be the only unique string-based identifier for seismic stores.
-    string survey_id = 3; // The uuid of the survey this seismic store belongs to.
-    int64 survey_id_int = 17; // The integer id of the survey this seismic store belongs to.
-    IngestionSource ingestion_source = 4; // The source of the seismicstore. It indicates how the file was ingested
-    map<string, string> metadata = 5;     // Custom-defined metadata.
-    File ingested_file = 6; // **Deprecated**. Same as `ingested_source_file`.
-    SourceSegyFile ingested_source_file = 14; // If present, the file this SeismicStore was ingested from.
-    VolumeDef inline_volume_def = 7;   // **Deprecated**: Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines. Use extents instead.
-    VolumeDef crossline_volume_def = 8;// **Deprecated**: Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines. Use extents instead.
-    SeismicExtent extent = 13;         // Description of the traces contained in the seismicstore.
-    TextHeader text_header = 9;        // If present, the text header for this seismic store.
-    BinaryHeader binary_header = 10;   // If present, the binary header for this seismic store.
-    // Tenant specific name for the storage facility the trace data are stored in. If empty, it is stored in an unspecified trace store.
-    // While support for multiple storage backends per store is planned, this is not currently offered.
-    repeated string storage_tier_name = 11;
-    Geometry coverage = 12; // If present, the coverage geometry for this seismic store.
-    repeated TraceHeaderField trace_header_fields = 15; // The trace header fields that have been registered as keys for indexing.
-    Dimensions dimensions = 16; // The underlying file's data dimensionality, either 2D or 3D.
-    string crs = 18; // The coordinate reference system used by this seismicstore.
-    google.protobuf.Timestamp last_modified = 19;  // The last time this object was created or edited.
-    SeismicDataType seismic_data_type = 20; // Whether this seismic store contains pre-stack or post-stack data.
+  int64 id = 1; // The unique internal id of the seismic store
+  string name = 2; // The unique name of the seismic store. This will become non-unique in the future, and `external_id` will be the only unique string-based identifier for seismic stores.
+  string survey_id = 3; // The uuid of the survey this seismic store belongs to.
+  int64 survey_id_int = 17; // The integer id of the survey this seismic store belongs to.
+  IngestionSource ingestion_source = 4; // The source of the seismicstore. It indicates how the file was ingested
+  map<string, string> metadata = 5; // Custom-defined metadata.
+  File ingested_file = 6; // **Deprecated**. Same as `ingested_source_file`.
+  SourceSegyFile ingested_source_file = 14; // If present, the file this SeismicStore was ingested from.
+  VolumeDef inline_volume_def = 7; // **Deprecated**: Volume definition for the store, indexed on inlines. Maps from an inline to all of its valid crosslines. Use extents instead.
+  VolumeDef crossline_volume_def = 8; // **Deprecated**: Volume definition for the store, indexed on crosslines. Maps from a crossline to all of its valid inlines. Use extents instead.
+  SeismicExtent extent = 13; // Description of the traces contained in the seismicstore.
+  TextHeader text_header = 9; // If present, the text header for this seismic store.
+  BinaryHeader binary_header = 10; // If present, the binary header for this seismic store.
+  // Tenant specific name for the storage facility the trace data are stored in. If empty, it is stored in an unspecified trace store.
+  // While support for multiple storage backends per store is planned, this is not currently offered.
+  repeated string storage_tier_name = 11;
+  Geometry coverage = 12; // If present, the coverage geometry for this seismic store.
+  repeated TraceHeaderField trace_header_fields = 15; // The trace header fields that have been registered as keys for indexing.
+  Dimensions dimensions = 16; // The underlying file's data dimensionality, either 2D or 3D.
+  string crs = 18; // The coordinate reference system used by this seismicstore.
+  google.protobuf.Timestamp last_modified = 19; // The last time this object was created or edited.
+  SeismicDataType seismic_data_type = 20; // Whether this seismic store contains pre-stack or post-stack data.
 }
 
 /**
-Represents partitions, used for granular access control
-**/
+   Represents partitions, used for granular access control
+   **/
 message Partition {
-    int64 id = 1;           // The unique internal id for this partition.
-    string external_id = 2; // The external id of the partition
-    string name = 3;        // A short description of this partition
-    repeated Seismic seismics = 4;  // **Deprecated**: This field will always be empty. Use seismic search by partition instead.
-    repeated int64 seismic_ids = 5; // If specified, the list of ids of seismics that belong to this partition.
-    google.protobuf.Timestamp last_modified = 6;  // The last time this object was created or edited.
+  int64 id = 1; // The unique internal id for this partition.
+  string external_id = 2; // The external id of the partition
+  string name = 3; // A short description of this partition
+  repeated Seismic seismics = 4; // **Deprecated**: This field will always be empty. Use seismic search by partition instead.
+  repeated int64 seismic_ids = 5; // If specified, the list of ids of seismics that belong to this partition.
+  google.protobuf.Timestamp last_modified = 6; // The last time this object was created or edited.
 }
 
 /**
-**Deprecated**: VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.
+   **Deprecated**: VolumeDef is a simple, versioned, flexible format for describing which grid points of a seismic volume contain data.
 
-The grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line. 
-For example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.
+   The grid is described per line. Each line contains a series of descriptors that specify the points on the axis perpendicular to the line.
+   For example, a volumedef that is indexed as inline-major will use inline numbers as keys in the lines object, and have descriptors with crossline numbers.
 
-For more information refer to <a href="https://cognite-seismic-sdk.readthedocs-hosted.com/en/latest/volumedef.html#volumedef-overview">the SDK docs</a>.
+   For more information refer to <a href="https://cognite-seismic-sdk.readthedocs-hosted.com/en/latest/volumedef.html#volumedef-overview">the SDK docs</a>.
 
-**/
+   **/
 message VolumeDef {
-    string json = 1;  // Uses the Volume Definition schema
+  string json = 1; // Uses the Volume Definition schema
 }
 
 /**
-Used to identify zero or one objects by a unique id.
-**/
+   Used to identify zero or one objects by a unique id.
+   **/
 message Identifier {
-    oneof handle {
-        int64 id = 1;           // Identifies an object by internal id.
-        string external_id = 2; // Identifies an object by external id.
-    }
+  oneof handle {
+    int64 id = 1; // Identifies an object by internal id.
+    string external_id = 2; // Identifies an object by external id.
+  }
 }
 
 /**
-Used to identify any number of objects, intended for plural Read or Search-type endpoints.
+   Used to identify any number of objects, intended for plural Read or Search-type endpoints.
 
-Can search by id, name, or prefix.
-**/
+   Can search by id, name, or prefix.
+   **/
 message SearchSpec {
-    oneof findby {
-        int64 id = 1;            // Searches by integer id.
-        string id_string = 6;    // Searches surveys and files by string-format uuid. This is not a valid way to search other objects.
-        string external_id = 2;  // Searches seismics and seismic stores by an exact match of external id.
-        string external_id_substring = 3; // Searches seismics and seismic stores by a substring match of external id.
-        string name = 4;                  // Searchs any object by an exact match of name.
-        string name_substring = 5;        // Searches any object by a substring match of name.
-        MetadataFilter metadata = 7;  // Searches surveys by metadata.
-        Geometry geometry = 8;        // Searches surveys by intersection with geometry.
-    }
+  oneof findby {
+    int64 id = 1; // Searches by integer id.
+    string id_string = 6; // Searches surveys and files by string-format uuid. This is not a valid way to search other objects.
+    string external_id = 2; // Searches seismics and seismic stores by an exact match of external id.
+    string external_id_substring = 3; // Searches seismics and seismic stores by a substring match of external id.
+    string name = 4; // Searchs any object by an exact match of name.
+    string name_substring = 5; // Searches any object by a substring match of name.
+    MetadataFilter metadata = 7; // Searches surveys by metadata.
+    Geometry geometry = 8; // Searches surveys by intersection with geometry.
+  }
 }
 
 // Specifies how to return a coverage.
 message CoverageSpec {
-    string crs = 1; // [optional] Which CRS to return the coverage in. Defaults to the native CRS of the object.
-    enum Format {
-        WKT = 0;
-        GEOJSON = 1;
-    }
-    Format format = 2; // [optional] Which format to return the coverage as. Defaults to WKT.
+  string crs = 1; // [optional] Which CRS to return the coverage in. Defaults to the native CRS of the object.
+  enum Format {
+    WKT = 0;
+    GEOJSON = 1;
+  }
+  Format format = 2; // [optional] Which format to return the coverage as. Defaults to WKT.
 }
 
 /**
-Specifies a set of metadata filters. An object will be considered a match if it satisfies ALL filters.
-All strings are case sensitive. 
-**/
+   Specifies a set of metadata filters. An object will be considered a match if it satisfies ALL filters.
+   All strings are case sensitive.
+   **/
 message MetadataFilter {
-    repeated Filter filters = 1;  // The list of metadata filters.
+  repeated Filter filters = 1; // The list of metadata filters.
 }
 
 /**
-Specify an individual filter.
-**/
+   Specify an individual filter.
+   **/
 message Filter {
-    oneof match_type {
-        KeyValueExactMatch key_value_exact_match = 1;  // Match on an exact key-value pair. Both the key and the value must exactly match.
-    }
+  oneof match_type {
+    KeyValueExactMatch key_value_exact_match = 1; // Match on an exact key-value pair. Both the key and the value must exactly match.
+  }
 }
 
 // A key-value pair exact match filter
 message KeyValueExactMatch {
-    string key = 1;   // The key to match on.
-    string value = 2; 
+  string key = 1; // The key to match on.
+  string value = 2;
 }
 
 /**
-A representation of text headers used to create or edit existing headers.
-**/
+   A representation of text headers used to create or edit existing headers.
+   **/
 message TextHeader {
-    string file_id = 1; // **Deprecated**: This field will always be empty
-    string header = 2; // The text content of the header
-    string raw_header = 3; // The raw bytes of a header as a string
+  string file_id = 1; // **Deprecated**: This field will always be empty
+  string header = 2; // The text content of the header
+  string raw_header = 3; // The raw bytes of a header as a string
 }
+
 /**
-A representation of binary headers used to create or edit existing headers. BinaryHeader FIELDS contains the list of valid fields. to set after the object is constructed.
-**/
+   A representation of binary headers used to create or edit existing headers. BinaryHeader FIELDS contains the list of valid fields. to set after the object is constructed.
+   **/
 message BinaryHeader {
-    string file_id = 1; // **Deprecated**: This field will always be empty
-    int32 traces = 2;
-    int32 trace_data_type = 3;
-    int32 fixed_length_traces = 4;
-    int32 segy_revision = 5;
-    int32 auxtraces = 6;
-    int32 interval = 7;
-    int32 interval_original = 8;
-    int32 samples = 9;
-    int32 samples_original = 10;
-    int32 ensemble_fold = 11;
-    int32 vertical_sum = 12;
-    int32 trace_type_sorting_code = 13;
-    int32 sweep_type_code = 14;
-    int32 sweep_frequency_start = 15;
-    int32 sweep_frequency_end = 16;
-    int32 sweep_length = 17;
-    int32 sweep_channel = 18;
-    int32 sweep_taper_start = 19;
-    int32 sweep_taper_end = 20;
-    int32 sweep_taper_type = 21;
-    int32 correlated_traces = 22;
-    int32 amplitude_recovery = 23;
-    int32 original_measurement_system = 24;
-    int32 impulse_signal_polarity = 25;
-    int32 vibratory_polarity_code = 26;
-    bytes raw_header = 27;
+  string file_id = 1; // **Deprecated**: This field will always be empty
+  int32 traces = 2;
+  int32 trace_data_type = 3;
+  int32 fixed_length_traces = 4;
+  int32 segy_revision = 5;
+  int32 auxtraces = 6;
+  int32 interval = 7;
+  int32 interval_original = 8;
+  int32 samples = 9;
+  int32 samples_original = 10;
+  int32 ensemble_fold = 11;
+  int32 vertical_sum = 12;
+  int32 trace_type_sorting_code = 13;
+  int32 sweep_type_code = 14;
+  int32 sweep_frequency_start = 15;
+  int32 sweep_frequency_end = 16;
+  int32 sweep_length = 17;
+  int32 sweep_channel = 18;
+  int32 sweep_taper_start = 19;
+  int32 sweep_taper_end = 20;
+  int32 sweep_taper_type = 21;
+  int32 correlated_traces = 22;
+  int32 amplitude_recovery = 23;
+  int32 original_measurement_system = 24;
+  int32 impulse_signal_polarity = 25;
+  int32 vibratory_polarity_code = 26;
+  bytes raw_header = 27;
 }
 
 message TraceExtent {
-    int32 xline = 1;
-    int32 iline = 2;
-    LineDescriptor z = 3;
+  int32 xline = 1;
+  int32 iline = 2;
+  LineDescriptor z = 3;
 }
 
 message LineBasedExtent {
-    repeated TraceExtent extents = 1;
+  repeated TraceExtent extents = 1;
 }
 
 enum SurveyCoverageSource {
-    // Used as the default when a specific source isn't requested by the user.
-    UNSPECIFIED_SURVEY_COVERAGE_SOURCE = 0;
-    // Requesting or returning custom coverage
-    CUSTOM = 1;
-    // Requesting or returning calculated coverage
-    CALCULATED = 2;
+  // Used as the default when a specific source isn't requested by the user.
+  UNSPECIFIED_SURVEY_COVERAGE_SOURCE = 0;
+  // Requesting or returning custom coverage
+  CUSTOM = 1;
+  // Requesting or returning calculated coverage
+  CALCULATED = 2;
 }
 
 // Used to specify dimensionality of a seismic object.
 enum Dimensions {
-    UNSPECIFIED_DIMENSION = 0;
-    TWO_DEE = 2;
-    THREE_DEE = 3;
+  UNSPECIFIED_DIMENSION = 0;
+  TWO_DEE = 2;
+  THREE_DEE = 3;
 }
 
 // Enumeration of possible trace header fields used for indexing seismic objects.
 enum TraceHeaderField {
-    UNSPECIFIED_TRACE_HEADER_FIELD = 0;
-    ENERGY_SOURCE_POINT = 1; // Valid for 2d seismic objects. Corresponds to bytes 17-20 of standard trace header: energy source point number.                           
-    CDP = 2;                 // Valid for 2d seismic objects. Corresponds to bytes 21-24 of standard trace header: ensemble number.
-    INLINE = 3;              // Valid for 3d seismic objects. Corresponds to bytes 189-192 of standard trace header: inline number.
-    CROSSLINE = 4;           // Valid for 3d seismic objects. Corresponds to bytes 193-196 of standard trace header: crossline number.
-    SHOTPOINT = 5;           // Valid for 2d seismic objects. Corresponds to bytes 197-202 of standard trace header: shotpoint number.
-    CDP_TRACE = 6;           // Valid for pre-stack seismic objects. Corresponds to bytes 25-28 of standard trace header: trace number within ensemble
-    OFFSET = 7;              // Valid for pre-stack seismic objects. Corresponds to bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group.
+  UNSPECIFIED_TRACE_HEADER_FIELD = 0;
+  ENERGY_SOURCE_POINT = 1; // Valid for 2d seismic objects. Corresponds to bytes 17-20 of standard trace header: energy source point number.
+  CDP = 2; // Valid for 2d seismic objects. Corresponds to bytes 21-24 of standard trace header: ensemble number.
+  INLINE = 3; // Valid for 3d seismic objects. Corresponds to bytes 189-192 of standard trace header: inline number.
+  CROSSLINE = 4; // Valid for 3d seismic objects. Corresponds to bytes 193-196 of standard trace header: crossline number.
+  SHOTPOINT = 5; // Valid for 2d seismic objects. Corresponds to bytes 197-202 of standard trace header: shotpoint number.
+  CDP_TRACE = 6; // Valid for pre-stack seismic objects. Corresponds to bytes 25-28 of standard trace header: trace number within ensemble
+  OFFSET = 7; // Valid for pre-stack seismic objects. Corresponds to bytes 37-40 of standard trace header: distance from center of source point to the center of receiver group.
 }
 
 message GeometryFilter {
-    Geometry geometry = 1;
-    InterpolationMethod interpolation_method = 2; // Only used for linear geometries in 3D
+  Geometry geometry = 1;
+  InterpolationMethod interpolation_method = 2; // Only used for linear geometries in 3D
 }
 
 // Describes the extent of a 2d seismic object.
 message Seismic2dExtent {
-    TraceHeaderField trace_key = 1; // Must be an applicable field for 2D
-    repeated LineDescriptor trace_ranges = 2; // Range of header values to use
+  TraceHeaderField trace_key = 1; // Must be an applicable field for 2D
+  repeated LineDescriptor trace_ranges = 2; // Range of header values to use
 }
 
 message Seismic2dRange {
-    TraceHeaderField trace_key = 1; // Must be an applicable field for 2D
-    LineDescriptor trace_range = 2;
+  TraceHeaderField trace_key = 1; // Must be an applicable field for 2D
+  LineDescriptor trace_range = 2;
 }
 
 // Describes the extent of a 3d seismic object.
 message Seismic3dExtent {
-    oneof type {
-        Seismic3dRects rects = 1; // An extent described as a set of rectangles.
-        Seismic3dDef def = 2;     // An extent described by an enumeration of inline/crossline pairs.
-    }
+  oneof type {
+    Seismic3dRects rects = 1; // An extent described as a set of rectangles.
+    Seismic3dDef def = 2; // An extent described by an enumeration of inline/crossline pairs.
+  }
 }
 
 // A set of rectangles, the union of which describes the extent.
 message Seismic3dRects {
-    repeated Seismic3dRect rects = 1;  // The rectangles that compose the extent.
+  repeated Seismic3dRect rects = 1; // The rectangles that compose the extent.
 }
 
 // A single rectangle described by a stepped inline and crossline.
 message Seismic3dRect {
-    LineDescriptor inline_range = 1;
-    LineDescriptor xline_range = 2;
+  LineDescriptor inline_range = 1;
+  LineDescriptor xline_range = 2;
 }
 
 // A enumeration of inline/crossline coordinates.
 message Seismic3dDef {
-    TraceHeaderField major_header = 1; // Whether `inline` or `crossline` is the first coordinate.
-    TraceHeaderField minor_header = 2; // Whether `inline` or `crossline` is the second coordinate. Must be different to `major_header`.
-    map<int32, MinorLines> lines = 3;  // The set of included coordinates. The key is `major_header` and values are `minor_header`.
+  TraceHeaderField major_header = 1; // Whether `inline` or `crossline` is the first coordinate.
+  TraceHeaderField minor_header = 2; // Whether `inline` or `crossline` is the second coordinate. Must be different to `major_header`.
+  map<int32, MinorLines> lines = 3; // The set of included coordinates. The key is `major_header` and values are `minor_header`.
 }
 
 // A set of points, described as one or more line descriptors.
 message MinorLines {
-    repeated LineDescriptor ranges = 1;
+  repeated LineDescriptor ranges = 1;
 }
 
 message SeismicTraceGroupExtent {
-    TraceHeaderField group_header = 1; // The trace header to differentiate between prestack migrated traces in the same bin
-    oneof type {
-        SeismicTraceGroupLines lines = 2;
-    }
+  TraceHeaderField group_header = 1; // The trace header to differentiate between prestack migrated traces in the same bin
+  oneof type {
+    SeismicTraceGroupLines lines = 2;
+  }
 }
 
 message SeismicTraceGroupLines {
-    repeated LineDescriptor lines = 1;
+  repeated LineDescriptor lines = 1;
 }
 
 // The last modified timestamp range to search by.
 // Returned objects will satisfy all specified arguments.
 message LastModifiedFilter {
-    google.protobuf.Timestamp before = 1; // [optional] All returned objects will have a last_modified before this timestamp.
-    google.protobuf.Timestamp after = 2;  // [optional] All returned objects will have a last_modified after this timestamp.
+  google.protobuf.Timestamp before = 1; // [optional] All returned objects will have a last_modified before this timestamp.
+  google.protobuf.Timestamp after = 2; // [optional] All returned objects will have a last_modified after this timestamp.
 }
