@@ -1,0 +1,8 @@
+version: v2
+lint:
+  use:
+    - BASIC
+  except:
+    - ONEOF_LOWER_SNAKE_CASE
+    - PACKAGE_LOWER_SNAKE_CASE
+    - PACKAGE_DIRECTORY_MATCH

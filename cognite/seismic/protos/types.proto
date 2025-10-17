@@ -1,6 +1,6 @@
 /**
-Messages for types used in ingestion and query services in Seismic Datastore in Cognite Data Fusion
-**/
+   Messages for types used in ingestion and query services in Seismic Datastore in Cognite Data Fusion
+   **/
 syntax = "proto3";
 package com.cognite.seismic;
 
@@ -12,111 +12,108 @@ import "google/protobuf/wrappers.proto";
 // Common response types
 
 /**
-    Basic type representing (x,y) coordinate in the given coordinate reference system (CRS).
-**/
+       Basic type representing (x,y) coordinate in the given coordinate reference system (CRS).
+   **/
 message Coordinate {
-    string crs = 1; // The CRS of the coordinate. Must be a full EPSG code, for example `EPSG:23031`.
-    float x = 2;    // The x value of the coordinate
-    float y = 3;    // The y value of the coordinate
+  string crs = 1; // The CRS of the coordinate. Must be a full EPSG code, for example `EPSG:23031`.
+  float x = 2; // The x value of the coordinate
+  float y = 3; // The y value of the coordinate
 }
-
 
 /** Type for user-specified affine transformation in surveys **/
 
 // Correlated grid indices and coordinates
 message DoubleTraceCoordinates {
-    int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
-    int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. 
-    float x = 3; // The x value of the coordinate
-    float y = 4; // The y value of the coordinate
+  int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired.
+  int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.
+  float x = 3; // The x value of the coordinate
+  float y = 4; // The y value of the coordinate
 }
 
 enum Handedness {
-    // inline axis is 90 deg clockwise from crossline
-    // AKA EPSG code 9666
-    RIGHTHANDED = 0;
-    // inline axis is 90 deg counterclockwise from crossline
-    // AKA EPSG code 1049
-    LEFTHANDED = 1;
+  // inline axis is 90 deg clockwise from crossline
+  // AKA EPSG code 9666
+  RIGHTHANDED = 0;
+  // inline axis is 90 deg counterclockwise from crossline
+  // AKA EPSG code 1049
+  LEFTHANDED = 1;
 }
 
 // Specify the transformation by an origin point and the crossline azimuth
 // Format inspired by IOGP guidance note 373-7-2 section 2.3.2.4.
 // https://ge0mlib.com/papers/Guide/IOGP/373-07-2-1_2017.pdf
 message P6Transformation {
-    Handedness handedness = 1;
-    // A point in the grid
-    DoubleTraceCoordinates origin = 2;
-    // The bin width along the inline axis
-    float iline_bin_width = 3;
-    // The bin width along the crossline axis
-    float xline_bin_width = 4;
-    // Map bearing of the crossline axis in clockwise degrees from north
-    float xline_azimuth = 5;
-    // Inline increment corresponding to a bin
-    int32 iline_bin_inc = 6;
-    // Crossline increment corresponding to a bin
-    int32 xline_bin_inc = 7;
+  Handedness handedness = 1;
+  // A point in the grid
+  DoubleTraceCoordinates origin = 2;
+  // The bin width along the inline axis
+  float iline_bin_width = 3;
+  // The bin width along the crossline axis
+  float xline_bin_width = 4;
+  // Map bearing of the crossline axis in clockwise degrees from north
+  float xline_azimuth = 5;
+  // Inline increment corresponding to a bin
+  int32 iline_bin_inc = 6;
+  // Crossline increment corresponding to a bin
+  int32 xline_bin_inc = 7;
 }
 
 // Have the seismic service try to deduce the affine transformation for each file by
 // reading trace coordinates
-message DeduceFromTraces {
-};
+message DeduceFromTraces {}
 
 // Specify the transformation by giving the coordinates of three or more corners
 message TraceCorners {
-    repeated DoubleTraceCoordinates corners = 1;
+  repeated DoubleTraceCoordinates corners = 1;
 }
 
 // Specify the affine transformation between line indices and coordinates
 message SurveyGridTransformation {
-    oneof transformation {
-        P6Transformation p6_transformation = 1;
-        TraceCorners trace_corners = 2;
-        DeduceFromTraces deduce_from_traces = 3;
-    }
+  oneof transformation {
+    P6Transformation p6_transformation = 1;
+    TraceCorners trace_corners = 2;
+    DeduceFromTraces deduce_from_traces = 3;
+  }
 }
 
-
 /**
-    Basic type to represent a seismic trace
-    Used in trace, vertical slices and volume queries
-    Contains the samples and information on positioning
-    If a trace is an original trace in the file, it can optionally contain the trace header.
-    This is not valid for traces that are synthetically generated from interpolation.
- **/
+      Basic type to represent a seismic trace
+      Used in trace, vertical slices and volume queries
+      Contains the samples and information on positioning
+      If a trace is an original trace in the file, it can optionally contain the trace header.
+      This is not valid for traces that are synthetically generated from interpolation.
+   **/
 message Trace {
-    bytes trace_header = 1;                             // The binary SEGY trace header, if requested.
-    google.protobuf.Int32Value iline = 2;               // The inline number. Only populated for 3D seismics.
-    google.protobuf.Int32Value xline = 3;               // The xline number. Only populated for 3D seismics.
-    google.protobuf.Int32Value cdp = 6;                 // The cdp number. Only populated for 2D seismics indexed by cdp.
-    google.protobuf.Int32Value shotpoint = 7;           // The shotpoint number. Only populated for 2D seismics indexed by shotpoint.
-    google.protobuf.Int32Value energy_source_point = 8; // The energy source point number. Only populated for 2D seismics indexed by energy source point.
-    google.protobuf.Int32Value cdp_trace = 9;           // The cdp trace number. Only populated for prestack-migrated seismics indexed by cdp_trace.
-    google.protobuf.Int32Value offset = 10;             // The offset number. Only populated for prestack-migrated seismics indexed by offset.
-    repeated float trace = 4;                           // The underlying array of floats representing samples
-    Coordinate coordinate = 5;                          // The CDP X and Y coordinates of the trace.
+  bytes trace_header = 1; // The binary SEGY trace header, if requested.
+  google.protobuf.Int32Value iline = 2; // The inline number. Only populated for 3D seismics.
+  google.protobuf.Int32Value xline = 3; // The xline number. Only populated for 3D seismics.
+  google.protobuf.Int32Value cdp = 6; // The cdp number. Only populated for 2D seismics indexed by cdp.
+  google.protobuf.Int32Value shotpoint = 7; // The shotpoint number. Only populated for 2D seismics indexed by shotpoint.
+  google.protobuf.Int32Value energy_source_point = 8; // The energy source point number. Only populated for 2D seismics indexed by energy source point.
+  google.protobuf.Int32Value cdp_trace = 9; // The cdp trace number. Only populated for prestack-migrated seismics indexed by cdp_trace.
+  google.protobuf.Int32Value offset = 10; // The offset number. Only populated for prestack-migrated seismics indexed by offset.
+  repeated float trace = 4; // The underlying array of floats representing samples
+  Coordinate coordinate = 5; // The CDP X and Y coordinates of the trace.
 }
 
 /**
-    **Deprecated**. Wrapper over Trace type that additionally provide information about the range of z values
-    included in the trace.
- **/
- message SlabTrace {
-    Trace trace = 1;
-    int32 z_from = 2;
-    int32 z_to = 3;
+      **Deprecated**. Wrapper over Trace type that additionally provide information about the range of z values
+      included in the trace.
+   **/
+message SlabTrace {
+  Trace trace = 1;
+  int32 z_from = 2;
+  int32 z_to = 3;
 }
 
 /**
-    **Deprecated**. Basic type to represent a point in a surface defined by a horizontal grid
-    Used in horizontal slice queries
- **/
+      **Deprecated**. Basic type to represent a point in a surface defined by a horizontal grid
+      Used in horizontal slice queries
+   **/
 message SurfacePoint {
-    int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
-    int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired. 
-    float value = 3;
+  int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired.
+  int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.
+  float value = 3;
 }
 
 // -----
@@ -125,70 +122,70 @@ message SurfacePoint {
 
 // **Deprecated**. A survey represents a collection of files in the same area
 message Survey {
-    string id = 1; // Survey ID
-    string name = 2; // Survey name
-    map<string, string> metadata = 3;
-    ExternalId external_id = 4; // Survey external ID
-    CRS crs = 5; // The Coordinate Reference System of the survey
-    SurveyGridTransformation grid_transformation = 6;
-    CustomSurveyCoverage custom_coverage = 7;
+  string id = 1; // Survey ID
+  string name = 2; // Survey name
+  map<string, string> metadata = 3;
+  ExternalId external_id = 4; // Survey external ID
+  CRS crs = 5; // The Coordinate Reference System of the survey
+  SurveyGridTransformation grid_transformation = 6;
+  CustomSurveyCoverage custom_coverage = 7;
 }
 
 // **Deprecated**. File or dataset or cube derived from a single SEG-Y file
 message File {
-    string id = 1;
-    string name = 2;
-    map<string, string> metadata = 3;
-    bool is_temporary = 4;
-    ExternalId external_id = 5;
+  string id = 1;
+  string name = 2;
+  map<string, string> metadata = 3;
+  bool is_temporary = 4;
+  ExternalId external_id = 5;
 }
 
 // **Deprecated**.
 message Project {
-    string id = 1;
-    string alias = 2;
+  string id = 1;
+  string alias = 2;
 }
 
 // **Deprecated**. Specify either id or name to find a file or survey.
 message Identifier {
-    oneof findby {
-        string id = 1;
-        string name = 2;
-    }
+  oneof findby {
+    string id = 1;
+    string name = 2;
+  }
 }
 
 // An external ID.
 message ExternalId {
-    string external_id = 1;
+  string external_id = 1;
 }
 
 // Describes a series of points.
 // The first point is `min`, the next point is `min+step`, the point after that is `min+step*2`, and so on.
 // None of the points will be greater than `max`.
 message LineDescriptor {
-    google.protobuf.Int32Value min = 1;  // [optional] The first element of the line. Defaults to the minimum value, depending on context.
-    google.protobuf.Int32Value max = 2;  // [optional] The maximum value of a point on the line. Defaults to the maximum value, depending on context.
-    google.protobuf.Int32Value step = 3; // [optional] The 'step' of the line. Defaults to 1.
+  google.protobuf.Int32Value min = 1; // [optional] The first element of the line. Defaults to the minimum value, depending on context.
+  google.protobuf.Int32Value max = 2; // [optional] The maximum value of a point on the line. Defaults to the maximum value, depending on context.
+  google.protobuf.Int32Value step = 3; // [optional] The 'step' of the line. Defaults to 1.
 }
 
 // **Deprecated**. Specifies an inline or a crossline
 message LineSelect {
-    oneof direction {
-        int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
-        int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.
-    }
+  oneof direction {
+    int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired.
+    int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.
+  }
 }
 
 // Object to store the line range. From and to are optional
 message LineRange {
-    google.protobuf.Int32Value from_line = 1;
-    google.protobuf.Int32Value to_line = 2;
+  google.protobuf.Int32Value from_line = 1;
+  google.protobuf.Int32Value to_line = 2;
 }
 
 // **Deprecated**: use [`CoverageSpec`](#coveragespec) instead. Parameters for requesting coverage of survey
 message CoverageParameters {
-    CRS crs = 1;                 // [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the survey's original CRS
-    bool in_wkt = 2;             // [optional] Whether to use WKT format in the response. Defaults to false, returning GeoJSON.
+  CRS crs = 1; // [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the survey's original CRS
+  bool in_wkt = 2; // [optional] Whether to use WKT format in the response. Defaults to false, returning GeoJSON.
 }
 
 // -----
@@ -196,12 +193,12 @@ message CoverageParameters {
 // Common geometry types
 
 message CRS {
-    string crs = 1;  // A coordinate reference system specified as a full EPSG code, for example "EPSG:4326".
+  string crs = 1; // A coordinate reference system specified as a full EPSG code, for example "EPSG:4326".
 }
 
 // Well-known text representation of geometry (<a href="http://www.opengeospatial.org/standards/sfa">WKT</a>)
 message Wkt {
-    string geometry = 1;
+  string geometry = 1;
 }
 
 // The GeoJSON format (<a href="https://tools.ietf.org/html/rfc7946">RFC 7946</a>)
@@ -212,46 +209,46 @@ message Wkt {
 //    "coordinates": [100.0, 0.0]
 // }</pre>
 message GeoJson {
-    google.protobuf.Struct json = 1;
+  google.protobuf.Struct json = 1;
 }
 
 // Geometry can be specified using either wkt or geoJSON. CRS is always required.
 message Geometry {
-    CRS crs = 1;           // [required] The CRS of the geometry.
-    // [required] The actual geometry.
-    oneof format {
-        Wkt wkt = 2;     // A wkt format geometry.
-        GeoJson geo = 3; // A GeoJSON format geometry.
-    }
+  CRS crs = 1; // [required] The CRS of the geometry.
+  // [required] The actual geometry.
+  oneof format {
+    Wkt wkt = 2; // A wkt format geometry.
+    GeoJson geo = 3; // A GeoJSON format geometry.
+  }
 }
 
 // Customer-provided custom coverage for surveys.
 message CustomSurveyCoverage {
-    message NoCustomCoverage { };
-    // [required] The custom coverage to use.
-    oneof custom {
-        // Overrides survey coverage with the provided custom coverage geometry
-        Geometry custom_coverage = 1;
-        // No custom coverage is provided. Survey coverage
-        // will be computed from the seismicstores contained in the survey.
-        NoCustomCoverage no_custom_coverage = 2;
-    }
+  message NoCustomCoverage {}
+  // [required] The custom coverage to use.
+  oneof custom {
+    // Overrides survey coverage with the provided custom coverage geometry
+    Geometry custom_coverage = 1;
+    // No custom coverage is provided. Survey coverage
+    // will be computed from the seismicstores contained in the survey.
+    NoCustomCoverage no_custom_coverage = 2;
+  }
 }
 
 /**
-**Deprecated**. Range of inline and crossline indices defining a 2D region
-**/
+ **Deprecated**. Range of inline and crossline indices defining a 2D region
+ **/
 message LineBasedRectangle {
-    PositionQuery top_left = 1;
-    PositionQuery bottom_right = 2;
+  PositionQuery top_left = 1;
+  PositionQuery bottom_right = 2;
 }
 
 /**
-**Deprecated**. Point defined by its inline and crossline indices
-**/
+ **Deprecated**. Point defined by its inline and crossline indices
+ **/
 message PositionQuery {
-    int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired. 
-    int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.
+  int32 iline = 1; // The inline number. Within a 3D survey, a inline represents a seismic line parallel to the direction in which the data was adquired.
+  int32 xline = 2; // The xline number. Within a 3D survey, a xline represents a seismic line perpendicular to the direction in which the data was adquired.
 }
 
 // -----
@@ -259,34 +256,34 @@ message PositionQuery {
 // Enums
 
 enum JobStatus {
-    NONE = 0;        // Default value for the enum.
-    QUEUED = 1;      // The job is in the queue but has not been worked on.
-    IN_PROGRESS = 2; // The job is being processed.
-    SUCCESS = 3;     // The job has terminated correctly.
-    FAILED = 4;      // The job has failed.
-    TIMEOUT = 5;     // The job took too long and has timed out. No more work will be done on the job.
+  NONE = 0; // Default value for the enum.
+  QUEUED = 1; // The job is in the queue but has not been worked on.
+  IN_PROGRESS = 2; // The job is being processed.
+  SUCCESS = 3; // The job has terminated correctly.
+  FAILED = 4; // The job has failed.
+  TIMEOUT = 5; // The job took too long and has timed out. No more work will be done on the job.
 }
 
 // **Deprecated**.
 enum FileStep {
-    REGISTER = 0;
-    INSERT_FILE_HEADERS = 1;
-    INSERT_TRACE_HEADERS = 2;
-    INSERT_DATA = 3;
-    COMPUTE_COVERAGE = 4;
-    COMPUTE_GRID = 5;
-    COMPUTE_TRACE_INDICES = 6;
-    DELETING = 254;
-    DELETE = 255;
+  REGISTER = 0;
+  INSERT_FILE_HEADERS = 1;
+  INSERT_TRACE_HEADERS = 2;
+  INSERT_DATA = 3;
+  COMPUTE_COVERAGE = 4;
+  COMPUTE_GRID = 5;
+  COMPUTE_TRACE_INDICES = 6;
+  DELETING = 254;
+  DELETE = 255;
 }
 
 enum InterpolationMethod {
-    NEAREST_TRACE = 0;
-    INVERSE_DISTANCE_WEIGHTING = 1;
+  NEAREST_TRACE = 0;
+  INVERSE_DISTANCE_WEIGHTING = 1;
 }
 
 enum IngestionSource {
-    INVALID_SOURCE = 0;
-    FILE_SOURCE = 1;
-    TRACE_WRITER = 2;  // TraceWriter
+  INVALID_SOURCE = 0;
+  FILE_SOURCE = 1;
+  TRACE_WRITER = 2; // TraceWriter
 }
