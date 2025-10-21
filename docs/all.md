@@ -9,101 +9,6 @@ pagination_prev: null
 <a name="top"></a>
 
 
-<a name="cognite_seismic_protos_experimental_experimental_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/experimental/experimental_service.proto
-
-
-
-
-
-
-
-<a name="com-cognite-seismic-experimental-ExperimentalAPI"></a>
-
-### ExperimentalAPI
-A service for experimental features.
-Should only be enabled on greenfield.
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-
-
-
-
-
-
-<a name="cognite_seismic_protos_experimental_experimental_service_messages-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/experimental/experimental_service_messages.proto
-
-
-
-
-
-
-
-
-<a name="cognite_seismic_protos_ingest_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/ingest_service.proto
-
-
-
-
-
-
-
-<a name="com-cognite-seismic-Ingest"></a>
-
-### Ingest
-Service for ingestion and metadata updates of SEG-Y files into Cognite Data Fusion (CDF) seismic datastore
-
-We use the word `File` to refer to a single seismic file/dataset/cube
-Surveys can have many files attached to them, with different attributes or processing stages, and every file must
-belong to a survey
-The expected order of ingestion is:
-
-1) Register a survey, if it does not exist
-
-2) Register a file
-Files are expected to be previously uploaded to a Google Cloud Storage (GCS) bucket at this point, and the service needs
-permission to this bucket in the form of a service account.
-The RegisterFile endpoint will request the survey name or id, bucket address and the CRS used in this file
-(e.g.: EDM50, WGS84), so be sure to have this information prior at hand.
-
-3) Ingest the file
-If the RegisterFile endpoint completes successfully, and your file is found in the bucket, you can now send a request to
-the IngestFile endpoint, and an asynchronous process will be started remotely to download and process the file.
-You can verify the status of this process by calling the Status endpoint  with the id returned in the IngestFile endpoint
-
-As soon as the status of the processing job is set to complete, data from the file will be available with the query service
-
-When a file is registered in a CDF project, this project owns the file. It is then allowed to share access with other
-CDF projects
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| RegisterSurvey | [RegisterSurveyRequest](#com-cognite-seismic-RegisterSurveyRequest) | [RegisterSurveyResponse](#com-cognite-seismic-RegisterSurveyResponse) | Registers a new survey. |
-| RegisterFile | [RegisterFileRequest](#com-cognite-seismic-RegisterFileRequest) | [RegisterFileResponse](#com-cognite-seismic-RegisterFileResponse) | Registers a new file in a (previously registered) survey. |
-| IngestFile | [IngestFileRequest](#com-cognite-seismic-IngestFileRequest) | [IngestFileResponse](#com-cognite-seismic-IngestFileResponse) | Sends a request for the ingestion of a registered file into the queue. Will return a job id which can be queried for status. |
-| Status | [StatusRequest](#com-cognite-seismic-StatusRequest) | [StatusResponse](#com-cognite-seismic-StatusResponse) | Retrieves the status of an ingestion job. |
-| DeleteFile | [DeleteFileRequest](#com-cognite-seismic-DeleteFileRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Deletes a file |
-| DeleteSurvey | [DeleteSurveyRequest](#com-cognite-seismic-DeleteSurveyRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Deletes a survey |
-| EditFile | [EditFileRequest](#com-cognite-seismic-EditFileRequest) | [EditFileResponse](#com-cognite-seismic-EditFileResponse) | Updates file metadata |
-| EditSurvey | [EditSurveyRequest](#com-cognite-seismic-EditSurveyRequest) | [EditSurveyResponse](#com-cognite-seismic-EditSurveyResponse) | Updates survey metadata |
-| ListFileAccess | [ListFileAccessRequest](#com-cognite-seismic-ListFileAccessRequest) | [ProjectListResponse](#com-cognite-seismic-ProjectListResponse) | List projects that have access to a specific file. Only users in the CDF project that owns the file have access to this method DEPRECATED - multitenant file sharing is not supported anymore |
-| EditFileAccess | [EditFileAccessRequest](#com-cognite-seismic-EditFileAccessRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Add or remove access to a file for CDF projects Only users in the CDF project that owns the file have access to this method DEPRECATED - multitenant file sharing is not supported anymore |
-| StoreTrace | [StoreTraceRequest](#com-cognite-seismic-StoreTraceRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Store a single trace to synthetic file/volume |
-
-
-
-
-
-
 <a name="cognite_seismic_protos_persisted_trace-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -130,40 +35,6 @@ For trace headers:
 | version | [int32](#int32) |  |  |
 | trace | [bytes](#bytes) |  |  |
 | header | [bytes](#bytes) |  |  |
-
-
-
-
-
-
-
-
-
-
-
-
-
-<a name="cognite_seismic_protos_ingest_job-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## cognite/seismic/protos/ingest_job.proto
-
-
-
-
-<a name="com-cognite-seismic-IngestJob"></a>
-
-### IngestJob
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| message_version | [int32](#int32) |  | To make it easier to use a new message format later |
-| file_id | [string](#string) |  | A unique ID we generate for the file |
-| job_id | [string](#string) |  | A unique ID we generate for the ingestion job |
-| start_step | [FileStep](#com-cognite-seismic-FileStep) |  | [optional] Selected step to start ingestion. Leave blank to start from last completed step. More details on IngestFileRequest message description |
-| target_tier_name | [string](#string) |  | Target storage tier to ingest file in. Tier names are tenant-specific. By default, if this field is empty, the file will be loaded in a bigtable-based trace store. |
 
 
 
@@ -607,6 +478,820 @@ Messages from the ingestion service of Seismic Datastore in Cognite Data Fusion
 
 
 
+
+
+
+
+
+
+<a name="cognite_seismic_protos_query_service_messages-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/query_service_messages.proto
+Messages from the query service of Seismic Datastore in Cognite Data Fusion
+
+
+
+<a name="com-cognite-seismic-AvailableLines"></a>
+
+### AvailableLines
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| lines | [int32](#int32) | repeated |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-BinaryHeader"></a>
+
+### BinaryHeader
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file_id | [string](#string) |  | DEPRECATED: This field will always be empty |
+| traces | [int32](#int32) |  |  |
+| trace_data_type | [int32](#int32) |  |  |
+| fixed_length_traces | [int32](#int32) |  |  |
+| segy_revision | [int32](#int32) |  |  |
+| auxtraces | [int32](#int32) |  |  |
+| interval | [int32](#int32) |  |  |
+| interval_original | [int32](#int32) |  |  |
+| samples | [int32](#int32) |  |  |
+| samples_original | [int32](#int32) |  |  |
+| ensemble_fold | [int32](#int32) |  |  |
+| vertical_sum | [int32](#int32) |  |  |
+| trace_type_sorting_code | [int32](#int32) |  |  |
+| sweep_type_code | [int32](#int32) |  |  |
+| sweep_frequency_start | [int32](#int32) |  |  |
+| sweep_frequency_end | [int32](#int32) |  |  |
+| sweep_length | [int32](#int32) |  |  |
+| sweep_channel | [int32](#int32) |  |  |
+| sweep_taper_start | [int32](#int32) |  |  |
+| sweep_taper_end | [int32](#int32) |  |  |
+| sweep_taper_type | [int32](#int32) |  |  |
+| correlated_traces | [int32](#int32) |  |  |
+| amplitude_recovery | [int32](#int32) |  |  |
+| original_measurement_system | [int32](#int32) |  |  |
+| impulse_signal_polarity | [int32](#int32) |  |  |
+| vibratory_polarity_code | [int32](#int32) |  |  |
+| raw_header | [bytes](#bytes) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-CoordinateQuery"></a>
+
+### CoordinateQuery
+Point defined by its x and y coordinates
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| x | [float](#float) |  |  |
+| y | [float](#float) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-CoordinateTraceQueryRequest"></a>
+
+### CoordinateTraceQueryRequest
+Request a single trace from a file by coordinates (x AND y). If x and y don't fall in the coordinates of a trace,
+will return the closest trace to it.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| coordinates | [CoordinateQuery](#com-cognite-seismic-CoordinateQuery) |  |  |
+| max_radius | [float](#float) |  | only return traces if closer than this to the actual point in the file |
+| include_trace_header | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-DataCoverageResponse"></a>
+
+### DataCoverageResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| polygon | [Geometry](#com-cognite-seismic-Geometry) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-FileCoverageRequest"></a>
+
+### FileCoverageRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the file |
+| crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the file's original CRS |
+| in_wkt | [bool](#bool) |  | set this to true to return in WKT format. Otherwise, response will be in geojson format by default |
+
+
+
+
+
+
+<a name="com-cognite-seismic-FileLineQueryRequest"></a>
+
+### FileLineQueryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the file |
+| line | [int32](#int32) |  | number of the selected inline or crossline in the file |
+
+
+
+
+
+
+<a name="com-cognite-seismic-FileQueryRequest"></a>
+
+### FileQueryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the file |
+
+
+
+
+
+
+<a name="com-cognite-seismic-GeometryCubeRequest"></a>
+
+### GeometryCubeRequest
+Request a volume of traces from a file with coordinates inside an arbitrary polygon
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| geometry | [Geometry](#com-cognite-seismic-Geometry) |  |  |
+| include_trace_header | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-GeometrySliceQueryRequest"></a>
+
+### GeometrySliceQueryRequest
+Request a slice of traces from a file by coordinates of start and end of an arbitrary line
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| arbitrary_line | [Geometry](#com-cognite-seismic-Geometry) |  |  |
+| interpolation_method | [InterpolationMethod](#com-cognite-seismic-InterpolationMethod) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-GeometryTimeSliceQueryRequest"></a>
+
+### GeometryTimeSliceQueryRequest
+Request a time slice from a file and filter by coordinates inside an arbitrary polygon
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| geometry | [Geometry](#com-cognite-seismic-Geometry) |  |  |
+| z | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | either time or depth according to the file |
+
+
+
+
+
+
+<a name="com-cognite-seismic-GetBinaryHeaderResponse"></a>
+
+### GetBinaryHeaderResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| meta | [BinaryHeader](#com-cognite-seismic-BinaryHeader) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-GetFileResponse"></a>
+
+### GetFileResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [File](#com-cognite-seismic-File) |  |  |
+| crs | [string](#string) |  |  |
+| path | [string](#string) |  |  |
+| survey_name | [string](#string) |  |  |
+| last_step | [string](#string) |  |  |
+| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-GetSurveyResponse"></a>
+
+### GetSurveyResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| survey | [Survey](#com-cognite-seismic-Survey) |  |  |
+| files | [File](#com-cognite-seismic-File) | repeated |  |
+| polygon | [Geometry](#com-cognite-seismic-Geometry) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-GetTextHeaderResponse"></a>
+
+### GetTextHeaderResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| meta | [TextHeader](#com-cognite-seismic-TextHeader) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-HeaderFileQueryRequest"></a>
+
+### HeaderFileQueryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the file |
+| include_raw_header | [bool](#bool) |  | set to true to include the raw header in the response (default: false) |
+
+
+
+
+
+
+<a name="com-cognite-seismic-KeyValueFilter"></a>
+
+### KeyValueFilter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-LineBasedVolume"></a>
+
+### LineBasedVolume
+Range of inline, crossline and time indices defining a volume
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| iline | [LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
+| xline | [LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
+| z | [LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-LineCubeRequest"></a>
+
+### LineCubeRequest
+Request a volume of traces from a file by range of inlines and crosslines
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| rectangle | [LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  |  |
+| include_trace_header | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-LineRangeResponse"></a>
+
+### LineRangeResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| inline | [LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
+| xline | [LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
+| trace_value_range | [TraceValueRange](#com-cognite-seismic-TraceValueRange) |  |  |
+| trace_sample_count | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-LineSlabRequest"></a>
+
+### LineSlabRequest
+Request a volume below and above a time slice from a file and filter by range of inlines and crosslines
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| rectangle | [LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  |  |
+| constant | [int32](#int32) |  |  |
+| surface | [Surface](#com-cognite-seismic-Surface) |  |  |
+| n_above | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+| n_below | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-LineSliceQueryRequest"></a>
+
+### LineSliceQueryRequest
+Request a slice of traces from a file by index (inline OR crossline), and optionally specify min and max range
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| line | [LineSelect](#com-cognite-seismic-LineSelect) |  |  |
+| include_trace_header | [bool](#bool) |  |  |
+| range | [LineRange](#com-cognite-seismic-LineRange) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-LineTraceQueryRequest"></a>
+
+### LineTraceQueryRequest
+Request a single trace from a file by index (inline AND crossline)
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| position | [PositionQuery](#com-cognite-seismic-PositionQuery) |  |  |
+| include_trace_header | [bool](#bool) |  |  |
+| include_trace_coordinates | [bool](#bool) |  |  |
+| include_trace_data | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-ListFilesResponse"></a>
+
+### ListFilesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| files | [File](#com-cognite-seismic-File) | repeated |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-ListSurveysQueryRequest"></a>
+
+### ListSurveysQueryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| list_files | [bool](#bool) |  | set to true to list the survey files in the response (default: false) |
+| include_metadata | [bool](#bool) |  | set to true to include metadata in the response (default: false) |
+| include_grid_transformation | [bool](#bool) |  | set to true to include the grid transformation in the response, if available (default: false) |
+| include_custom_coverage | [bool](#bool) |  | set to true to include the custom survey coverage in the response, if available (default: false) |
+
+
+
+
+
+
+<a name="com-cognite-seismic-MetadataFilter"></a>
+
+### MetadataFilter
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| filter | [MetadataFilter.FilterEntry](#com-cognite-seismic-MetadataFilter-FilterEntry) | repeated |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-MetadataFilter-FilterEntry"></a>
+
+### MetadataFilter.FilterEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-NavigationPolygonRequest"></a>
+
+### NavigationPolygonRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| survey | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the survey |
+
+
+
+
+
+
+<a name="com-cognite-seismic-PathQueryRequest"></a>
+
+### PathQueryRequest
+Request a pseudo-trace (sequence of values) representing the values for the described path in a file
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| geometry | [Geometry](#com-cognite-seismic-Geometry) |  |  |
+| include_trace_header | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-SearchSurveyRequest"></a>
+
+### SearchSurveyRequest
+Request to search surveys inside a polygon or by metadata
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| polygon | [Geometry](#com-cognite-seismic-Geometry) |  |  |
+| survey_metadata | [MetadataFilter](#com-cognite-seismic-MetadataFilter) |  |  |
+| file_metadata | [MetadataFilter](#com-cognite-seismic-MetadataFilter) |  |  |
+| include_metadata | [bool](#bool) |  |  |
+| include_grid_transformation | [bool](#bool) |  |  |
+| include_custom_coverage | [bool](#bool) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-SegYQueryRequest"></a>
+
+### SegYQueryRequest
+Filter the area included in the SEGY file by a polygon defined either by spatial coordinates
+or by a set of inline and crossline indices
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| polygon | [Geometry](#com-cognite-seismic-Geometry) |  |  |
+| lines | [LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-SegYQueryResponse"></a>
+
+### SegYQueryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| content | [bytes](#bytes) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-Surface"></a>
+
+### Surface
+Range of z_values to use in time/depth slice queries
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| z_values | [int32](#int32) | repeated |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-SurveyQueryRequest"></a>
+
+### SurveyQueryRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| survey | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the survey |
+| list_files | [bool](#bool) |  | set to true to list the survey files in the response (default: false) |
+| include_metadata | [bool](#bool) |  | set to true to include metadata in the response (default: false) |
+| include_coverage | [CoverageParameters](#com-cognite-seismic-CoverageParameters) |  | set this field to include coverage in the response (default: false) |
+| include_grid_transformation | [bool](#bool) |  | set to true to include the grid transformation in the response, if available (default: false) |
+| include_custom_coverage | [bool](#bool) |  | set to true to include the custom survey coverage in the response, if available (default: false) |
+
+
+
+
+
+
+<a name="com-cognite-seismic-SurveyWithFiles"></a>
+
+### SurveyWithFiles
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| metadata | [SurveyWithFiles.MetadataEntry](#com-cognite-seismic-SurveyWithFiles-MetadataEntry) | repeated |  |
+| files | [File](#com-cognite-seismic-File) | repeated |  |
+| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  |  |
+| crs | [CRS](#com-cognite-seismic-CRS) |  |  |
+| grid_transformation | [SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  |  |
+| custom_coverage | [CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-SurveyWithFiles-MetadataEntry"></a>
+
+### SurveyWithFiles.MetadataEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-SurveyWithFilesResponse"></a>
+
+### SurveyWithFilesResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| surveys | [SurveyWithFiles](#com-cognite-seismic-SurveyWithFiles) | repeated |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-TextHeader"></a>
+
+### TextHeader
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file_id | [string](#string) |  | DEPRECATED: This field will always be empty |
+| header | [string](#string) |  |  |
+| raw_header | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-TraceValueRange"></a>
+
+### TraceValueRange
+The minimum and maximum values of all traces in a specific file
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| min_value | [float](#float) |  |  |
+| max_value | [float](#float) |  |  |
+
+
+
+
+
+
+<a name="com-cognite-seismic-VolumeRequest"></a>
+
+### VolumeRequest
+Request a volume from a file by range of inlines, crosslines and time
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
+| volume | [LineBasedVolume](#com-cognite-seismic-LineBasedVolume) |  |  |
+| include_trace_header | [bool](#bool) |  |  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a name="cognite_seismic_protos_ingest_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/ingest_service.proto
+
+
+
+
+
+
+
+<a name="com-cognite-seismic-Ingest"></a>
+
+### Ingest
+Service for ingestion and metadata updates of SEG-Y files into Cognite Data Fusion (CDF) seismic datastore
+
+We use the word `File` to refer to a single seismic file/dataset/cube
+Surveys can have many files attached to them, with different attributes or processing stages, and every file must
+belong to a survey
+The expected order of ingestion is:
+
+1) Register a survey, if it does not exist
+
+2) Register a file
+Files are expected to be previously uploaded to a Google Cloud Storage (GCS) bucket at this point, and the service needs
+permission to this bucket in the form of a service account.
+The RegisterFile endpoint will request the survey name or id, bucket address and the CRS used in this file
+(e.g.: EDM50, WGS84), so be sure to have this information prior at hand.
+
+3) Ingest the file
+If the RegisterFile endpoint completes successfully, and your file is found in the bucket, you can now send a request to
+the IngestFile endpoint, and an asynchronous process will be started remotely to download and process the file.
+You can verify the status of this process by calling the Status endpoint  with the id returned in the IngestFile endpoint
+
+As soon as the status of the processing job is set to complete, data from the file will be available with the query service
+
+When a file is registered in a CDF project, this project owns the file. It is then allowed to share access with other
+CDF projects
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| RegisterSurvey | [RegisterSurveyRequest](#com-cognite-seismic-RegisterSurveyRequest) | [RegisterSurveyResponse](#com-cognite-seismic-RegisterSurveyResponse) | Registers a new survey. |
+| RegisterFile | [RegisterFileRequest](#com-cognite-seismic-RegisterFileRequest) | [RegisterFileResponse](#com-cognite-seismic-RegisterFileResponse) | Registers a new file in a (previously registered) survey. |
+| IngestFile | [IngestFileRequest](#com-cognite-seismic-IngestFileRequest) | [IngestFileResponse](#com-cognite-seismic-IngestFileResponse) | Sends a request for the ingestion of a registered file into the queue. Will return a job id which can be queried for status. |
+| Status | [StatusRequest](#com-cognite-seismic-StatusRequest) | [StatusResponse](#com-cognite-seismic-StatusResponse) | Retrieves the status of an ingestion job. |
+| DeleteFile | [DeleteFileRequest](#com-cognite-seismic-DeleteFileRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Deletes a file |
+| DeleteSurvey | [DeleteSurveyRequest](#com-cognite-seismic-DeleteSurveyRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Deletes a survey |
+| EditFile | [EditFileRequest](#com-cognite-seismic-EditFileRequest) | [EditFileResponse](#com-cognite-seismic-EditFileResponse) | Updates file metadata |
+| EditSurvey | [EditSurveyRequest](#com-cognite-seismic-EditSurveyRequest) | [EditSurveyResponse](#com-cognite-seismic-EditSurveyResponse) | Updates survey metadata |
+| ListFileAccess | [ListFileAccessRequest](#com-cognite-seismic-ListFileAccessRequest) | [ProjectListResponse](#com-cognite-seismic-ProjectListResponse) | List projects that have access to a specific file. Only users in the CDF project that owns the file have access to this method DEPRECATED - multitenant file sharing is not supported anymore |
+| EditFileAccess | [EditFileAccessRequest](#com-cognite-seismic-EditFileAccessRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Add or remove access to a file for CDF projects Only users in the CDF project that owns the file have access to this method DEPRECATED - multitenant file sharing is not supported anymore |
+| StoreTrace | [StoreTraceRequest](#com-cognite-seismic-StoreTraceRequest) | [.google.protobuf.Empty](#google-protobuf-Empty) | Store a single trace to synthetic file/volume |
+
+
+
+
+
+
+<a name="cognite_seismic_protos_experimental_experimental_service_messages-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/experimental/experimental_service_messages.proto
+
+
+
+
+
+
+
+
+<a name="cognite_seismic_protos_experimental_experimental_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## cognite/seismic/protos/experimental/experimental_service.proto
+
+
+
+
+
+
+
+<a name="com-cognite-seismic-experimental-ExperimentalAPI"></a>
+
+### ExperimentalAPI
+A service for experimental features.
+Should only be enabled on greenfield.
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
 
 
 
@@ -2333,712 +3018,27 @@ Queries are divided into these broad categories:
 
 
 
-<a name="cognite_seismic_protos_query_service_messages-proto"></a>
+<a name="cognite_seismic_protos_ingest_job-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## cognite/seismic/protos/query_service_messages.proto
-Messages from the query service of Seismic Datastore in Cognite Data Fusion
-
-
-
-<a name="com-cognite-seismic-AvailableLines"></a>
-
-### AvailableLines
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| lines | [int32](#int32) | repeated |  |
+## cognite/seismic/protos/ingest_job.proto
 
 
 
 
+<a name="com-cognite-seismic-IngestJob"></a>
 
-
-<a name="com-cognite-seismic-BinaryHeader"></a>
-
-### BinaryHeader
+### IngestJob
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| file_id | [string](#string) |  | DEPRECATED: This field will always be empty |
-| traces | [int32](#int32) |  |  |
-| trace_data_type | [int32](#int32) |  |  |
-| fixed_length_traces | [int32](#int32) |  |  |
-| segy_revision | [int32](#int32) |  |  |
-| auxtraces | [int32](#int32) |  |  |
-| interval | [int32](#int32) |  |  |
-| interval_original | [int32](#int32) |  |  |
-| samples | [int32](#int32) |  |  |
-| samples_original | [int32](#int32) |  |  |
-| ensemble_fold | [int32](#int32) |  |  |
-| vertical_sum | [int32](#int32) |  |  |
-| trace_type_sorting_code | [int32](#int32) |  |  |
-| sweep_type_code | [int32](#int32) |  |  |
-| sweep_frequency_start | [int32](#int32) |  |  |
-| sweep_frequency_end | [int32](#int32) |  |  |
-| sweep_length | [int32](#int32) |  |  |
-| sweep_channel | [int32](#int32) |  |  |
-| sweep_taper_start | [int32](#int32) |  |  |
-| sweep_taper_end | [int32](#int32) |  |  |
-| sweep_taper_type | [int32](#int32) |  |  |
-| correlated_traces | [int32](#int32) |  |  |
-| amplitude_recovery | [int32](#int32) |  |  |
-| original_measurement_system | [int32](#int32) |  |  |
-| impulse_signal_polarity | [int32](#int32) |  |  |
-| vibratory_polarity_code | [int32](#int32) |  |  |
-| raw_header | [bytes](#bytes) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-CoordinateQuery"></a>
-
-### CoordinateQuery
-Point defined by its x and y coordinates
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| x | [float](#float) |  |  |
-| y | [float](#float) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-CoordinateTraceQueryRequest"></a>
-
-### CoordinateTraceQueryRequest
-Request a single trace from a file by coordinates (x AND y). If x and y don't fall in the coordinates of a trace,
-will return the closest trace to it.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| coordinates | [CoordinateQuery](#com-cognite-seismic-CoordinateQuery) |  |  |
-| max_radius | [float](#float) |  | only return traces if closer than this to the actual point in the file |
-| include_trace_header | [bool](#bool) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-DataCoverageResponse"></a>
-
-### DataCoverageResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| polygon | [Geometry](#com-cognite-seismic-Geometry) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-FileCoverageRequest"></a>
-
-### FileCoverageRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the file |
-| crs | [CRS](#com-cognite-seismic-CRS) |  | [optional] If CRS provided converts coverage to given CRS. Otherwise, will return in the file's original CRS |
-| in_wkt | [bool](#bool) |  | set this to true to return in WKT format. Otherwise, response will be in geojson format by default |
-
-
-
-
-
-
-<a name="com-cognite-seismic-FileLineQueryRequest"></a>
-
-### FileLineQueryRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the file |
-| line | [int32](#int32) |  | number of the selected inline or crossline in the file |
-
-
-
-
-
-
-<a name="com-cognite-seismic-FileQueryRequest"></a>
-
-### FileQueryRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the file |
-
-
-
-
-
-
-<a name="com-cognite-seismic-GeometryCubeRequest"></a>
-
-### GeometryCubeRequest
-Request a volume of traces from a file with coordinates inside an arbitrary polygon
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| geometry | [Geometry](#com-cognite-seismic-Geometry) |  |  |
-| include_trace_header | [bool](#bool) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-GeometrySliceQueryRequest"></a>
-
-### GeometrySliceQueryRequest
-Request a slice of traces from a file by coordinates of start and end of an arbitrary line
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| arbitrary_line | [Geometry](#com-cognite-seismic-Geometry) |  |  |
-| interpolation_method | [InterpolationMethod](#com-cognite-seismic-InterpolationMethod) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-GeometryTimeSliceQueryRequest"></a>
-
-### GeometryTimeSliceQueryRequest
-Request a time slice from a file and filter by coordinates inside an arbitrary polygon
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| geometry | [Geometry](#com-cognite-seismic-Geometry) |  |  |
-| z | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  | either time or depth according to the file |
-
-
-
-
-
-
-<a name="com-cognite-seismic-GetBinaryHeaderResponse"></a>
-
-### GetBinaryHeaderResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| meta | [BinaryHeader](#com-cognite-seismic-BinaryHeader) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-GetFileResponse"></a>
-
-### GetFileResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [File](#com-cognite-seismic-File) |  |  |
-| crs | [string](#string) |  |  |
-| path | [string](#string) |  |  |
-| survey_name | [string](#string) |  |  |
-| last_step | [string](#string) |  |  |
-| inline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-| crossline_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-| cdp_x_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-| cdp_y_offset | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-| source_group_scalar_override | [google.protobuf.FloatValue](#google-protobuf-FloatValue) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-GetSurveyResponse"></a>
-
-### GetSurveyResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| survey | [Survey](#com-cognite-seismic-Survey) |  |  |
-| files | [File](#com-cognite-seismic-File) | repeated |  |
-| polygon | [Geometry](#com-cognite-seismic-Geometry) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-GetTextHeaderResponse"></a>
-
-### GetTextHeaderResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| meta | [TextHeader](#com-cognite-seismic-TextHeader) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-HeaderFileQueryRequest"></a>
-
-### HeaderFileQueryRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the file |
-| include_raw_header | [bool](#bool) |  | set to true to include the raw header in the response (default: false) |
-
-
-
-
-
-
-<a name="com-cognite-seismic-KeyValueFilter"></a>
-
-### KeyValueFilter
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-LineBasedVolume"></a>
-
-### LineBasedVolume
-Range of inline, crossline and time indices defining a volume
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| iline | [LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
-| xline | [LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
-| z | [LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-LineCubeRequest"></a>
-
-### LineCubeRequest
-Request a volume of traces from a file by range of inlines and crosslines
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| rectangle | [LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  |  |
-| include_trace_header | [bool](#bool) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-LineRangeResponse"></a>
-
-### LineRangeResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| inline | [LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
-| xline | [LineDescriptor](#com-cognite-seismic-LineDescriptor) |  |  |
-| trace_value_range | [TraceValueRange](#com-cognite-seismic-TraceValueRange) |  |  |
-| trace_sample_count | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-LineSlabRequest"></a>
-
-### LineSlabRequest
-Request a volume below and above a time slice from a file and filter by range of inlines and crosslines
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| rectangle | [LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  |  |
-| constant | [int32](#int32) |  |  |
-| surface | [Surface](#com-cognite-seismic-Surface) |  |  |
-| n_above | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-| n_below | [google.protobuf.Int32Value](#google-protobuf-Int32Value) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-LineSliceQueryRequest"></a>
-
-### LineSliceQueryRequest
-Request a slice of traces from a file by index (inline OR crossline), and optionally specify min and max range
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| line | [LineSelect](#com-cognite-seismic-LineSelect) |  |  |
-| include_trace_header | [bool](#bool) |  |  |
-| range | [LineRange](#com-cognite-seismic-LineRange) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-LineTraceQueryRequest"></a>
-
-### LineTraceQueryRequest
-Request a single trace from a file by index (inline AND crossline)
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| position | [PositionQuery](#com-cognite-seismic-PositionQuery) |  |  |
-| include_trace_header | [bool](#bool) |  |  |
-| include_trace_coordinates | [bool](#bool) |  |  |
-| include_trace_data | [bool](#bool) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-ListFilesResponse"></a>
-
-### ListFilesResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| files | [File](#com-cognite-seismic-File) | repeated |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-ListSurveysQueryRequest"></a>
-
-### ListSurveysQueryRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| list_files | [bool](#bool) |  | set to true to list the survey files in the response (default: false) |
-| include_metadata | [bool](#bool) |  | set to true to include metadata in the response (default: false) |
-| include_grid_transformation | [bool](#bool) |  | set to true to include the grid transformation in the response, if available (default: false) |
-| include_custom_coverage | [bool](#bool) |  | set to true to include the custom survey coverage in the response, if available (default: false) |
-
-
-
-
-
-
-<a name="com-cognite-seismic-MetadataFilter"></a>
-
-### MetadataFilter
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| filter | [MetadataFilter.FilterEntry](#com-cognite-seismic-MetadataFilter-FilterEntry) | repeated |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-MetadataFilter-FilterEntry"></a>
-
-### MetadataFilter.FilterEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-NavigationPolygonRequest"></a>
-
-### NavigationPolygonRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| survey | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the survey |
-
-
-
-
-
-
-<a name="com-cognite-seismic-PathQueryRequest"></a>
-
-### PathQueryRequest
-Request a pseudo-trace (sequence of values) representing the values for the described path in a file
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| geometry | [Geometry](#com-cognite-seismic-Geometry) |  |  |
-| include_trace_header | [bool](#bool) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-SearchSurveyRequest"></a>
-
-### SearchSurveyRequest
-Request to search surveys inside a polygon or by metadata
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| polygon | [Geometry](#com-cognite-seismic-Geometry) |  |  |
-| survey_metadata | [MetadataFilter](#com-cognite-seismic-MetadataFilter) |  |  |
-| file_metadata | [MetadataFilter](#com-cognite-seismic-MetadataFilter) |  |  |
-| include_metadata | [bool](#bool) |  |  |
-| include_grid_transformation | [bool](#bool) |  |  |
-| include_custom_coverage | [bool](#bool) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-SegYQueryRequest"></a>
-
-### SegYQueryRequest
-Filter the area included in the SEGY file by a polygon defined either by spatial coordinates
-or by a set of inline and crossline indices
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| polygon | [Geometry](#com-cognite-seismic-Geometry) |  |  |
-| lines | [LineBasedRectangle](#com-cognite-seismic-LineBasedRectangle) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-SegYQueryResponse"></a>
-
-### SegYQueryResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| content | [bytes](#bytes) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-Surface"></a>
-
-### Surface
-Range of z_values to use in time/depth slice queries
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| z_values | [int32](#int32) | repeated |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-SurveyQueryRequest"></a>
-
-### SurveyQueryRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| survey | [Identifier](#com-cognite-seismic-Identifier) |  | name or id of the survey |
-| list_files | [bool](#bool) |  | set to true to list the survey files in the response (default: false) |
-| include_metadata | [bool](#bool) |  | set to true to include metadata in the response (default: false) |
-| include_coverage | [CoverageParameters](#com-cognite-seismic-CoverageParameters) |  | set this field to include coverage in the response (default: false) |
-| include_grid_transformation | [bool](#bool) |  | set to true to include the grid transformation in the response, if available (default: false) |
-| include_custom_coverage | [bool](#bool) |  | set to true to include the custom survey coverage in the response, if available (default: false) |
-
-
-
-
-
-
-<a name="com-cognite-seismic-SurveyWithFiles"></a>
-
-### SurveyWithFiles
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| metadata | [SurveyWithFiles.MetadataEntry](#com-cognite-seismic-SurveyWithFiles-MetadataEntry) | repeated |  |
-| files | [File](#com-cognite-seismic-File) | repeated |  |
-| external_id | [ExternalId](#com-cognite-seismic-ExternalId) |  |  |
-| crs | [CRS](#com-cognite-seismic-CRS) |  |  |
-| grid_transformation | [SurveyGridTransformation](#com-cognite-seismic-SurveyGridTransformation) |  |  |
-| custom_coverage | [CustomSurveyCoverage](#com-cognite-seismic-CustomSurveyCoverage) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-SurveyWithFiles-MetadataEntry"></a>
-
-### SurveyWithFiles.MetadataEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-SurveyWithFilesResponse"></a>
-
-### SurveyWithFilesResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| surveys | [SurveyWithFiles](#com-cognite-seismic-SurveyWithFiles) | repeated |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-TextHeader"></a>
-
-### TextHeader
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file_id | [string](#string) |  | DEPRECATED: This field will always be empty |
-| header | [string](#string) |  |  |
-| raw_header | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-TraceValueRange"></a>
-
-### TraceValueRange
-The minimum and maximum values of all traces in a specific file
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| min_value | [float](#float) |  |  |
-| max_value | [float](#float) |  |  |
-
-
-
-
-
-
-<a name="com-cognite-seismic-VolumeRequest"></a>
-
-### VolumeRequest
-Request a volume from a file by range of inlines, crosslines and time
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| file | [Identifier](#com-cognite-seismic-Identifier) |  |  |
-| volume | [LineBasedVolume](#com-cognite-seismic-LineBasedVolume) |  |  |
-| include_trace_header | [bool](#bool) |  |  |
+| message_version | [int32](#int32) |  | To make it easier to use a new message format later |
+| file_id | [string](#string) |  | A unique ID we generate for the file |
+| job_id | [string](#string) |  | A unique ID we generate for the ingestion job |
+| start_step | [FileStep](#com-cognite-seismic-FileStep) |  | [optional] Selected step to start ingestion. Leave blank to start from last completed step. More details on IngestFileRequest message description |
+| target_tier_name | [string](#string) |  | Target storage tier to ingest file in. Tier names are tenant-specific. By default, if this field is empty, the file will be loaded in a bigtable-based trace store. |
 
 
 
